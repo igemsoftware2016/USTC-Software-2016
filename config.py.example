@@ -1,0 +1,1 @@
+database_path = 'mysql://username:password@server_address/igem'
