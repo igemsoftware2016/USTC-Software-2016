@@ -1,1 +1,1 @@
-database_path = 'mysql://username:password@server_address/igem'
+DATABASE_URI = 'mysql://igem:goldmedal@igem.sqrt-1.me/igem'

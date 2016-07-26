@@ -91,5 +91,5 @@ ENV/
 # PyCharm
 .idea
 
-#config
+# Config File
 config.py
