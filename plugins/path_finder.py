@@ -86,13 +86,15 @@ def path_finder(s, t, k):    # s:starting point, t:terminal point, k:number of p
         node_pool[node.node_id] = node_count    # match node_id of string type to int type, for the convenience of path finding
         search_pool[node_count] = node.node_id    # match int to node_id, it is needed when returning results
         node_count += 1
-        Graph[node_count] = []    # Graph[v] is a list containing the adjacent vertexes of v
+        Graph.append([])    # Graph[v] is a list containing the adjacent vertexes of v
     for link in session.query(Link).all():
         Graph[node_pool[link.node_a_id]].append(node_pool[link.node_b_id])    # add link.node_b_id as a adjvex of node_a_id
         Graph[node_pool[link.node_b_id]].append(node_pool[link.node_a_id])    # and vice versa
 
+    s = node_pool[s]
+    t = node_pool[t]
     calcu_dis(t, node_count)
-    path_list = []    #contain the found paths
+    path_list = []    # contain the found paths
     for p in a_star(s, t, k):
         if p == "None" or p == "Timeout":
             break
@@ -110,3 +112,5 @@ calcu_dis(5, 6)
 for p in a_star(1, 5, 2):
     print(p)
 '''
+
+# print(path_finder("ECK125143526", "ECK120000987", 1))
