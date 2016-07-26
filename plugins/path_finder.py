@@ -3,7 +3,8 @@
 from queue import PriorityQueue
 from queue import Queue
 from datetime import *
-from database import Node, Link, DBSession
+from database import DBSession
+from models import Node, Link
 
 inf = 10000
 Graph = []
