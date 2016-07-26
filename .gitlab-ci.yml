@@ -1,0 +1,12 @@
+before_script:
+  - pip3 install coveralls
+  - pip3 install unittest2
+  - pip3 install mock 
+stages:
+  - build
+  - deploy
+  
+build_linux:
+  stage:build
+  script:
+    - coverage run set_up.py
