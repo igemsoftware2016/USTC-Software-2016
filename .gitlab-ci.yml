@@ -1,8 +1,3 @@
-stages:
-  - build
-  - deploy
-  
-build_linux:
-  stage:build
+ build_linux:
   script:
     - coverage run set_up.py
