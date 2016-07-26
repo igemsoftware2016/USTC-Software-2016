@@ -91,6 +91,7 @@ def path_finder(s, t, k):    # s:starting point, t:terminal point, k:number of p
         Graph[node_pool[link.node_a_id]].append(node_pool[link.node_b_id])    # add link.node_b_id as a adjvex of node_a_id
         Graph[node_pool[link.node_b_id]].append(node_pool[link.node_a_id])    # and vice versa
 
+    calcu_dis(t, node_count)
     path_list = []    #contain the found paths
     for p in a_star(s, t, k):
         if p == "None" or p == "Timeout":
@@ -105,7 +106,7 @@ def path_finder(s, t, k):    # s:starting point, t:terminal point, k:number of p
 
 '''
 Graph = [[1, 2], [0, 4], [0, 5], [4], [3, 5], [2, 4]]
-calcu_dis(4, 6)
+calcu_dis(5, 6)
 for p in a_star(1, 5, 2):
     print(p)
 '''
