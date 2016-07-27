@@ -1,16 +1,7 @@
- stages:
-  - build
-  - pylint
- 
- build_linux:
+build_linux:
   script:
     - coverage run set_up.py
-  stage: build
-
-    
-
 lint:
-  stage: pylint
-  allow_failure:true
+  allow_failure: true
   script:
     - pylint -f parseable -rn models plugins
