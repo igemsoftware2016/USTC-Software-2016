@@ -89,8 +89,14 @@ def path_finder(s, t, k):    # s:starting point, t:terminal point, k:number of p
         node_count += 1
         Graph.append([])    # Graph[v] is a list containing the adjacent vertexes of v
     for link in session.query(Link).all():
-        Graph[node_pool[link.node_a_id]].append(node_pool[link.node_b_id])    # add link.node_b_id as a adjvex of node_a_id
-        Graph[node_pool[link.node_b_id]].append(node_pool[link.node_a_id])    # and vice versa
+        u = node_pool[link.node_a_id]
+        v = node_pool[link.node_b_id]
+        if v not in Graph[u]:
+            Graph[u].append(v)    # add link.node_b_id as a adjvex of node_a_id
+        if u not in Graph[v]:
+            Graph[v].append(u)    # and vice versa
+#        Graph[node_pool[link.node_a_id]].append(node_pool[link.node_b_id])
+#        Graph[node_pool[link.node_b_id]].append(node_pool[link.node_a_id])
 
     s = node_pool[s]
     t = node_pool[t]
@@ -114,4 +120,4 @@ for p in a_star(1, 5, 2):
     print(p)
 '''
 
-# print(path_finder("ECK125143526", "ECK120000987", 1))
+print(path_finder("ECK120000433", "ECK120000434", 5))
