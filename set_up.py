@@ -16,8 +16,8 @@ def suite():
     return unittest.TestLoader().discover('tests','test_*.py')
 
 if __name__ == '__main__':
-    # unittest.main(defaultTest = 'suite')
-    subprocess.call(['pylint','-rn','set_up.py'])
+    unittest.main(defaultTest = 'suite')
+    # subprocess.call(['pylint','-rn','set_up.py'])
     # (pylint_stdout,pylint_stderr)=lint.py_run('test_sample/MyDict.py',return_std=True)
     # result_string=pylint_stdout.getvalue()
     # print(result_string)
