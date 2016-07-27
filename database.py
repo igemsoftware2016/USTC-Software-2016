@@ -8,3 +8,4 @@ from sqlalchemy.ext.declarative import declarative_base
 TableBase = declarative_base()
 engine = create_engine(DATABASE_URI)
 DBSession = sessionmaker(bind=engine)
+session = DBSession()
