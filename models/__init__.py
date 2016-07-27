@@ -1,5 +1,5 @@
 from .document import Document
-from .link import Link
-from .node import Node
 from .plugin_document import PluginDocument
+from .node import Node
+from .link import Link
 from .user import User

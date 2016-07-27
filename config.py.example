@@ -1,1 +1,2 @@
 DATABASE_URI = 'mysql://igem:goldmedal@igem.sqrt-1.me/igem'
+SECRET_KEY = 'develop_key'

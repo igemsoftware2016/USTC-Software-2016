@@ -1,3 +1,7 @@
- build_linux:
+build_linux:
   script:
     - coverage run set_up.py
+lint:
+  allow_failure: true
+  script:
+    - pylint -f parseable -rn models plugins
