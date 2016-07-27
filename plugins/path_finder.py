@@ -120,4 +120,4 @@ for p in a_star(1, 5, 2):
     print(p)
 '''
 
-print(path_finder("ECK120000433", "ECK120000434", 5))
+# print(path_finder("ECK120000433", "ECK120000434", 5))
