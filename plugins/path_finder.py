@@ -1,7 +1,6 @@
 #!/usr/bin/env/python3
 # encoding=utf-8
-from queue import PriorityQueue
-from queue import Queue
+from queue import Queue, PriorityQueue
 from datetime import *
 from database import DBSession
 from models import Node, Link
@@ -9,10 +8,13 @@ from models import Node, Link
 inf = 10000
 Graph = []
 dis = []
+node_pool = {}
+search_pool = {}
+node_count = 0
 
 
 class State:
-    def __init__(self, f, g, cur, prepath):    # f is the distance to src, g is the distance to dst
+    def __init__(self, f, g, cur, prepath):  # f is the distance to src, g is the distance to dst
         self.f = f
         self.g = g
         self.cur = cur
@@ -57,7 +59,7 @@ def a_star(src, dst, pathnum):
     cnt = 0
 
     time_monitor = datetime.now()
-    if dis[src] == inf:    # if there's no path from src to dst
+    if dis[src] == inf:  # if there's no path from src to dst
         yield "None"
         return
     p_queue.put(State(dis[src], 0, src, [src]))
@@ -77,31 +79,41 @@ def a_star(src, dst, pathnum):
             return
 
 
-def path_finder(s, t, k):    # s:starting point, t:terminal point, k:number of paths required
+def reload():  # reload data from database
     session = DBSession()
-    node_pool = {}
-    search_pool = {}
-    node_count = 0
+    global node_pool, search_pool, node_count, Graph
+
     # construct the graph
     for node in session.query(Node).all():
-        node_pool[node.node_id] = node_count    # match node_id of string type to int type, for the convenience of path finding
-        search_pool[node_count] = node.node_id    # match int to node_id, it is needed when returning results
+        node_pool[
+            node.node_id] = node_count  # match node_id of string type to int type, for the convenience of path finding
+        search_pool[node_count] = node.node_id  # match int to node_id, it is needed when returning results
         node_count += 1
-        Graph.append([])    # Graph[v] is a list containing the adjacent vertexes of v
+        Graph.append([])  # Graph[v] is a list containing the adjacent vertexes of v
     for link in session.query(Link).all():
         u = node_pool[link.node_a_id]
         v = node_pool[link.node_b_id]
         if v not in Graph[u]:
-            Graph[u].append(v)    # add link.node_b_id as a adjvex of node_a_id
+            Graph[u].append(v)  # add link.node_b_id as a adjvex of node_a_id
         if u not in Graph[v]:
-            Graph[v].append(u)    # and vice versa
-#        Graph[node_pool[link.node_a_id]].append(node_pool[link.node_b_id])
+            Graph[v].append(u)  # and vice versa
+
+
+# Graph[node_pool[link.node_a_id]].append(node_pool[link.node_b_id])
 #        Graph[node_pool[link.node_b_id]].append(node_pool[link.node_a_id])
 
+
+def path_finder(s, t, k, rebuild=False):  # s:starting point, t:terminal point, k:number of paths required
+    time_list = {}
+    time_list['start_time'] = datetime.now()
+    if rebuild:  # if it is needed to rebuild the Graph
+        reload()
+        time_list['reload_time'] = datetime.now()
     s = node_pool[s]
     t = node_pool[t]
     calcu_dis(t, node_count)
-    path_list = []    # contain the found paths
+    time_list['calcudis_time'] = datetime.now()
+    path_list = []  # contain the found paths
     for p in a_star(s, t, k):
         if p == "None" or p == "Timeout":
             break
@@ -110,8 +122,12 @@ def path_finder(s, t, k):    # s:starting point, t:terminal point, k:number of p
             for node in p:
                 path.append(search_pool[node])
             path_list.append(path)
+    time_list['a*time'] = datetime.now()
+    print(time_list)
     return path_list
 
+
+reload()
 
 '''
 Graph = [[1, 2], [0, 4], [0, 5], [4], [3, 5], [2, 4]]
@@ -120,4 +136,4 @@ for p in a_star(1, 5, 2):
     print(p)
 '''
 
-# print(path_finder("ECK120000433", "ECK120000434", 5))
+# print(path_finder("ECK120011235", "ECK120000311", 3, True))
