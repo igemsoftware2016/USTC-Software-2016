@@ -28,6 +28,8 @@ class Plugin:
 
 class PluginManager:
 
+    plugin_base = 'plugins.'
+
     def __init__(self):
         self.plugins = {}
 
@@ -37,12 +39,12 @@ class PluginManager:
         if name in self.plugins:
             if reload:
                 try:
-                    self.plugins[name] = importlib.reload(importlib.import_module(name)).__plugin__
+                    self.plugins[name] = importlib.reload(importlib.import_module(self.plugin_base + name)).__plugin__
                 except:
                     pass
             return self.plugins[name]
         try:
-            self.plugins[name] = importlib.import_module(name).__plugin__
+            self.plugins[name] = importlib.import_module(self.plugin_base + name).__plugin__
         except:
             return None
         return self.plugins[name]
@@ -69,7 +71,7 @@ class PluginManager:
             if 'success' not in rtv:
                 rtv['success'] = True
         except Exception as e:
-            rtv = {'success': False, 'reason': str(e)}
+            rtv = {'success': False, 'reason': type(e).__name__ + ': ' + str(e)}
         return rtv
 
 plugin_manager = PluginManager()
