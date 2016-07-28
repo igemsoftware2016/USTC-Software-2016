@@ -1,11 +1,12 @@
 from sqlalchemy.exc import IntegrityError, InvalidRequestError
-import re
 from dbprofile import *
 from database import *
 
 
 # Return -1: File not found
 # Return -2: primary key duplicated
+class EOF(Exception):
+    pass
 
 
 def upload(path, cache_size=100000):
@@ -26,22 +27,27 @@ def upload(path, cache_size=100000):
     while 1:
         res = []
         lines = []
+        flag = false
         # cache_size is import for a high speed upload
         for i in range(1, cache_size + 1):
             try:
-                lines.append(f.readline())
+                line = f.readline()
+                if not line:
+                    raise EOF
             except UnicodeDecodeError as e:
                 print("In " + path + " row ", num + i, '.')
                 print(e)
-
-        if not lines:
-            break
-
-        # Filter and append
-        for line in lines:
+            except EOF:
+                break
+                flag = false
+            # Filter and append
             if line.startswith('#'):
                 continue
             res.append(line.split('\t'))
+
+        # Exit condition
+        if flag:
+            break
 
         for oneline in res:
             num += 1
