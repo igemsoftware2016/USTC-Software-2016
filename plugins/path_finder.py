@@ -132,4 +132,8 @@ for p in a_star(1, 5, 2):
     print(p)
 '''
 
+<<<<<<< HEAD
 # print(path_finder("ECK120011235", "ECK120000311", 3, True))
+=======
+# print(path_finder("ECK120000433", "ECK120000434", 5))
+>>>>>>> origin/zyx
