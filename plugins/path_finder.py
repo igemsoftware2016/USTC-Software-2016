@@ -4,8 +4,9 @@ from queue import Queue, PriorityQueue
 from datetime import *
 from database import DBSession
 from models import Node, Link
+from plugin import Plugin
 
-inf = 10000
+inf = 20
 Graph = []
 dis = []
 node_pool = {}
@@ -84,13 +85,13 @@ def reload():  # reload data from database
     global node_pool, search_pool, node_count, Graph
 
     # construct the graph
-    for node in session.query(Node).all():
+    for node in session.query(Node):
         node_pool[
             node.node_id] = node_count  # match node_id of string type to int type, for the convenience of path finding
         search_pool[node_count] = node.node_id  # match int to node_id, it is needed when returning results
         node_count += 1
         Graph.append([])  # Graph[v] is a list containing the adjacent vertexes of v
-    for link in session.query(Link).all():
+    for link in session.query(Link):
         u = node_pool[link.node_a_id]
         v = node_pool[link.node_b_id]
         if v not in Graph[u]:
@@ -127,8 +128,6 @@ def path_finder(s, t, k, rebuild=False):  # s:starting point, t:terminal point, 
     return path_list
 
 
-reload()
-
 '''
 Graph = [[1, 2], [0, 4], [0, 5], [4], [3, 5], [2, 4]]
 calcu_dis(5, 6)
@@ -136,4 +135,28 @@ for p in a_star(1, 5, 2):
     print(p)
 '''
 
+
 # print(path_finder("ECK120011235", "ECK120000311", 3, True))
+
+class Path_Finder(Plugin):
+    def __init__(self):
+        super().__init__()
+        self.name = 'path_finder'
+        reload()
+
+    def process(self, request):
+        print(request)
+        if request['action'] == 'path_finder':
+            result = path_finder(request['s'], request['t'], request['k'])
+            return {'paths': result}
+        if request['action'] == 'reload':
+            reload()
+            return {}
+        else:
+            return {'success': False, 'reason': 'unknown action: ' + request['action']}
+
+    def unload(self):
+        pass
+
+
+__plugin__ = Path_Finder()
