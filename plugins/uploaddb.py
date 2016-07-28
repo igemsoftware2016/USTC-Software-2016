@@ -8,7 +8,7 @@ from database import *
 # Return -2: primary key duplicated
 
 
-def upload(path, cache_size = 100000):
+def upload(path, cache_size=100000):
         # Open file
 
     try:
@@ -25,15 +25,21 @@ def upload(path, cache_size = 100000):
 
     while 1:
         res = []
-
+        lines = []
         # cache_size is import for a high speed upload
-        lines = f.readlines(cache_size)
+        for i in range(1, cache_size + 1):
+            try:
+                lines.append(f.readline())
+            except UnicodeDecodeError as e:
+                print("In " + path + " row ", num + i, '.')
+                print(e)
+
         if not lines:
             break
 
         # Filter and append
         for line in lines:
-            if re.match('[\t\' \']*#', line):
+            if line.startswith('#'):
                 continue
             res.append(line.split('\t'))
 
