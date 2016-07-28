@@ -141,7 +141,6 @@ for p in a_star(1, 5, 2):
 class Path_Finder(Plugin):
     def __init__(self):
         super().__init__()
-        self.name = 'path_finder'
         reload()
 
     def process(self, request):

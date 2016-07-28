@@ -11,7 +11,7 @@ from models import Document, PluginDocument
 class Plugin:
     def __init__(self):
         self.documents = Documents(self)
-        self.name = self.__class__.__name__
+        self.name = self.__class__.__name__.lower()
         if self.__class__ is Plugin:
             raise NotImplementedError
 
