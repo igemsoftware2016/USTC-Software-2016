@@ -26,3 +26,4 @@ app.register_blueprint(home, url_prefix='')
 app.register_blueprint(plugin, url_prefix='/plugin')
 
 plugin_manager.load_plugin('example_plugin')
+plugin_manager.load_plugin('plugins.path_finder')
