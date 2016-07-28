@@ -5,6 +5,7 @@ from flask import Flask
 from flask_login import LoginManager, current_user
 from models import User
 from database import DBSession
+from plugin import plugin_manager
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -22,3 +23,6 @@ def load_user(user_id):
 from app.views import *
 
 app.register_blueprint(home, url_prefix='')
+app.register_blueprint(plugin, url_prefix='/plugin')
+
+plugin_manager.load_plugin('example_plugin')
