@@ -1,16 +1,20 @@
 from sqlalchemy.exc import IntegrityError, InvalidRequestError
-from dbprofile import *
 from database import *
 from progressbar import *
 
 
-# Return -1: File not found
-# Return -2: primary key duplicated
-class EOF(Exception):
+class DataBaseSourceError(Exception):
     pass
 
+
+class EOF(Exception):
+    pass
+# Return -1: File not found
+# Return -2: primary key duplicated
+
+
 # Set echo to True to enable progress bar.
-def upload(path, cache_size=100000, echo=False):
+def upload(path, init, cache_size=100000, echo=False):
     # Open file
     if echo:
         line_num = count_lines(path)
@@ -53,7 +57,7 @@ def upload(path, cache_size=100000, echo=False):
             num += 1
 
             try:
-                new_interaction = biosys_init(oneline)
+                new_interaction = init(oneline)
             except DataBaseSourceError:
                 print("In " + path + " row ", num, ", data missed or duplicated.")
                 continue
@@ -80,15 +84,17 @@ def upload(path, cache_size=100000, echo=False):
         if flag:
             break
 
-        if guard != num:
-            try:
-                if echo:
-                    print_bar(line_num, line_num)
+# Deal with rows left
+    if guard != num:
+        try:
+            if echo:
+                print_bar(line_num, line_num)
 
-                session.commit()
-            except IntegrityError as e:
-                print(e.orig.args)
-            except InvalidRequestError as e:
-                print(e)
-                return -3
+            session.commit()
+        except IntegrityError as e:
+            print(e.orig.args)
+        except InvalidRequestError as e:
+            print(e)
+            return -3
+
     session.close()
