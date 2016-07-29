@@ -108,3 +108,32 @@ def interaction_init(oneline):
         interaction_id_type2=''.join(oneline[17]))
 
     return new_interaction
+
+
+class BioSys(TableBase):
+    __tablename__ = 'biosystems'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    biosystem_ID = Column(Text)
+    gene_ID = Column(Text)
+    score = Column(Integer)
+
+
+def biosys_init(oneline):
+    try:
+        if len(oneline) != 3:
+            raise DataBaseSourceError
+    finally:
+        pass
+
+    try:
+        score_int = int(oneline[2])
+    except ValueError:
+        return None
+
+    new_biosys = BioSys(
+        biosystem_ID=''.join(oneline[0]),
+        gene_ID=''.join(oneline[1]),
+        score=score_int)
+
+    return new_biosys
