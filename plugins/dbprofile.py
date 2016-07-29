@@ -1,7 +1,5 @@
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Text, Integer, Date, String
-# Initialize base
-Base = declarative_base()
+from database import TableBase
 
 
 # Define database file error exception
@@ -10,7 +8,7 @@ class DataBaseSourceError(Exception):
 
 
 # define Gene
-class Gene(Base):
+class Gene(TableBase):
     __tablename__ = 'allgeneinfo'
     tax_id = Column(Integer)
     GeneID = Column(String(20), primary_key=True)
@@ -58,7 +56,7 @@ def gene_init(oneline):
     return new_gene
 
 
-class Interaction(Base):
+class Interaction(TableBase):
     __tablename__ = 'interactions'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
