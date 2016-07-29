@@ -1,6 +1,7 @@
 from sqlalchemy.exc import IntegrityError, InvalidRequestError
 from dbprofile import *
 from database import *
+# from count import *
 
 
 # Return -1: File not found
@@ -10,8 +11,8 @@ class EOF(Exception):
 
 
 def upload(path, cache_size=100000):
-        # Open file
-
+    # Open file
+    # line_num = count_lines(path)
     try:
         f = open(path, 'r')
     except IOError as e:
@@ -24,10 +25,9 @@ def upload(path, cache_size=100000):
     num = 0
     guard = num
 
+    flag = False
     while 1:
         res = []
-        lines = []
-        flag = false
         # cache_size is import for a high speed upload
         for i in range(1, cache_size + 1):
             try:
@@ -38,17 +38,15 @@ def upload(path, cache_size=100000):
                 print("In " + path + " row ", num + i, '.')
                 print(e)
             except EOF:
+                flag = true
                 break
-                flag = false
+
             # Filter and append
             if line.startswith('#'):
                 continue
             res.append(line.split('\t'))
 
         # Exit condition
-        if flag:
-            break
-
         for oneline in res:
             num += 1
 
@@ -63,6 +61,7 @@ def upload(path, cache_size=100000):
             if num - guard >= cache_size:
                 guard = num
                 try:
+                    # print_bar(num, line_num)
                     session.commit()
                 except IntegrityError as e:
                     print(e.orig.args)
@@ -71,8 +70,12 @@ def upload(path, cache_size=100000):
                     print(e)
                     return -3
 
+        if flag:
+            break
+
         if guard != num:
             try:
+                # print_bar(line_num, line_num)
                 session.commit()
             except IntegrityError as e:
                 print(e.orig.args)
