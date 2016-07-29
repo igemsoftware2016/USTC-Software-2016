@@ -1,6 +1,5 @@
 """Everything about plugins."""
 
-
 import importlib
 
 import app
@@ -27,7 +26,6 @@ class Plugin:
 
 
 class PluginManager:
-
     plugin_base = 'plugins.'
 
     def __init__(self):
@@ -73,6 +71,7 @@ class PluginManager:
         except Exception as e:
             rtv = {'success': False, 'reason': type(e).__name__ + ': ' + str(e)}
         return rtv
+
 
 plugin_manager = PluginManager()
 

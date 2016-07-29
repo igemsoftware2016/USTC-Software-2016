@@ -2,7 +2,7 @@
 # encoding=utf-8
 from queue import Queue, PriorityQueue
 from datetime import *
-from database import DBSession
+from database import session
 from models import Node, Link
 from plugin import Plugin
 
@@ -81,7 +81,6 @@ def a_star(src, dst, pathnum):
 
 
 def reload():  # reload data from database
-    session = DBSession()
     global node_pool, search_pool, node_count, Graph
 
     # construct the graph
