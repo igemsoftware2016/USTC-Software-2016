@@ -16,21 +16,14 @@
             margin: auto;
             align-items: center;
         }
-
-        .margin{
-            margin-left: 20px;
-            margin-right: 20px;
-            margin-top: 3px;
-            margin-bottom: 2px;
-        }
     </style>
     <!--[if IE]>
     <script src="http://libs.useso.com/js/html5shiv/3.7/html5shiv.min.js"></script>
     <![endif]-->
 </head>
 <body>
-<div id="login-page" align="center" style="align-content: center;margin-top: 40px">
-    <div class="card-panel " style="width: 400px;align-content: center">
+<div id="login-page" align="center" style="align-content: center;margin-top: 70px">
+    <div class="card-panel " style="width: 360px;align-content: center">
         <form>
             <div class="row">
                 <div class="input-field col s12 center">
@@ -39,49 +32,43 @@
                     </span>
                 </div>
             </div>
-            <div class="htmleaf-links">
-                <a class="material-icons">home</a> <span style="font-size: 27px;margin-bottom: 3px">/</span>
-                <a class="material-icons">trending_flat</a>
-            </div>
-
             <div class="row margin">
                 <div class="input-field col s12">
                     <i class="material-icons prefix">person</i>
-                    <input id="username" type="text" class="validate">
-                    <label for="username" class="left-align">Username</label>
-                </div>
-            </div>
-            <div class="row margin">
-                <div class="input-field col s12">
-                    <i class="material-icons prefix">email</i>
-                    <input id="email" type="email" class="validate">
-                    <label for="email" class="left-align">Email</label>
+                    <input class="validate" id="usr" type="email">
+                    <label for="usr" data-error="wrong" data-success="right" class="left-align">Email</label>
                 </div>
             </div>
             <div class="row margin">
                 <div class="input-field col s12">
                     <i class="material-icons prefix">lock</i>
-                    <input id="password" type="password" class="validate">
-                    <label for="password" class="left-align">Password</label>
+                    <input id="password" type="password">
+                    <label for="password">Password</label>
                 </div>
             </div>
-            <div class="row margin">
-                <div class="input-field col s12">
-                    <i class="material-icons prefix">lock</i>
-                    <input id="password-again" type="password">
-                    <label for="password-again" class="left-align">Re-type password</label>
+            <div class="row">
+                <div class="input-field col s12 m12 l12  login-text">
+                    <input type="checkbox" id="remember-me" />
+                    <label for="remember-me">remember me</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                    <a href="signup.html" class="btn waves-effect waves-light col s12">Sign up now</a>
-                </div>
-                <div class="input-field col s12">
-                    <p class="margin center medium-small sign-up">already have an account? <a href="login-1.html">Sign in</a></p>
+                    <a href="#" class="btn waves-effect waves-light col s12">Sign in</a>
                 </div>
             </div>
+            <div class="row">
+                <div class="input-field col s6 m6 l6">
+                </div>
+                <div class="input-field col s6 m6 l6">
+                    <p class="margin right-align medium-small"><a href="forgot-password.html">Forget Password?</a></p>
+                </div>
+             </div>
         </form>
+
     </div>
+    <a href="signup.html" style="text-decoration: none"><button id="flow-button" class="btn btn-custom btn-block " style="margin-top: 5px;width: 360px">Sign up today to join BioHub </button></a>
+
 </div>
 </div>
 <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
