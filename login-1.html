@@ -24,7 +24,6 @@
 <body>
 <div id="login-page" align="center" style="align-content: center;margin-top: 70px">
     <div class="card-panel " style="width: 360px;align-content: center">
-        <form>
             <div class="row">
                 <div class="input-field col s12 center">
                     <span>
@@ -32,30 +31,32 @@
                     </span>
                 </div>
             </div>
+
+        <form class="form" name="userDataForm" id="userDataForm" method="post" action="">
             <div class="row margin">
                 <div class="input-field col s12">
                     <i class="material-icons prefix">person</i>
-                    <input class="validate" id="usr" type="email">
-                    <label for="usr" data-error="wrong format" data-success="right" class="left-align">Email</label>
+                    <input class="validate" id="usr" type="email" name="email">
+                    <label for="usr" data-error="wrong format" data-success="" class="left-align">Email</label>
                 </div>
             </div>
             <div class="row margin">
                 <div class="input-field col s12">
                     <i class="material-icons prefix">lock</i>
-                    <input id="password" type="password">
+                    <input id="password" type="password" name="password">
                     <label for="password" class="left-align">Password</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s12 m12 l12  login-text">
-                    <input type="checkbox" id="remember-me" />
+                    <input type="checkbox" id="remember-me" name="remember" />
                     <label for="remember-me">remember me</label>
                 </div>
             </div>
-            <div class="row">
-                <div class="input-field col s12">
-                    <a href="#" class="btn waves-effect waves-light col s12">Sign in</a>
-                </div>
+        </form>
+            <div class="row center-align">
+                <button class="btn waves-effect waves-light center-align" onclick="postForm()" style="width: 200px">Sign in</button>
+
             </div>
             <div class="row">
                 <div class="input-field col s6 m6 l6">
@@ -64,7 +65,7 @@
                     <p class="margin right-align medium-small"><a href="forgot-password.html">Forget Password?</a></p>
                 </div>
              </div>
-        </form>
+
 
     </div>
     <a href="signup.html" style="text-decoration: none"><button id="flow-button" class="btn btn-custom btn-block " style="margin-top: 5px;width: 360px">Sign up today to join BioHub </button></a>
@@ -73,5 +74,6 @@
 </div>
 <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 <script src="js/materialize.min.js"></script>
+<script src="js/postForm.js"></script>
 </body>
 </html>
