@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-    <title>Prototype</title>
+    <title>Pano</title>
 
     <!-- CSS  -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -11,10 +11,13 @@
     <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link href="css/bootstrap.min.css" type="text/css" rel="stylesheet" />
 
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="https://www.atlasestateagents.co.uk/javascript/tether.min.js"></script><!-- Tether for Bootstrap -->
-    <script src="js/bootstrap.min.js"> </script>
-    <script src="js/materialize.min.js"> </script>
+    <script src="js/jquery-2.1.1.min.js"></script>
+    <!-- Tether for Bootstrap -->
+    <!--
+    <script src="js/tether.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    -->
+    <script src="js/materialize.min.js"></script>
     <!-- Js -->
     <script src="js/d3.v3.min.js"></script>
 
@@ -32,7 +35,6 @@
     .dot circle.dragging {
         fill: red;
         stroke: brown;
-
     }
 
     .axis line {
@@ -42,58 +44,69 @@
         vector-effect: non-scaling-stroke;
     }
 
+    #workspace-side {
+        border: none;
+    }
+
+    #workspace-side li div {
+        border: none;
+    }
+
 </style>
 
-
-
-
+<!-- navbar -->
 <body class="grey lighten-1">
-<nav class="light-blue lighten-4" role="navigation">
-    <div class="nav-wrapper container">
-        <a id="logo-container" href="#" class="brand-logo"><img src="img/logo.png" style="height: 60px"/></a>
+<nav class="cyan">
+    <div class="nav-wrapper">
+        <a href="#" style="padding-left:0.5em" class="brand-logo left">BioHub</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="#">User Status</a></li>
+            <li><a href="#">User Name</a></li>
+            <li><img src="images/logo.ico" alt="logo" class="circle" style="width:4em;padding-left:0.5em;padding-right:0.5em"></li>
+        </ul>
     </div>
 </nav>
 
-
-
-
-
-
-
-
-
-
-<div class="jumbotron grey darken-2" style="margin: 15px;position: fixed;right: 5px;bottom: 5px;top: 65px;left: 5px">
-    <div id="image" style="width: auto"></div>
+<div class="row" style="margin:1em;position:absolute;right:0em;bottom:1em;top:5em;left:0em">
+    <div class="col s3" style="height:100%">
+        <div class="jumbotron no-padding grey darken-3" id="sidebar" style="height:100%">
+            <ul id="workspace-side" class="collapsible" data-collapsible="expandable">
+                <li class="grey darken-3">
+                    <div class="collapsible-header grey darken-3">
+                        <div class="grey-text text-lighten-3">gene</div>
+                    </div>
+                    <div class="collapsible-body">
+                        <div class="collection">
+                            <a class="collection-item grey darken-1 grey-text text-lighten-3" href="#">gene1</a>
+                            <a class="collection-item grey darken-1 grey-text text-lighten-3" href="#">gene2</a>
+                            <a class="collection-item grey darken-1 grey-text text-lighten-3" href="#">gene3</a>
+                            <a class="collection-item grey darken-1 grey-text text-lighten-3" href="#">gene4</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="grey darken-3">
+                    <div class="collapsible-header grey darken-3">
+                        <div class="grey-text text-lighten-3">gRNA</div>
+                    </div>
+                    <div class="collapsible-body">
+                        <div class="collection">
+                            <a class="collection-item grey darken-1 grey-text text-lighten-3" href="#">gRNA1</a>
+                            <a class="collection-item grey darken-1 grey-text text-lighten-3" href="#">gRNA2</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col s9" style="height:100%">
+        <div class="jumbotron grey darken-2" id="image-wrapper" style="height:100%">
+            <div style="width:100%;height:100%" id="image"></div>
+        </div>
+    </div>
 </div>
 
-
-<ul id="dropdown" class="dropdown-content" style="font-family: DejaVu Sans Mono ;font-size: small">
-    <li data-toggle="modal" data-target="#myModal"><a>
-        gene-1<a class="btn-floating red"></a>
-    </a></li>
-    <li data-toggle="modal" data-target="#myModal"><a>
-        gene-2<a class="btn-floating red"></a>
-    </a></li>
-    <li data-toggle="modal" data-target="#myModal"><a>
-        gene-3<a class="btn-floating red"></a>
-    </a></li>
-    <li data-toggle="modal" data-target="#myModal"><a>
-        gene-4<a class="btn-floating red"></a>
-    </a></li>
-    <li data-toggle="modal" data-target="#myModal"><a>
-        gRNA-1<a class="btn-floating blue"></a>
-    </a></li>
-    <li data-toggle="modal" data-target="#myModal"><a>
-        gRNA-2<a class="btn-floating blue"></a>
-    </a></li>
-</ul>
-<a class="btn-floating btn-large dropdown-button yellow pull-xl-right" href="#" data-activates="dropdown" style="position: fixed;top: 40px;right: 65px">
-    <i class="material-icons">add</i>
-</a>
-
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-     aria-labelledby="myModalLabel" aria-hidden="true">
+<!-- TODO -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
