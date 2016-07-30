@@ -1,4 +1,5 @@
 /* Custom Stylesheet */
+
 /**
  * Use this file to override Materialize files so you can update
  * the core Materialize files in the future
@@ -7,17 +8,24 @@
  */
 
 .icon-block {
-  padding: 0 15px;
+    padding: 0 15px;
 }
 .icon-block .material-icons {
 	font-size: inherit;
 }
 
-body,html{height: 100%;}
-div.wrap {height:100%; overflow:hidden;}
-body {overflow: hidden; }
+body, html {
+    height: 100%;
+}
 
+div.wrap {
+    height:100%;
+    overflow:hidden;
+}
 
+body {
+    overflow: hidden; 
+}
 
 .dot circle {
     fill: lightsteelblue;
@@ -37,4 +45,15 @@ body {overflow: hidden; }
     vector-effect: non-scaling-stroke;
 }
 
-div{overflow: hidden; }
+div#image {
+    overflow: hidden;
+}
+
+#workspace-side {
+    border: none;
+}
+
+#workspace-side li div {
+    border: none;
+}
+
