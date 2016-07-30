@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+    <title>Prototype</title>
+
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://www.atlasestateagents.co.uk/javascript/tether.min.js"></script><!-- Tether for Bootstrap -->
+    <script src="js/bootstrap.min.js"> </script>
+    <script src="js/materialize.min.js"> </script>
+    <!-- Js -->
+    <script src="js/d3.v3.min.js"></script>
+
+</head>
+
+
+<style>
+
+    .dot circle {
+        fill: lightsteelblue;
+        stroke: steelblue;
+        stroke-width: 1.5px;
+    }
+
+    .dot circle.dragging {
+        fill: red;
+        stroke: brown;
+
+    }
+
+    .axis line {
+        fill: none;
+        stroke: #777 ;
+        shape-rendering: crispEdges;
+        vector-effect: non-scaling-stroke;
+    }
+
+</style>
+
+
+
+
+<body class="grey lighten-1">
+<nav class="light-blue lighten-4" role="navigation">
+    <div class="nav-wrapper container">
+        <a id="logo-container" href="#" class="brand-logo"><img src="img/logo.png" style="height: 60px"/></a>
+    </div>
+</nav>
+
+
+
+
+
+
+
+
+
+
+<div class="jumbotron grey darken-2" style="margin: 15px;position: fixed;right: 5px;bottom: 5px;top: 65px;left: 5px">
+    <div id="image" style="width: auto"></div>
+</div>
+
+
+<ul id="dropdown" class="dropdown-content" style="font-family: DejaVu Sans Mono ;font-size: small">
+    <li data-toggle="modal" data-target="#myModal"><a>
+        gene-1<a class="btn-floating red"></a>
+    </a></li>
+    <li data-toggle="modal" data-target="#myModal"><a>
+        gene-2<a class="btn-floating red"></a>
+    </a></li>
+    <li data-toggle="modal" data-target="#myModal"><a>
+        gene-3<a class="btn-floating red"></a>
+    </a></li>
+    <li data-toggle="modal" data-target="#myModal"><a>
+        gene-4<a class="btn-floating red"></a>
+    </a></li>
+    <li data-toggle="modal" data-target="#myModal"><a>
+        gRNA-1<a class="btn-floating blue"></a>
+    </a></li>
+    <li data-toggle="modal" data-target="#myModal"><a>
+        gRNA-2<a class="btn-floating blue"></a>
+    </a></li>
+</ul>
+<a class="btn-floating btn-large dropdown-button yellow pull-xl-right" href="#" data-activates="dropdown" style="position: fixed;top: 40px;right: 65px">
+    <i class="material-icons">add</i>
+</a>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">×
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Add Node
+                </h4>
+            </div>
+            <div class="modal-body">
+                properties:Proteins (/ˈproʊˌtiːnz/ or /ˈproʊti.ᵻnz/) are large biomolecules, or macromolecules, consisting of one or more long chains of amino acid residues. Proteins perform a vast array of functions within living organisms, including catalysing metabolic reactions, DNA replication, responding to stimuli, and transporting molecules from one location to another. Proteins differ from one another primarily in their sequence of amino acids, which is dictated by the nucleotide sequence of their genes, and which usually results in protein folding into a specific three-dimensional structure that determines its activity.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    Cancel
+                </button>
+                <button id="addSth" type="button" class="btn btn-primary">
+                    Add
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+<script>
+   // $(function () { $('#myModal').modal('hide')});
+</script>
+
+</body>
+
+<script src="js/index.js"> </script>
+</html>
