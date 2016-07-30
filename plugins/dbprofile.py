@@ -10,7 +10,7 @@ class DataBaseSourceError(Exception):
 # define Gene
 class Gene(TableBase):
     __tablename__ = 'allgeneinfo'
-    tax_id = Column(Integer)
+    tax_id = Column(Text)
     GeneID = Column(String(20), primary_key=True)
     Symbol = Column(Text)
     LocusTag = Column(Text)
@@ -56,11 +56,41 @@ def gene_init(oneline):
     return new_gene
 
 
+def gene_commit(e_e, res, num):
+    if len(res) == 0:
+        return None
+
+    date = []
+    for oneline in res:
+        date.append(oneline[14][0:4] + '-' + oneline[14][4:6] + '-' + oneline[14][6:8])
+
+    e_e(
+        Gene.__table__.insert(),
+        [dict(tax_id=res[i][0],
+              GeneID=res[i][1],
+              Symbol=res[i][2],
+              LocusTag=res[i][3],
+              Synonyms=res[i][4],
+              dbXrefs=res[i][5],
+              chromosome=res[i][6],
+              map_location=res[i][7],
+              description=res[i][8],
+              type_of_gene=res[i][9],
+              Symbol_from_nomenclature_authority=res[i][10],
+              Full_name_from_nomenclature_authority=res[i][11],
+              Nomenclature_status=res[i][12],
+              Other_designations=res[i][13],
+              Modification_date=date[i])
+         for i in range(len(res))]
+    )
+
+
+# ==============Interaction==================
 class Interaction(TableBase):
     __tablename__ = 'interactions'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    tax_id1 = Column(Integer)
+    tax_id1 = Column(Text)
     gene_id = Column(Text)
     accn_vers1 = Column(Text)
     name1 = Column(Text)
@@ -110,6 +140,35 @@ def interaction_init(oneline):
     return new_interaction
 
 
+def interaction_commit(e_e, res, num):
+    if len(res) == 0:
+        return None
+
+    e_e(
+        Interaction.__table__.insert(),
+        [dict(tax_id1=res[i][0],
+              gene_id=res[i][1],
+              accn_vers1=res[i][2],
+              name_1=res[i][3],
+              keyphrase=res[i][4],
+              tax_id2=res[i][5],
+              interactant_id1=res[i][6],
+              interactant_id_type1=res[i][7],
+              accn_vers2=res[i][8],
+              name2=res[i][9],
+              complex_id=res[i][10],
+              complex_id_type=res[i][11],
+              complex_name=res[i][12],
+              pubmed_id_list=res[i][13],
+              last_mod=res[i][14],
+              generif_text=res[i][15],
+              interaction_id2=res[i][16],
+              interaction_id_type2=res[i][17])
+         for i in range(len(res))]
+    )
+
+
+# ===========================BioSystems====================================
 class BioSys(TableBase):
     __tablename__ = 'biosystems'
 
@@ -137,3 +196,30 @@ def biosys_init(oneline):
         score=score_int)
 
     return new_biosys
+
+
+def biosys_commit(e_e, res, num):
+    if len(res) == 0:
+        return None
+
+    error_pos = []
+    score_int = []
+    for i in range(0, len(res)):
+        try:
+            temp = int(res[i][2])
+        except ValueError as e:
+            print('\nIn row', str(num - len(res) + i + 1) + ',', e)
+            error_pos.append(i)
+        else:
+            score_int.append(temp)
+
+    for i in error_pos:
+        del res[i]
+
+    e_e(
+        BioSys.__table__.insert(),
+        [dict(biosystem_ID=res[i][0],
+              gene_ID=res[i][1],
+              score=score_int[i])
+         for i in range(len(res))]
+    )

@@ -1,6 +1,7 @@
 from sqlalchemy.exc import IntegrityError, InvalidRequestError
 from database import *
 from progressbar import *
+import time
 
 
 class DataBaseSourceError(Exception):
@@ -13,29 +14,47 @@ class EOF(Exception):
 # Return -2: primary key duplicated
 
 
+def init_sqlalchemy():
+    # DBSession.remove()
+    DBSession.configure(bind=engine, autoflush=False, expire_on_commit=False)
+    TableBase.metadata.drop_all(engine)
+    TableBase.metadata.create_all(engine)
+
+
 # Set echo to True to enable progress bar.
-def upload(path, init, cache_size=100000, echo=False):
+def upload(path, commit, column_num, cache_size=100000, echo=False, log=False):
     # Open file
     if echo:
         line_num = count_lines(path)
+    if log:
+        try:
+            logf = open('log.dat', 'w+')
+        except IOError as e:
+            print(e, 'can\'t log!')
+            log = False
+        else:
+            logf.write('Log date:' + time.asctime(time.localtime(time.time())) + ' Start.\n')
 
     try:
         f = open(path, 'r')
     except IOError as e:
         print(e)
+        if log:
+            logf.write(time.asctime(time.localtime(time.time())) + ':' + e)
         return -1
 
-    session = DBSession()
+    # Initialize
+    init_sqlalchemy()
 
     # These two are used to commit data im large number
     num = 0
-    guard = num
 
     flag = False
     while 1:
         res = []
         # cache_size is import for a high speed upload
         for i in range(1, cache_size + 1):
+            num += 1
             try:
                 line = f.readline()
                 if not line:
@@ -43,6 +62,9 @@ def upload(path, init, cache_size=100000, echo=False):
             except UnicodeDecodeError as e:
                 print("In " + path + " row ", num + i, '.')
                 print(e)
+                if log:
+                    logf.write(time.asctime(time.localtime(time.time())) + ':' + "In " + path + " row " +
+                    str(num + i) + '.' + e)
             except EOF:
                 flag = true
                 break
@@ -50,51 +72,38 @@ def upload(path, init, cache_size=100000, echo=False):
             # Filter and append
             if line.startswith('#'):
                 continue
-            res.append(line.split('\t'))
-
-        # Exit condition
-        for oneline in res:
-            num += 1
-
-            try:
-                new_interaction = init(oneline)
-            except DataBaseSourceError:
+            if line == '':
+                continue
+            temp = line.split('\t')
+            if len(temp) != column_num:
                 print("In " + path + " row ", num, ", data missed or duplicated.")
-                continue
-            except ValueError as e:
-                print(e)
-                continue
+                if log:
+                    logf.write(time.asctime(time.localtime(time.time())) + ':' + "In " + path + " row " + str(num)
+                               + ", data missed or duplicated.")
+            else:
+                res.append(temp)
 
-            session.add(new_interaction)
+        # Commit
+        try:
+            commit(engine.execute, res, num)
+            if echo:
+                print_bar(num, line_num)
 
-            if num - guard >= cache_size:
-                guard = num
-                try:
-                    if echo:
-                        print_bar(num, line_num)
-
-                    session.commit()
-                except IntegrityError as e:
-                    print(e.orig.args)
-                    return -2
-                except InvalidRequestError as e:
-                    print(e)
-                    return -3
+        except ValueError as e:
+            print(e)
+            if log:
+                logf.write(time.asctime(time.localtime(time.time())) + ':' + e)
+            return -3
+        except IntegrityError as e:
+            print(e.orig.args)
+            if log:
+                logf.write(time.asctime(time.localtime(time.time())) + ':' + e)
+            return -4
+        except InvalidRequestError as e:
+            print(e)
+            if log:
+                logf.write(time.asctime(time.localtime(time.time())) + ':' + e)
+            return -5
 
         if flag:
             break
-
-# Deal with rows left
-    if guard != num:
-        try:
-            if echo:
-                print_bar(line_num, line_num)
-
-            session.commit()
-        except IntegrityError as e:
-            print(e.orig.args)
-        except InvalidRequestError as e:
-            print(e)
-            return -3
-
-    session.close()
