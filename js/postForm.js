@@ -30,3 +30,18 @@ function postForm(){
         contentType : "application/json"
     });
 }
+
+function postForm_sign_up(){
+    var formData = JSON.stringify($('form').serializeObject());
+
+    $.ajax({
+        type: "POST",
+        url: "/signup",
+        data: formData,
+        success: function(){
+            console.log(formData);
+        },
+        dataType: "json",
+        contentType : "application/json"
+    });
+}
