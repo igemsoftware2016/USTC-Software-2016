@@ -26,5 +26,4 @@ app.register_blueprint(plugin, url_prefix='/plugin')
 
 from plugin import plugin_manager
 
-plugin_manager.load_plugin('example_plugin')
-plugin_manager.load_plugin('path_finder')
+plugin_manager.load_plugin('plugins')

@@ -26,23 +26,27 @@ class Plugin:
 
 
 class PluginManager:
-    plugin_base = 'plugins.'
+    plugin_directory = 'plugins'
 
     def __init__(self):
         self.plugins = {}
+        self.modules = {}
 
     # now reload and unload are very unstable, do not use
+    # FIXME: [wzb@07-31] if plugin is in a directory, reload can only reload the __init__.py
 
     def load_plugin(self, name, reload=False):
         if name in self.plugins:
             if reload:
                 try:
-                    self.plugins[name] = importlib.reload(importlib.import_module(self.plugin_base + name)).__plugin__
+                    self.modules[name] = importlib.reload(self.modules[name])
+                    self.plugins[name] = self.modules[name].__plugin__
                 except:
                     pass
             return self.plugins[name]
         try:
-            self.plugins[name] = importlib.import_module(self.plugin_base + name).__plugin__
+            self.modules[name] = importlib.import_module(self.plugin_directory + '.' + name)
+            self.plugins[name] = self.modules[name].__plugin__
         except:
             return None
         return self.plugins[name]
@@ -55,6 +59,7 @@ class PluginManager:
                 result = False
             if result or force:
                 del self.plugins[name]
+                del self.modules[name]
                 return True
         return False
 
