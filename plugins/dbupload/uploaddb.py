@@ -16,13 +16,6 @@ class EOF(Exception):
 # Return -2: primary key duplicated
 
 
-def init_sqlalchemy():
-    # DBSession.remove()
-    DBSession.configure(bind=engine, autoflush=False, expire_on_commit=False)
-    TableBase.metadata.drop_all(engine)
-    TableBase.metadata.create_all(engine)
-
-
 # Set echo to True to enable progress bar.
 def upload(path, commit, column_num, cache_size=100000, echo=False, log=False):
     # Open file
@@ -53,8 +46,6 @@ def upload(path, commit, column_num, cache_size=100000, echo=False, log=False):
         return -2
 
     # Initialize
-    init_sqlalchemy()
-
     num = 0
 
     flag = False
@@ -94,6 +85,7 @@ def upload(path, commit, column_num, cache_size=100000, echo=False, log=False):
         # Commit
         try:
             commit(engine.execute, res, num)
+
             if echo:
                 print_bar(num, line_num)
 
