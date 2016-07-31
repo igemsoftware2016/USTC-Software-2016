@@ -10,6 +10,8 @@ class DataBaseSourceError(Exception):
 
 class EOF(Exception):
     pass
+
+
 # Return -1: File not found
 # Return -2: primary key duplicated
 
@@ -33,7 +35,7 @@ def upload(path, commit, column_num, cache_size=100000, echo=False, log=False):
             print(e, 'can\'t log!')
             log = False
         else:
-            logf.write('Log date:' + time.asctime(time.localtime(time.time())) + ' Start.\n')
+            logf.write('Log date:' + time.asctime(time.localtime(time.time())) + ' Start.\nFile:' + path + '\n')
 
     try:
         f = open(path, 'r')
@@ -41,12 +43,18 @@ def upload(path, commit, column_num, cache_size=100000, echo=False, log=False):
         print(e)
         if log:
             logf.write(time.asctime(time.localtime(time.time())) + ':' + e)
+            logf.close()
         return -1
+    except FileNotFoundError as e:
+        print(e)
+        if log:
+            logf.write(time.asctime(time.localtime(time.time())) + ':' + e)
+            logf.close()
+        return -2
 
     # Initialize
     init_sqlalchemy()
 
-    # These two are used to commit data im large number
     num = 0
 
     flag = False
@@ -57,17 +65,17 @@ def upload(path, commit, column_num, cache_size=100000, echo=False, log=False):
             num += 1
             try:
                 line = f.readline()
-                if not line:
-                    raise EOF
             except UnicodeDecodeError as e:
-                print("In " + path + " row ", num + i, '.')
+                print("In " + path + " row ", num + i, '.', end='')
                 print(e)
                 if log:
                     logf.write(time.asctime(time.localtime(time.time())) + ':' + "In " + path + " row " +
-                    str(num + i) + '.' + e)
-            except EOF:
-                flag = true
-                break
+                               str(num + i) + '.' + str(e) + '\n')
+                continue
+            else:
+                if not line:
+                    flag = True
+                    break
 
             # Filter and append
             if line.startswith('#'):
@@ -79,7 +87,7 @@ def upload(path, commit, column_num, cache_size=100000, echo=False, log=False):
                 print("In " + path + " row ", num, ", data missed or duplicated.")
                 if log:
                     logf.write(time.asctime(time.localtime(time.time())) + ':' + "In " + path + " row " + str(num)
-                               + ", data missed or duplicated.")
+                            + ", data missed or duplicated." + '\n')
             else:
                 res.append(temp)
 
@@ -92,18 +100,24 @@ def upload(path, commit, column_num, cache_size=100000, echo=False, log=False):
         except ValueError as e:
             print(e)
             if log:
-                logf.write(time.asctime(time.localtime(time.time())) + ':' + e)
+                logf.write(time.asctime(time.localtime(time.time())) + ':' + str(e) + '\n')
+                logf.close()
             return -3
         except IntegrityError as e:
             print(e.orig.args)
             if log:
-                logf.write(time.asctime(time.localtime(time.time())) + ':' + e)
+                logf.write(time.asctime(time.localtime(time.time())) + ':' + str(e) + '\n')
+                logf.close()
             return -4
         except InvalidRequestError as e:
             print(e)
             if log:
-                logf.write(time.asctime(time.localtime(time.time())) + ':' + e)
+                logf.write(time.asctime(time.localtime(time.time())) + ':' + str(e) + '\n')
+                logf.close()
             return -5
 
         if flag:
             break
+
+    if log:
+        logf.close()
