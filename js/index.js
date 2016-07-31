@@ -1,24 +1,43 @@
 jQuery(function () {
 
     var margin = {top: -1, right: -1, bottom: -1, left: -1},
-        width = 1960 - margin.left - margin.right,
-        height = 1500 - margin.top - margin.bottom;
+        width = 1920 - margin.left - margin.right,
+        height = 1080 - margin.top - margin.bottom;
 
     var zoom = d3.behavior.zoom()
-        .scaleExtent([0.1, 15])
-        .on("zoom", zoomed);
+        .scaleExtent([1 / 8, 8])
+        .on("zoom", function () {
+            container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+        });
 
     var drag = d3.behavior.drag()
-        .origin(function(d) { return d; })
-        .on("dragstart", dragstarted)
-        .on("drag", dragged)
-        .on("dragend", dragended);
+        .origin(function (d) {
+            return d; 
+        })
+        .on("dragstart", function (d) {
+            d3.event.sourceEvent.stopPropagation();
+            d3.select(this).classed("dragging", true);
+        })
+        .on("drag", function (d) {
+            d3.select(this)
+                .attr("cx", d.x = d3.event.x)
+                .attr("cy", d.y = d3.event.y);
+        })
+        .on("dragend", function (d) {
+            d3.select(this).classed("dragging", false)
+                .attr("cx", d.x = Math.round(d.x * 0.1) * 10)
+                .attr("cy", d.y = Math.round(d.y * 0.1) * 10);
+        });
 
-    var svg = d3.select("#image").append("svg")
+    var wrapper = d3.select("#image");
+
+    var wrapperBoundingBox = wrapper.node().getBoundingClientRect();
+
+    var svg = wrapper.append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
-        .attr("transform","translate(-1500,-1500)scale(3.3,3.3)")//.attr("transform", "translate(" + margin.left + "," + margin.right + ")")
+        .attr("transform", "translate(" + (0.5 * wrapperBoundingBox.width - 2 * width) + "," + (0.5 * wrapperBoundingBox.height - 2 * height) + ")scale(4,4)")
         .call(zoom);
     console.log("haha")
     var rect = svg.append("rect")
@@ -30,7 +49,7 @@ jQuery(function () {
     var container = svg.append("g");
 
     container.append("g")
-        .attr("class", "x axis")
+        .attr("class", "x-axis")
         .selectAll("line")
         .data(d3.range(0, width, 10))
         .enter().append("line")
@@ -40,7 +59,7 @@ jQuery(function () {
         .attr("y2", height);
 
     container.append("g")
-        .attr("class", "y axis")
+        .attr("class", "y-axis")
         .selectAll("line")
         .data(d3.range(0, height, 10))
         .enter().append("line")
@@ -69,18 +88,5 @@ jQuery(function () {
 
     function zoomed() {
         container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-    }
-
-    function dragstarted(d) {
-        d3.event.sourceEvent.stopPropagation();
-        d3.select(this).classed("dragging", true);
-    }
-
-    function dragged(d) {
-        d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
-    }
-
-    function dragended(d) {
-        d3.select(this).classed("dragging", false);
     }
 });

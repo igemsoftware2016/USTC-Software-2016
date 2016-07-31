@@ -38,7 +38,14 @@ body {
     stroke: brown;
 }
 
-.axis line {
+.x-axis line {
+    fill: none;
+    stroke: #ddd;
+    shape-rendering: crispEdges;
+    vector-effect: non-scaling-stroke;
+}
+
+.y-axis line {
     fill: none;
     stroke: #ddd;
     shape-rendering: crispEdges;
