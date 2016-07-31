@@ -27,7 +27,11 @@ function postForm(){
             console.log(response);
             if(response['error'] == 'a1'){
 
-                Materialize.toast('Account or Password Error', 3000, 'rounded');
+                Materialize.toast('Account not found', 3000, 'rounded');
+            }
+            if(response['error'] == 'a2'){
+
+                Materialize.toast('Wrong Password', 3000, 'rounded');
             }
         },
         dataType: "json",

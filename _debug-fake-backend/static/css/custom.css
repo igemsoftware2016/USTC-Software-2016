@@ -1,0 +1,37 @@
+@import url(https://fonts.googleapis.com/css?family=Merriweather+Sans:400,300,700);
+html { height: 100%; }
+body { width: 100%; font-family: 'Merriweather Sans', sans-serif; background-color: #f9f9f9; background-image: url("../images/bg_blur.png"); background-size: cover; background-repeat: no-repeat; background-position: center center; -webkit-font-smoothing: antialiased; }
+
+body .custom-container { max-width: 390px; margin-top: 8vw; }
+body .custom-container form.form { margin: 0 20px 20px; }
+body .custom-container .panel-default { box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2); box-shadow: 0 0px 5px 0 rgba(0, 0, 0, 0.1), 0 16px 20px -8px rgba(0, 0, 0, 0.3); box-shadow: 0 3px 9px 0 rgba(0, 0, 0, 0.1), 0 24px 38px -16px rgba(0, 0, 0, 0.2); background-color: white; border: none; padding: 14px; padding-top: 40px; border-radius: 2px; }
+body .custom-container .panel-default h3 { color: #3F51B5; font-weight: 400; }
+body .custom-container .panel-default h3 i.fa { color: #ddd; }
+body .custom-container .panel-default p a { transition: all 200ms ease-in-out; color: #3F51B5; }
+body .custom-container .panel-default p a:hover { text-decoration: none; opacity: 0.5; }
+body .custom-container .panel-default .form-group { position: relative; }
+body .custom-container .panel-default .form-group .material-input { box-shadow: none; border: none; border-bottom: 1px solid #ddd; font-size: 16px; height: 60px; font-weight: 400; border-radius: 0px; color: #333; transition: all 0.2s ease; padding-top: 19px; padding-left: 6px; background-color: transparent; }
+body .custom-container .panel-default .form-group .material-input:focus { border-color: #3F51B5; color: #333; }
+body .custom-container .panel-default .form-group:last-child { margin-bottom: 0; }
+body .custom-container .panel-default .form-group .placeholder { position: absolute; top: 27px; left: 5px; transition: all 0.1s ease-in-out; color: #ddd; transform: translate3d(0, 0, 0); font-size: 16px; pointer-events: none; font-weight: 400; }
+body .custom-container .panel-default .form-group .placeholder.focus { font-size: 12px; top: 2px; left: 5px; color: #3F51B5; }
+body .custom-container .panel-default .form-group .bottom-liner { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; margin: 0 auto; width: 0%; background-color: #3F51B5; transition: all 0.2s ease-in-out; }
+body .custom-container .panel-default .form-group .bottom-liner.lined { width: 100%; }
+body .custom-container .panel-default .form-group .highlight { height: 21px; background-color: #3F51B5; position: absolute; left: 5px; bottom: 13px; transition: all 0.15s ease-in-out; opacity: 0; width: 70%; pointer-events: none; background: -moz-linear-gradient(left, #3F51B5 0%, rgba(255, 255, 255, 0) 100%); background: -webkit-gradient(linear, left top, right top, color-stop(0%, #3F51B5), color-stop(100%, rgba(255, 255, 255, 0))); background: -webkit-linear-gradient(left, #3F51B5 0%, rgba(255, 255, 255, 0) 100%); background: -o-linear-gradient(left, #3F51B5 0%, rgba(255, 255, 255, 0) 100%); background: -ms-linear-gradient(left, #3F51B5 0%, rgba(255, 255, 255, 0) 100%); background: linear-gradient(to right, #3F51B5 0%, rgba(255, 255, 255, 0) 100%); }
+body .custom-container .panel-default .form-group .highlight.light { width: 0%; opacity: .3; }
+body .custom-container .panel-default .form-group .highlight.no-light { opacity: 0 !important; width: 0 !important; }
+body .custom-container .btn-custom { background-color: #3F51B5; border: none; color: white; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); transition-delay: 0.2s; box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26); border-radius: 2px; padding: 10px 0px; font-size: 16px; font-weight: 700; letter-spacing: 0.3px; margin: 0 auto; outline: none !important; position: relative; overflow: hidden; }
+body .custom-container .btn-custom.not-visible { opacity: 0; transform: translateY(10px); color: transparent; }
+body .custom-container .btn-custom:hover { transition-delay: 0s; box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2); background-color: #4d5ec1; border-color: #4d5ec1; }
+body .custom-container .btn-custom:active { transform: scale(0.98); }
+body .custom-container .btn-custom .ripple-svg { position: absolute; left: 0; top: 0; }
+body .custom-container .btn-custom .ripple-svg .circle { opacity: 0.3; transform: traslateZ(0); }
+input.material-input[type=password] { font: large Verdana, sans-serif; }
+.material-icons { vertical-align: bottom; }
+
+
+
+
+a.download-button { font-weight: 700; color: #3f51b5; position: absolute; top: 20px; right: 20px; text-decoration: none; transition: all 200ms ease-in-out; }
+
+a.download-button:hover { color: rgba(63, 81, 181, 0.43); }
