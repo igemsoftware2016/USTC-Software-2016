@@ -8,7 +8,7 @@
  */
 
 .icon-block {
-    padding: 0 15px;
+    padding: 0 5em;
 }
 .icon-block .material-icons {
 	font-size: inherit;
@@ -49,8 +49,26 @@ div#image {
     overflow: hidden;
 }
 
+#main-wrapper .col {
+    padding: 1em;
+}
+
+#main-wrapper {
+    margin: 0em;
+    position: absolute;
+    right: 0em;
+    bottom: 0.5em;
+    top: 4em;
+    left: 0em;
+}
+
+#image-wrapper {
+    padding: 2em;
+}
+
 #workspace-side {
     border: none;
+    margin: 0em;
 }
 
 #workspace-side li div {

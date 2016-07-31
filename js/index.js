@@ -1,88 +1,86 @@
+jQuery(function () {
 
+    var margin = {top: -1, right: -1, bottom: -1, left: -1},
+        width = 1960 - margin.left - margin.right,
+        height = 1500 - margin.top - margin.bottom;
 
+    var zoom = d3.behavior.zoom()
+        .scaleExtent([0.1, 15])
+        .on("zoom", zoomed);
 
+    var drag = d3.behavior.drag()
+        .origin(function(d) { return d; })
+        .on("dragstart", dragstarted)
+        .on("drag", dragged)
+        .on("dragend", dragended);
 
+    var svg = d3.select("#image").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform","translate(-1500,-1500)scale(3.3,3.3)")//.attr("transform", "translate(" + margin.left + "," + margin.right + ")")
+        .call(zoom);
+    console.log("haha")
+    var rect = svg.append("rect")
+        .attr("width", width)
+        .attr("height", height)
+        .style("fill", "none")
+        .style("pointer-events", "all");
 
-var margin = {top: -1, right: -1, bottom: -1, left: -1},
-    width = 1960 - margin.left - margin.right,
-    height = 1500 - margin.top - margin.bottom;
+    var container = svg.append("g");
 
-var zoom = d3.behavior.zoom()
-    .scaleExtent([0.1, 15])
-    .on("zoom", zoomed);
+    container.append("g")
+        .attr("class", "x axis")
+        .selectAll("line")
+        .data(d3.range(0, width, 10))
+        .enter().append("line")
+        .attr("x1", function(d) { return d; })
+        .attr("y1", 0)
+        .attr("x2", function(d) { return d; })
+        .attr("y2", height);
 
-var drag = d3.behavior.drag()
-    .origin(function(d) { return d; })
-    .on("dragstart", dragstarted)
-    .on("drag", dragged)
-    .on("dragend", dragended);
+    container.append("g")
+        .attr("class", "y axis")
+        .selectAll("line")
+        .data(d3.range(0, height, 10))
+        .enter().append("line")
+        .attr("x1", 0)
+        .attr("y1", function(d) { return d; })
+        .attr("x2", width)
+        .attr("y2", function(d) { return d; });
 
-var svg = d3.select("#image").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform","translate(-1500,-1500)scale(3.3,3.3)")//.attr("transform", "translate(" + margin.left + "," + margin.right + ")")
-    .call(zoom);
-console.log("haha")
-var rect = svg.append("rect")
-    .attr("width", width)
-    .attr("height", height)
-    .style("fill", "none")
-    .style("pointer-events", "all");
+    d3.tsv("data/data.tsv", dottype, function(error, dots) {
+        dot = container.append("g")
+            .attr("class", "dot")
+            .selectAll("circle")
+            .data(dots)
+            .enter().append("circle")
+            .attr("r", 5)
+            .attr("cx", function(d) { return d.x; })
+            .attr("cy", function(d) { return d.y; })
+            .call(drag);
+    });
 
-var container = svg.append("g");
+    function dottype(d) {
+        d.x = +d.x;
+        d.y = +d.y;
+        return d;
+    }
 
-container.append("g")
-    .attr("class", "x axis")
-    .selectAll("line")
-    .data(d3.range(0, width, 10))
-    .enter().append("line")
-    .attr("x1", function(d) { return d; })
-    .attr("y1", 0)
-    .attr("x2", function(d) { return d; })
-    .attr("y2", height);
+    function zoomed() {
+        container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+    }
 
-container.append("g")
-    .attr("class", "y axis")
-    .selectAll("line")
-    .data(d3.range(0, height, 10))
-    .enter().append("line")
-    .attr("x1", 0)
-    .attr("y1", function(d) { return d; })
-    .attr("x2", width)
-    .attr("y2", function(d) { return d; });
+    function dragstarted(d) {
+        d3.event.sourceEvent.stopPropagation();
+        d3.select(this).classed("dragging", true);
+    }
 
-d3.tsv("data/data.tsv", dottype, function(error, dots) {
-    dot = container.append("g")
-        .attr("class", "dot")
-        .selectAll("circle")
-        .data(dots)
-        .enter().append("circle")
-        .attr("r", 5)
-        .attr("cx", function(d) { return d.x; })
-        .attr("cy", function(d) { return d.y; })
-        .call(drag);
+    function dragged(d) {
+        d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
+    }
+
+    function dragended(d) {
+        d3.select(this).classed("dragging", false);
+    }
 });
-
-function dottype(d) {
-    d.x = +d.x;
-    d.y = +d.y;
-    return d;
-}
-
-function zoomed() {
-    container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-}
-
-function dragstarted(d) {
-    d3.event.sourceEvent.stopPropagation();
-    d3.select(this).classed("dragging", true);
-}
-
-function dragged(d) {
-    d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
-}
-
-function dragended(d) {
-    d3.select(this).classed("dragging", false);
-}
