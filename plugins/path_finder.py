@@ -106,7 +106,7 @@ class Path_Finder(Plugin):
     def process(self, request):
         print(request)
         if request['action'] == 'path_finder':
-            result = path_finder(request['s'], request['t'], request['k'])
+            result = path_finder(request['s'], request['t'], int(request['k']), int(request['maxlen']))
             return {'paths': result}
         if request['action'] == 'reload':
             reload()

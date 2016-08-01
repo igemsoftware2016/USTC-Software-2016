@@ -26,4 +26,5 @@ app.register_blueprint(plugin, url_prefix='/plugin')
 
 from plugin import plugin_manager
 
-plugin_manager.load_plugin('plugins')
+with app.app_context():
+    plugin_manager.load_plugin('plugins')
