@@ -1,3 +1,6 @@
+#!/usr/bin/env/python3
+# encoding=utf-8
+
 import urllib.parse
 import urllib.request
 
@@ -6,10 +9,14 @@ import re
 from bs4 import BeautifulSoup
 
 
-keyword=input("keywords is?\n")
-print(keyword)
+keyword1=input("keywords1 is?\n")
+print(keyword1)
 
-url='https://scholar.google.com/scholar?&hl=en&q='+keyword+'&btnG=&lr='
+keyword2=input("keywords2 is?\n")
+print(keyword2)
+
+
+url='https://scholar.google.com/scholar?&hl=en&q='+keyword1+'+'+keyword2+'&btnG=&lr='
 header_dict={'Host': 'scholar.google.com',
              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:47.0) Gecko/20100101 Firefox/47.0',
              'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -69,7 +76,7 @@ start=0
 start+=10
 
     
-url='https://scholar.google.com/scholar?start='+str(start)+'&hl=en&q='+keyword+'234&btnG=&lr='
+url='https://scholar.google.com/scholar?start='+str(start)+'&hl=en&q='+keyword1+'+'+keyword2+'234&btnG=&lr='
 req = urllib.request.Request(url=url,headers=header_dict)            
 response = urllib.request.urlopen(req,timeout=120)
 
