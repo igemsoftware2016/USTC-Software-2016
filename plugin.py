@@ -76,8 +76,7 @@ class Documents:
         self.document_table = table
 
     def get(self, pid):
-        pdoc = session.query(self.document_table).filter(self.document_table.id == pid).first()
-        return pdoc
+        return session.query(self.document_table).get(pid)
 
     def create(self, pdoc: PluginDocument):
         session.add(pdoc)
@@ -92,8 +91,8 @@ class Documents:
         session.commit()
 
     def delete(self, pdoc: PluginDocument):
-        doc = session.query(Document).filter(Document.plugin_name == self.plugin.name
-                                             and Document.plugin_document_id == pdoc.id).first()
+        doc = session.query(Document).filter(Document.plugin_name == self.plugin.name,
+                                             Document.plugin_document_id == pdoc.id).one()
         session.delete(doc)
         session.delete(pdoc)
         session.commit()
