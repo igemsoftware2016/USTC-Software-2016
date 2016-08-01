@@ -2,17 +2,18 @@
 # encoding=utf-8
 from queue import Queue, PriorityQueue
 from datetime import *
-from database import DBSession
+from database import session
 from models import Node, Link
+from plugin import Plugin
 
-inf = 100
+inf = 20
 Graph = {}
 dis = {}
 node_count = 0
 
 
 class State:
-    def __init__(self, f, g, cur, prepath):    # f is the distance to src, g is the distance to dst
+    def __init__(self, f, g, cur, prepath):  # f is the distance to src, g is the distance to dst
         self.f = f
         self.g = g
         self.cur = cur
@@ -49,7 +50,7 @@ def a_star(src, dst, pathnum):
     cnt = 0
 
     time_monitor = datetime.now()
-    if dis[src] == inf:    # if there's no path from src to dst
+    if dis[src] == inf:  # if there's no path from src to dst
         yield "None"
         return
     p_queue.put(State(dis[src], 0, src, [src]))
@@ -69,23 +70,22 @@ def a_star(src, dst, pathnum):
             return
 
 
-def reload():    # reload data from database
-    session = DBSession()
+def reload():  # reload data from database
     global node_count, Graph
 
     # construct the graph
     for node in session.query(Node).all():
-        Graph[node.node_id] = []    # Graph[v] is a list containing the adjacent vertexes of v
+        Graph[node.node_id] = []  # Graph[v] is a list containing the adjacent vertexes of v
     for link in session.query(Link).all():
         if link.node_b_id not in Graph[link.node_a_id]:
-            Graph[link.node_a_id].append(link.node_b_id)    # add link.node_b_id as a adjvex of node_a_id
+            Graph[link.node_a_id].append(link.node_b_id)  # add link.node_b_id as a adjvex of node_a_id
         if link.node_a_id not in Graph[link.node_b_id]:
-            Graph[link.node_b_id].append(link.node_a_id)    # and vice versa
+            Graph[link.node_b_id].append(link.node_a_id)  # and vice versa
 
 
-def path_finder(s, t, k, maxlen):    # s:starting point, t:terminal point, k:number of paths required
+def path_finder(s, t, k, maxlen):  # s:starting point, t:terminal point, k:number of paths required
     calcu_dis(t, node_count, maxlen)
-    path_list = []    # contain the found paths
+    path_list = []  # contain the found paths
     for p in a_star(s, t, k):
         if p == "None" or p == "Timeout":
             break
@@ -94,7 +94,28 @@ def path_finder(s, t, k, maxlen):    # s:starting point, t:terminal point, k:num
     return path_list
 
 
-reload()
+# print(path_finder("ECK120011235", "ECK120000311", 5, 5))
 
 
-print(path_finder("ECK120011235", "ECK120000311", 5, 5))
+class Path_Finder(Plugin):
+    def __init__(self):
+        super().__init__()
+        self.name = 'path_finder'
+        reload()
+
+    def process(self, request):
+        print(request)
+        if request['action'] == 'path_finder':
+            result = path_finder(request['s'], request['t'], request['k'])
+            return {'paths': result}
+        if request['action'] == 'reload':
+            reload()
+            return {}
+        else:
+            return {'success': False, 'reason': 'unknown action: ' + request['action']}
+
+    def unload(self):
+        pass
+
+
+__plugin__ = Path_Finder()

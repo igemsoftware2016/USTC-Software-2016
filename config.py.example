@@ -1,1 +1,8 @@
-DATABASE_URI = 'mysql://igem:goldmedal@igem.sqrt-1.me/igem'
+# cp config.py.example config.py
+# then replace the 'password' with the actual one.
+# DO NOT enter the password into config.py.example
+
+DATABASE_URI = 'mysql://igem:password@igem.sqrt-1.me/igem'
+#                            ^^^^^^^^
+
+SECRET_KEY = 'develop_key'

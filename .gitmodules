@@ -1,0 +1,3 @@
+[submodule "app/static"]
+	path = app/static
+	url = git@git.ustclug.org:igem2016/USTC-software-UI.git
