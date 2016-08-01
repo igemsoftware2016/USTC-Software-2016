@@ -1,6 +1,7 @@
 from sqlalchemy.exc import IntegrityError, InvalidRequestError
 from database import *
 from progressbar import *
+from dbprofile import *
 import time
 
 
@@ -74,10 +75,15 @@ def upload(path, commit, column_num, cache_size=100000, echo=False, log=False):
             if line == '':
                 continue
             temp = line.split('\t')
+
             if len(temp) != column_num:
-                print("In " + path + " row ", num, ", data missed or duplicated.")
-                if log:
-                    logf.write(time.asctime(time.localtime(time.time())) + ':' + "In " + path + " row " + str(num)
+                if commit == bsid_commit and len(temp) == 7:
+                    temp.append('')
+                    res.append(temp)
+                else:
+                    print("In " + path + " row ", num, ", data missed or duplicated.")
+                    if log:
+                        logf.write(time.asctime(time.localtime(time.time())) + ':' + "In " + path + " row " + str(num)
                             + ", data missed or duplicated." + '\n')
             else:
                 res.append(temp)

@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Text, Integer, Date, String
 from database import TableBase
+from __init__ import *
 
 
 # Define database file error exception
@@ -190,12 +191,10 @@ def biosys_init(oneline):
     except ValueError:
         return None
 
-    new_biosys = BioSys(
+    BioSys(
         biosystem_ID=''.join(oneline[0]),
         gene_ID=''.join(oneline[1]),
         score=score_int)
-
-    return new_biosys
 
 
 def biosys_commit(e_e, res, num):
@@ -222,4 +221,62 @@ def biosys_commit(e_e, res, num):
               gene_ID=res[i][1],
               score=score_int[i])
          for i in range(len(res))]
+    )
+
+
+# ==============bsid_info====================
+class BsID(TableBase):
+    __tablename__ = 'bsidinfo'
+
+    bsid = Column(String(20), primary_key=True)
+    source = Column(Text)
+    id_in_db = Column(Text)
+    name_in_db = Column(Text)
+    category = Column(Text)
+    organism_specific = Column(Text)
+    tax_id = Column(Text)
+    description = Column(Text)
+
+
+def bsid_commit(e_e, res, num):
+    if len(res) == 0:
+        return None
+
+    e_e(
+        BsID.__table__.insert(),
+        [dict(bsid=res[i][0].encode('utf-8'),
+              source=res[i][1].encode('utf-8'),
+              id_in_db=res[i][2].encode('utf-8'),
+              name_in_db=res[i][3].encode('utf-8'),
+              category=res[i][4].encode('utf-8'),
+              organism_specific=res[i][5].encode('utf-8'),
+              tax_id=res[i][6].encode('utf-8'),
+              description=res[i][7].encode('utf-8'))
+         for i in range(len(res))
+         ]
+    )
+
+
+# ===============Link===========================
+def link_commit(e_e, res, num):
+
+    e_e(
+        Link.__table__.insert(),
+        [
+            dict(node_a_id=oneline[1],
+                 node_b_id=oneline[2])
+            for oneline in res
+        ]
+    )
+
+
+# ==============Node=============================
+def node_commit(e_e, res, num):
+
+    e_e(
+        Node.__table__.insert(),
+        [
+            dict(node_id=oneline[0])
+            for oneline in res
+        ]
     )
