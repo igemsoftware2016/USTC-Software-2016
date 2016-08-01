@@ -38,30 +38,12 @@ class PluginManager:
     def load_plugin(self, name, reload=False):
         if name in self.plugins:
             if reload:
-                try:
-                    self.modules[name] = importlib.reload(self.modules[name])
-                    self.plugins[name] = self.modules[name].__plugin__
-                except:
-                    pass
+                self.modules[name] = importlib.reload(self.modules[name])
+                self.plugins[name] = self.modules[name].__plugin__
             return self.plugins[name]
-        try:
-            self.modules[name] = importlib.import_module(self.plugin_directory + '.' + name)
-            self.plugins[name] = self.modules[name].__plugin__
-        except:
-            return None
+        self.modules[name] = importlib.import_module(self.plugin_directory + '.' + name)
+        self.plugins[name] = self.modules[name].__plugin__
         return self.plugins[name]
-
-    def unload_plugin(self, name, force=False):
-        if name in self.plugins:
-            try:
-                result = self.plugins[name].unload()
-            except:
-                result = False
-            if result or force:
-                del self.plugins[name]
-                del self.modules[name]
-                return True
-        return False
 
     def get_plugins(self):
         return self.plugins
