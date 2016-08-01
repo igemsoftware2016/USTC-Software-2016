@@ -27,16 +27,7 @@ class State:
             return self.f < x.f
 
 
-def relax(u, v, c):
-    global dis
-    if dis[v] > dis[u] + c:
-        dis[v] = dis[u] + c
-        return True
-    else:
-        return False
-
-
-def calcu_dis(dst, n):
+def calcu_dis(dst, n, maxlen):
     global dis
     dis = [inf for i in range(n)]
     visited = [False for i in range(n)]
@@ -47,10 +38,13 @@ def calcu_dis(dst, n):
     queue.put(dst)
     while not queue.empty():
         u = queue.get()
+        # visited[u] = False
         for v in Graph[u]:
-            if not visited[v] and relax(u, v, 1):
-                visited[v] = True
-                queue.put(v)
+            if not visited[v] and dis[v] > dis[u] + 1:
+                dis[v] = dis[u] + 1
+                if dis[v] < maxlen:
+                    visited[v] = True
+                    queue.put(v)
 
 
 def a_star(src, dst, pathnum):
@@ -103,15 +97,22 @@ def reload():  # reload data from database
 #        Graph[node_pool[link.node_b_id]].append(node_pool[link.node_a_id])
 
 
+<<<<<<< HEAD
+def path_finder(s, t, k, maxlen, rebuild=False):    # s:starting point, t:terminal point, k:number of paths required
+    time_list = {}
+    if rebuild:    # if it is needed to rebuild the Graph
+=======
 def path_finder(s, t, k, rebuild=False):  # s:starting point, t:terminal point, k:number of paths required
     time_list = {}
     time_list['start_time'] = datetime.now()
     if rebuild:  # if it is needed to rebuild the Graph
+>>>>>>> origin/zyx
         reload()
         time_list['reload_time'] = datetime.now()
     s = node_pool[s]
     t = node_pool[t]
-    calcu_dis(t, node_count)
+    time_list['start_time'] = datetime.now()
+    calcu_dis(t, node_count, maxlen)
     time_list['calcudis_time'] = datetime.now()
     path_list = []  # contain the found paths
     for p in a_star(s, t, k):
@@ -136,4 +137,4 @@ for p in a_star(1, 5, 2):
     print(p)
 '''
 
-# print(path_finder("ECK120011235", "ECK120000311", 3, True))
+# print(path_finder("ECK120011235", "ECK120000311", 5, 5, False))
