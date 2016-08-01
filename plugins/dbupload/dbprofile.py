@@ -244,15 +244,16 @@ def bsid_commit(e_e, res, num):
 
     e_e(
         BsID.__table__.insert(),
-        [dict(bsid=res[i][0],
-              source=res[i][1],
-              id_in_db=res[i][2],
-              name_in_db=res[i][3],
-              category=res[i][4],
-              organism_specific=res[i][5],
-              tax_id=res[i][6],
-              description=res[i][7])
-         for i in range(len(res))]
+        [dict(bsid=res[i][0].encode('utf-8'),
+              source=res[i][1].encode('utf-8'),
+              id_in_db=res[i][2].encode('utf-8'),
+              name_in_db=res[i][3].encode('utf-8'),
+              category=res[i][4].encode('utf-8'),
+              organism_specific=res[i][5].encode('utf-8'),
+              tax_id=res[i][6].encode('utf-8'),
+              description=res[i][7].encode('utf-8'))
+         for i in range(len(res))
+         ]
     )
 
 
