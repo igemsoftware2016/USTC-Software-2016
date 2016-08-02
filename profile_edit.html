@@ -72,6 +72,7 @@
             height: 0;
             border-top: 1px solid rgba(0, 0, 0, 0.1);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            visibility: hidden;
         }
 
     </style>
@@ -80,7 +81,7 @@
 <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
     <header class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
         <div class="mdl-layout__header-row">
-            <span class="mdl-layout-title">Profile</span>
+            <span class="mdl-layout-title">Profile manage</span>
             <div class="mdl-layout-spacer"></div>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
                 <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
@@ -135,39 +136,57 @@
 
             <div class="demo-graphs mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--12-col">
                 <div align="center">
-                    <div id="user_profile_view">
+                    <form id="user_profile_edit">
                         <img  class="demo-avatar-big" src="img/pjer.jpg" >
                         <hr class="style14">
-                        <div class="mgtp txtSize mdl-cell--9-col mdl-card__title-text" align="left">
-                            <div class="txtSize mdl-cell--3-col mdl-card__title-text mdl-color-text--teal-A700" style="align-items: center">Name</div>
-                            <div id="user_name" class="txtSize mdl-cell--9-col mdl-card__title-text">name</div>
+                        <div class="mgtp txtSize mdl-cell--9-col" align="left">
+                            <div class="txtSize mdl-cell--3-col mdl-color-text--teal-A700" style="align-items: center">Name</div>
+                            <div class="mdl-cell--8-col mdl-textfield mdl-js-textfield">
+                                <input class="mdl-textfield__input" type="text" id="user_name">
+                                <label class="mdl-textfield__label" for="user_name">Peter</label>
+                            </div>
                         </div>
                         <hr class="gap mdl-cell--9-col">
-                        <div class="mgtp txtSize mdl-cell--9-col mdl-card__title-text" align="left">
-                            <div class="txtSize mdl-cell--3-col mdl-card__title-text mdl-color-text--teal-A700" style="align-items: center">Email</div>
-                            <div id="user_email" class="txtSize mdl-cell--9-col mdl-card__title-text">xxxxx@xxx.xxx.xx</div>
+                        <div class="mgtp txtSize mdl-cell--9-col" align="left">
+                            <div class="txtSize mdl-cell--3-col mdl-color-text--teal-A700" style="align-items: center">Email</div>
+                            <div class="mdl-cell--8-col mdl-textfield mdl-js-textfield">
+                                <input class="mdl-textfield__input" type="email" id="email">
+                                <label class="mdl-textfield__label" for="email">xxxxx@xxx.xxx.xx</label>
+                                <span class="mdl-textfield__error">Wrong format for email</span>
+                            </div>
                         </div>
                         <hr class="gap mdl-cell--9-col">
-                        <div class="mgtp txtSize mdl-cell--9-col mdl-card__title-text" align="left">
-                            <div class="txtSize mdl-cell--3-col mdl-card__title-text mdl-color-text--teal-A700" style="align-items: center">Education</div>
-                            <div id="user_edu" class="txtSize mdl-cell--9-col mdl-card__title-text">study in university of XXX during xxx-xxx and study in xxx during</div>
+
+                        <div class="mgtp txtSize mdl-cell--9-col" align="left">
+                            <div class="txtSize mdl-cell--3-col mdl-color-text--teal-A700" style="align-items: center">Education</div>
+                            <div class=" mdl-cell--8-col mdl-textfield mdl-js-textfield">
+                                <textarea class="mdl-textfield__input" type="text" rows= "3" id="edu" ></textarea>
+                                <label class="mdl-textfield__label" for="edu">study in university of XXX during xxx-xxx and study in xxx during</label>
+                            </div>
                         </div>
                         <hr class="gap mdl-cell--9-col">
-                        <div class="mgtp txtSize mdl-cell--9-col mdl-card__title-text" align="left">
-                            <div class="txtSize mdl-cell--3-col mdl-card__title-text mdl-color-text--teal-A700" style="align-items: center">Major in</div>
-                            <div id="major" class="txtSize mdl-cell--9-col mdl-card__title-text">space and planetary physics</div>
+                        <div class="mgtp txtSize mdl-cell--9-col" align="left">
+                            <div class="txtSize mdl-cell--3-col mdl-color-text--teal-A700" style="align-items: center">Major in</div>
+                            <div class=" mdl-cell--8-col mdl-textfield mdl-js-textfield">
+                                <textarea class="mdl-textfield__input" type="text" rows= "3" id="major" ></textarea>
+                                <label class="mdl-textfield__label" for="major">space and planetary physics</label>
+                            </div>
                         </div>
                         <hr class="gap mdl-cell--9-col">
-                        <div class="mgtp txtSize mdl-cell--9-col mdl-card__title-text" align="left">
-                            <div class="txtSize mdl-cell--3-col mdl-card__title-text mdl-color-text--teal-A700" style="align-items: center">Description</div>
-                            <div id="description" class="txtSize mdl-cell--9-col mdl-card__title-text">publish</div>
+                        <div class="mgtp txtSize mdl-cell--9-col" align="left">
+                            <div class="txtSize mdl-cell--3-col mdl-color-text--teal-A700" style="align-items: center">Description</div>
+                            <div class=" mdl-cell--8-col mdl-textfield mdl-js-textfield">
+                                <textarea class="mdl-textfield__input" type="text" rows= "3" id="describe" ></textarea>
+                                <label class="mdl-textfield__label" for="describe">publish on Nature and involve in iGEM</label>
+                            </div>
                         </div>
-                    </div>
+                    </form>
+
                     <div class="mdl-cell--9-col" align="right" style="margin-top: 40px">
 
-                        <a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" href="profile_edit.html">
-                            Edit
-                        </a>
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                            submit
+                        </button>
                     </div>
                 </div>
             </div>
