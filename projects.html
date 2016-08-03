@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BioHub</title>
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" href="images/logo.ico">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="BioHub">
+    <link rel="apple-touch-icon-precomposed" href="images/logo.ico">
+
+    <link rel="shortcut icon" href="images/logo.ico">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/material.min.css">
+    <link rel="stylesheet" href="css/material-lite.css">
+
+    <script src="js/material.min.js"></script>
+    <style>
+      .demo-avatar {
+        width: 64px;
+        height: 64px;
+        border-radius: 32px;
+      }
+      .demo-card-square.mdl-card {
+        width: 320px;
+        height: 320px;
+        float: left;
+        margin: 10px;
+        position: relative;
+      }
+      .demo-card-square.mdl-card:hover {
+        box-shadow: 0 4px 8px 1px rgba(0, 0, 0, .16), 0 4px 8px 1px rgba(0, 0, 0, .16), 0 4px 8px 1px rgba(0, 0, 0, .1);
+      }
+      .demo-card-square>.mdl-card__supporting-text {
+        font-size: 16px;
+        color: black;
+      }
+      .mdl-mini-footer {
+          padding-left: 32px;
+          padding-right: 32px;
+          height: 32px;
+      }
+    </style>
+</head>
+<body>
+<div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+    <header class="demo-header mdl-layout__header mdl-color--green-A700 mdl-color-text--white">
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title">Projects</span>
+            <div class="mdl-layout-spacer"></div>
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="contact_dropdown">
+                <i class="material-icons">more_horiz</i>
+            </button>
+            <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="contact_dropdown">
+                <li class="mdl-menu__item">About BioHub</li>
+                <li class="mdl-menu__item">About us</li>
+            </ul>
+        </div>
+    </header>
+    <div class="demo-drawer mdl-layout__drawer mdl-color--green-A700 mdl-color-text--white">
+        <header class="demo-drawer-header">
+            <img src="img/logo.png" class="demo-avatar">
+            <div class="demo-avatar-dropdown">
+                <span style="font-size: 16px">smg@smg.com</span>
+                <div class="mdl-layout-spacer"></div>
+                <button id="account_dropdown" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+                    <i class="material-icons" role="presentation">arrow_drop_down</i>
+                </button>
+                <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="account_dropdown">
+                    <li class="mdl-menu__item">view my profile</li>
+                    <li class="mdl-menu__item">login as another user</li>
+                </ul>
+            </div>
+        </header>
+        <nav class="demo-navigation mdl-navigation mdl-color--white" >
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href=""><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">home</i>Home</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href=""><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">assignment</i>Projects</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href=""><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">group</i>Groups</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href=""><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">build</i>Tools</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href=""><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">link</i>Plugins</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href=""><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">search</i>Search</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href=""><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">phone</i>Contact us</a>
+        </nav>
+    </div>
+    <main class="mdl-layout__content mdl-color--grey-100">
+        <div class="mdl-grid demo-content">
+          <div id="project" class="mdl-shadow--4dp mdl-color--white ">
+            <script type="text/javascript">
+            function createcard() {  
+            for (var i=0;i<=5;i++) {   
+              var card=document.createElement("div");
+              card.className="mdl-card demo-card-square mdl-shadow--4dp";
+              
+              var card_title=document.createElement("div");
+              card_title.style.background="url(img/logo.ico) no-repeat center";
+              card_title.style.height="180px";
+              card_title.className="mdl-card__title mdl-card--expand";
+              componentHandler.upgradeElement(card_title);
+              card.appendChild(card_title);
+              
+              var card_text=document.createElement("div");
+              card_text.className="mdl-card__supporting-text";
+              var textNode1=document.createTextNode("content");
+              card_text.appendChild(textNode1);
+              componentHandler.upgradeElement(card_text);
+              card.appendChild(card_text);
+
+              var card_action=document.createElement("div");
+              card_action.className="mdl-card__actions mdl-card--border";
+              var action_edit=document.createElement("a");
+              action_edit.style.float="left";
+              action_edit.className="mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect";
+              var textNode2=document.createTextNode("EDIT");
+              action_edit.appendChild(textNode2);
+              componentHandler.upgradeElement(action_edit);
+              card_action.appendChild(action_edit);
+              var action_more=document.createElement("div");
+              action_more.style.float="right";
+              action_more.className="mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect";
+              var textNode3=document.createTextNode("MORE");
+              action_more.appendChild(textNode3);
+              componentHandler.upgradeElement(action_more);
+              card_action.appendChild(action_more);
+              card.appendChild(card_action);
+
+              componentHandler.upgradeElement(card);
+              document.getElementById("project").appendChild(card);
+            }
+            }
+            createcard();
+            </script>
+          </div>
+        </div>
+        <footer class="mdl-mini-footer">
+          <div class="mdl-mini-footer__left-section">
+            <div class="mdl-logo">
+              BioHub
+            </div>
+            <ul class="mdl-mini-footer__link-list">
+              <li><a href="#">Help</a></li>
+              <li><a href="#">View Our Wiki</a></li>
+            </ul>
+          </div>
+          <div class="mdl-mini-footer__right-section">
+            <span class="demo-copyright"><i class="material-icons">copyright</i>&nbsp;2016 USTC-Software</span>
+          </div>
+        </footer>  
+      </main>
+    </div>
+</body>
+</html>
