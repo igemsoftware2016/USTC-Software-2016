@@ -2,6 +2,27 @@ from plugin import Plugin
 
 from database import TableBase, Column, ForeignKey, \
     Integer, INTEGER, TINYINT, VARCHAR, LONGTEXT, DATE, DATETIME, TEXT, BINARY, DOUBLE
+from database import session
+
+
+class BioBrickSeq(TableBase):
+    __tablename__ = 'parts_seq_features'
+
+    feature_id = Column(INTEGER(11), primary_key=True)
+    feature_type = Column(VARCHAR(200))
+    start_pos = Column(INTEGER(11))
+    end_pos = Column(INTEGER(11))
+    label = Column(VARCHAR(200))
+    part_id = Column(INTEGER(11), ForeignKey('parts.part_id'))
+    type = Column(VARCHAR(200))
+    label2 = Column(VARCHAR(200))
+    mark = Column(INTEGER(11))
+    old = Column(INTEGER(11))
+    reverse = Column(INTEGER(11))
+
+    def __set_by_kwargs__(self, **kwargs):
+        for k, v in kwargs.items():
+            setattr(self, k, v)
 
 
 class Biobrick(TableBase):
@@ -63,6 +84,26 @@ class Biobrick(TableBase):
     title = part_name
     last_modified = m_datetime
 
+    def __set_by_kwargs__(self, **kwargs):
+        for k, v in kwargs.items():
+            setattr(self, k, v)
+
+    def __get_info__(self):
+        values = {}
+        for k in dir(self):
+            if k.startswith('_'):
+                continue
+            values[k] = getattr(self, k)
+        seqs = []
+        for seq in session.query(BioBrickSeq).filter(BioBrickSeq.part_id == self):
+            seqs.append({})
+            for k in dir(seq):
+                if k.startswith('_'):
+                    continue
+                seqs[-1][k] = getattr(seq, k)
+        values['seqs'] = seqs
+        return values
+
 
 class BiobrickManager(Plugin):
     def __init__(self):
@@ -74,15 +115,19 @@ class BiobrickManager(Plugin):
     def process(self, request):
         if request['action'] == 'new':
             doc = Biobrick()
-            for k, v in request['values'].items():
-                setattr(doc, k, v)
+            doc.__set_by_kwargs__(**request['values'])
             self.documents.create(doc)
             return {'id': doc.id}
-        elif request['action'] == 'edit':
+        elif request['action'] == 'basic_edit':
             doc = self.documents.get(request['id'])
-            for k, v in request['values'].items():
-                setattr(doc, k, v)
+            doc.__set_by_kwargs__(**request['values'])
             self.documents.update(doc)
+            return {}
+        elif request['action'] == 'seq_edit':
+            seq = session.query(BioBrickSeq).get(request['id'])
+            seq.__set_by_kwargs__(**request['values'])
+            session.add(seq)
+            session.commit()
             return {}
         elif request['action'] == 'delete':
             # doc = self.documents.get(request['id'])
@@ -90,12 +135,12 @@ class BiobrickManager(Plugin):
             raise NotImplementedError('delete not supported')
         elif request['action'] == 'get':
             doc = self.documents.get(request['id'])
-            values = {}
-            for k in dir(doc):
-                if k.startswith('_'):
-                    continue
-                values[k] = getattr(doc, k)
-            return {'values': values}
+            return {'values': repr(doc.__get_info__())}
+        elif request['action'] == 'search':
+            # FIXME: [wzb@08-04]
+            filter_str = 'concat(part_name, short_desc, description, notes) like "%%%s%%"' % request['key']
+            q = session.query(Biobrick).filter(filter_str)
+            return {'list': repr(list(map(Biobrick.__get_info__, q)))}
         else:
             raise ValueError('unknown action: ' + request['action'])
 
