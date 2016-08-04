@@ -1,6 +1,7 @@
 from config import DATABASE_URI
 
 from sqlalchemy import *
+from sqlalchemy.dialects.mysql import *
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 import sys
