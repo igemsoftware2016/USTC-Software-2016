@@ -19,6 +19,13 @@ eg:
 {'error','a1'}
 ```
 
+
+## 所用到的轮子
+D3.js  v3
+material.min.css    v1.1.3
+materialize         0.97.7
+
+
 ## 接口文档
 ### plugin:user_module
 用户模型-属性
