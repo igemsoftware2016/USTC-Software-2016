@@ -19,6 +19,7 @@ $.fn.serializeObject = function()
 function postForm(){
     var formData = JSON.stringify($('form').serializeObject());
     var  dictPost  =  [{"plugin":"user_model"},{"action":"validate_login"},{"data":formData}];
+    console.log(dictPost);
     $.ajax({
         type: "POST",
         url: "/plugin",
@@ -26,7 +27,6 @@ function postForm(){
         success: function(response){
             console.log(response);
             if(response['error'] == 'a1'){
-
                 Materialize.toast('Account or Password Error', 3000, 'rounded');
             }
         },
@@ -38,6 +38,7 @@ function postForm(){
 function postForm_sign_up(){
     var formData = JSON.stringify($('form').serializeObject());
     var  dictPost  =  [{"plugin":"user_model"},{"action":"create_user"},{"data":formData}];
+    console.log(dictPost);
     $.ajax({
         type: "POST",
         url: "/plugin",

@@ -21,16 +21,16 @@ eg:
 
 
 ## 所用到的轮子
-D3.js  v3
-material.min.css    v1.1.3
-materialize         0.97.7
+D3.js  v3  
+material.min.css    v1.1.3  
+materialize         0.97.7  
 
 
 ## 接口文档
 ### plugin:user_module
 用户模型-属性
-face:base64
-name:str
+face:base64  
+name:str  
 email:str(key)
 education:str
 major:str
@@ -49,4 +49,7 @@ json:[{"plugin":"user_model"},{"action":"get_profile"},{"data":user_id}]
 #### 修改个人信息  
 post_url:/plugin  
 json:[{"plugin":"user_model"},{"action":"edit_profile"},{"data":profile_form}]  
+### 修改头像
+post_url:/plugin  
+json:[{"plugin":"user_model"},{"action":"head_change"},{"data":base64 image}]  
 

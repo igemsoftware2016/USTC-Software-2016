@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" class="mdl-js">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
+    <title>Pano</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet">
+
+    <!-- CSS -->
+    <!--
+    <link href="css/bootstrap.min.css" type="text/css" rel="stylesheet" />-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css"  href="css/materialize.css" media="screen,projection">
+
+    <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection">
+    <!--<link rel="stylesheet" href="css/material-lite.css">-->
+    <!-- JS -->
+    <!--
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/tether.min.js"></script>
+    -->
+    <script src="js/jquery-2.1.1.min.js"></script>
+    <script src="js/materialize.min.js"></script>
+    <script src="js/d3.v3.min.js"></script>
+
+    <!--<script src="js/index.js"> </script>-->
+
+    <style>
+        /*for sub-FABs using only*/
+        .green-A300 {
+          background-color: rgb(0,235,146) !important; }
+
+        .green-A500 {
+          background-color: rgb(0,220,106) !important; }
+
+        .green-A600 {
+          background-color: rgb(0,210,95) !important; }
+
+        .materialize-textarea {
+          border-bottom-color:#ffffff !important;}
+    </style>
+</head>
+
+<body class="green accent-2">
+    <!-- navbar -->
+    <nav class="green accent-3">
+        <div class="nav-wrapper">
+            <a href="#" style="padding-left:0.5em" class="brand-logo left">BioHub</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="#" class="waves-effect" >User Status</a></li>
+                <li><a href="#" class="waves-effect" >User Name</a></li>
+                <li><img src="images/logo.ico" alt="logo" class="circle" style="width:4em;padding:0.5em"></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="row" id="main-wrapper">
+        <div class="col s2" style="height:100%">
+            <div class="card green accent-3" style="height:100%;overflow:hidden">
+                <div class="card-title green accent-4 white-text center-align">Elements</div>
+                <div>
+                    <ul id="workspace-side" class="collapsible" data-collapsible="expandable">
+                        <li>
+                            <div class="collapsible-header green accent-3 waves-effect">
+                                <div class="white-text">gene</div>
+                            </div>
+                            <div class="collapsible-body">
+                                <div class="collection">
+                                    <a class="collection-item" href="#">gene1</a>
+                                    <a class="collection-item" href="#">gene2</a>
+                                    <a class="collection-item" href="#">gene3</a>
+                                    <a class="collection-item" href="#">gene4</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collapsible-header green accent-3 waves-effect">
+                                <div class="white-text">gRNA</div>
+                            </div>
+                            <div class="collapsible-body">
+                                <div class="collection">
+                                    <a class="collection-item" href="#">gRNA1</a>
+                                    <a class="collection-item" href="#">gRNA2</a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col s10" style="height:100%">
+            <div class="card green accent-4" id="image-wrapper" style="height:100%">
+                <div style="width:100%;height:100%" id="image"></div>
+            </div>
+        </div>
+    </div>
+
+	<!-- Toolbox -->
+    <div class="fixed-action-btn horizontal click-to-toggle" style="bottom: 45px; right: 24px;">
+        <a class="btn-floating btn-large tooltipped green accent-4 waves-effect" data-position="top" data-delay="50" data-tooltip="Toolbox">
+          <i class="material-icons">menu</i>
+        </a>
+        <ul>
+          <!--If you wanna add a new sub-btn please add it THERE with a lighter color. Icons need to be modified.-->
+          <li><a class="btn-floating tooltipped modal-trigger green-A300 waves-effect" data-position="top" data-delay="50" data-tooltip="BLAST" href="#modal_blast"><i class="material-icons">insert_chart</i></a>
+          </li>
+          <li><a class="btn-floating tooltipped modal-trigger green accent-3 waves-effect" data-position="top" data-delay="50" data-tooltip="tool"><i class="material-icons">format_quote</i></a></li>
+          <li><a class="btn-floating tooltipped modal-trigger green-A500 waves-effect" data-position="top" data-delay="50" data-tooltip="tool"><i class="material-icons">publish</i></a></li>
+          <li><a class="btn-floating tooltipped modal-trigger green-A600 waves-effect" data-position="top" data-delay="50" data-tooltip="tool"><i class="material-icons">attach_file</i></a></li>
+        </ul>
+      </div>
+    <div id="modal_blast" class="modal modal-fixed-footer green accent=4">
+      <div class="modal-content">
+        <h4 class="white-text" style="text-align:left;">BLAST</h4>
+        <button class="waves-effect waves-light white-text btn-flat" style="float:right;" onclick="postForm_DNA()">BLAST!</button>
+        <div>
+          <p class="white-text" style="text-align:left; padding:5px;">
+              Input DNA Sequence:
+          </p>
+        </div>
+        <div  class="row">
+          <form id="blast" class="col s12">
+            <div class="input-field col s12">
+                <textarea id="DNA_Seq" class="materialize-textarea"></textarea>
+                <label for="DNA_Seq" class="white-text">DNA Sequence:</label>
+            </div>
+          </form>
+        </div>
+        <div class="green accent-3 white-text">
+              <p  class="white-text" style="text-align:left;">Error Value:</p> 
+        </div>
+        <div class="green accent-3 white-text">
+              <p  class="white-text" style="text-align:left;">Results:</p>  
+        </div>
+      </div>  
+      <div class="modal-footer green accent=4">
+        <button id="close_btn" type="button" class="modal-action white-text waves-effect modal-close btn-flat" style="float:right">Close</button>
+      </div>
+    </div>    
+
+    <!-- TODO -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true">×
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        Add Node
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    properties:Proteins (/ˈproʊˌtiːnz/ or /ˈproʊti.ᵻnz/) are large biomolecules, or macromolecules, consisting of one or more long chains of amino acid residues. Proteins perform a vast array of functions within living organisms, including catalysing metabolic reactions, DNA replication, responding to stimuli, and transporting molecules from one location to another. Proteins differ from one another primarily in their sequence of amino acids, which is dictated by the nucleotide sequence of their genes, and which usually results in protein folding into a specific three-dimensional structure that determines its activity.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button id="addSth" type="button" class="btn btn-primary">
+                        Add
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+    <script>
+    $(document).ready(function(){
+    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+    $('.modal-trigger').leanModal();
+    });
+	  </script>
+
+</body>
+</html>

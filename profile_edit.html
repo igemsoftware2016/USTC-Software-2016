@@ -237,8 +237,6 @@
 
 
 
-
-
                     <dialog class="mdl-dialog" id="upload_img" style="width: 500px">
                         <div class="mdl-dialog__content" style="width: 400px">
                             <div class="container">
@@ -276,7 +274,7 @@
                         <div class="mgtp txtSize mdl-cell--9-col" align="left">
                             <div class="txtSize mdl-cell--3-col mdl-color-text--teal-A700" style="align-items: center">Name</div>
                             <div class="mdl-cell--8-col mdl-textfield mdl-js-textfield">
-                                <input class="mdl-textfield__input" type="text" id="user_name">
+                                <input class="mdl-textfield__input" type="text" id="user_name" name="user_name">
                                 <label class="mdl-textfield__label" for="user_name">Peter</label>
                             </div>
                         </div>
@@ -284,7 +282,7 @@
                         <div class="mgtp txtSize mdl-cell--9-col" align="left">
                             <div class="txtSize mdl-cell--3-col mdl-color-text--teal-A700" style="align-items: center">Email</div>
                             <div class="mdl-cell--8-col mdl-textfield mdl-js-textfield">
-                                <input class="mdl-textfield__input" type="email" id="email">
+                                <input class="mdl-textfield__input" type="email" id="email" name="email">
                                 <label class="mdl-textfield__label" for="email">xxxxx@xxx.xxx.xx</label>
                                 <span class="mdl-textfield__error">Wrong format for email</span>
                             </div>
@@ -294,7 +292,7 @@
                         <div class="mgtp txtSize mdl-cell--9-col" align="left">
                             <div class="txtSize mdl-cell--3-col mdl-color-text--teal-A700" style="align-items: center">Education</div>
                             <div class=" mdl-cell--8-col mdl-textfield mdl-js-textfield">
-                                <textarea class="mdl-textfield__input" type="text" rows= "3" id="edu" ></textarea>
+                                <textarea class="mdl-textfield__input" type="text" rows= "3" id="edu" name="edu"></textarea>
                                 <label class="mdl-textfield__label" for="edu">study in university of XXX during xxx-xxx and study in xxx during</label>
                             </div>
                         </div>
@@ -302,7 +300,7 @@
                         <div class="mgtp txtSize mdl-cell--9-col" align="left">
                             <div class="txtSize mdl-cell--3-col mdl-color-text--teal-A700" style="align-items: center">Major in</div>
                             <div class=" mdl-cell--8-col mdl-textfield mdl-js-textfield">
-                                <textarea class="mdl-textfield__input" type="text" rows= "3" id="major" ></textarea>
+                                <textarea class="mdl-textfield__input" type="text" rows= "3" id="major" name="major"></textarea>
                                 <label class="mdl-textfield__label" for="major">space and planetary physics</label>
                             </div>
                         </div>
@@ -310,7 +308,7 @@
                         <div class="mgtp txtSize mdl-cell--9-col" align="left">
                             <div class="txtSize mdl-cell--3-col mdl-color-text--teal-A700" style="align-items: center">Description</div>
                             <div class=" mdl-cell--8-col mdl-textfield mdl-js-textfield">
-                                <textarea class="mdl-textfield__input" type="text" rows= "3" id="describe" ></textarea>
+                                <textarea class="mdl-textfield__input" type="text" rows= "3" id="describe" name="desc"></textarea>
                                 <label class="mdl-textfield__label" for="describe">publish on Nature and involve in iGEM</label>
                             </div>
                         </div>
@@ -318,7 +316,7 @@
 
                     <div class="mdl-cell--9-col" align="right" style="margin-top: 40px">
 
-                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                        <button onclick="postForm_edit_profile()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
                             submit
                         </button>
                     </div>
@@ -329,8 +327,8 @@
     </main>
 </div>
 
+<script src="js/jquery-2.1.1.min.js"></script>
 <script src="js/material.min.js"></script>
-
 
 <script>
     (function() {
@@ -499,7 +497,7 @@
     };
 
 
-
+    var image_head;
 
     window.onload = function() {
         var options =
@@ -520,8 +518,9 @@
             this.files = [];
         });
         document.querySelector('#btnCrop').addEventListener('click', function(){
-            var img = cropper.getDataURL()
-            console.log(img);
+            var image_head = cropper.getDataURL();
+            //console.log(image_head);
+            postForm_head(image_head);
             //document.querySelector('.cropped').innerHTML = '<img src="'+img+'">';
         });
         document.querySelector('#btnZoomIn').addEventListener('click', function(){
@@ -531,6 +530,74 @@
             cropper.zoomOut();
         })
     };
+
+
+
+
+
+//post data and image to server
+
+
+    $.fn.serializeObject = function()
+    {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function() {
+            if (o[this.name] !== undefined) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    };
+
+    function postForm_edit_profile(){
+        var formData = JSON.stringify($('#user_profile_edit').serializeObject());
+        var  dictPost  =  [{"plugin":"user_model"},{"action":"edit_profile"},{"data":formData}];
+        console.log(dictPost);
+        $.ajax({
+            type: "POST",
+            url: "/plugin",
+            data: dictPost,
+            success: function(response){
+                console.log(response);
+                if(response['error'] == 'err_code'){
+                    Materialize.toast('conditions', 3000, 'rounded');
+                }
+            },
+            dataType: "json",
+            contentType : "application/json"
+        });
+    }
+
+
+    function postForm_head(data){
+        var  dictPost  =  [{"plugin":"user_model"},{"action":"head_change"},{"data":data}];
+        console.log(dictPost);
+        $.ajax({
+            type: "POST",
+            url: "/plugin",
+            data: dictPost,
+            success: function(response){
+                console.log(response);
+                if(response['error'] == 'err_code'){
+                    Materialize.toast('conditions', 3000, 'rounded');
+                }
+
+                // TODO: if success change head of the page
+            },
+            dataType: "json",
+            contentType : "application/json"
+        });
+    }
+
+
+
+
 
 </script>
 
