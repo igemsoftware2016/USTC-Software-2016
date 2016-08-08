@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A platform for biological use">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BioHub</title>
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" href="images/logo.ico">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="BioHub">
+    <link rel="apple-touch-icon-precomposed" href="images/logo.ico">
+
+    <link rel="shortcut icon" href="images/logo.ico">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.green-blue.min.css">
+    <link rel="stylesheet" href="css/material-lite.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+    <style type="text/css">
+        .demo-group-list {
+          max-width: 1080px;
+        }
+        .demo-content {
+          min-height: 437px;
+          padding: 0px 8px 0px 8px;
+        }
+        .mdl-list__item-secondary-content {
+          display: -webkit-flex !important;
+          display: -ms-flexbox !important;
+          display: flex !important;
+          -webkit-flex-flow: row !important;
+          -ms-flex-flow: row !important;
+          flex-flow: row !important;
+          -webkit-align-items: flex-end !important;
+          -ms-flex-align: end !important;
+          align-items: flex-end !important;
+        }
+    </style>
+</head>
+<body>
+<div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+    <header class="demo-header mdl-layout__header mdl-color--green-A700 mdl-color-text--white">
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title">Groups</span>
+            <div class="mdl-layout-spacer"></div>
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="contact_dropdown">
+                <i class="material-icons">more_horiz</i>
+            </button>
+            <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="contact_dropdown">
+                <li class="mdl-menu__item">About BioHub</li>
+                <li class="mdl-menu__item">About us</li>
+            </ul>
+        </div>
+    </header>
+    <div class="demo-drawer mdl-layout__drawer mdl-color--green-A700 mdl-color-text--white">
+        <header class="demo-drawer-header">
+            <img src="img/logo.png" class="demo-avatar">
+            <div class="demo-avatar-dropdown">
+                <span style="font-size: 16px">user@mail.com</span>
+                <div class="mdl-layout-spacer"></div>
+                <button id="account_dropdown" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+                    <i class="material-icons" role="presentation">arrow_drop_down</i>
+                </button>
+                <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="account_dropdown">
+                    <li class="mdl-menu__item mdl-color-text--black">View My Profile</li>
+                    <li class="mdl-menu__item mdl-color-text--black">Login As Another User</li>
+                </ul>
+            </div>
+        </header>
+        <nav class="demo-navigation mdl-navigation mdl-color--white" >
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href=""><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">home</i>Home</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href=""><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">assignment</i>Projects</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href=""><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">group</i>Groups</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href=""><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">link</i>Plugins</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href=""><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">search</i>Search</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href=""><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">phone</i>Contact us</a>
+        </nav>
+    </div>
+    <main class="mdl-layout__content mdl-color--white">
+        <div class="demo-content">
+            <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--12-col">
+                    <h3 class="mdl-color-text--green-A700" style="text-align: center;">YOUR GROUPS</h3>
+                </div>
+            </div>
+            <ul id="group_list" class="demo-group-list mdl-list">
+                <script type="text/javascript">
+                  function creategroup() {  
+                    var num=5;
+                    for (var i=1;i<=num;i++) {
+                      var group=document.createElement("li");
+                      group.className="mdl-list__item mdl-list__item--two-line";
+                      
+                      var primary_content=document.createElement("span");
+                      primary_content.className="mdl-list__item-primary-content";
+
+                      var link=document.createElement("a");
+                      link.className="mdl-list__item-primary-action";
+                      link.href="#";
+                      var avatar1=document.createElement("i");
+                      avatar1.className="material-icons mdl-list__item-avatar";
+                      var textNode1=document.createTextNode("group");
+                      avatar1.appendChild(textNode1);
+                      componentHandler.upgradeElement(avatar1);
+                      link.appendChild(avatar1);
+                      componentHandler.upgradeElement(link);
+                      primary_content.appendChild(link);
+                      
+                      var name=document.createElement("span");
+                      var textNode2=document.createTextNode("mygroup");
+                      name.appendChild(textNode2);
+                      componentHandler.upgradeElement(name);
+                      primary_content.appendChild(name);
+                      var information=document.createElement("span");
+                      information.className="mdl-list__item-sub-title";
+                      var textNode3=document.createTextNode("content");
+                      information.appendChild(textNode3);
+                      componentHandler.upgradeElement(information);
+                      primary_content.appendChild(information);
+                      componentHandler.upgradeElement(primary_content);
+                      group.appendChild(primary_content);
+                      
+                      var secondary_content=document.createElement("span");
+                      secondary_content.className="mdl-list__item-secondary-content";
+
+                      var view=document.createElement("a");
+                      view.className="mdl-list__item-secondary-action";
+                      view.href="#";
+                      view.style.margin="0px 8px 0px 8px";
+                      var avatar2=document.createElement("i");
+                      avatar2.className="material-icons mdl-color-text--green-A700";
+                      var textNode4=document.createTextNode("remove_red_eye");
+                      avatar2.appendChild(textNode4);
+                      componentHandler.upgradeElement(avatar2);
+                      view.appendChild(avatar2);
+                      componentHandler.upgradeElement(view);
+                      secondary_content.appendChild(view);
+
+                      var more=document.createElement("a");
+                      more.className="mdl-list__item-secondary-action";
+                      more.href="#";
+                      more.style.margin="0px 8px 0px 8px";
+                      var avatar3=document.createElement("i");
+                      avatar3.className="material-icons mdl-color-text--green-A700";
+                      var textNode5=document.createTextNode("more_horiz");
+                      avatar3.appendChild(textNode5);
+                      componentHandler.upgradeElement(avatar3);
+                      more.appendChild(avatar3);
+                      componentHandler.upgradeElement(more);
+                      secondary_content.appendChild(more);
+
+                      var invitation=document.createElement("a");
+                      invitation.className="mdl-list__item-secondary-action show-dialog";
+                      invitation.href="#";
+                      invitation.style.margin="0px 8px 0px 8px";
+                      var avatar4=document.createElement("i");
+                      avatar4.className="material-icons mdl-color-text--green-A700";
+                      var textNode6=document.createTextNode("person_add");
+                      avatar4.appendChild(textNode6);
+                      componentHandler.upgradeElement(avatar4);
+                      invitation.appendChild(avatar4);
+                      componentHandler.upgradeElement(invitation);
+                      secondary_content.appendChild(invitation);
+                      group.appendChild(secondary_content);
+
+                      componentHandler.upgradeElement(group);
+                      document.getElementById("group_list").appendChild(group);
+
+                      var divider=document.createElement("hr");
+                      componentHandler.upgradeElement(divider);
+                      document.getElementById("group_list").appendChild(divider);
+                    }
+                  }
+                  creategroup();
+                </script>
+            </ul>
+        </div>
+        <dialog class="mdl-dialog" style="width: 460px;">
+            <p class="mdl-dialog__title" style="font-size: 24px;">Invite Other Users To Join Your Group!</p>
+            <div class="mdl-dialog__content">
+                <p>Search User</p>
+                <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--12-col" style="text-align: center;">
+                <div class="mdl-textfield mdl-textfield--floating-label mdl-js-textfield">
+                    <input id="invite_user" class="mdl-textfield__input" type="text" />
+                    <label for="invite_user" class="mdl-textfield__label">User's ID...</label>
+                </div>
+                </div>
+                </div>
+                <ul id="user_list" class="mdl-list">
+                    <script type="text/javascript">
+                        var user=document.createElement("li");
+                        user.className="mdl-list__item";
+
+                        var user_primary=document.createElement("span");
+                        user_primary.className="mdl-list__item-primary-content";
+                        var user_avatar=document.createElement("img");
+                        user_avatar.className="demo-avatar mdl-list__item-avatar";
+                        user_avatar.src="img/logo.png";
+                        componentHandler.upgradeElement(user_avatar);
+                        user_primary.appendChild(user_avatar);
+                        var user_name=document.createElement("span");
+                        var user_textNode1=document.createTextNode("userid");
+                        user_name.appendChild(user_textNode1);
+                        componentHandler.upgradeElement(user_name);
+                        user_primary.appendChild(user_name);
+                        componentHandler.upgradeElement(user_primary);
+                        user.appendChild(user_primary);
+
+                        var user_secondary=document.createElement("a");
+                        user_secondary.className="mdl-list__item-secondary-action";
+                        user_secondary.href="#";
+                        var user_invite=document.createElement("i");
+                        user_invite.className="material-icons";
+                        var user_textNode2=document.createTextNode("add");
+                        user_invite.appendChild(user_textNode2);
+                        componentHandler.upgradeElement(user_invite);
+                        user_secondary.appendChild(user_invite);
+                        componentHandler.upgradeElement(user_secondary);
+                        user.appendChild(user_secondary);
+                        componentHandler.upgradeElement(user);
+                        document.getElementById("user_list").appendChild(user);
+                    </script>
+                </ul>
+            </div>
+            <div class="mdl-dialog__actions">
+                <button type="button" class="mdl-button close-dialog">CLOSE</button>
+            </div>
+        </dialog>
+        <script>
+            var dialog = document.querySelector('dialog');
+            var show_dialogButtons = document.querySelectorAll('.show-dialog');
+            if (! dialog.showModal) {
+                dialogPolyfill.registerDialog(dialog);
+            }
+            for (var i=0;i<=(show_dialogButtons.length-1);i++) {
+                show_dialogButtons[i].addEventListener('click', function() {
+                    dialog.showModal();
+                });
+            }
+            dialog.querySelector('.close-dialog').addEventListener('click', function() {
+                dialog.close();
+            });
+        </script>
+        <footer class="mdl-mini-footer">
+            <div class="mdl-mini-footer__left-section">
+                <div class="mdl-logo">
+                    BioHub
+                </div>
+                <ul class="mdl-mini-footer__link-list">
+                    <li><a href="#">Help</a></li>
+                    <li><a href="#">View Our Wiki</a></li>
+                </ul>
+            </div>
+            <div class="mdl-mini-footer__right-section">
+                <span class="demo-copyright"><i class="material-icons">copyright</i>&nbsp;2016 USTC-Software</span>
+            </div>
+        </footer>  
+    </main>
+</div>
+</body>
+</html>
