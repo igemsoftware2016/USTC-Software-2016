@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
+    <title>Pano</title>
+
+    <!-- CSS -->
+    <!--
+    <link href="css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    -->
+    <link href="css/material-icons.css" type="text/css" rel="stylesheet">
+    <link href="css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection">
+
+    <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection">
+
+    <!-- JS -->
+    <!--
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/tether.min.js"></script>
+    -->
+    <script src="js/jquery-2.1.1.min.js"></script>
+    <script src="js/materialize.min.js"></script>
+    <script src="js/d3.v3.min.js"></script>
+
+    <style>
+
+        .custom-menu_gene {
+            display: none;
+            z-index: 1000;
+            position: absolute;
+            overflow: hidden;
+            border: 1px solid #CCC;
+            white-space: nowrap;
+            font-family: sans-serif;
+            background: #FFF;
+            color: #333;
+            border-radius: 5px;
+        }
+
+        .custom-menu_gene li {
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        .custom-menu_gene li:hover {
+            background-color: #DEF;
+        }
+
+
+
+        .custom-menu_pano {
+            display: none;
+            z-index: 1000;
+            position: absolute;
+            overflow: hidden;
+            border: 1px solid #CCC;
+            white-space: nowrap;
+            font-family: sans-serif;
+            background: #FFF;
+            color: #333;
+            border-radius: 5px;
+        }
+
+        .custom-menu_pano li {
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        .custom-menu_pano li:hover {
+            background-color: #DEF;
+        }
+
+
+    </style>
+
+
+
+    <script>
+
+        jQuery(function () {
+
+            var margin = {top: -1, right: -1, bottom: -1, left: -1},
+                    width = 1920 - margin.left - margin.right,
+                    height = 1080 - margin.top - margin.bottom;
+
+            var zoom = d3.behavior.zoom()
+                    .scaleExtent([1 / 8, 8])
+                    .on("zoom", function () {
+                        container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+                    });
+
+            var drag = d3.behavior.drag()
+                    .origin(function (d) {
+                        return d;
+                    })
+                    .on("dragstart", function (d) {
+                        d3.event.sourceEvent.stopPropagation();
+                        d3.select(this).classed("dragging", true);
+                    })
+                    .on("drag", function (d) {
+                        d3.select(this)
+                                .attr("cx", d.x = d3.event.x)
+                                .attr("cy", d.y = d3.event.y);
+                    })
+                    .on("dragend", function (d) {
+                        d3.select(this).classed("dragging", false)
+
+                                // version of non-continue axis
+                            //.attr("cx", d.x = Math.round(d.x * 0.1) * 10)
+                            //.attr("cy", d.y = Math.round(d.y * 0.1) * 10);
+                            .attr("cx", d.x = d.x+0.0)
+                            .attr("cy", d.y = d.y+0.0);
+
+                    });
+
+            var wrapper = d3.select("#image");
+
+            var context_gene_tri = 0;
+
+            var wrapperBoundingBox = wrapper.node().getBoundingClientRect();
+
+            var svg = wrapper.append("svg")
+                    .on("contextmenu", function (d) {
+                        // Avoid the real one
+                        d3.event.preventDefault();
+                        // Show contextmenu
+
+                       if(context_gene_tri>-1){
+                        $(".custom-menu_pano").finish().toggle(100).
+
+                        // In the right position (the mouse)
+                        css({
+                            top: d3.event.pageY + "px",
+                            left: d3.event.pageX + "px"
+                        });}
+                    })
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", height + margin.top + margin.bottom)
+                    .append("g")
+                    .attr("transform", "translate(" + (0.5 * wrapperBoundingBox.width - 2 * width) + "," + (0.5 * wrapperBoundingBox.height - 2 * height) + ")scale(4,4)")
+                    .call(zoom);
+            console.log("haha")
+            var rect = svg.append("rect")
+                    .attr("width", width)
+                    .attr("height", height)
+                    .style("fill", "none")
+                    .style("pointer-events", "all");
+
+            var container = svg.append("g");
+
+            container.append("g")
+                    .attr("class", "x-axis")
+                    .selectAll("line")
+                    .data(d3.range(0, width, 10))
+                    .enter().append("line")
+                    .attr("x1", function(d) { return d; })
+                    .attr("y1", 0)
+                    .attr("x2", function(d) { return d; })
+                    .attr("y2", height);
+
+            container.append("g")
+                    .attr("class", "y-axis")
+                    .selectAll("line")
+                    .data(d3.range(0, height, 10))
+                    .enter().append("line")
+                    .attr("x1", 0)
+                    .attr("y1", function(d) { return d; })
+                    .attr("x2", width)
+                    .attr("y2", function(d) { return d; });
+
+            d3.tsv("data/data.tsv", dottype, function(error, dots) {
+                dot = container.append("g")
+                        .attr("class", "dot")
+                        .selectAll("circle")
+                        .data(dots)
+                        .enter().append("circle")
+                        .attr("r", 5)
+                        .attr("class","d_menu")
+                        .attr("cx", function(d) { return d.x; })
+                        .attr("cy", function(d) { return d.y; })
+                        .on("contextmenu", function (d) {
+                            context_gene_tri = 1;
+                            // Avoid the real one
+                            d3.event.preventDefault();
+
+                            // Show contextmenu
+                            $(".custom-menu_gene").finish().toggle(100).
+
+                            // In the right position (the mouse)
+                            css({
+                                top: d3.event.pageY + "px",
+                                left: d3.event.pageX + "px"
+                            });
+                            context_gene_tri=0;
+                        })
+                        .call(drag);
+            });
+
+            function dottype(d) {
+                d.x = +d.x;
+                d.y = +d.y;
+                return d;
+            }
+
+            function zoomed() {
+                container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+            }
+        });
+
+
+
+
+        //////////  customize right click
+
+
+
+        // Trigger action when the contexmenu is about to be shown
+        //$(document).bind();
+
+
+        // If the document is clicked somewhere
+        $(document).bind("mousedown", function (e) {
+
+            // If the clicked element is not the menu
+            if (!$(e.target).parents(".custom-menu_gene").length > 0) {
+
+                // Hide it
+                $(".custom-menu_gene").hide(100);
+            }
+
+            if (!$(e.target).parents(".custom-menu_pano").length > 0) {
+
+                // Hide it
+                $(".custom-menu_pano").hide(100);
+            }
+        });
+
+
+        // If the menu element is clicked
+        $(".custom-menu_gene li").click(function(){
+
+            // This is the triggered action name
+            switch($(this).attr("data-action")) {
+
+                // A case for each action. Your actions here
+                case "first": alert("first"); break;
+                case "second": alert("second"); break;
+                case "third": alert("third"); break;
+            }
+
+            // Hide it AFTER the action was triggered
+            $(".custom-menu_gene").hide(100);
+        });
+
+
+
+
+        // If the menu element is clicked
+        $(".custom-menu_pano li").click(function(){
+
+            // This is the triggered action name
+            switch($(this).attr("data-action")) {
+
+                // A case for each action. Your actions here
+                case "first": alert("first"); break;
+                case "second": alert("second"); break;
+                case "third": alert("third"); break;
+            }
+
+            // Hide it AFTER the action was triggered
+            $(".custom-menu_pano").hide(100);
+        });
+
+
+    </script>
+</head>
+
+<body class="light-blue lighten-2">
+<!-- navbar -->
+<nav class="light-blue darken-2">
+    <div class="nav-wrapper">
+        <a href="#" style="padding-left:0.5em" class="brand-logo left">BioHub</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="#">User Status</a></li>
+            <li><a href="#">User Name</a></li>
+            <li><img src="images/logo.ico" alt="logo" class="circle" style="width:4em;padding:0.5em"></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="row" id="main-wrapper">
+    <div class="col s2" style="height:100%">
+        <div id="menu_left" class="card light-blue darken-2" style="height:100%;overflow:hidden">
+            <div class="card-title light-blue darken-4 white-text center-align">Elements</div>
+            <div>
+                <ul id="workspace-side" class="collapsible" data-collapsible="expandable">
+                    <li>
+                        <div class="collapsible-header light-blue darken-2 waves-effect">
+                            <div class="white-text">gene</div>
+                        </div>
+                        <div class="collapsible-body">
+                            <div class="collection">
+                                <a class="collection-item" href="#">gene1</a>
+                                <a class="collection-item" href="#">gene2</a>
+                                <a class="collection-item" href="#">gene3</a>
+                                <a class="collection-item" href="#">gene4</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="collapsible-header light-blue darken-2 waves-effect">
+                            <div class="white-text">gRNA</div>
+                        </div>
+                        <div class="collapsible-body">
+                            <div class="collection">
+                                <a class="collection-item" href="#">gRNA1</a>
+                                <a class="collection-item" href="#">gRNA2</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col s10" style="height:100%">
+        <div class="card light-blue" id="image-wrapper" style="height:100%">
+            <div style="width:100%;height:100%" id="image"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TODO -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">×
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Add Node
+                </h4>
+            </div>
+            <div class="modal-body">
+                properties:Proteins (/ˈproʊˌtiːnz/ or /ˈproʊti.ᵻnz/) are large biomolecules, or macromolecules, consisting of one or more long chains of amino acid residues. Proteins perform a vast array of functions within living organisms, including catalysing metabolic reactions, DNA replication, responding to stimuli, and transporting molecules from one location to another. Proteins differ from one another primarily in their sequence of amino acids, which is dictated by the nucleotide sequence of their genes, and which usually results in protein folding into a specific three-dimensional structure that determines its activity.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    Cancel
+                </button>
+                <button id="addSth" type="button" class="btn btn-primary">
+                    Add
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div class='custom-menu_pano'>
+    <ul>
+        <li data-action = "first">Add node</li>
+        <li data-action = "second">edit link</li>
+    </ul>
+
+</div>
+
+<div class='custom-menu_gene'>
+    <ul>
+    <li data-action = "first">About this node</li>
+    <li data-action = "second">Link to a node</li>
+    <li data-action = "third">Edit coefficient</li>
+    </ul>
+
+</div>
+
+
+
+
+
+
+
+
+</body>
+</html>
