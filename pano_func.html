@@ -101,8 +101,14 @@
         });
 
 
-        jQuery(function () {
 
+
+        var div;
+        var container;
+        var drag;
+        var glo_json_data;
+
+        $(document).ready(function () {
 
             var margin = {top: -1, right: -1, bottom: -1, left: -1},
                     width = 1920 - margin.left - margin.right,
@@ -114,7 +120,7 @@
                         container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
                     });
 
-            var drag = d3.behavior.drag()
+            drag = d3.behavior.drag()
                     .origin(function (d) {
                         return d;
                     })
@@ -139,12 +145,9 @@
 
                     });
 
-
-
             function redraw_lines(uid_num) {
                 //console.log(uid_num);
                 var circle = svg.selectAll('#p'+uid_num);
-                console.log(circle);
                 var lines = d3.selectAll(".node-link");
                 //console.log(lines[0][0].attributes);
 
@@ -165,15 +168,10 @@
 
 
             var wrapper = d3.select("#image");
-
-            var div = d3.select("#status");
-
-
+            div = d3.select("#status");
             var context_gene_tri = 0;
-
             var wrapperBoundingBox = wrapper.node().getBoundingClientRect();
-
-            var svg = wrapper.append("svg")
+            svg = wrapper.append("svg")
                     .on("contextmenu", function (d) {
                         // Avoid the real one
                         d3.event.preventDefault();
@@ -181,7 +179,6 @@
 
                        if(context_gene_tri == 0){
                         $(".custom-menu_pano").finish().toggle(100).
-
                         // In the right position (the mouse)
                         css({
                             top: d3.event.pageY + "px",
@@ -193,8 +190,6 @@
                     .append("g")
                     .attr("transform", "translate(" + (0.5 * wrapperBoundingBox.width - 2 * width) + "," + (0.5 * wrapperBoundingBox.height - 2 * height) + ")scale(4,4)")
                     .call(zoom);
-
-
             // define arrow markers for graph links
             svg.append("defs").selectAll("marker")
                     .data(["suit", "licensing", "resolved"])
@@ -212,18 +207,13 @@
                     .style("stroke-width",2)
                     .style("opacity", "1");
 
-
-
-
-
-
             var rect = svg.append("rect")
                     .attr("width", width)
                     .attr("height", height)
                     .style("fill", "none")
                     .style("pointer-events", "all");
 
-            var container = svg.append("g");
+            container = svg.append("g");
 
             container.append("g")
                     .attr("class", "x-axis")
@@ -245,91 +235,133 @@
                     .attr("x2", width)
                     .attr("y2", function(d) { return d; });
 
-            d3.json("data/data.json",  function(error, data_graph) {
-                console.log(data_graph.nodes);
-
-
-                var link = container.append("g")
-                        .attr("class", "link")
-                        .selectAll("line")
-                        .data(data_graph.links)
-                        .enter().append("line")
-                        .attr('stroke','white')
-                        .attr("stroke-width",function(d,i){
-                            return 3;//d.weight;
-                        })
-                        .attr("class", "node-link")
-                        .attr("source", function(d){return d.source})
-                        .attr("target", function(d){return d.target})
-                        .attr("x1",function(d){
-                            return data_graph.nodes[d.source].x
-                        })
-                        .attr("y1",function(d){
-                            return data_graph.nodes[d.source].y
-                        })
-                        .attr("x2",function(d){
-                            return data_graph.nodes[d.target].x
-                        })
-                        .attr("y2",function(d){
-                            return data_graph.nodes[d.target].y
-                        })
-                        .style("marker-end",  "url(#suit)") // Modified line
-                        ;
-
-
-
-
-
-                dot = container.append("g")
-                        .attr("class", "dot")
-                        .selectAll("circle")
-                        .data(data_graph.nodes)
-                        .enter().append("circle")
-                        .attr("r", 5)
-                        .attr("cx", function(d) { return d.x; })
-                        .attr("cy", function(d) { return d.y; })
-                        .attr("id",function(d){ return "p"+d.id})
-                        .attr("u_type",function(d){ return d.type})
-
-                        .on("mouseover", function(d) {
-                            div	.html("Current Node<br/>"+"position X :"+Math.round(d.x) + "<br/>position Y :" + Math.round(d.y)+"<br/>uid:"+ d.uid+"<br/>type:"+ d.type)
-                        })
-
-                        .on("mouseout", function(d) {
-                            div.transition()
-                                    .duration(500)
-                        })
-
-
-                        // define right click
-                        .on("contextmenu", function (d) {
-                            context_gene_tri = 1;
-                            // Avoid the real one
-                            d3.event.preventDefault();
-
-                            // Show contextmenu
-                            $(".custom-menu_gene").finish().toggle(100).
-
-                            // In the right position (the mouse)
-                            css({
-                                top: d3.event.pageY + "px",
-                                left: d3.event.pageX + "px"
-                            });
-                            context_gene_tri=0;
-                        })
-                        .call(drag);
-
-
-                //Create all the line svgs but without locations yet
-
+            d3.json("data/data.json",  function (error,data_graph){
+                print_gra(data_graph);
+                glo_json_data  = data_graph;
             });
-
 
         });
 
-        function get_json_data(){
+        function print_gra(data_graph) {
+            //console.log(data_graph.nodes);
+            var link = container.append("g")
+                    .attr("class", "link")
+                    .selectAll("line")
+                    .data(data_graph.links)
+                    .enter().append("line")
+                    .attr('stroke','white')
+                    .attr("stroke-width",function(d,i){
+                        return 3;//d.weight;
+                    })
+                    .attr("class", "node-link")
+                    .attr("source", function(d){return d.source})
+                    .attr("target", function(d){return d.target})
+                    .attr("x1",function(d){
+                        return data_graph.nodes[d.source].x
+                    })
+                    .attr("y1",function(d){
+                        return data_graph.nodes[d.source].y
+                    })
+                    .attr("x2",function(d){
+                        return data_graph.nodes[d.target].x
+                    })
+                    .attr("y2",function(d){
+                        return data_graph.nodes[d.target].y
+                    })
+                    .style("marker-end",  "url(#suit)") // Modified line
+                    ;
+
+            dot = container.append("g")
+                    .attr("class", "dot")
+                    .selectAll("circle")
+                    .data(data_graph.nodes)
+                    .enter().append("circle")
+                    .attr("r", 5)
+                    .attr("cx", function(d) { return d.x; })
+                    .attr("cy", function(d) { return d.y; })
+                    .attr("id",function(d){ return "p"+d.id})
+                    .attr("u_type",function(d){ return d.type})
+
+                    .on("mouseover", function(d) {
+                        div	.html("Current Node<br/>"+"position X :"+Math.round(d.x) + "<br/>position Y :" + Math.round(d.y)+"<br/>uid:"+ d.uid+"<br/>type:"+ d.type)
+                    })
+
+                    .on("mouseout", function(d) {
+                        div.transition()
+                                .duration(500)
+                    })
+
+
+                    // define right click
+                    .on("contextmenu", function (d) {
+                        context_gene_tri = 1;
+                        // Avoid the real one
+                        d3.event.preventDefault();
+
+                        // Show contextmenu
+                        $(".custom-menu_gene").finish().toggle(100).
+
+                        // In the right position (the mouse)
+                        css({
+                            top: d3.event.pageY + "px",
+                            left: d3.event.pageX + "px"
+                        });
+                        context_gene_tri=0;
+                    })
+                    .call(drag);
+
+            back_to_center(data_graph);
+
+            //Create all the line svgs but without locations yet
+        }
+
+
+
+        function back_to_center(data_graph){
+            xy_range = get_xy_range(data_graph);
+
+            var mid_x = (xy_range.xmax+xy_range.xmin)/2;
+            var mid_y = (xy_range.ymax+xy_range.ymin)/2;
+
+            console.log(mid_x);
+
+            var posi_x = -4*mid_x+500;
+            var posi_y = -4*mid_y+340;//weird but works
+            svg.attr("transform", "translate(" + posi_x+ ',' +posi_y + ")scale(4)");
+        }
+
+        //print function can be called in global
+
+        function get_xy_range(json_data){
+            var xy_range;
+            var xmax=0;
+            var xmin=999999;
+            var ymax=0;
+            var ymin=999999;
+
+            for (var i =0;i<json_data.nodes.length;i++){
+                if (xmax<json_data.nodes[i].x){
+                    xmax=json_data.nodes[i].x;
+                }
+                if (ymax<json_data.nodes[i].y){
+                    ymax=json_data.nodes[i].y;
+                }
+                if (xmin>json_data.nodes[i].x){
+                    xmin=json_data.nodes[i].x;
+                }
+                if (ymin>json_data.nodes[i].y){
+                    ymin=json_data.nodes[i].y;
+                }
+            }
+
+            xy_range = {"xmax":xmax,"ymax":ymax,"xmin":xmin,"ymin":ymin};
+            return xy_range
+
+        }
+
+
+        function update_json_data(){
             var data_json;
-            console.log(data_json)
         }
 
 
