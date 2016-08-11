@@ -26,73 +26,6 @@
     <script src="js/materialize.min.js"></script>
     <script src="js/d3.v3.min.js"></script>
 
-    <style>
-
-
-        div.tooltip {
-            position: absolute;
-            text-align: left;
-            width: 140px;
-            height: 85px;
-            padding: 5px;
-            font: 12px sans-serif;
-            background: lightsteelblue;
-            border: 0px;
-            border-radius: 8px;
-            pointer-events: none;
-        }
-
-        .custom-menu_gene {
-            display: none;
-            z-index: 1000;
-            position: absolute;
-            overflow: hidden;
-            border: 1px solid #CCC;
-            white-space: nowrap;
-            font-family: sans-serif;
-            background: #FFF;
-            color: #333;
-            border-radius: 5px;
-        }
-
-        .custom-menu_gene li {
-            padding: 8px 12px;
-            cursor: pointer;
-        }
-
-        .custom-menu_gene li:hover {
-            background-color: #DEF;
-        }
-
-
-
-        .custom-menu_pano {
-            display: none;
-            z-index: 1000;
-            position: absolute;
-            overflow: hidden;
-            border: 1px solid #CCC;
-            white-space: nowrap;
-            font-family: sans-serif;
-            background: #FFF;
-            color: #333;
-            border-radius: 5px;
-        }
-
-        .custom-menu_pano li {
-            padding: 8px 12px;
-            cursor: pointer;
-        }
-
-        .custom-menu_pano li:hover {
-            background-color: #DEF;
-        }
-
-
-    </style>
-
-
-
     <script>
 
         //tooltip function
@@ -507,6 +440,7 @@
 
 
     </script>
+
 </head>
 
 <body class="light-blue lighten-2">
@@ -517,15 +451,29 @@
         <ul id="nav-mobile" class="right hide-on-med-and-down">
             <li><a href="#">User Status</a></li>
             <li><a href="#">User Name</a></li>
-            <li><img src="images/logo.ico" alt="logo" class="circle" style="width:4em;padding:0.5em"></li>
+            <li><img src="images/logo.ico" alt="logo" class="circle" style="width:4em;padding:0.2em 0.2em 0 0"></li>
         </ul>
     </div>
 </nav>
 
 <div class="row" id="main-wrapper">
-    <div class="col s2" style="height:100%">
-        <div id="menu_left" class="card light-blue darken-2" style="height:100%;overflow:hidden">
-            <div class="card-title light-blue darken-4 white-text center-align">Elements</div>
+    <div class="col s12" style="height:100%;padding:0">
+        <div id="image-wrapper" style="height:100%">
+            <div style="width:100%;height:100%" id="image">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" id="float-wrapper">
+    <div class="col s12 m4 l2">
+        <div class="card tooltip light-blue darken-2">
+            <div class="card-title light-blue darken-4 white-text center-align">Current Node</div>
+            <div class="white-text">
+                <p id="status">Current Node<br/>position X :<br/>position Y :<br/>uid :<br/>type :</p>
+            </div>
+        </div>
+        <div id="menu-left" class="card light-blue darken-4">
+            <div class="card-title white-text center-align">Elements</div>
             <div>
                 <ul id="workspace-side" class="collapsible" data-collapsible="expandable">
                     <li>
@@ -553,16 +501,6 @@
                         </div>
                     </li>
                 </ul>
-            </div>
-        </div>
-    </div>
-    <div class="col s10" style="height:100%">
-        <div class="card light-blue" id="image-wrapper" style="height:100%">
-            <div style="width:100%;height:100%" id="image">
-
-                <div id="status" class="card-panel tooltip">
-                    Current Node<br/>position X :<br/>position Y :<br/>uid :<br/>type :
-                </div>
             </div>
         </div>
     </div>

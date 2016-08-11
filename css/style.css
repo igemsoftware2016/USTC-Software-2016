@@ -56,13 +56,10 @@ div#image {
     overflow: hidden;
 }
 
-#main-wrapper .col {
-    padding: 1em;
-}
-
 #main-wrapper {
-    margin: 0em;
+    margin: 0.5em 0 0 0;
     position: absolute;
+    z-index: 0;
     right: 0em;
     bottom: 0.5em;
     top: 4em;
@@ -70,7 +67,7 @@ div#image {
 }
 
 #image-wrapper {
-    padding: 2em;
+    padding: 0;
 }
 
 #workspace-side {
@@ -82,3 +79,51 @@ div#image {
     border: none;
 }
 
+div.tooltip {
+    text-align: left;
+    pointer-events: none;
+}
+
+.custom-menu_gene {
+    display: none;
+    z-index: 1000;
+    position: absolute;
+    overflow: hidden;
+    border: 1px solid #CCC;
+    white-space: nowrap;
+    font-family: sans-serif;
+    background: #FFF;
+    color: #333;
+    border-radius: 5px;
+}
+
+.custom-menu_gene li {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.custom-menu_gene li:hover {
+    background-color: #DEF;
+}
+
+.custom-menu_pano {
+    display: none;
+    z-index: 1000;
+    position: absolute;
+    overflow: hidden;
+    border: 1px solid #CCC;
+    white-space: nowrap;
+    font-family: sans-serif;
+    background: #FFF;
+    color: #333;
+    border-radius: 5px;
+}
+
+.custom-menu_pano li {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.custom-menu_pano li:hover {
+    background-color: #DEF;
+}
