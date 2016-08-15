@@ -341,3 +341,58 @@ def node_commit(e_e, res, num):
             for oneline in res
         ]
     )
+
+
+# ===============biosys_temp=====================
+class BioSys_temp(TableBase):
+    __tablename__ = 'biosystems_temp'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    bsid = Column(Integer)
+
+
+def biosys_temp_commit(e_e, res, num=0):
+    if len(res) == 0:
+        return None
+
+    error_pos = []
+    bs_id_int = []
+    for i in range(0, len(res)):
+        try:
+            temp2 = int(res[i])
+        except ValueError as e:
+            print('\nIn row', str(num - len(res) + i + 1) + ',', e)
+            error_pos.append(i)
+        else:
+            bs_id_int.append(temp2)
+
+    for i in error_pos:
+        del res[i]
+
+    e_e(
+        BioSys_temp.__table__.insert(),
+        [
+            dict(bsid=oneline)
+            for oneline in bs_id_int
+        ]
+    )
+
+
+# ===============taxonomy_temp===================
+class Taxonomy_temp(TableBase):
+    __tablename__ = 'taxonomy_temp'
+
+    tax_id = Column(String(10), primary_key=True)
+
+
+def tax_temp_commit(e_e, res, num=0):
+    if len(res) == 0:
+        return None
+
+    e_e(
+        Taxonomy_temp.__table__.insert(),
+        [
+            dict(tax_id=oneline)
+            for oneline in res
+        ]
+    )
