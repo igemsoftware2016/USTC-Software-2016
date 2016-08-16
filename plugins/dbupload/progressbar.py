@@ -1,4 +1,5 @@
 import sys
+from time import *
 
 
 def count_lines(path):
@@ -37,3 +38,33 @@ def print_bar(num, lines_num):
 
     sys.stdout.write('\r' + str(ratio) + '% [' + strs + ']')
     sys.stdout.flush()
+
+
+def print_2bar(num1, total1, num2, total2, name, size, bsid):
+    ratio1 = int(100 * num1 / total1)
+    ratio2 = int(100 * num2 / total2)
+
+    strs1 = ''
+    strs2 = ''
+
+    for i in range(0, int(ratio1 / 2)):
+        strs1 += '#'
+    for i in range(int(ratio1 / 2), 50):
+        strs1 += ' '
+
+    for i in range(0, int(ratio2 / 2)):
+        strs2 += '#'
+    for i in range(int(ratio2 / 2), 50):
+        strs2 += ' '
+
+    str_end = str(ratio1) + '% [' + strs1 + ']' + '  ' + str(ratio2) + '% [' + strs2 + ']' + '  tax name:' + name + ' | bsid:' + bsid
+    length = len(str_end)
+
+    if length < size:
+        for i in range(0, size - length):
+            str_end += ' '
+
+    sys.stdout.write('\r' + str_end)
+    sys.stdout.flush()
+
+    return length
