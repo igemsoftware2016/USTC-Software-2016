@@ -1,33 +1,60 @@
-#__author__=Eadric_
+
+
+#author=Eadric_
 
 from Bio.Blast import NCBIWWW
 from Bio import SearchIO
-
+from Bio.Blast.Applications import *
 import os
 
+INPUTPATH = "./Blast_Input"
+OUTPUTPATH = "./Blast_Output"
+DBPATH = "./db"
 
-def BLAST(Seq,way = 'online',program = 'blastn',database = 'nt'):
-	if(way == 'online'): 
-		print('waiting...\n')
-		result_handle = NCBIWWW.qblast("%s"%program, "%s"%database, "%s"%Seq)
-		save_file = open("%s.xml"%Seq, "w")
+class BLAST:
+	
+	
+	def __init__(self,Seq):
+		self.Seq = Seq
+
+	
+
+	def ini(self):
+		if(os.path.exists(INPUTPATH)==False):os.mkdir(INPUTPATH)
+		if(os.path.exists(OUTPUTPATH)==False):os.mkdir(OUTPUTPATH)
+
+	def online(self,program = 'blastn',database = 'nt'):
+		print('waiting...')
+		result_handle = NCBIWWW.qblast(program, database, self.Seq)
+		save_file = open(OUTPUTPATH + "/%s.xml"%self.Seq,"w")
 		save_file.write(result_handle.read())
 		save_file.close()
-		result_handle.close()
 
-		blast_qresult = SearchIO.read('%s.xml'%Seq, 'blast-xml')
-		print(blast_qresult)	
-	elif(way == 'local'):
-		save_file_in = open("./ncbi-blast-2.4.0+/db/input/%s.txt"%Seq, "w")
-		save_file_in.write(Seq)
+	def local(self,program = 'blastn',database = 'mito'):
+		save_file_in = open(INPUTPATH + "/%s.fasta"%self.Seq, "w")
+		save_file_in.write(self.Seq)
 		save_file_in.close()
-		print('waiting...\n')
-		os.system('./ncbi-blast-2.4.0+/bin/%s -query ./ncbi-blast-2.4.0+/db/input/%s.txt -db ./ncbi-blast-2.4.0+/db/%s.fasta -out ./ncbi-blast-2.4.0+/db/output/%s.txt'%(program,Seq,database,Seq))
-		blast_qresult = SearchIO.read('./ncbi-blast-2.4.0+/db/output/%s.txt'%Seq, 'blast-text')
-		print(blast_qresult)	
+
+		INPUTPATH_tmp = INPUTPATH + "/%s.fasta"%self.Seq
+		OUTPUTPATH_tmp = OUTPUTPATH + "/%s.xml"%self.Seq
+
+		Str='Ncbi%sCommandline(query = INPUTPATH_tmp ,db = database ,out = OUTPUTPATH_tmp,outfmt = 5)'%(program)
+		print('waiting...')
+		blastx_cline = eval(Str)
+		stdout, stderr = blastx_cline()
+	
+	def read(self):
+		blast_qresult = SearchIO.read(OUTPUTPATH + "/%s.xml"%self.Seq, 'blast-xml')
+		print(blast_qresult)
 		
 
-#BLAST(Seq,way='online',program = 'blastn',database = 'nt')
+
+
+#import BLAST
+#a = BLAST.BLAST(Seq)
+#
+#please a.ini() before using local() or online()
+#a.local(program,database)
 #
 #Seq:sequence which you want to blast(GI number is OK too)
 #
@@ -38,6 +65,6 @@ def BLAST(Seq,way = 'online',program = 'blastn',database = 'nt'):
 #database:same as program
 #
 #
-#./online-output is the output of online blast(.xml)
-#./ncbi-blast-2.4.0+/output is the output of local blast(.txt,it's not xml is because of a unknown error,i will try to fix it in the future)
-#./ncbi-blast-2.4.0+/db/ is not include all the db(it's several GBs),i just download one of them for test(/db/nt.fasta),if you want to do a #real local blast,please contact me
+#
+
+
