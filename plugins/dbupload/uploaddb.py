@@ -4,20 +4,15 @@ from progressbar import *
 from dbprofile import *
 import time
 
-
-class DataBaseSourceError(Exception):
-    pass
-
-
-class EOF(Exception):
-    pass
-
-
-# Return -1: File not found
-# Return -2: primary key duplicated
+# return -1 IOError
+# return -2 FileNotFoundError
+# return -3 ValueError
+# return -4 IntegrityError
+# return -5 InvalidRequestError
 
 
 # Set echo to True to enable progress bar.
+# Set log to True to enable log function.
 def upload(path, commit, column_num, cache_size=100000, echo=False, log=False):
     # Open file
     if echo:
@@ -48,7 +43,6 @@ def upload(path, commit, column_num, cache_size=100000, echo=False, log=False):
 
     # Initialize
     num = 0
-
     flag = False
     while 1:
         res = []
@@ -88,7 +82,7 @@ def upload(path, commit, column_num, cache_size=100000, echo=False, log=False):
             else:
                 res.append(temp)
 
-        # Commit
+        # Commit data
         try:
             commit(engine.execute, res, num)
 
