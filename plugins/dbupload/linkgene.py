@@ -15,7 +15,7 @@ def get_bsid(tax_name, log=False, flog=None):
         print(e)
 
     if r_max <= 0 and log:
-        flog.write(tax_name + "bsid not found!\n")
+        flog.write('[Alert]' + time.asctime(time.localtime(time.time())) + tax_name + "bsid not found!\n")
         return None
 
     handle = ez.esearch(db='biosystems', term=tax_name, retmax=r_max)
@@ -33,12 +33,15 @@ def get_taxid(tax_name, log=False, flog=False):
         print(e)
 
     if r_max <= 0 and log:
-        flog.write(tax_name + 'tax_id not found')
+        flog.write('[Alert]' + time.asctime(time.localtime(time.time())) + tax_name + 'tax_id not found')
         return None
-
-    handle = ez.esearch(db='taxonomy', term=tax_name, retmax=r_max)
-    res = ez.read(handle)
-    res = res['IdList']
+    try:
+        handle = ez.esearch(db='taxonomy', term=tax_name, retmax=r_max)
+        res = ez.read(handle)
+        res = res['IdList']
+    except RuntimeError as e:
+        print(e)
+        flog.write('[Error!]' + time.asctime(time.localtime(time.time())) + ' ' + e + ' tax_name:' + tax_name + '\n')
 
     return res
 
@@ -59,7 +62,7 @@ def set_link(path, echo=False, log=False):
             print(e, 'can\'t log!')
             log = False
         else:
-            flog.write('Log date:' + time.asctime(time.localtime(time.time())) + ' Start.\nFile:' + path + '\n')
+            flog.write('[Info]Log date:' + time.asctime(time.localtime(time.time())) + ' Start.\nFile:' + path + '\n')
 
     # Open file
     try:
@@ -99,21 +102,23 @@ def set_link(path, echo=False, log=False):
             bsid_list = get_bsid(tax)
             taxid_list = get_taxid(tax)
 
-        if echo:
-            i += 1
-
         # Fail to fetch bsid or tax_id
         if not bsid_list or not taxid_list:
             if log:
-                flog.write(time.asctime(time.localtime(time.time())) + ': Cannot find ' + tax + '\'s tax_id or bsid.\n')
+                flog.write('[Alert]' + time.asctime(
+                    time.localtime(time.time())) + ': Cannot find ' + tax + '\'s tax_id or bsid.\n')
+            if echo:
+                i += 1
             continue
 
         j = 0
         for bsid in bsid_list:
+            if echo:
+                l = print_2bar(i, total, j, len(bsid_list), tax, l, bsid)
             j += 1
 
             # Set command
-            cmd ='''select a.gene_id, b.gene_id
+            cmd = '''select a.gene_id, b.gene_id
                     from biosystems a, biosystems b
                     where a.bsid = '%s'
                     and a.gene_id in(
@@ -137,7 +142,8 @@ def set_link(path, echo=False, log=False):
             # Result is empty
             if len(res) == 0:
                 if log:
-                    flog.write(time.asctime(time.localtime(time.time())) + ':' + taxid_list[0] + ':' + bsid + ', not exist!\n')
+                    flog.write('[Alert]' + time.asctime(time.localtime(time.time())) + ': tax_id:' + taxid_list[0] +
+                               ':bsid:' + bsid + ', not exist!\n')
                 continue
 
             # Insert result to server
@@ -146,27 +152,27 @@ def set_link(path, echo=False, log=False):
             except ValueError as e:
                 print(e)
                 if log:
-                    flog.write(time.asctime(time.localtime(time.time())) + ':' + str(e) + '\n')
+                    flog.write('[Error!]' + time.asctime(time.localtime(time.time())) + ':' + str(e) + '\n')
                     flog.close()
                 return -3
             except IntegrityError as e:
                 print(e.orig.args)
                 if log:
-                    flog.write(time.asctime(time.localtime(time.time())) + ':' + str(e) + '\n')
+                    flog.write('[Error!]' + time.asctime(time.localtime(time.time())) + ':' + str(e) + '\n')
                     flog.close()
                 return -4
             except InvalidRequestError as e:
                 print(e)
                 if log:
-                    flog.write(time.asctime(time.localtime(time.time())) + ':' + str(e) + '\n')
+                    flog.write('[Error!]' + time.asctime(time.localtime(time.time())) + ':' + str(e) + '\n')
                     flog.close()
                 return -5
 
-            if echo:
-                l = print_2bar(i, total, j, len(bsid_list), tax, l, bsid)
-
+        if echo:
+            i += 1
         if log:
-            flog.write(time.asctime(time.localtime(time.time())) + ':' + tax + '(' + tax_list[0] + ')' + ' Done.\n')
+            flog.write('[Info]' + time.asctime(time.localtime(time.time())) + ':' + tax + '(' + tax_list[0] + ')'
+                       + ' Done.\n')
 
     if echo:
         print_2bar(100, 100, 100, 100, '--Done--', l, '------')
