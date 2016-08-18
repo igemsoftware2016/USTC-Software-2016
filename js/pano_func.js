@@ -188,7 +188,7 @@ jQuery(function () {
                 })
                 .style("marker-end",  "url(#suit)") // Modified line
                 ;
-
+        var color = ["#E9FF63", "#7DFF63", "#63F8FF", "#99FF63", "#CFFE63", "#FFC263", "#FFC763", "#FF8E63", "#FF6464", "#FF7563", "#FF6364", "#FF7F63", "#FFE963"];
         dot = container.append("g")
                 .attr("class", "dot")
                 .selectAll("circle")
@@ -198,6 +198,10 @@ jQuery(function () {
                 .attr("cx", function(d) { return d.x; })
                 .attr("cy", function(d) { return d.y; })
                 .attr("id",function(d){ return "p"+d.id})
+                .attr("fill",function (d) {
+                    console.log(d.type);
+                    console.log(color);
+                    return color[d.type]})
                 .attr("u_type",function(d){ return d.type})
                 .on("mouseover", update_current_position)
                 .on("click", function (d) { select_one_dot(d.id); })
