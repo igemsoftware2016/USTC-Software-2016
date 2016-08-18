@@ -37,10 +37,24 @@ jQuery(function ($) {
 
                 redraw_lines(d.id);
 
+                for (var i = 0; i < glo_json_data.nodes.length; ++i) {
+                    if (d.id == glo_json_data.nodes[i].id) {
+                        update_current_position(d, i);
+                        break;
+                    }
+                }
+
                 d3.selectAll("#label"+ d.id).attr("x", d.x).attr("y", d.y)
             })
             .on("dragend", function (d) {
                 d3.select(this).classed("dragging", false);
+
+                for (var i = 0; i < glo_json_data.nodes.length; ++i) {
+                    if (d.id == glo_json_data.nodes[i].id) {
+                        select_one_dot(i);
+                        break;
+                    }
+                }
                 // version of non-continue axis
                 //.attr("cx", d.x = Math.round(d.x * 0.1) * 10)
                 //.attr("cy", d.y = Math.round(d.y * 0.1) * 10);
