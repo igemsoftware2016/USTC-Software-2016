@@ -212,6 +212,7 @@ jQuery(function ($) {
                 .style("marker-end",  "url(#suit)") // Modified line
                 ;
 
+        var  colorScale = ["#123df2","#112354","#897361","#098723"];
         dot = container.append("g")
                 .attr("class", "dot")
                 .selectAll("circle")
@@ -221,6 +222,7 @@ jQuery(function ($) {
                 .attr("cx", function(d) { return d.x; })
                 .attr("cy", function(d) { return d.y; })
                 .attr("id",function(d){ return "p"+d.id})
+                .attr("fill",function(d){ return colorScale[d.type]})
                 .attr("u_type",function(d){ return d.type})
                 .on("click", function (d) { 
                     select_one_dot(d.id);
