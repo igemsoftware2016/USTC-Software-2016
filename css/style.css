@@ -87,6 +87,15 @@ div#image {
     padding-bottom: 0;
 }
 
+#side-head-top-button-h, #side-head-top-buttons a {
+    cursor: pointer;
+}
+
+a.collection-item.waves-effect {
+    height: auto;
+    padding: 10px 20px;
+}
+
 @media only screen and (max-width: 600px) {
     #side-wrapper > div {
         -webkit-transform: translateX(0);
