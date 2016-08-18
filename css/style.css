@@ -67,17 +67,8 @@ div#image {
     left: 0em;
 }
 
-#image-wrapper {
+#main-wrapper div {
     padding: 0;
-}
-
-#workspace-side {
-    border: none;
-    margin: 0em;
-}
-
-#workspace-side li div {
-    border: none;
 }
 
 div.tooltip {

@@ -95,6 +95,11 @@ jQuery(function ($) {
         select_one_dot(current_dot_id);
     });
 
+    $('#side-head-close-button').click(function () {
+        var width = $('#side-head').width();
+        $('#side-wrapper > div').animate({ left: -width });
+    })
+
     var wrapper = d3.select("#image");
     var context_gene_tri = 0;
     var wrapperBoundingBox = wrapper.node().getBoundingClientRect();
@@ -251,7 +256,6 @@ jQuery(function ($) {
                 .attr("text-anchor","middle")
                 .style("fill","#22375B")
                 .text(function(d){return d.id})
-                .on("mouseover", update_current_position)
                 .on("click", function (d) { 
                     select_one_dot(d.id);
                     update_current_position(d);
