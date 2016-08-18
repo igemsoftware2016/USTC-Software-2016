@@ -27,7 +27,34 @@
     <script src="js/d3.v3.min.js"></script>
 
     <script src="js/pano_func.js"></script>
+
 </head>
+<style>
+
+    #scroll-wrapper::-webkit-scrollbar {
+        width:13px;
+        height:13px;
+    }
+    #scroll-wrapper::-webkit-scrollbar-button    {
+        background-color:#26a69a;
+    }
+    #scroll-wrapper::-webkit-scrollbar-track     {
+        background:transparent;
+    }
+    #scroll-wrapper::-webkit-scrollbar-track-piece {
+        background:transparent;
+    }
+    #scroll-wrapper::-webkit-scrollbar-thumb{
+        background:green;
+        border-radius:4px;
+    }
+    #scroll-wrapper::-webkit-scrollbar-corner {
+        background:#82AFFF;
+    }
+
+</style>
+
+
 
 <body class="green lighten-4">
 <!--<img src="images/logo.ico" alt="logo" class="circle" style="width:4em;padding:0.2em 0.2em 0 0">-->
@@ -38,9 +65,13 @@
         </div>
     </div>
 </div>
+
+
+
 <div id="side-wrapper" class="row">
     <a id="side-head-top-button-h" class="col s2 black-text left-align" style=""><i class="material-icons">menu</i></a>
-    <div class="side-nav fixed" style="height:100%">
+    <div id="scroll-wrapper" class="side-nav fixed" style="height:100%">
+        <div id="scroll-wrapper-1">
         <div id="side-head" class="green darken-2">
             <div id="side-head-top-buttons" class="row">
                 <a id="side-head-close-button" class="col s2 white-text left-align" style="padding:0.45em 0.75em"><i class="material-icons">close</i></a>
@@ -66,35 +97,35 @@
             <div class="collection-item">
                 <h5 class="valign-wrapper"><i class="material-icons valign">info</i>&nbsp;Element Info</h5>
                 <div>
-                    bla bla bla bla bla bla bla bla 
-                    bla bla bla bla bla bla bla bla 
-                    bla bla bla bla bla bla bla bla 
-                    bla bla bla bla bla bla bla bla 
-                    bla bla bla bla bla bla bla bla 
-                    bla bla bla bla bla bla bla bla 
-                    bla bla bla bla bla bla bla bla 
-                    bla bla bla bla bla bla bla bla 
-                    bla bla bla bla bla bla bla bla 
-                    bla bla bla bla bla bla bla bla 
-                    bla bla bla bla bla bla bla bla 
-                    bla bla bla bla bla bla bla bla 
-                    bla bla bla bla bla bla bla bla 
-                    bla bla bla bla bla bla bla bla 
-                    bla bla bla bla bla bla bla bla 
-                    bla bla bla bla bla bla bla bla 
+                    bla bla bla bla bla bla bla bla
+                    bla bla bla bla bla bla bla bla
+                    bla bla bla bla bla bla bla bla
+                    bla bla bla bla bla bla bla bla
+                    bla bla bla bla bla bla bla bla
+                    bla bla bla bla bla bla bla bla
+                    bla bla bla bla bla bla bla bla
+                    bla bla bla bla bla bla bla bla
+                    bla bla bla bla bla bla bla bla
+                    bla bla bla bla bla bla bla bla
+                    bla bla bla bla bla bla bla bla
+                    bla bla bla bla bla bla bla bla
+                    bla bla bla bla bla bla bla bla
+                    bla bla bla bla bla bla bla bla
+                    bla bla bla bla bla bla bla bla
+                    bla bla bla bla bla bla bla bla
                 </div>
             </div>
             <div class="collection-item">
                 <h5 class="valign-wrapper"><i class="material-icons valign">link</i>&nbsp;Links</h5>
                 <div>
-                    bla bla bla bla bla bla bla bla 
-                    bla bla bla bla bla bla bla bla 
-                    bla bla bla bla bla bla bla bla 
-                    bla bla bla bla bla bla bla bla 
-                    bla bla bla bla bla bla bla bla 
-                    bla bla bla bla bla bla bla bla 
-                    bla bla bla bla bla bla bla bla 
-                    bla bla bla bla bla bla bla bla 
+                    bla bla bla bla bla bla bla bla
+                    bla bla bla bla bla bla bla bla
+                    bla bla bla bla bla bla bla bla
+                    bla bla bla bla bla bla bla bla
+                    bla bla bla bla bla bla bla bla
+                    bla bla bla bla bla bla bla bla
+                    bla bla bla bla bla bla bla bla
+                    bla bla bla bla bla bla bla bla
                 </div>
             </div>
             <div class="collection-item">
@@ -137,6 +168,7 @@
     </div>
 </div>
 
+    </div>
 <!-- TODO -->
 
 

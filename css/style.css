@@ -28,14 +28,14 @@ body {
 }
 
 .dot circle {
-    fill: #81c784;
-    stroke: #388e3c;
+  /*  fill: #81c784;
+  */  stroke: #388e3c;
     stroke-width: 1px;
 }
 
 .dot circle.selected {
-    fill: #e57373;
-    stroke: #d32f2f;
+  /*  fill: #e57373;
+   */ stroke: #d32f2f;
     stroke-width: 1px;
 }
 
