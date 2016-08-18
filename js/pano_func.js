@@ -10,7 +10,7 @@ jQuery(function ($) {
     var glo_json_data;
     var text_label;
 
-    var current_dot_id = 0, dot_size;
+    var current_dot_index = 0, dot_size;
 
     var margin = {top: -1, right: -1, bottom: -1, left: -1},
             width = 1920 - margin.left - margin.right,
@@ -48,13 +48,13 @@ jQuery(function ($) {
                 //.attr("cy", d.y = d.y+0.0);
             });
 
-    function update_current_position(d) {
+    function update_current_position(d, index) {
         $('#status-posx').html(Math.round(d.x));
         $('#status-posy').html(Math.round(d.y));
         $('#status-uid').html(Math.round(d.id));
         $('#status-main-uid').html(Math.round(d.id));
         $('#status-type').html(Math.round(d.type));
-        current_dot_id = d.id;
+        current_dot_index = index;
     }
 
     function clear_all_of_dots() {
@@ -63,7 +63,8 @@ jQuery(function ($) {
 
     clear_all_of_dots();
 
-    function select_one_dot(id) {
+    function select_one_dot(index) {
+        var id = glo_json_data.nodes[index].id;
         $('.dot *').attr('class', '');
         $('#p' + id).attr('class', 'selected');
     }
@@ -86,13 +87,15 @@ jQuery(function ($) {
     }
 
     $('#side-head-top-button-n').click(function () {
-        update_current_position(glo_json_data.nodes[(current_dot_id + 1 + dot_size) % dot_size]);
-        select_one_dot(current_dot_id);
+        var index = (current_dot_index + 1 + dot_size) % dot_size;
+        update_current_position(glo_json_data.nodes[index], index);
+        select_one_dot(current_dot_index);
     });
 
     $('#side-head-top-button-p').click(function () {
-        update_current_position(glo_json_data.nodes[(current_dot_id - 1 + dot_size) % dot_size]);
-        select_one_dot(current_dot_id);
+        var index = (current_dot_index - 1 + dot_size) % dot_size;
+        update_current_position(glo_json_data.nodes[index], index);
+        select_one_dot(current_dot_index);
     });
 
     $('#side-head-top-button-h').click(function () {
@@ -106,7 +109,7 @@ jQuery(function ($) {
 
     var wrapper = d3.select("#image");
     var context_gene_tri = 0;
-    var wrapperBoundingBox = wrapper.node().getBoundingClientRect();
+    var wrapper_bounding_box = wrapper.node().getBoundingClientRect();
     var svg = wrapper.append("svg")
             .on("contextmenu", function (d) {
                 // Avoid the real one
@@ -126,7 +129,7 @@ jQuery(function ($) {
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
-            .attr("transform", "translate(" + (0.5 * wrapperBoundingBox.width - 2 * width) + "," + (0.5 * wrapperBoundingBox.height - 2 * height) + ")scale(4,4)")
+            .attr("transform", "translate(" + (0.5 * wrapper_bounding_box.width - 2 * width) + "," + (0.5 * wrapper_bounding_box.height - 2 * height) + ")scale(4,4)")
             .call(zoom);
     // define arrow markers for graph links
     svg.append("defs").selectAll("marker")
@@ -177,55 +180,57 @@ jQuery(function ($) {
         print_gra(data_graph);
         glo_json_data = data_graph;
         dot_size = glo_json_data.nodes.length;
-        current_dot_id = Math.min(dot_size - 1, current_dot_id);
-        update_current_position(data_graph.nodes[current_dot_id]);
+        var index = Math.min(dot_size - 1, current_dot_index);
+        update_current_position(data_graph.nodes[current_dot_index], index);
     });
 
+    var r_click_gene; // ???
 
-    var r_click_gene;
-    function print_gra(data_graph) {
-        //console.log(data_graph.nodes);
-        var link = container.append("g")
+    function generate_links(container, data_graph) {
+        return container.append("g")
                 .attr("class", "link")
                 .selectAll("line")
                 .data(data_graph.links)
-                .enter().append("line")
-                .attr('stroke','#1b5e20')
-                .attr("stroke-width",function(d,i){
-                    return 1.5;//d.weight;
-                })
+                .enter()
+                .append("line")
+                .attr('stroke', '#1b5e20')
+                .attr("stroke-width", function (d, i) { return 1.5; })
                 .attr("class", "node-link")
-                .attr("source", function(d){return d.source})
-                .attr("target", function(d){return d.target})
-                .attr("x1",function(d){
-                    return data_graph.nodes[d.source].x
-                })
-                .attr("y1",function(d){
-                    return data_graph.nodes[d.source].y
-                })
-                .attr("x2",function(d){
-                    return data_graph.nodes[d.target].x
-                })
-                .attr("y2",function(d){
-                    return data_graph.nodes[d.target].y
-                })
-                .style("marker-end",  "url(#suit)") // Modified line
-                ;
+                .attr("source", function (d) { return d.source })
+                .attr("target", function (d) { return d.target })
+                // still have several bugs because the indexes are not equivalent to the uids
+                .attr("x1", function (d) { return data_graph.nodes[d.source].x })
+                .attr("y1", function (d) { return data_graph.nodes[d.source].y })
+                .attr("x2", function (d) { return data_graph.nodes[d.target].x })
+                .attr("y2", function (d) { return data_graph.nodes[d.target].y })
+                .style("marker-end",  "url(#suit)");
+    }
 
-        dot = container.append("g")
+    function generate_dots(container, data_graph) {
+        return container.append("g")
                 .attr("class", "dot")
                 .selectAll("circle")
                 .data(data_graph.nodes)
-                .enter().append("circle")
+                .enter()
+                .append("circle")
                 .attr("r", 5)
-                .attr("cx", function(d) { return d.x; })
-                .attr("cy", function(d) { return d.y; })
-                .attr("id",function(d){ return "p"+d.id})
-                .attr("u_type",function(d){ return d.type})
-                .on("click", function (d) { 
-                    select_one_dot(d.id);
-                    update_current_position(d);
+                .attr("cx", function (d) { return d.x; })
+                .attr("cy", function (d) { return d.y; })
+                .attr("id", function (d) { return "p" + d.id })
+                .attr("u_type", function (d) { return d.type })
+                .on("click", function (d) {
+                    console.log(d.id);
+                    for (var i = 0; i < data_graph.nodes.length; ++i) {
+                        console.log(data_graph.nodes[i]);
+                        if (d.id == data_graph.nodes[i].id) {
+                            select_one_dot(i);
+                            update_current_position(d, i);
+                            return;
+                        }
+                    }
                 })
+                // will not use context menus
+                /*
                 .on("contextmenu", function (d) {
                     context_gene_tri = 1;
                     // Avoid the real one
@@ -242,14 +247,16 @@ jQuery(function ($) {
                     });
                     context_gene_tri=0;
                 })
+                */
                 .call(drag);
+    }
 
-
-        var text_labels = container.append("g")
+    function generate_text_labels(container, data_graph) {
+        return container.append("g")
                 .attr("class",'txt')
                 .selectAll("text")
-                .data(data_graph.nodes);
-        var text_label=text_labels.enter()
+                .data(data_graph.nodes)
+                .enter()
                 .append("text")
                 .attr("id",function(d) { return "label"+ d.id})
                 .attr("x", function(d) { return d.x; })
@@ -261,10 +268,16 @@ jQuery(function ($) {
                 .style("fill","#22375B")
                 .text(function(d){return d.id})
                 .on("click", function (d) { 
-                    select_one_dot(d.id);
-                    update_current_position(d);
+                    for (var i = 0; i < data_graph.nodes.length; ++i) {
+                        if (d.id == data_graph.nodes[i].id) {
+                            select_one_dot(i);
+                            update_current_position(d, i);
+                            return;
+                        }
+                    }
                 })
-                // define right click
+                // will not use context menus
+                /*
                 .on("contextmenu", function (d) {
                     context_gene_tri = 1;
                     // Avoid the real one
@@ -280,10 +293,15 @@ jQuery(function ($) {
                         left: d3.event.pageX + "px"
                     });
                     context_gene_tri=0;
-                }).call(drag);
-        console.log(text_label);
+                })
+                */
+                .call(drag);
+    }
 
-
+    function print_gra(data_graph) {
+        var link = generate_links(container, data_graph); 
+        var dot = generate_dots(container, data_graph); 
+        var text_labels = generate_text_labels(container, data_graph);
         $(".custom-menu_gene li").click(function(){
             console.log($(this).attr("data-action"));
 
@@ -437,10 +455,4 @@ jQuery(function ($) {
             $(".custom-menu_pano").hide(100);
         }
     });
-
-
-    // If the menu element is clicked
-
-
-
 });
