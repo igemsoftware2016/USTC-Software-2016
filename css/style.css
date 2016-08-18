@@ -30,12 +30,13 @@ body {
 .dot circle {
     fill: lightsteelblue;
     stroke: steelblue;
-    stroke-width: 1.5px;
+    stroke-width: 1px;
 }
 
 .dot circle.selected {
     fill: red;
-    stroke: brown;
+    stroke: darkred;
+    stroke-width: 1px;
 }
 
 .x-axis line {

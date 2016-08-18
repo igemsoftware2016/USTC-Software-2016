@@ -1,5 +1,5 @@
 //tooltip function
-jQuery(function () {
+jQuery(function ($) {
     $('.tooltipped').tooltip({delay: 50});
     // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
     $('.modal-trigger').leanModal();
@@ -10,6 +10,7 @@ jQuery(function () {
     var glo_json_data;
     var text_label;
 
+    var current_dot_id = 0, dot_size;
 
     var margin = {top: -1, right: -1, bottom: -1, left: -1},
             width = 1920 - margin.left - margin.right,
@@ -48,10 +49,12 @@ jQuery(function () {
             });
 
     function update_current_position(d) {
-        status_element.html("position X: " + Math.round(d.x) + "<br/>" 
-                + "position Y: " + Math.round(d.y) + "<br/>" 
-                + "uid: " + d.uid + "<br/>" 
-                + "type: " + d.type)
+        $('#status-posx').html(Math.round(d.x));
+        $('#status-posy').html(Math.round(d.y));
+        $('#status-uid').html(Math.round(d.id));
+        $('#status-main-uid').html(Math.round(d.id));
+        $('#status-type').html(Math.round(d.type));
+        current_dot_id = d.id;
     }
 
     function clear_all_of_dots() {
@@ -62,8 +65,7 @@ jQuery(function () {
 
     function select_one_dot(id) {
         $('.dot *').attr('class', '');
-        $('#p' + id)
-            .attr('class', 'selected');
+        $('#p' + id).attr('class', 'selected');
     }
 
     function redraw_lines(uid_num) {
@@ -82,6 +84,16 @@ jQuery(function () {
             }
         }
     }
+
+    $('#side-head-top-button-n').click(function () {
+        update_current_position(glo_json_data.nodes[(current_dot_id + 1 + dot_size) % dot_size]);
+        select_one_dot(current_dot_id);
+    });
+
+    $('#side-head-top-button-p').click(function () {
+        update_current_position(glo_json_data.nodes[(current_dot_id - 1 + dot_size) % dot_size]);
+        select_one_dot(current_dot_id);
+    });
 
     var wrapper = d3.select("#image");
     var context_gene_tri = 0;
@@ -152,11 +164,13 @@ jQuery(function () {
             .attr("x2", width)
             .attr("y2", function(d) { return d; });
 
-    d3.json("data/data.json",  function (error,data_graph) {
+    d3.json("data/data.json", function (error, data_graph) {
         print_gra(data_graph);
-        glo_json_data  = data_graph;
+        glo_json_data = data_graph;
+        dot_size = glo_json_data.nodes.length;
+        current_dot_id = Math.min(dot_size - 1, current_dot_id);
+        update_current_position(data_graph.nodes[current_dot_id]);
     });
-
 
 
     var r_click_gene;
@@ -199,8 +213,10 @@ jQuery(function () {
                 .attr("cy", function(d) { return d.y; })
                 .attr("id",function(d){ return "p"+d.id})
                 .attr("u_type",function(d){ return d.type})
-                .on("mouseover", update_current_position)
-                .on("click", function (d) { select_one_dot(d.id); })
+                .on("click", function (d) { 
+                    select_one_dot(d.id);
+                    update_current_position(d);
+                })
                 .on("contextmenu", function (d) {
                     context_gene_tri = 1;
                     // Avoid the real one
@@ -236,7 +252,10 @@ jQuery(function () {
                 .style("fill","#22375B")
                 .text(function(d){return d.id})
                 .on("mouseover", update_current_position)
-                .on("click", function (d) { select_one_dot(d.id); })
+                .on("click", function (d) { 
+                    select_one_dot(d.id);
+                    update_current_position(d);
+                })
                 // define right click
                 .on("contextmenu", function (d) {
                     context_gene_tri = 1;
