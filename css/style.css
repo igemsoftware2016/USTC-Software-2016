@@ -84,6 +84,7 @@ div#image {
 #side-wrapper > div {
     -webkit-transform: translateX(0);
     transform: translateX(0);
+    padding-bottom: 0;
 }
 
 @media only screen and (max-width: 600px) {
