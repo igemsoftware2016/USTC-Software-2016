@@ -3,163 +3,64 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="A platform for biological use">
+    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>BioHub</title>
+    <title>homePage</title>
 
+    <!-- Add to homescreen for Chrome on Android -->
     <meta name="mobile-web-app-capable" content="yes">
-    <link rel="icon" href="images/logo.ico">
+    <link rel="icon" sizes="192x192" href="images/logo.ico">
 
+    <!-- Add to homescreen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="BioHub">
+    <meta name="apple-mobile-web-app-title" content="Material Design Lite">
     <link rel="apple-touch-icon-precomposed" href="images/logo.ico">
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
+    <meta name="msapplication-TileColor" content="#3372DF">
 
     <link rel="shortcut icon" href="images/logo.ico">
 
+    <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
+    <!--
+    <link rel="canonical" href="http://www.example.com/">
+    -->
+
     <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.green-blue.min.css">
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
-    <style type="text/css">
-.demo-content {
-    min-height: 437px;
-    padding: 0px 8px 0px 8px;
-}
-.mdl-list__item-avatar { 
-    color: black !important;
-    background-color: white !important;
-}
-html, body {
-    font-family: 'Roboto', 'Helvetica';
-}
-a {
-    text-decoration: none;
-    color: black;
-}
-.demo-avatar {
-    width: 64px;
-    height: 64px;
-    border-radius: 32px;
-}
-.mdl-layout__drawer .avatar {
-    margin-bottom: 16px;
-}
-.demo-drawer {
-    border: none;
-}
-.demo-drawer .mdl-menu__container {
-    z-index: -1;
-}
-.demo-drawer .demo-navigation {
-    z-index: -2;
-}
-.demo-drawer .mdl-menu .mdl-menu__item {
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
-}
-.demo-drawer-header {
-    box-sizing: border-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: end;
-    -ms-flex-pack: end;
-    -webkit-justify-content: flex-end;
-    justify-content: flex-end;
-    -webkit-box-orient: vertical;
-    -webkit-flex-direction: column;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    padding: 16px;
-    height: 160px;
-}
-.demo-avatar-dropdown {
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    position: relative;
-    -webkit-box-orient: horizontal;
-    -webkit-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
-    width: 100%;
-}
-.demo-navigation {
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
-    -ms-flex-positive: 1;
-    flex-grow: 1;
-}
-.demo-layout .demo-navigation .mdl-navigation__link {
-    display: -webkit-flex !important;
-    display: -ms-flexbox !important;
-    display: flex !important;
-    -webkit-box-orient: horizontal;
-    -webkit-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
-    color: rgba(255, 255, 255, 0.56);
-    font-weight: 500;
-}
-.demo-layout .demo-navigation .mdl-navigation__link:hover {
-    background-color: #00C853;
-}
-.demo-navigation .mdl-navigation__link .material-icons {
-    font-size: 24px;
-    color: rgba(255, 255, 255, 0.56);
-    margin-right: 24px;
-}
-.mdl-mini-footer {
-    padding-left: 32px;
-    padding-right: 32px;
-}
-.mdl-mini-footer {
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
-    -ms-flex-positive: 1;
-    flex-grow: 1;
-}
-.demo-copyright {
-    display: -webkit-flex !important;
-    display: -ms-flexbox !important;
-    display: flex !important;
-    -webkit-box-orient: horizontal;
-    -webkit-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
-}
-.demo-spacer {
-    height: 16px;
-}
-    </style>
+
+    <link rel="stylesheet" href="css/material.min.css">
+    <link rel="stylesheet" href="css/material-lite.css">
+    <link rel="stylesheet" href="css/home.css">
+
+    <script src="js/jquery-2.1.1.min.js"></script>
+    <script src="js/material.min.js"></script>
+
 </head>
 <body>
 <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
-    <header class="demo-header mdl-layout__header mdl-color--green-A700 mdl-color-text--white">
+    <header class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
         <div class="mdl-layout__header-row">
-            <span class="mdl-layout-title">Home</span>
+            <span class="mdl-layout-title">home</span>
             <div class="mdl-layout-spacer"></div>
-            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="contact_dropdown">
-                <i class="material-icons">more_horiz</i>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+                <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
+                    <i class="material-icons">search</i>
+                </label>
+                <div class="mdl-textfield__expandable-holder">
+                    <input class="mdl-textfield__input" type="text" id="search">
+                    <label class="mdl-textfield__label" for="search">Enter your query...</label>
+                </div>
+            </div>
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
+                <i class="material-icons">more_vert</i>
             </button>
-            <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="contact_dropdown">
-                <li class="mdl-menu__item">About BioHub</li>
-                <li class="mdl-menu__item">About us</li>
+            <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
+                <li class="mdl-menu__item">About</li>
+                <li class="mdl-menu__item">Contact</li>
+                <li class="mdl-menu__item">Legal information</li>
             </ul>
         </div>
     </header>
@@ -167,26 +68,31 @@ a {
         <header class="demo-drawer-header">
             <img src="img/logo.png" class="demo-avatar">
             <div class="demo-avatar-dropdown">
-                <span style="font-size: 16px">user@mail.com</span>
+                <span style="font-size: 15px">user@mail.com</span>
                 <div class="mdl-layout-spacer"></div>
-                <button id="account_dropdown" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+                <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
                     <i class="material-icons" role="presentation">arrow_drop_down</i>
+                    <span class="visuallyhidden">Accounts</span>
                 </button>
-                <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="account_dropdown">
-                    <li class="mdl-menu__item mdl-color-text--black">View My Profile</li>
-                    <li class="mdl-menu__item mdl-color-text--black">Login As Another User</li>
+                <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
+                    <li class="mdl-menu__item"><a class="mdl-navigation__link" href="profile.html">my profile</a></li>
+                    <li class="mdl-menu__item"><i class="material-icons">compare_arrows</i>switch user</li>
                 </ul>
             </div>
         </header>
-        <nav class="demo-navigation mdl-navigation mdl-color--white" >
-            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href=""><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">home</i>Home</a>
-            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href=""><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">perm_data_setting</i>Plugins</a>
-            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href=""><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">inbox</i>Projects</a>
-            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href=""><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">library_books</i>Documents</a>
-            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href=""><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">group</i>Groups</a>
-            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href=""><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">question_answer</i>Forum</a>
+        <nav class="demo-navigation mdl-navigation mdl-color--green-A400" >
+            <a class="mdl-navigation__link mdl-color-text--white" style="font-size: 15px" href="home.html"><i class="mdl-color-text--white material-icons" role="presentation" style="font-size: 30px">home</i>Home</a>
+            <a class="mdl-navigation__link mdl-color-text--white" style="font-size: 15px" href="plugins.html"><i class="mdl-color-text--white material-icons" role="presentation" style="font-size: 30px">perm_data_setting</i>plugins</a>
+            <a class="mdl-navigation__link mdl-color-text--white" style="font-size: 15px" href="projects.html"><i class="mdl-color-text--white material-icons" role="presentation" style="font-size: 30px">inbox</i>Projects</a>
+            <a class="mdl-navigation__link mdl-color-text--white" style="font-size: 15px" href="documents.html"><i class="mdl-color-text--white material-icons" role="presentation" style="font-size: 30px">library_books</i>Document</a>
+            <a class="mdl-navigation__link mdl-color-text--white" style="font-size: 15px" href="groups.html"><i class="mdl-color-text--white material-icons" role="presentation" style="font-size: 30px">people</i>Groups</a>
+            <a class="mdl-navigation__link mdl-color-text--white" style="font-size: 15px" href="forums.html"><i class="mdl-color-text--white material-icons" role="presentation" style="font-size: 30px">forum</i>Forums</a>
+            <a class="mdl-navigation__link mdl-color-text--white" style="font-size: 15px" href="developers.html"><img style="width: 30px;margin-right: 32px" src="img/developer.png">Developers</a>
+            <div class="mdl-layout-spacer"></div>
+            <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Help</span></a>
         </nav>
     </div>
+
     <main class="mdl-layout__content mdl-color--white">
         <div class="demo-content">
             <div class="mdl-grid">
@@ -194,77 +100,77 @@ a {
                     <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
                         <div class="mdl-grid mdl-card__title mdl-card--expand mdl-cell mdl-cell--12-col" style="margin-top: -8px; margin-bottom: 8px;">
                             <div class="mdl-cell mdl-cell--12-col">
-                            <ul id="userinfo_list" class="mdl-list mdl-cell mdl-cell--12-col">
-                                <script type="text/javascript">
-                                  function loaduserinfo() {
-                                    var user=document.createElement("li");
-                                    user.className="demo-user_info-list mdl-list__item mdl-list__item--two-line";
+                                <ul id="userinfo_list" class="mdl-list mdl-cell mdl-cell--12-col">
+                                    <script type="text/javascript">
+                                        function loaduserinfo() {
+                                            var user=document.createElement("li");
+                                            user.className="demo-user_info-list mdl-list__item mdl-list__item--two-line";
 
-                                    var primary_content=document.createElement("span");
-                                    primary_content.className="mdl-list__item-primary-content";
+                                            var primary_content=document.createElement("span");
+                                            primary_content.className="mdl-list__item-primary-content";
 
-                                    var link=document.createElement("a");
-                                    link.href="#";
-                                    var avatar=document.createElement("img");
-                                    avatar.className="mdl-list__item-avatar";
-                                    avatar.src="img/logo.png";
-                                    componentHandler.upgradeElement(avatar);
-                                    link.appendChild(avatar);
-                                    componentHandler.upgradeElement(link);
-                                    primary_content.appendChild(link);
+                                            var link=document.createElement("a");
+                                            link.href="#";
+                                            var avatar=document.createElement("img");
+                                            avatar.className="mdl-list__item-avatar";
+                                            avatar.src="img/logo.png";
+                                            componentHandler.upgradeElement(avatar);
+                                            link.appendChild(avatar);
+                                            componentHandler.upgradeElement(link);
+                                            primary_content.appendChild(link);
 
-                                    var link=document.createElement("a");
-                                    link.href="#";
-                                    var user_name=document.createElement("span");
-                                    var textNode1=document.createTextNode("userid");
-                                    user_name.appendChild(textNode1);
-                                    componentHandler.upgradeElement(user_name);
-                                    link.appendChild(user_name);
-                                    componentHandler.upgradeElement(link);
-                                    primary_content.appendChild(link);
-                                    
-                                    var link=document.createElement("a");
-                                    link.href="#";
-                                    var user_email=document.createElement("span");
-                                    user_email.className="mdl-list__item-sub-title";
-                                    var textNode2=document.createTextNode("user@mail.com");
-                                    user_email.appendChild(textNode2);
-                                    componentHandler.upgradeElement(user_email);
-                                    link.appendChild(user_email);
-                                    componentHandler.upgradeElement(link);
-                                    primary_content.appendChild(link);
+                                            var link=document.createElement("a");
+                                            link.href="#";
+                                            var user_name=document.createElement("span");
+                                            var textNode1=document.createTextNode("userid");
+                                            user_name.appendChild(textNode1);
+                                            componentHandler.upgradeElement(user_name);
+                                            link.appendChild(user_name);
+                                            componentHandler.upgradeElement(link);
+                                            primary_content.appendChild(link);
 
-                                    componentHandler.upgradeElement(primary_content);
-                                    user.appendChild(primary_content);
+                                            var link=document.createElement("a");
+                                            link.href="#";
+                                            var user_email=document.createElement("span");
+                                            user_email.className="mdl-list__item-sub-title";
+                                            var textNode2=document.createTextNode("user@mail.com");
+                                            user_email.appendChild(textNode2);
+                                            componentHandler.upgradeElement(user_email);
+                                            link.appendChild(user_email);
+                                            componentHandler.upgradeElement(link);
+                                            primary_content.appendChild(link);
 
-                                    var secondary_content=document.createElement("span");
-                                    secondary_content.className="mdl-list__item-secondary-content";
+                                            componentHandler.upgradeElement(primary_content);
+                                            user.appendChild(primary_content);
 
-                                    var user_detail=document.createElement("span");
-                                    user_detail.className="mdl-list__item-secondary-info";
-                                    user_detail.style.color="black";
-                                    var textNode3=document.createTextNode("Joined BioHub");
-                                    user_detail.appendChild(textNode3);
-                                    var span_day=document.createElement("span");
-                                    span_day.style.color="green";
-                                    var textNode4=" "+"100"+" ";
-                                    span_day.appendChild(document.createTextNode(textNode4));
-                                    componentHandler.upgradeElement(span_day);
-                                    user_detail.appendChild(span_day);
-                                    var textNode5=document.createTextNode("Days Ago");
-                                    user_detail.appendChild(textNode5);
-                                    componentHandler.upgradeElement(user_detail);
-                                    secondary_content.appendChild(user_detail);
+                                            var secondary_content=document.createElement("span");
+                                            secondary_content.className="mdl-list__item-secondary-content";
 
-                                    componentHandler.upgradeElement(secondary_content);
-                                    user.appendChild(secondary_content);
+                                            var user_detail=document.createElement("span");
+                                            user_detail.className="mdl-list__item-secondary-info";
+                                            user_detail.style.color="black";
+                                            var textNode3=document.createTextNode("Joined BioHub");
+                                            user_detail.appendChild(textNode3);
+                                            var span_day=document.createElement("span");
+                                            span_day.style.color="green";
+                                            var textNode4=" "+"100"+" ";
+                                            span_day.appendChild(document.createTextNode(textNode4));
+                                            componentHandler.upgradeElement(span_day);
+                                            user_detail.appendChild(span_day);
+                                            var textNode5=document.createTextNode("Days Ago");
+                                            user_detail.appendChild(textNode5);
+                                            componentHandler.upgradeElement(user_detail);
+                                            secondary_content.appendChild(user_detail);
 
-                                    componentHandler.upgradeElement(user);
-                                    document.getElementById("userinfo_list").appendChild(user);
-                                  }
-                                  loaduserinfo();
-                                </script>
-                            </ul>
+                                            componentHandler.upgradeElement(secondary_content);
+                                            user.appendChild(secondary_content);
+
+                                            componentHandler.upgradeElement(user);
+                                            document.getElementById("userinfo_list").appendChild(user);
+                                        }
+                                        loaduserinfo();
+                                    </script>
+                                </ul>
                             </div>
                             <div class="mdl-cell mdl-cell--12-col">
                                 <p id="userinfo_message_friend" style="margin-left: 8px; margin-right: 8px;">
@@ -294,70 +200,70 @@ a {
                                 <h4 class="mdl-color-text--green" style="margin: 0px 0px 0px 8px;">Projects</h4>
                                 <hr/>
                                 <ul id="project_list" class="mdl-list mdl-cell--12-col">
-                                <script type="text/javascript">
-                                  function createprojectlist() {
-                                    var num=3;
-                                    for (var i=1;i<=num;i++) {
-                                      var project=document.createElement("li");
-                                      project.className="mdl-list__item mdl-list__item--two-line";
+                                    <script type="text/javascript">
+                                        function createprojectlist() {
+                                            var num=3;
+                                            for (var i=1;i<=num;i++) {
+                                                var project=document.createElement("li");
+                                                project.className="mdl-list__item mdl-list__item--two-line";
 
-                                      var primary_content=document.createElement("span");
-                                      primary_content.className="mdl-list__item-primary-content";
+                                                var primary_content=document.createElement("span");
+                                                primary_content.className="mdl-list__item-primary-content";
 
-                                      var link=document.createElement("a");
-                                      link.href="#";
-                                      var avatar=document.createElement("i");
-                                      avatar.className="material-icons mdl-list__item-avatar";
-                                      var textNode1=document.createTextNode("inbox");
-                                      avatar.appendChild(textNode1);
-                                      componentHandler.upgradeElement(avatar);
-                                      link.appendChild(avatar);
-                                      componentHandler.upgradeElement(link);
-                                      primary_content.appendChild(link);
+                                                var link=document.createElement("a");
+                                                link.href="#";
+                                                var avatar=document.createElement("i");
+                                                avatar.className="material-icons mdl-list__item-avatar";
+                                                var textNode1=document.createTextNode("inbox");
+                                                avatar.appendChild(textNode1);
+                                                componentHandler.upgradeElement(avatar);
+                                                link.appendChild(avatar);
+                                                componentHandler.upgradeElement(link);
+                                                primary_content.appendChild(link);
 
-                                      var link=document.createElement("a");
-                                      link.href="#";
-                                      var project_name=document.createElement("span");
-                                      var textNode2=document.createTextNode("myproject");
-                                      project_name.appendChild(textNode2);
-                                      componentHandler.upgradeElement(project_name);
-                                      link.appendChild(project_name);
-                                      componentHandler.upgradeElement(link);
-                                      primary_content.appendChild(link);
+                                                var link=document.createElement("a");
+                                                link.href="#";
+                                                var project_name=document.createElement("span");
+                                                var textNode2=document.createTextNode("myproject");
+                                                project_name.appendChild(textNode2);
+                                                componentHandler.upgradeElement(project_name);
+                                                link.appendChild(project_name);
+                                                componentHandler.upgradeElement(link);
+                                                primary_content.appendChild(link);
 
-                                      var link=document.createElement("a");
-                                      link.href="#";
-                                      var project_author=document.createElement("span");
-                                      project_author.className="mdl-list__item-sub-title";
-                                      var textNode3=document.createTextNode("Author:Userid");
-                                      project_author.appendChild(textNode3);
-                                      componentHandler.upgradeElement(project_author);
-                                      link.appendChild(project_author);
-                                      componentHandler.upgradeElement(link);
-                                      primary_content.appendChild(link);
+                                                var link=document.createElement("a");
+                                                link.href="#";
+                                                var project_author=document.createElement("span");
+                                                project_author.className="mdl-list__item-sub-title";
+                                                var textNode3=document.createTextNode("Author:Userid");
+                                                project_author.appendChild(textNode3);
+                                                componentHandler.upgradeElement(project_author);
+                                                link.appendChild(project_author);
+                                                componentHandler.upgradeElement(link);
+                                                primary_content.appendChild(link);
 
-                                      componentHandler.upgradeElement(primary_content);
-                                      project.appendChild(primary_content);
+                                                componentHandler.upgradeElement(primary_content);
+                                                project.appendChild(primary_content);
 
-                                      var secondary_content=document.createElement("span");
-                                      secondary_content.className="mdl-list__item-secondary-content";
+                                                var secondary_content=document.createElement("span");
+                                                secondary_content.className="mdl-list__item-secondary-content";
 
-                                      var project_date=document.createElement("span");
-                                      project_date.className="mdl-list__item-secondary-info";
-                                      project_date.style.color="black";
-                                      var textNode4=document.createTextNode("2000-0-0");
-                                      project_date.appendChild(textNode4);
-                                      componentHandler.upgradeElement(project_date);
-                                      secondary_content.appendChild(project_date);
-                                      componentHandler.upgradeElement(secondary_content);
-                                      project.appendChild(secondary_content);
+                                                var project_date=document.createElement("span");
+                                                project_date.className="mdl-list__item-secondary-info";
+                                                project_date.style.color="black";
+                                                var textNode4=document.createTextNode("2000-0-0");
+                                                project_date.appendChild(textNode4);
+                                                componentHandler.upgradeElement(project_date);
+                                                secondary_content.appendChild(project_date);
+                                                componentHandler.upgradeElement(secondary_content);
+                                                project.appendChild(secondary_content);
 
-                                      componentHandler.upgradeElement(project);
-                                      document.getElementById("project_list").appendChild(project);
-                                    }
-                                  }
-                                  createprojectlist();
-                                </script>
+                                                componentHandler.upgradeElement(project);
+                                                document.getElementById("project_list").appendChild(project);
+                                            }
+                                        }
+                                        createprojectlist();
+                                    </script>
                                 </ul>
                             </div>
                         </div>
@@ -374,70 +280,70 @@ a {
                                 <h4 class="mdl-color-text--green" style="margin: 0px 0px 0px 8px;">Groups</h4>
                                 <hr/>
                                 <ul id="group_list" class="mdl-list mdl-cell--12-col">
-                                <script type="text/javascript">
-                                  function creategrouplist() {
-                                    var num=3;
-                                    for (var i=1;i<=num;i++) {
-                                      var group=document.createElement("li");
-                                      group.className="mdl-list__item mdl-list__item--two-line";
+                                    <script type="text/javascript">
+                                        function creategrouplist() {
+                                            var num=3;
+                                            for (var i=1;i<=num;i++) {
+                                                var group=document.createElement("li");
+                                                group.className="mdl-list__item mdl-list__item--two-line";
 
-                                      var primary_content=document.createElement("span");
-                                      primary_content.className="mdl-list__item-primary-content";
+                                                var primary_content=document.createElement("span");
+                                                primary_content.className="mdl-list__item-primary-content";
 
-                                      var link=document.createElement("a");
-                                      link.href="#";
-                                      var avatar=document.createElement("i");
-                                      avatar.className="material-icons mdl-list__item-avatar";
-                                      var textNode1=document.createTextNode("group");
-                                      avatar.appendChild(textNode1);
-                                      componentHandler.upgradeElement(avatar);
-                                      link.appendChild(avatar);
-                                      componentHandler.upgradeElement(link);
-                                      primary_content.appendChild(link);
+                                                var link=document.createElement("a");
+                                                link.href="#";
+                                                var avatar=document.createElement("i");
+                                                avatar.className="material-icons mdl-list__item-avatar";
+                                                var textNode1=document.createTextNode("group");
+                                                avatar.appendChild(textNode1);
+                                                componentHandler.upgradeElement(avatar);
+                                                link.appendChild(avatar);
+                                                componentHandler.upgradeElement(link);
+                                                primary_content.appendChild(link);
 
-                                      var link=document.createElement("a");
-                                      link.href="#";
-                                      var group_name=document.createElement("span");
-                                      var textNode2=document.createTextNode("mygroup");
-                                      group_name.appendChild(textNode2);
-                                      componentHandler.upgradeElement(group_name);
-                                      link.appendChild(group_name);
-                                      componentHandler.upgradeElement(link);
-                                      primary_content.appendChild(link);
+                                                var link=document.createElement("a");
+                                                link.href="#";
+                                                var group_name=document.createElement("span");
+                                                var textNode2=document.createTextNode("mygroup");
+                                                group_name.appendChild(textNode2);
+                                                componentHandler.upgradeElement(group_name);
+                                                link.appendChild(group_name);
+                                                componentHandler.upgradeElement(link);
+                                                primary_content.appendChild(link);
 
-                                      var link=document.createElement("a");
-                                      link.href="#";
-                                      var group_leader=document.createElement("span");
-                                      group_leader.className="mdl-list__item-sub-title";
-                                      var textNode3=document.createTextNode("Leader:Userid");
-                                      group_leader.appendChild(textNode3);
-                                      componentHandler.upgradeElement(group_leader);
-                                      link.appendChild(group_leader);
-                                      componentHandler.upgradeElement(link);
-                                      primary_content.appendChild(link);
+                                                var link=document.createElement("a");
+                                                link.href="#";
+                                                var group_leader=document.createElement("span");
+                                                group_leader.className="mdl-list__item-sub-title";
+                                                var textNode3=document.createTextNode("Leader:Userid");
+                                                group_leader.appendChild(textNode3);
+                                                componentHandler.upgradeElement(group_leader);
+                                                link.appendChild(group_leader);
+                                                componentHandler.upgradeElement(link);
+                                                primary_content.appendChild(link);
 
-                                      componentHandler.upgradeElement(primary_content);
-                                      group.appendChild(primary_content);
+                                                componentHandler.upgradeElement(primary_content);
+                                                group.appendChild(primary_content);
 
-                                      var secondary_content=document.createElement("span");
-                                      secondary_content.className="mdl-list__item-secondary-content";
+                                                var secondary_content=document.createElement("span");
+                                                secondary_content.className="mdl-list__item-secondary-content";
 
-                                      var group_member=document.createElement("span");
-                                      group_member.className="mdl-list__item-secondary-info";
-                                      group_member.style.color="black";
-                                      var textNode4=document.createTextNode("5 members");
-                                      group_member.appendChild(textNode4);
-                                      componentHandler.upgradeElement(group_member);
-                                      secondary_content.appendChild(group_member);
-                                      componentHandler.upgradeElement(secondary_content);
-                                      group.appendChild(secondary_content);
+                                                var group_member=document.createElement("span");
+                                                group_member.className="mdl-list__item-secondary-info";
+                                                group_member.style.color="black";
+                                                var textNode4=document.createTextNode("5 members");
+                                                group_member.appendChild(textNode4);
+                                                componentHandler.upgradeElement(group_member);
+                                                secondary_content.appendChild(group_member);
+                                                componentHandler.upgradeElement(secondary_content);
+                                                group.appendChild(secondary_content);
 
-                                      componentHandler.upgradeElement(group);
-                                      document.getElementById("group_list").appendChild(group);
-                                    }
-                                  }
-                                  creategrouplist();
-                                </script>
+                                                componentHandler.upgradeElement(group);
+                                                document.getElementById("group_list").appendChild(group);
+                                            }
+                                        }
+                                        creategrouplist();
+                                    </script>
                                 </ul>
                             </div>
                         </div>
@@ -455,72 +361,72 @@ a {
                     </span>
                     <hr/>
                     <script type="text/javascript">
-                      function loadtimeline() {
-                        var num=3;
-                        for (var i=1;i<=num;i++) {
-                          var timeline_section=document.createElement("section");
-                          timeline_section.className="mdl-grid mdl-grid--no-spacing mdl-shadow--4dp";
-                          timeline_section.style.margin="8px 8px 0px 0px";
+                        function loadtimeline() {
+                            var num=3;
+                            for (var i=1;i<=num;i++) {
+                                var timeline_section=document.createElement("section");
+                                timeline_section.className="mdl-grid mdl-grid--no-spacing mdl-shadow--4dp";
+                                timeline_section.style.margin="8px 8px 0px 0px";
 
-                          var img=document.createElement("div");
-                          img.className="mdl-cell mdl-cell--6-col";
-                          img.style.backgroundImage="url(img/logo.png)";
-                          img.style.backgroundRepeat="no-repeat";
-                          img.style.backgroundPosition="center";
-                          componentHandler.upgradeElement(img);
-                          timeline_section.appendChild(img);
+                                var img=document.createElement("div");
+                                img.className="mdl-cell mdl-cell--6-col";
+                                img.style.backgroundImage="url(img/logo.png)";
+                                img.style.backgroundRepeat="no-repeat";
+                                img.style.backgroundPosition="center";
+                                componentHandler.upgradeElement(img);
+                                timeline_section.appendChild(img);
 
-                          var info=document.createElement("div");
-                          info.className="mdl-card mdl-cell mdl-cell--6-col";
-                          var supporting_text=document.createElement("div");
-                          supporting_text.className="mdl-card__supporting-text";
-                          supporting_text.style.minHeight="120px";
-                          var title=document.createElement("span");
-                          title.style.color="black";
-                          title.style.fontSize="18px";
-                          var textNode=document.createTextNode("New public project");
-                          title.appendChild(textNode);
-                          componentHandler.upgradeElement(title);
-                          supporting_text.appendChild(title);
-                          var divider=document.createElement("br");
-                          componentHandler.upgradeElement(divider);
-                          supporting_text.appendChild(divider);
-                          var content=document.createElement("p");
-                          content.style.paddingTop="40px";
-                          var textNode=document.createTextNode("Public project by User xxx");
-                          content.appendChild(textNode);
-                          componentHandler.upgradeElement(content);
-                          supporting_text.appendChild(content);
-                          componentHandler.upgradeElement(supporting_text);
-                          info.appendChild(supporting_text);
+                                var info=document.createElement("div");
+                                info.className="mdl-card mdl-cell mdl-cell--6-col";
+                                var supporting_text=document.createElement("div");
+                                supporting_text.className="mdl-card__supporting-text";
+                                supporting_text.style.minHeight="120px";
+                                var title=document.createElement("span");
+                                title.style.color="black";
+                                title.style.fontSize="18px";
+                                var textNode=document.createTextNode("New public project");
+                                title.appendChild(textNode);
+                                componentHandler.upgradeElement(title);
+                                supporting_text.appendChild(title);
+                                var divider=document.createElement("br");
+                                componentHandler.upgradeElement(divider);
+                                supporting_text.appendChild(divider);
+                                var content=document.createElement("p");
+                                content.style.paddingTop="40px";
+                                var textNode=document.createTextNode("Public project by User xxx");
+                                content.appendChild(textNode);
+                                componentHandler.upgradeElement(content);
+                                supporting_text.appendChild(content);
+                                componentHandler.upgradeElement(supporting_text);
+                                info.appendChild(supporting_text);
 
-                          var actions=document.createElement("div");
-                          actions.className="mdl-card__actions mdl-card--border";
-                          var view=document.createElement("a");
-                          view.href="#";
-                          view.className="mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect";
-                          var textNode=document.createTextNode("View project...");
-                          view.appendChild(textNode);
-                          componentHandler.upgradeElement(view);
-                          actions.appendChild(view);
-                          componentHandler.upgradeElement(actions);
-                          info.appendChild(actions);
-                          componentHandler.upgradeElement(info);
-                          timeline_section.appendChild(info);
+                                var actions=document.createElement("div");
+                                actions.className="mdl-card__actions mdl-card--border";
+                                var view=document.createElement("a");
+                                view.href="#";
+                                view.className="mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect";
+                                var textNode=document.createTextNode("View project...");
+                                view.appendChild(textNode);
+                                componentHandler.upgradeElement(view);
+                                actions.appendChild(view);
+                                componentHandler.upgradeElement(actions);
+                                info.appendChild(actions);
+                                componentHandler.upgradeElement(info);
+                                timeline_section.appendChild(info);
 
-                          componentHandler.upgradeElement(timeline_section);
-                          document.getElementById("demo-timeline").appendChild(timeline_section);
+                                componentHandler.upgradeElement(timeline_section);
+                                document.getElementById("demo-timeline").appendChild(timeline_section);
 
-                          var appendix=document.createElement("p");
-                          appendix.style.marginTop="8px";
-                          appendix.style.marginBottom="24px";
-                          var textNode=document.createTextNode("2000-0-0");
-                          appendix.appendChild(textNode);
-                          componentHandler.upgradeElement(appendix);
-                          document.getElementById("demo-timeline").appendChild(appendix);
+                                var appendix=document.createElement("p");
+                                appendix.style.marginTop="8px";
+                                appendix.style.marginBottom="24px";
+                                var textNode=document.createTextNode("2000-0-0");
+                                appendix.appendChild(textNode);
+                                componentHandler.upgradeElement(appendix);
+                                document.getElementById("demo-timeline").appendChild(appendix);
+                            }
                         }
-                      }
-                      loadtimeline();
+                        loadtimeline();
                     </script>
                 </div>
             </div>
@@ -538,8 +444,9 @@ a {
             <div class="mdl-mini-footer__right-section">
                 <span class="demo-copyright"><i class="material-icons">copyright</i>&nbsp;2016 USTC-Software</span>
             </div>
-        </footer>  
+        </footer>
     </main>
 </div>
+
 </body>
 </html>
