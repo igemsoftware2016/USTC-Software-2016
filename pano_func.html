@@ -29,35 +29,79 @@
     <script src="js/pano_func.js"></script>
 </head>
 
-<body class="light-blue lighten-2">
-<!-- navbar -->
-<nav class="light-blue darken-2">
-    <div class="nav-wrapper">
-        <a href="#" style="padding-left:0.5em" class="brand-logo left">BioHub</a>
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="#">User Status</a></li>
-            <li><a href="#">User Name</a></li>
-            <li><img src="images/logo.ico" alt="logo" class="circle" style="width:4em;padding:0.2em 0.2em 0 0"></li>
-        </ul>
-    </div>
-</nav>
-
-<div class="row" id="main-wrapper">
-    <div class="col s12" style="height:100%;padding:0">
+<body class="green lighten-4">
+<!--<img src="images/logo.ico" alt="logo" class="circle" style="width:4em;padding:0.2em 0.2em 0 0">-->
+<div id="main-wrapper" class="row">
+    <div class="col s12" style="height:100%">
         <div id="image-wrapper" style="height:100%">
-            <div style="width:100%;height:100%" id="image">
-            </div>
+            <div style="width:100%;height:100%" id="image"></div>
         </div>
     </div>
 </div>
-<div class="row" id="float-wrapper">
-    <div class="col s12 m4 l2">
-        <div class="card tooltip light-blue darken-2" id="current-node">
-            <div class="card-title light-blue darken-4 white-text center-align">Current Node</div>
-            <div class="card-content white-text">
-                <p id="status">position X:<br/>position Y:<br/>uid:<br/>type:</p>
+<div id="side-wrapper" class="row">
+    <a id="side-head-top-button-h" class="col s2 black-text left-align" style=""><i class="material-icons">menu</i></a>
+    <div class="side-nav fixed" style="height:100%">
+        <div id="side-head" class="green darken-2">
+            <div id="side-head-top-buttons" class="row">
+                <a id="side-head-close-button" class="col s2 white-text left-align" style="padding:0.45em 0.75em"><i class="material-icons">close</i></a>
+                <a id="side-head-top-button-p" href="javascript:void(0);" class="col s4 white-text center-align">PREVIOUS</a>
+                <a id="side-head-top-button-n" href="javascript:void(0);" class="col s4 white-text center-align">NEXT</a>
+                <a id="side-head-top-button-i" class="col s2 white-text right-align" style="padding:0.45em 0.75em"><i class="material-icons">perm_identity</i></a>
+            </div>
+            <div id="side-head-node-name" class="container">
+                <h2 class="white-text center-align">Node <span id="status-main-uid">1</span></h2>
+            </div>
+            <div id="side-head-node-position" class="row">
+                <div class="col s6 white-text">POSITION X&nbsp;&nbsp;<span id="status-posx">2333</span></div>
+                <div class="col s6 white-text">POSITION Y&nbsp;&nbsp;<span id="status-posy">6666</span></div>
+                <div class="col s6 white-text">UID&nbsp;&nbsp;<span id="status-uid"></span></div>
+                <div class="col s6 white-text">TYPE&nbsp;&nbsp;<span id="status-type"></span></div>
+            </div>
+            <div class="container row" style="margin-bottom:0"></div>
+        </div>
+        <div class="collection" style="margin:0;border-left:0;border-right:0">
+            <div class="collection-item">
+                <h5 class="valign-wrapper"><i class="material-icons valign">add</i>&nbsp;<span>Add a New Node</span></h5>
+            </div>
+            <div class="collection-item">
+                <h5 class="valign-wrapper"><i class="material-icons valign">info</i>&nbsp;Element Info</h5>
+                <div>
+                    bla bla bla bla bla bla bla bla 
+                    bla bla bla bla bla bla bla bla 
+                    bla bla bla bla bla bla bla bla 
+                    bla bla bla bla bla bla bla bla 
+                    bla bla bla bla bla bla bla bla 
+                    bla bla bla bla bla bla bla bla 
+                    bla bla bla bla bla bla bla bla 
+                    bla bla bla bla bla bla bla bla 
+                    bla bla bla bla bla bla bla bla 
+                    bla bla bla bla bla bla bla bla 
+                    bla bla bla bla bla bla bla bla 
+                    bla bla bla bla bla bla bla bla 
+                    bla bla bla bla bla bla bla bla 
+                    bla bla bla bla bla bla bla bla 
+                    bla bla bla bla bla bla bla bla 
+                    bla bla bla bla bla bla bla bla 
+                </div>
+            </div>
+            <div class="collection-item">
+                <h5 class="valign-wrapper"><i class="material-icons valign">link</i>&nbsp;Links</h5>
+                <div>
+                    bla bla bla bla bla bla bla bla 
+                    bla bla bla bla bla bla bla bla 
+                    bla bla bla bla bla bla bla bla 
+                    bla bla bla bla bla bla bla bla 
+                    bla bla bla bla bla bla bla bla 
+                    bla bla bla bla bla bla bla bla 
+                    bla bla bla bla bla bla bla bla 
+                    bla bla bla bla bla bla bla bla 
+                </div>
+            </div>
+            <div class="collection-item">
+                <h5 class="valign-wrapper red-text"><i class="material-icons valign">remove</i>&nbsp;<span>Remove the Node</span></h5>
             </div>
         </div>
+        <!--
         <div id="menu-left" class="card light-blue darken-4">
             <div class="card-title white-text center-align">Elements</div>
             <div>
@@ -89,6 +133,7 @@
                 </ul>
             </div>
         </div>
+        -->
     </div>
 </div>
 
