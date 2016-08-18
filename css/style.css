@@ -120,7 +120,11 @@ div#image {
     padding: 0.45em 0.75em;
 }
 
-#side-head-node-position div span {
+#side-head-node-position div {
+    padding-right: 0;
+}
+
+#side-head-node-position span {
     font-weight: bold;
 }
 
