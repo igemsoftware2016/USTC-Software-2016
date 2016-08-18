@@ -187,6 +187,10 @@ jQuery(function ($) {
     var r_click_gene; // ???
 
     function generate_links(container, data_graph) {
+        var tmp = {};
+        for (var i = 0; i < data_graph.nodes.length; ++i) {
+            tmp[data_graph.nodes[i].id] = data_graph.nodes[i];
+        }
         return container.append("g")
                 .attr("class", "link")
                 .selectAll("line")
@@ -198,11 +202,10 @@ jQuery(function ($) {
                 .attr("class", "node-link")
                 .attr("source", function (d) { return d.source })
                 .attr("target", function (d) { return d.target })
-                // still have several bugs because the indexes are not equivalent to the uids
-                .attr("x1", function (d) { return data_graph.nodes[d.source].x })
-                .attr("y1", function (d) { return data_graph.nodes[d.source].y })
-                .attr("x2", function (d) { return data_graph.nodes[d.target].x })
-                .attr("y2", function (d) { return data_graph.nodes[d.target].y })
+                .attr("x1", function (d) { return tmp[d.source].x })
+                .attr("y1", function (d) { return tmp[d.source].y })
+                .attr("x2", function (d) { return tmp[d.target].x })
+                .attr("y2", function (d) { return tmp[d.target].y })
                 .style("marker-end",  "url(#suit)");
     }
 
@@ -221,9 +224,7 @@ jQuery(function ($) {
                 .attr("fill",function(d){ return colorScale[d.type]; })
                 .attr("u_type", function (d) { return d.type })
                 .on("click", function (d) {
-                    console.log(d.id);
                     for (var i = 0; i < data_graph.nodes.length; ++i) {
-                        console.log(data_graph.nodes[i]);
                         if (d.id == data_graph.nodes[i].id) {
                             select_one_dot(i);
                             update_current_position(d, i);

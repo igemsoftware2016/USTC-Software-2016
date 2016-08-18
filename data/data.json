@@ -2,23 +2,22 @@
   "nodes":[
     {"id":1  ,"type":3, "u_name":"gene1", "x":540,  "y":350},
     {"id":2  ,"type":2, "u_name":"gRNA2", "x":600,  "y":300},
-    {"id":3  ,"type":3, "u_name":"gene3", "x":480,  "y":300},
+    {"id":3  ,"type":2, "u_name":"gRNA1", "x":480,  "y":330},
     {"id":4  ,"type":2, "u_name":"gene4", "x":510,  "y":300},
-    {"id":5  ,"type":2, "u_name":"gRNA1", "x":480,  "y":340},
+    {"id":5  ,"type":3, "u_name":"gene3", "x":480,  "y":300},
     {"id":6  ,"type":3, "u_name":"gene2", "x":540,  "y":380},
     {"id":7  ,"type":3, "u_name":"gRNA3", "x":580,  "y":380},
-    {"id":8  ,"type":3, "u_name":"DNA1",  "x":480,  "y":400},
-    {"id":9  ,"type":2, "u_name":"DNA2",  "x":520,  "y":340},
+    {"id":8  ,"type":2, "u_name":"DNA2",  "x":500,  "y":360},
+    {"id":9  ,"type":3, "u_name":"DNA1",  "x":480,  "y":400},
     {"id":10 ,"type":1, "u_name":"DNA3",  "x":500,  "y":390},
     {"id":11 ,"type":1, "u_name":"DNA4",  "x":560,  "y":400},
     {"id":12 ,"type":4, "u_name":"DNA4",  "x":560,  "y":310},
     {"id":14 ,"type":4, "u_name":"DNA4",  "x":600,  "y":400}
+  ],
+  "links":[
+    {"lid":0,  "source":1  ,"target":8  ,"weight":1},
+    {"lid":0,  "source":3  ,"target":8  ,"weight":1},
+    {"lid":0,  "source":9  ,"target":8  ,"weight":1}
   ]
-,
-"links":[
-  {"lid":0,  "source":1  ,"target":8  ,"weight":1},
-  {"lid":0,  "source":3  ,"target":8  ,"weight":1},
-  {"lid":0,  "source":9  ,"target":8  ,"weight":1}
-]
 }
 
