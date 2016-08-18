@@ -134,15 +134,15 @@ jQuery(function ($) {
             .enter().append("marker")
             .attr("id", function(d) { return d; })
             .attr("viewBox", "0 -5 10 10")
-            .attr("refX", 19)
+            .attr("refX", 26)
             .attr("refY", 0)
             .attr("markerWidth", 2)
             .attr("markerHeight", 2)
             .attr("orient", "auto")
             .append("path")
-            .attr("d", "M0,-5L10,0L0,5 L10,0 L0, -5")
-            .style("stroke", "white")
-            .style("stroke-width",2)
+            .attr("d", "M0,-5 L10,0 L0,5 L10,0 L0,-5")
+            .style("stroke", "#1b5e20")
+            .style("stroke-width", 3)
             .style("opacity", "1");
 
     var rect = svg.append("rect")
@@ -190,9 +190,9 @@ jQuery(function ($) {
                 .selectAll("line")
                 .data(data_graph.links)
                 .enter().append("line")
-                .attr('stroke','white')
+                .attr('stroke','#1b5e20')
                 .attr("stroke-width",function(d,i){
-                    return 3;//d.weight;
+                    return 1.5;//d.weight;
                 })
                 .attr("class", "node-link")
                 .attr("source", function(d){return d.source})

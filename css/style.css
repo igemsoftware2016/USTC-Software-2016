@@ -28,27 +28,27 @@ body {
 }
 
 .dot circle {
-    fill: lightsteelblue;
-    stroke: steelblue;
+    fill: #81c784;
+    stroke: #388e3c;
     stroke-width: 1px;
 }
 
 .dot circle.selected {
-    fill: red;
-    stroke: darkred;
+    fill: #e57373;
+    stroke: #d32f2f;
     stroke-width: 1px;
 }
 
 .x-axis line {
     fill: none;
-    stroke: #ccc;
+    stroke: #1b5e20;
     shape-rendering: crispEdges;
     vector-effect: non-scaling-stroke;
 }
 
 .y-axis line {
     fill: none;
-    stroke: #ccc;
+    stroke: #1b5e20;
     shape-rendering: crispEdges;
     vector-effect: non-scaling-stroke;
 }
