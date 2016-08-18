@@ -57,12 +57,12 @@ div#image {
 }
 
 #main-wrapper {
-    margin: 0.5em 0 0 0;
+    margin: 0;
     position: absolute;
     z-index: 0;
     right: 0em;
-    bottom: 0.5em;
-    top: 4em;
+    bottom: 0em;
+    top: 0em;
     left: 0em;
 }
 
