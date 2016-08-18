@@ -95,6 +95,10 @@ jQuery(function ($) {
         select_one_dot(current_dot_id);
     });
 
+    $('#side-head-top-button-h').click(function () {
+        $('#side-wrapper > div').animate({ left: 0 });
+    });
+
     $('#side-head-close-button').click(function () {
         var width = $('#side-head').width();
         $('#side-wrapper > div').animate({ left: -width });

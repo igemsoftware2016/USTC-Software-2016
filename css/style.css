@@ -67,6 +67,16 @@ div#image {
     left: 0em;
 }
 
+#side-head-top-button-h {
+    position: fixed;
+    z-index: 2;
+    padding: 0.45em 1.05em;
+    font-size: 14px;
+    width: 48px;
+    height: 48px;
+    line-height: 48px;
+}
+
 #main-wrapper div {
     padding: 0;
 }
