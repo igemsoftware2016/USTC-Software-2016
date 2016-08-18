@@ -54,6 +54,18 @@ jQuery(function () {
                 + "type: " + d.type)
     }
 
+    function clear_all_of_dots() {
+        $('.dot *').attr('class', '');
+    }
+
+    clear_all_of_dots();
+
+    function select_one_dot(id) {
+        $('.dot *').attr('class', '');
+        $('#p' + id)
+            .attr('class', 'selected');
+    }
+
     function redraw_lines(uid_num) {
         //console.log(uid_num);
         var circle = svg.selectAll('#p'+uid_num);
@@ -188,7 +200,7 @@ jQuery(function () {
                 .attr("id",function(d){ return "p"+d.id})
                 .attr("u_type",function(d){ return d.type})
                 .on("mouseover", update_current_position)
-                // define right click
+                .on("click", function (d) { select_one_dot(d.id); })
                 .on("contextmenu", function (d) {
                     context_gene_tri = 1;
                     // Avoid the real one
@@ -224,6 +236,7 @@ jQuery(function () {
                 .style("fill","#22375B")
                 .text(function(d){return d.id})
                 .on("mouseover", update_current_position)
+                .on("click", function (d) { select_one_dot(d.id); })
                 // define right click
                 .on("contextmenu", function (d) {
                     context_gene_tri = 1;

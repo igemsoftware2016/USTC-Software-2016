@@ -33,21 +33,21 @@ body {
     stroke-width: 1.5px;
 }
 
-.dot circle.dragging {
+.dot circle.selected {
     fill: red;
     stroke: brown;
 }
 
 .x-axis line {
     fill: none;
-    stroke: #ddd;
+    stroke: #ccc;
     shape-rendering: crispEdges;
     vector-effect: non-scaling-stroke;
 }
 
 .y-axis line {
     fill: none;
-    stroke: #ddd;
+    stroke: #ccc;
     shape-rendering: crispEdges;
     vector-effect: non-scaling-stroke;
 }
