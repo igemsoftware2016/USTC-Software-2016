@@ -101,7 +101,7 @@ jQuery(function ($) {
 
     $('#side-head-close-button').click(function () {
         var width = $('#side-head').width();
-        $('#side-wrapper > div').animate({ left: -width });
+        $('#side-wrapper > div').animate({ left: -2 * width });
     })
 
     var wrapper = d3.select("#image");

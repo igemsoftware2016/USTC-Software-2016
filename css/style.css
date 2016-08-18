@@ -70,7 +70,7 @@ div#image {
 #side-head-top-button-h {
     position: fixed;
     z-index: 2;
-    padding: 0.45em 1.05em;
+    padding: 0.45em 0.75em;
     font-size: 14px;
     width: 48px;
     height: 48px;
@@ -79,6 +79,19 @@ div#image {
 
 #main-wrapper div {
     padding: 0;
+}
+
+#side-wrapper > div {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+}
+
+@media only screen and (max-width: 600px) {
+    #side-wrapper > div {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+        width: 100%;
+    }
 }
 
 div.tooltip {
