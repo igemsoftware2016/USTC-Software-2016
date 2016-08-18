@@ -10,32 +10,25 @@
 .icon-block {
     padding: 0 5em;
 }
+
 .icon-block .material-icons {
 	font-size: inherit;
 }
 
 body, html {
     height: 100%;
-}
-
-div.wrap {
-    height:100%;
-    overflow:hidden;
-}
-
-body {
     overflow: hidden; 
 }
 
 .dot circle {
-  /*  fill: #81c784;
-  */  stroke: #388e3c;
+  /*fill: #81c784;
+  */stroke: #388e3c;
     stroke-width: 1px;
 }
 
 .dot circle.selected {
-  /*  fill: #e57373;
-   */ stroke: #d32f2f;
+  /*fill: #e57373;
+  */stroke: #d32f2f;
     stroke-width: 1px;
 }
 
@@ -67,6 +60,11 @@ div#image {
     left: 0em;
 }
 
+#main-wrapper div {
+    width: 100%;
+    height: 100%;
+}
+
 #side-head-top-button-h {
     position: fixed;
     z-index: 2;
@@ -81,14 +79,55 @@ div#image {
     padding: 0;
 }
 
-#side-wrapper > div {
+#scroll-wrapper::-webkit-scrollbar {
+    width:13px;
+    height:13px;
+}
+
+#scroll-wrapper::-webkit-scrollbar-button {
+    background-color:#26a69a;
+}
+
+#scroll-wrapper::-webkit-scrollbar-track {
+    background:transparent;
+}
+
+#scroll-wrapper::-webkit-scrollbar-track-piece {
+    background:transparent;
+}
+
+#scroll-wrapper::-webkit-scrollbar-thumb {
+    background:green;
+    border-radius:4px;
+}
+
+#scroll-wrapper::-webkit-scrollbar-corner {
+    background:#82AFFF;
+}
+
+#scroll-wrapper {
     -webkit-transform: translateX(0);
     transform: translateX(0);
     padding-bottom: 0;
+    height: 100%;
 }
 
 #side-head-top-button-h, #side-head-top-buttons a {
     cursor: pointer;
+}
+
+#side-head-close-button, #side-head-top-button-i {
+    padding: 0.45em 0.75em;
+}
+
+#side-head-node-position div span {
+    font-weight: bold;
+}
+
+#side-info {
+    margin: 0;
+    border-left: 0;
+    border-right: 0;
 }
 
 a.collection-item.waves-effect {
@@ -97,11 +136,17 @@ a.collection-item.waves-effect {
 }
 
 @media only screen and (max-width: 600px) {
-    #side-wrapper > div {
+    #scroll-wrapper {
         -webkit-transform: translateX(0);
         transform: translateX(0);
         width: 100%;
+        height: 100%;
     }
+}
+
+div.wrap {
+    height:100%;
+    overflow:hidden;
 }
 
 div.tooltip {
@@ -152,7 +197,6 @@ div.tooltip {
 .custom-menu_pano li:hover {
     background-color: #DEF;
 }
-
 
 .demo-avatar-big {
     width: 120px;

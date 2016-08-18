@@ -1,96 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
-    <title>Pano</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
+<title>Pano</title>
 
-    <!-- CSS -->
-    <!--
-    <link href="css/bootstrap.min.css" type="text/css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    -->
-    <link href="css/material-icons.css" type="text/css" rel="stylesheet">
-    <link href="css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection">
+<!-- CSS -->
+<link href="css/material-icons.css" type="text/css" rel="stylesheet">
+<link href="css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection">
 
-    <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection">
+<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection">
 
-    <!-- JS -->
-    <!--
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/tether.min.js"></script>
-    -->
-    <script src="js/jquery-2.1.1.min.js"></script>
-    <script src="js/materialize.min.js"></script>
-    <script src="js/d3.v3.min.js"></script>
+<!-- JS -->
+<script src="js/jquery-2.1.1.min.js"></script>
+<script src="js/materialize.min.js"></script>
+<script src="js/d3.v3.min.js"></script>
 
-    <script src="js/pano_func.js"></script>
-
+<script src="js/pano_func.js"></script>
 </head>
-<style>
-
-    #scroll-wrapper::-webkit-scrollbar {
-        width:13px;
-        height:13px;
-    }
-    #scroll-wrapper::-webkit-scrollbar-button    {
-        background-color:#26a69a;
-    }
-    #scroll-wrapper::-webkit-scrollbar-track     {
-        background:transparent;
-    }
-    #scroll-wrapper::-webkit-scrollbar-track-piece {
-        background:transparent;
-    }
-    #scroll-wrapper::-webkit-scrollbar-thumb{
-        background:green;
-        border-radius:4px;
-    }
-    #scroll-wrapper::-webkit-scrollbar-corner {
-        background:#82AFFF;
-    }
-
-</style>
-
-
 
 <body class="green lighten-4">
+
 <!--<img src="images/logo.ico" alt="logo" class="circle" style="width:4em;padding:0.2em 0.2em 0 0">-->
+
 <div id="main-wrapper" class="row">
-    <div class="col s12" style="height:100%">
-        <div id="image-wrapper" style="height:100%">
-            <div style="width:100%;height:100%" id="image"></div>
-        </div>
+    <div class="col s12">
+        <div id="image"></div>
     </div>
 </div>
 
-
-
 <div id="side-wrapper" class="row">
-    <a id="side-head-top-button-h" class="col s2 black-text left-align waves-effect"><i class="material-icons">menu</i></a>
-    <div id="scroll-wrapper" class="side-nav fixed" style="height:100%">
-        <div id="scroll-wrapper-1">
+    <a id="side-head-top-button-h" class="black-text left-align waves-effect"><i class="material-icons">menu</i></a>
+    <div id="scroll-wrapper" class="side-nav fixed">
         <div id="side-head" class="green darken-2">
             <div id="side-head-top-buttons" class="row">
-                <a id="side-head-close-button" class="col s2 white-text left-align waves-effect" style="padding:0.45em 0.75em"><i class="material-icons">close</i></a>
+                <a id="side-head-close-button" class="col s2 white-text left-align waves-effect"><i class="material-icons">close</i></a>
                 <a id="side-head-top-button-p" href="javascript:void(0);" class="col s4 white-text center-align waves-effect">PREVIOUS</a>
                 <a id="side-head-top-button-n" href="javascript:void(0);" class="col s4 white-text center-align waves-effect">NEXT</a>
-                <a id="side-head-top-button-i" class="col s2 white-text right-align waves-effect" style="padding:0.45em 0.75em"><i class="material-icons">perm_identity</i></a>
+                <a id="side-head-top-button-i" class="col s2 white-text right-align waves-effect"><i class="material-icons">perm_identity</i></a>
             </div>
             <div id="side-head-node-name" class="container">
                 <h2 class="white-text center-align">Node <span id="status-main-uid">1</span></h2>
             </div>
             <div id="side-head-node-position" class="row">
-                <div class="col s6 white-text">POSITION X&nbsp;&nbsp;<span id="status-posx">2333</span></div>
-                <div class="col s6 white-text">POSITION Y&nbsp;&nbsp;<span id="status-posy">6666</span></div>
-                <div class="col s6 white-text">UID&nbsp;&nbsp;<span id="status-uid"></span></div>
-                <div class="col s6 white-text">TYPE&nbsp;&nbsp;<span id="status-type"></span></div>
+                <div class="col s6 white-text">POSITION X&nbsp;&nbsp;<span id="status-posx" class="right">2333</span></div>
+                <div class="col s6 white-text">POSITION Y&nbsp;&nbsp;<span id="status-posy" class="right">6666</span></div>
+                <div class="col s6 white-text">UID&nbsp;&nbsp;<span id="status-uid" class="right"></span></div>
+                <div class="col s6 white-text">TYPE&nbsp;&nbsp;<span id="status-type" class="right"></span></div>
             </div>
             <div class="container row" style="margin-bottom:0"></div>
         </div>
-        <div class="collection" style="margin:0;border-left:0;border-right:0">
+        <div id="side-info" class="collection">
             <a class="collection-item waves-effect">
                 <h5 class="valign-wrapper"><i class="material-icons valign">add</i>&nbsp;<span>Add a New Node</span></h5>
             </a>
@@ -132,46 +94,8 @@
                 <h5 class="valign-wrapper red-text"><i class="material-icons valign">remove</i>&nbsp;<span>Remove the Node</span></h5>
             </a>
         </div>
-        <!--
-        <div id="menu-left" class="card light-blue darken-4">
-            <div class="card-title white-text center-align">Elements</div>
-            <div>
-                <ul id="workspace-side" class="collapsible" data-collapsible="expandable">
-                    <li>
-                        <div class="collapsible-header light-blue darken-2 waves-effect">
-                            <div class="white-text">gene</div>
-                        </div>
-                        <div class="collapsible-body">
-                            <div class="collection">
-                                <a class="collection-item modal-trigger" href="#modal_node_info">gene1</a>
-                                <a class="collection-item" href="#">gene2</a>
-                                <a class="collection-item" href="#">gene3</a>
-                                <a class="collection-item" href="#">gene4</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header light-blue darken-2 waves-effect">
-                            <div class="white-text">gRNA</div>
-                        </div>
-                        <div class="collapsible-body">
-                            <div class="collection">
-                                <a class="collection-item" href="#">gRNA1</a>
-                                <a class="collection-item" href="#">gRNA2</a>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        -->
     </div>
 </div>
-
-    </div>
-<!-- TODO -->
-
-
 <!-- modals -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -211,7 +135,7 @@
     </div>
 </div>
 
-
+<!--
 <div class='custom-menu_pano'>
     <ul>
         <li data-action = "first">Add node</li>
@@ -226,10 +150,8 @@
     <li data-action="link_to">Link to a node</li>
     <li data-action="edit_form">Edit coefficient</li>
     </ul>
-
 </div>
-
-
+-->
 
 </body>
 </html>
