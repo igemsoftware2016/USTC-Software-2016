@@ -1,10 +1,67 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
+
     <meta charset="UTF-8">
-    <title>Simulation Form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>simulation</title>
+    <link rel="stylesheet" href="css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style type="text/css">
+        body { width: 100%; font-family: 'Merriweather Sans', sans-serif; background-color: #f9f9f9; background-size: cover; background-repeat: no-repeat; background-position: center center; -webkit-font-smoothing: antialiased; }
+    </style>
+
+    <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script type="text/javascript" src="js/d3.v3.min.js"></script>
+    <script type="text/javascript" src="js/simulation.js"></script>
 </head>
+
+
+
+
 <body>
-    <h1>Simulation Form</h1>
+<div class="container">
+    <div class="row">
+        <div class="col m10 offset-m1 s12">
+            <h2 class="center-align">Simulation Pool</h2>
+
+
+            <div class="row">
+                <div class="col s12 m12">
+                    <h4>Description</h4>
+                    <div id="simulation_description" class="card-panel teal">
+                        <p class="white-text">I am a very simple card. I am good at containing small bits of information.
+                        I am convenient because I require little markup to use effectively. I am similar to what is called a panel in other frameworks.
+                        </p>
+                        <p class="white-text">about nodes</p>
+
+                        <a class = "btn btn-large teal lighten-2" style="margin-left: 80%">tutorial</a>
+                    </div>
+
+                </div>
+            </div>
+
+            <h4>Control functions</h4>
+            <div   id="functions"  class="card-panel teal lighten-3">
+
+            </div>
+
+            <h4>Result</h4>
+            <div   id="res"  class="card-panel teal lighten-5">
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
 </body>
 </html>
+
+
+
+<script type="text/javascript" src="http://latex.codecogs.com/latexit.js"></script>

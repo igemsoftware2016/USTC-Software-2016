@@ -223,7 +223,7 @@ jQuery(function ($) {
                 .style("marker-end",  "url(#suit)");
     }
 
-    var colorScale = ["#123df2","#112354","#897361","#098723"];
+    var colorScale =  ["#ffffd9","#edf8b1","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#253494","#081d58"];
     function generate_dots(container, data_graph) {
         return container.append("g")
                 .attr("class", "dot")
