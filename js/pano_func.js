@@ -62,6 +62,19 @@ jQuery(function ($) {
                 //.attr("cy", d.y = d.y+0.0);
             });
 
+            /*
+    var move_transition = d3.transition()
+            .duration(500)
+            .ease(d3.easeLinear);
+
+    function move_to_current_dot() {
+        container.transition(move_transition)
+            .attrTween("transform", function (t) {
+                "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")"
+            });
+    }
+            */
+
     function update_current_position(d, index) {
         $('#status-posx').html(Math.round(d.x));
         $('#status-posy').html(Math.round(d.y));
@@ -84,18 +97,16 @@ jQuery(function ($) {
     }
 
     function redraw_lines(uid_num) {
-        //console.log(uid_num);
-        var circle = svg.selectAll('#p'+uid_num);
-        var lines = d3.selectAll(".node-link");
-        //console.log(lines[0][0].attributes);
-        for (a = 0; a < lines[0].length; a++) {
-            if (lines[0][a].attributes.source.value == uid_num) {
-                lines[0][a].attributes.x1.value =circle[0][0].attributes.cx.value;
-                lines[0][a].attributes.y1.value =circle[0][0].attributes.cy.value;
+        var circle = svg.selectAll('#p'+uid_num)[0][0];
+        var lines = d3.selectAll(".node-link")[0];
+        for (a = 0; a < lines.length; a++) {
+            if (lines[a].attributes.source.value == uid_num) {
+                lines[a].attributes.x1.value =circle.attributes.cx.value;
+                lines[a].attributes.y1.value =circle.attributes.cy.value;
             }
-            if (lines[0][a].attributes.target.value == uid_num) {
-                lines[0][a].attributes.x2.value =circle[0][0].attributes.cx.value;
-                lines[0][a].attributes.y2.value =circle[0][0].attributes.cy.value;
+            if (lines[a].attributes.target.value == uid_num) {
+                lines[a].attributes.x2.value =circle.attributes.cx.value;
+                lines[a].attributes.y2.value =circle.attributes.cy.value;
             }
         }
     }
@@ -113,12 +124,12 @@ jQuery(function ($) {
     });
 
     $('#side-head-top-button-h').click(function () {
-        $('#side-wrapper > div').animate({ left: 0 });
+        $('#side-wrapper > div').animate({ left: 0 }, 200, "easeOutQuad");
     });
 
     $('#side-head-close-button').click(function () {
         var width = $('#side-head').width();
-        $('#side-wrapper > div').animate({ left: -2 * width });
+        $('#side-wrapper > div').animate({ left: -width }, 200, "easeInQuad");
     })
 
     var wrapper = d3.select("#image");
@@ -143,7 +154,6 @@ jQuery(function ($) {
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
-            .attr("transform", "translate(" + (0.5 * wrapper_bounding_box.width - 2 * width) + "," + (0.5 * wrapper_bounding_box.height - 2 * height) + ")scale(4,4)")
             .call(zoom);
     // define arrow markers for graph links
     svg.append("defs").selectAll("marker")
@@ -317,8 +327,10 @@ jQuery(function ($) {
 
     function print_gra(data_graph) {
         var link = generate_links(container, data_graph); 
-        var dot = generate_dots(container, data_graph); 
+        var dots = generate_dots(container, data_graph); 
         var text_labels = generate_text_labels(container, data_graph);
+        
+        /*
         $(".custom-menu_gene li").click(function(){
             console.log($(this).attr("data-action"));
 
@@ -374,7 +386,7 @@ jQuery(function ($) {
             }
             return link_relations
         }
-
+        
         // If the menu element is clicked
         $(".custom-menu_pano li").click(function(){
 
@@ -388,7 +400,7 @@ jQuery(function ($) {
             // Hide it AFTER the action was triggered
             $(".custom-menu_pano").hide(100);
         });
-
+        */
         back_to_center(data_graph);
 
         //Create all the line svgs but without locations yet
@@ -398,45 +410,39 @@ jQuery(function ($) {
     function back_to_center(data_graph){
         xy_range = get_xy_range(data_graph);
 
-        var mid_x = (xy_range.xmax+xy_range.xmin)/2;
-        var mid_y = (xy_range.ymax+xy_range.ymin)/2;
+        var mid_x = (xy_range.xmax + xy_range.xmin) / 2;
+        var mid_y = (xy_range.ymax + xy_range.ymin) / 2;
 
-        console.log(mid_x);
-
-        var posi_x = -4*mid_x+500;
-        var posi_y = -4*mid_y+340;//weird but works
-        svg.attr("transform", "translate(" + posi_x+ ',' +posi_y + ")scale(4)");
+        // weird but works
+        // because the scale is 4 -- ustc_zzzz
+        svg.attr("transform", "translate(" + (0.5 * wrapper_bounding_box.width + 150 - 4 * mid_x)
+                + "," + (0.5 * wrapper_bounding_box.height - 4 * mid_y) + ")scale(4,4)")
     }
 
     //print function can be called in global
 
     function get_xy_range(json_data){
-        var xy_range;
-        var xmax=0;
-        var xmin=999999;
-        var ymax=0;
-        var ymin=999999;
-
-        for (var i =0;i<json_data.nodes.length;i++){
-            if (xmax<json_data.nodes[i].x){
-                xmax=json_data.nodes[i].x;
+        if (json_data.nodes.length <= 0) {
+            return { "xmax": 640, "ymax": 360, "xmin": 640, "ymin": 360 }
+        }
+        var xmax = json_data.nodes[0].x, xmin = xmax;
+        var ymax = json_data.nodes[0].y, ymin = ymax;
+        for (var i = 1; i < json_data.nodes.length; ++i){
+            if (xmax < json_data.nodes[i].x) {
+                xmax = json_data.nodes[i].x;
             }
-            if (ymax<json_data.nodes[i].y){
-                ymax=json_data.nodes[i].y;
+            if (ymax < json_data.nodes[i].y) {
+                ymax = json_data.nodes[i].y;
             }
-            if (xmin>json_data.nodes[i].x){
-                xmin=json_data.nodes[i].x;
+            if (xmin > json_data.nodes[i].x) {
+                xmin = json_data.nodes[i].x;
             }
-            if (ymin>json_data.nodes[i].y){
-                ymin=json_data.nodes[i].y;
+            if (ymin > json_data.nodes[i].y) {
+                ymin = json_data.nodes[i].y;
             }
         }
-
-        xy_range = {"xmax":xmax,"ymax":ymax,"xmin":xmin,"ymin":ymin};
-        return xy_range
-
+        return { "xmax": xmax, "ymax": ymax, "xmin": xmin, "ymin": ymin };
     }
-
 
     function get_json_data(){
         var data_json;
