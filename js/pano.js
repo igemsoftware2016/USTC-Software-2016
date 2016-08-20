@@ -161,6 +161,24 @@ jQuery(function ($) {
         $('#side-wrapper > div').animate({ left: -1.05 * width }, 200, "easeInQuad");
     })
 
+    $('#side-info-remove').click(function () {
+        var newLinkData = [];
+        for (var i in linkData) {
+            var link = linkData[i];
+            if (link.source != currentDotIndex && link.target != currentDotIndex) {
+                newLinkData.push(link);
+            }
+        }
+        linkData = newLinkData;
+
+        delete nodeData[currentDotIndex];
+        $('#side-head-top-button-p').click();
+
+        generateLinks();
+        generateDots();
+        generateTextLabels();
+    })
+
     var wrapper = d3.select("#image");
     var contextGeneTri = 0;
     var wrapperBoundingBox = wrapper.node().getBoundingClientRect();
@@ -230,16 +248,13 @@ jQuery(function ($) {
             .attr("y2", function(d) { return d; });
 
     var links = container.append("g")
-            .attr("class", "link")
-            .selectAll("line");
+            .attr("class", "link");
 
     var dots = container.append("g")
-            .attr("class", "dot")
-            .selectAll("circle");
+            .attr("class", "dot");
 
     var texts = container.append("g")
-            .attr("class",'txt')
-            .selectAll("text");
+            .attr("class",'txt');
 
     d3.json("data/data.json", function (error, dataGraph) {
         for (var node in dataGraph.nodes) {
@@ -257,8 +272,14 @@ jQuery(function ($) {
     var rClickGene; // ???
 
     function generateLinks() {
-        var dataLink = links.data(linkData);
-        dataLink.exit().remove();
+        var dataLink = links.selectAll("line")
+                .data(linkData, 
+                        function (d) { return d.source + ' ' + d.target });
+        dataLink.exit()
+                .transition()
+                .attr("x1", function (d) { return d3.select(this).attr("x2"); })
+                .attr("y1", function (d) { return d3.select(this).attr("y2"); })
+                .remove();
         dataLink.enter()
                 .append("line")
                 .attr('stroke', '#1b5e20')
@@ -275,8 +296,13 @@ jQuery(function ($) {
 
     var colorScale =  ["#ffffd9","#edf8b1","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#253494","#081d58"];
     function generateDots() {
-        var dataDots = dots.data(nodeData.filter(function (n) { return n != undefined; }))
-        dataDots.exit().remove()
+        var dataDots = dots.selectAll("circle")
+                .data(nodeData.filter(function (n) { return n != undefined; }), 
+                        function (d) { return d.id; });
+        dataDots.exit()
+                .transition()
+                .attr("r", 0)
+                .remove();
         dataDots.enter()
                 .append("circle")
                 .attr("r", 5)
@@ -312,7 +338,9 @@ jQuery(function ($) {
     }
 
     function generateTextLabels() {
-        var dataText = texts.data(nodeData.filter(function (n) { return n != undefined; }))
+        var dataText = texts.selectAll("text")
+                .data(nodeData.filter(function (n) { return n != undefined; }),
+                        function (d) { return d.id; })
         dataText.exit().remove();
         dataText.enter()
                 .append("text")
