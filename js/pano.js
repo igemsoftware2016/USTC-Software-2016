@@ -6,7 +6,7 @@ jQuery(function ($) {
     var statusElement = d3.select("#status");
     var container;
 
-    // nodeData: an array whose indexes of the elements means the uids of them, if not exist, 
+    // nodeData: an array whose indexes of the elements means the uids of them, if not exist,
     //           it will be undefined. For example, if there are elements whose uids are '1, 2, 4',
     //           the array will be: [ undefined, { id: 1, ... }, { id: 2, ... }, undefined, { id: 4, ... } ]
     // linkData: the same form as 'data.json' shows
@@ -37,15 +37,11 @@ jQuery(function ($) {
                 //d3.select(this).classed("dragging", true);
             })
             .on("drag", function (d) {
-                d3.selectAll("#p"+ d.id)
-                    .attr("cx", d.x = d3.event.x)
-                    .attr("cy", d.y = d3.event.y);
-
-                redrawLines(d.id);
-
+                d.x = d3.event.x;
+                d.y = d3.event.y;
+                redrawDot(d.id);
                 updateCurrentPosition(d.id);
 
-                d3.selectAll("#label"+ d.id).attr("x", d.x).attr("y", d.y)
             })
             .on("dragend", function (d) {
                 d3.select(this).classed("dragging", false);
@@ -107,19 +103,25 @@ jQuery(function ($) {
         $('#p' + index).attr('class', 'selected');
     }
 
-    function redrawLines(uidNum) {
-        var circle = svg.selectAll('#p'+uidNum)[0][0];
+    function redrawDot(uidNum) {
+        var d = nodeData[uidNum];
+        var circle = svg.selectAll('#p' + uidNum);
+        var cx = circle[0][0].attributes.cx.value;
+        var cy = circle[0][0].attributes.cy.value;
         var lines = d3.selectAll(".node-link")[0];
+        var textLabel = d3.selectAll("#label" + uidNum);
         for (a = 0; a < lines.length; a++) {
             if (lines[a].attributes.source.value == uidNum) {
-                lines[a].attributes.x1.value =circle.attributes.cx.value;
-                lines[a].attributes.y1.value =circle.attributes.cy.value;
+                lines[a].attributes.x1.value = cx;
+                lines[a].attributes.y1.value = cy;
             }
             if (lines[a].attributes.target.value == uidNum) {
-                lines[a].attributes.x2.value =circle.attributes.cx.value;
-                lines[a].attributes.y2.value =circle.attributes.cy.value;
+                lines[a].attributes.x2.value = cx;
+                lines[a].attributes.y2.value = cy;
             }
         }
+        circle.attr("cx", d.x).attr("cy", d.y);
+        textLabel.attr("x", d.x).attr("y", d.y);
     }
 
     $('#side-head-top-button-n').click(function () {
@@ -156,7 +158,7 @@ jQuery(function ($) {
 
     $('#side-head-close-button').click(function () {
         var width = $('#side-head').width();
-        $('#side-wrapper > div').animate({ left: -width }, 200, "easeInQuad");
+        $('#side-wrapper > div').animate({ left: -1.05 * width }, 200, "easeInQuad");
     })
 
     var wrapper = d3.select("#image");
@@ -199,7 +201,7 @@ jQuery(function ($) {
             .style("stroke-width", 3)
             .style("opacity", "1");
 
-    var rect = svg.append("rect")
+    svg.append("rect")
             .attr("width", width)
             .attr("height", height)
             .style("fill", "none")
@@ -227,6 +229,18 @@ jQuery(function ($) {
             .attr("x2", width)
             .attr("y2", function(d) { return d; });
 
+    var links = container.append("g")
+            .attr("class", "link")
+            .selectAll("line");
+
+    var dots = container.append("g")
+            .attr("class", "dot")
+            .selectAll("circle");
+
+    var texts = container.append("g")
+            .attr("class",'txt')
+            .selectAll("text");
+
     d3.json("data/data.json", function (error, dataGraph) {
         for (var node in dataGraph.nodes) {
             nodeData[dataGraph.nodes[node].id] = dataGraph.nodes[node];
@@ -234,18 +248,18 @@ jQuery(function ($) {
         for (var link in dataGraph.links) {
             linkData.push(dataGraph.links[link]);
         }
-        printGra(dataGraph);
-        updateCurrentPosition(Math.min(nodeData.length - 1, currentDotIndex));
+        printGra();
+        var newIndex = Math.min(nodeData.length - 1, currentDotIndex);
+        currentDotIndex = nodeData.length;
+        updateCurrentPosition(newIndex);
     });
 
     var rClickGene; // ???
 
-    function generateLinks(container) {
-        return container.append("g")
-                .attr("class", "link")
-                .selectAll("line")
-                .data(linkData)
-                .enter()
+    function generateLinks() {
+        var dataLink = links.data(linkData);
+        dataLink.exit().remove();
+        dataLink.enter()
                 .append("line")
                 .attr('stroke', '#1b5e20')
                 .attr("stroke-width", function (d, i) { return 1.5; })
@@ -260,12 +274,10 @@ jQuery(function ($) {
     }
 
     var colorScale =  ["#ffffd9","#edf8b1","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#253494","#081d58"];
-    function generateDots(container) {
-        return container.append("g")
-                .attr("class", "dot")
-                .selectAll("circle")
-                .data(nodeData.filter(function (n) { return n != undefined; }))
-                .enter()
+    function generateDots() {
+        var dataDots = dots.data(nodeData.filter(function (n) { return n != undefined; }))
+        dataDots.exit().remove()
+        dataDots.enter()
                 .append("circle")
                 .attr("r", 5)
                 .attr("cx", function (d) { return d.x; })
@@ -299,12 +311,10 @@ jQuery(function ($) {
                 .call(drag);
     }
 
-    function generateTextLabels(container) {
-        return container.append("g")
-                .attr("class",'txt')
-                .selectAll("text")
-                .data(nodeData.filter(function (n) { return n != undefined; }))
-                .enter()
+    function generateTextLabels() {
+        var dataText = texts.data(nodeData.filter(function (n) { return n != undefined; }))
+        dataText.exit().remove();
+        dataText.enter()
                 .append("text")
                 .attr("id", function(d) { return "label" + d.id})
                 .attr("x", function(d) { return d.x; })
@@ -315,7 +325,7 @@ jQuery(function ($) {
                 .attr("text-anchor","middle")
                 .style("fill","#22375B")
                 .text(function(d){return d.id})
-                .on("click", function (d) { 
+                .on("click", function (d) {
                     selectOneDot(d.id);
                     updateCurrentPosition(d.id);
                 })
@@ -341,11 +351,11 @@ jQuery(function ($) {
                 .call(drag);
     }
 
-    function printGra(dataGraph) {
-        var link = generateLinks(container); 
-        var dots = generateDots(container); 
-        var textLabels = generateTextLabels(container);
-        
+    function printGra() {
+        generateLinks();
+        generateDots();
+        generateTextLabels();
+
         /*
         $(".custom-menu-gene li").click(function(){
             console.log($(this).attr("data-action"));
@@ -402,7 +412,7 @@ jQuery(function ($) {
             }
             return linkRelations
         }
-        
+
         // If the menu element is clicked
         $(".custom-menu-pano li").click(function(){
 
