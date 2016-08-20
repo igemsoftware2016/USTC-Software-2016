@@ -6,12 +6,19 @@ jQuery(function ($) {
     var statusElement = d3.select("#status");
     var container;
 
-    var gloJsonData;
+    // nodeData: an array whose indexes of the elements means the uids of them, if not exist, 
+    //           it will be undefined. For example, if there are elements whose uids are '1, 2, 4',
+    //           the array will be: [ undefined, { id: 1, ... }, { id: 2, ... }, undefined, { id: 4, ... } ]
+    // linkData: the same form as 'data.json' shows
+    //
+    // Do not care about my poor English -- ustc_zzzz
+    var nodeData = [], linkData = [];
+
     var textLabel;
 
-    var currentDotIndex = 0, dotSize;
+    var currentDotIndex = 0;
 
-    var margin = {top: -1, right: -1, bottom: -1, left: -1},
+    var margin = {top: 0, right: 0, bottom: 0, left: 0},
             width = 1920 - margin.left - margin.right,
             height = 1080 - margin.top - margin.bottom;
 
@@ -36,24 +43,15 @@ jQuery(function ($) {
 
                 redrawLines(d.id);
 
-                for (var i = 0; i < gloJsonData.nodes.length; ++i) {
-                    if (d.id == gloJsonData.nodes[i].id) {
-                        updateCurrentPosition(d, i);
-                        break;
-                    }
-                }
+                updateCurrentPosition(d.id);
 
                 d3.selectAll("#label"+ d.id).attr("x", d.x).attr("y", d.y)
             })
             .on("dragend", function (d) {
                 d3.select(this).classed("dragging", false);
 
-                for (var i = 0; i < gloJsonData.nodes.length; ++i) {
-                    if (d.id == gloJsonData.nodes[i].id) {
-                        selectOneDot(i);
-                        break;
-                    }
-                }
+                selectOneDot(d.id);
+
                 // version of non-continue axis
                 //.attr("cx", d.x = Math.round(d.x * 0.1) * 10)
                 //.attr("cy", d.y = Math.round(d.y * 0.1) * 10);
@@ -74,12 +72,27 @@ jQuery(function ($) {
     }
             */
 
-    function updateCurrentPosition(d, index) {
-        $('#status-posx').html(Math.round(d.x));
-        $('#status-posy').html(Math.round(d.y));
-        $('#status-uid').html(Math.round(d.id));
-        $('#status-main-uid').html(Math.round(d.id));
-        $('#status-type').html(Math.round(d.type));
+    function updateCurrentPosition(index) {
+        var d = nodeData[index];
+        if (d != undefined) {
+            $('#status-posx').html(Math.round(d.x));
+            $('#status-posy').html(Math.round(d.y));
+            $('#status-uid').html(Math.round(d.id));
+            $('#status-main-uid').html(Math.round(d.id));
+            $('#status-type').html(Math.round(d.type));
+            $('#side-info-node').show();
+            $('#side-info-link').show();
+            $('#side-info-remove').show();
+        } else {
+            $('#status-posx').html('-');
+            $('#status-posy').html('-');
+            $('#status-uid').html('-');
+            $('#status-main-uid').html('-');
+            $('#status-type').html('-');
+            $('#side-info-node').hide();
+            $('#side-info-link').hide();
+            $('#side-info-remove').hide();
+        }
         currentDotIndex = index;
     }
 
@@ -90,9 +103,8 @@ jQuery(function ($) {
     clearAllOfDots();
 
     function selectOneDot(index) {
-        var id = gloJsonData.nodes[index].id;
         $('.dot *').attr('class', '');
-        $('#p' + id).attr('class', 'selected');
+        $('#p' + index).attr('class', 'selected');
     }
 
     function redrawLines(uidNum) {
@@ -111,15 +123,31 @@ jQuery(function ($) {
     }
 
     $('#side-head-top-button-n').click(function () {
-        var index = (currentDotIndex + 1 + dotSize) % dotSize;
-        updateCurrentPosition(gloJsonData.nodes[index], index);
-        selectOneDot(currentDotIndex);
+        if (nodeData.length >= 0) {
+            var index = currentDotIndex;
+            do {
+                index = (index + 1) % nodeData.length;
+                if (index == currentDotIndex) {
+                    return;
+                }
+            } while (nodeData[index] == undefined);
+            updateCurrentPosition(index);
+            selectOneDot(index);
+        }
     });
 
     $('#side-head-top-button-p').click(function () {
-        var index = (currentDotIndex - 1 + dotSize) % dotSize;
-        updateCurrentPosition(gloJsonData.nodes[index], index);
-        selectOneDot(currentDotIndex);
+        if (nodeData.length >= 0) {
+            var index = currentDotIndex;
+            do {
+                index = (index + nodeData.length - 1) % nodeData.length;
+                if (index == currentDotIndex) {
+                    return;
+                }
+            } while (nodeData[index] == undefined);
+            updateCurrentPosition(index);
+            selectOneDot(index);
+        }
     });
 
     $('#side-head-top-button-h').click(function () {
@@ -182,7 +210,7 @@ jQuery(function ($) {
     container.append("g")
             .attr("class", "x-axis")
             .selectAll("line")
-            .data(d3.range(0, width, 10))
+            .data(d3.range(0, width + 1, 10))
             .enter().append("line")
             .attr("x1", function(d) { return d; })
             .attr("y1", 0)
@@ -192,7 +220,7 @@ jQuery(function ($) {
     container.append("g")
             .attr("class", "y-axis")
             .selectAll("line")
-            .data(d3.range(0, height, 10))
+            .data(d3.range(0, height + 1, 10))
             .enter().append("line")
             .attr("x1", 0)
             .attr("y1", function(d) { return d; })
@@ -200,24 +228,23 @@ jQuery(function ($) {
             .attr("y2", function(d) { return d; });
 
     d3.json("data/data.json", function (error, dataGraph) {
+        for (var node in dataGraph.nodes) {
+            nodeData[dataGraph.nodes[node].id] = dataGraph.nodes[node];
+        }
+        for (var link in dataGraph.links) {
+            linkData.push(dataGraph.links[link]);
+        }
         printGra(dataGraph);
-        gloJsonData = dataGraph;
-        dotSize = gloJsonData.nodes.length;
-        var index = Math.min(dotSize - 1, currentDotIndex);
-        updateCurrentPosition(dataGraph.nodes[currentDotIndex], index);
+        updateCurrentPosition(Math.min(nodeData.length - 1, currentDotIndex));
     });
 
     var rClickGene; // ???
 
-    function generateLinks(container, dataGraph) {
-        var tmp = {};
-        for (var i = 0; i < dataGraph.nodes.length; ++i) {
-            tmp[dataGraph.nodes[i].id] = dataGraph.nodes[i];
-        }
+    function generateLinks(container) {
         return container.append("g")
                 .attr("class", "link")
                 .selectAll("line")
-                .data(dataGraph.links)
+                .data(linkData)
                 .enter()
                 .append("line")
                 .attr('stroke', '#1b5e20')
@@ -225,35 +252,30 @@ jQuery(function ($) {
                 .attr("class", "node-link")
                 .attr("source", function (d) { return d.source })
                 .attr("target", function (d) { return d.target })
-                .attr("x1", function (d) { return tmp[d.source].x })
-                .attr("y1", function (d) { return tmp[d.source].y })
-                .attr("x2", function (d) { return tmp[d.target].x })
-                .attr("y2", function (d) { return tmp[d.target].y })
+                .attr("x1", function (d) { return nodeData[d.source].x })
+                .attr("y1", function (d) { return nodeData[d.source].y })
+                .attr("x2", function (d) { return nodeData[d.target].x })
+                .attr("y2", function (d) { return nodeData[d.target].y })
                 .style("marker-end",  "url(#suit)");
     }
 
     var colorScale =  ["#ffffd9","#edf8b1","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#253494","#081d58"];
-    function generateDots(container, dataGraph) {
+    function generateDots(container) {
         return container.append("g")
                 .attr("class", "dot")
                 .selectAll("circle")
-                .data(dataGraph.nodes)
+                .data(nodeData.filter(function (n) { return n != undefined; }))
                 .enter()
                 .append("circle")
                 .attr("r", 5)
                 .attr("cx", function (d) { return d.x; })
                 .attr("cy", function (d) { return d.y; })
                 .attr("id", function (d) { return "p" + d.id })
-                .attr("fill",function(d){ return colorScale[d.type]; })
+                .attr("fill", function(d) { return colorScale[d.type]; })
                 .attr("uType", function (d) { return d.type })
                 .on("click", function (d) {
-                    for (var i = 0; i < dataGraph.nodes.length; ++i) {
-                        if (d.id == dataGraph.nodes[i].id) {
-                            selectOneDot(i);
-                            updateCurrentPosition(d, i);
-                            return;
-                        }
-                    }
+                    selectOneDot(d.id);
+                    updateCurrentPosition(d.id);
                 })
                 // will not use context menus
                 /*
@@ -277,14 +299,14 @@ jQuery(function ($) {
                 .call(drag);
     }
 
-    function generateTextLabels(container, dataGraph) {
+    function generateTextLabels(container) {
         return container.append("g")
                 .attr("class",'txt')
                 .selectAll("text")
-                .data(dataGraph.nodes)
+                .data(nodeData.filter(function (n) { return n != undefined; }))
                 .enter()
                 .append("text")
-                .attr("id",function(d) { return "label"+ d.id})
+                .attr("id", function(d) { return "label" + d.id})
                 .attr("x", function(d) { return d.x; })
                 .attr("y", function(d) { return d.y; })
                 .attr("dx", 0)
@@ -294,13 +316,8 @@ jQuery(function ($) {
                 .style("fill","#22375B")
                 .text(function(d){return d.id})
                 .on("click", function (d) { 
-                    for (var i = 0; i < dataGraph.nodes.length; ++i) {
-                        if (d.id == dataGraph.nodes[i].id) {
-                            selectOneDot(i);
-                            updateCurrentPosition(d, i);
-                            return;
-                        }
-                    }
+                    selectOneDot(d.id);
+                    updateCurrentPosition(d.id);
                 })
                 // will not use context menus
                 /*
@@ -325,9 +342,9 @@ jQuery(function ($) {
     }
 
     function printGra(dataGraph) {
-        var link = generateLinks(container, dataGraph); 
-        var dots = generateDots(container, dataGraph); 
-        var textLabels = generateTextLabels(container, dataGraph);
+        var link = generateLinks(container); 
+        var dots = generateDots(container); 
+        var textLabels = generateTextLabels(container);
         
         /*
         $(".custom-menu-gene li").click(function(){
@@ -400,44 +417,38 @@ jQuery(function ($) {
             $(".custom-menu-pano").hide(100);
         });
         */
-        backToCenter(dataGraph);
 
-        //Create all the line svgs but without locations yet
-    }
-
-
-    function backToCenter(dataGraph){
-        xyRange = getXyRange(dataGraph);
+        var xyRange = getXYRange(nodeData.filter(function (n) { return n != undefined; }));
 
         var midX = (xyRange.xmax + xyRange.xmin) / 2;
         var midY = (xyRange.ymax + xyRange.ymin) / 2;
 
         // weird but works
-        // because the scale is 4 -- ustcZzzz
+        // because the scale is 4 -- ustc_zzzz
         svg.attr("transform", "translate(" + (0.5 * wrapperBoundingBox.width + 150 - 4 * midX)
-                + "," + (0.5 * wrapperBoundingBox.height - 4 * midY) + ")scale(4,4)")
+                + "," + (0.5 * wrapperBoundingBox.height - 4 * midY) + ")scale(4)")
     }
 
     //print function can be called in global
 
-    function getXyRange(jsonData){
-        if (jsonData.nodes.length <= 0) {
+    function getXYRange(data){
+        if (data.length <= 0) {
             return { "xmax": 640, "ymax": 360, "xmin": 640, "ymin": 360 }
         }
-        var xmax = jsonData.nodes[0].x, xmin = xmax;
-        var ymax = jsonData.nodes[0].y, ymin = ymax;
-        for (var i = 1; i < jsonData.nodes.length; ++i){
-            if (xmax < jsonData.nodes[i].x) {
-                xmax = jsonData.nodes[i].x;
+        var xmax = data[0].x, xmin = xmax;
+        var ymax = data[0].y, ymin = ymax;
+        for (var i = 1; i < data.length; ++i){
+            if (xmax < data[i].x) {
+                xmax = data[i].x;
             }
-            if (ymax < jsonData.nodes[i].y) {
-                ymax = jsonData.nodes[i].y;
+            if (ymax < data[i].y) {
+                ymax = data[i].y;
             }
-            if (xmin > jsonData.nodes[i].x) {
-                xmin = jsonData.nodes[i].x;
+            if (xmin > data[i].x) {
+                xmin = data[i].x;
             }
-            if (ymin > jsonData.nodes[i].y) {
-                ymin = jsonData.nodes[i].y;
+            if (ymin > data[i].y) {
+                ymin = data[i].y;
             }
         }
         return { "xmax": xmax, "ymax": ymax, "xmin": xmin, "ymin": ymin };
