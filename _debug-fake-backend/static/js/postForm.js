@@ -18,20 +18,16 @@ $.fn.serializeObject = function()
 
 function postForm(){
     var formData = JSON.stringify($('form').serializeObject());
-
+    var  dictPost  =  [{"plugin":"user_model"},{"action":"validate_login"},{"data":formData}];
+    console.log(dictPost);
     $.ajax({
         type: "POST",
-        url: "/validateLogin",
-        data: formData,
+        url: "/plugin",
+        data: dictPost,
         success: function(response){
             console.log(response);
             if(response['error'] == 'a1'){
-
-                Materialize.toast('Account not found', 3000, 'rounded');
-            }
-            if(response['error'] == 'a2'){
-
-                Materialize.toast('Wrong Password', 3000, 'rounded');
+                Materialize.toast('Account or Password Error', 3000, 'rounded');
             }
         },
         dataType: "json",
@@ -41,11 +37,12 @@ function postForm(){
 
 function postForm_sign_up(){
     var formData = JSON.stringify($('form').serializeObject());
-
+    var  dictPost  =  [{"plugin":"user_model"},{"action":"create_user"},{"data":formData}];
+    console.log(dictPost);
     $.ajax({
         type: "POST",
-        url: "/signup",
-        data: formData,
+        url: "/plugin",
+        data: dictPost,
         success: function(){
             if(response['error'] == 'a2'){
                 Materialize.toast('Email already registered!!', 3000, 'rounded');

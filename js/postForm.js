@@ -23,7 +23,7 @@ function postForm(){
     $.ajax({
         type: "POST",
         url: "/plugin",
-        data: dictPost,
+        data: JSON.stringify(dictPost),
         success: function(response){
             console.log(response);
             if(response['error'] == 'a1'){
