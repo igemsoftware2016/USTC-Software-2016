@@ -5,6 +5,7 @@ jQuery(function ($) {
 
     var statusElement = d3.select("#status");
     var container;
+    var wrapper = d3.select("#image");
 
     // nodeData: an array whose indexes of the elements means the uids of them, if not exist,
     //           it will be undefined. For example, if there are elements whose uids are '1, 2, 4',
@@ -26,6 +27,7 @@ jQuery(function ($) {
             .scaleExtent([1 / 8, 8])
             .on("zoom", function () {
                 container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+                generateLines();
             });
 
     var drag = d3.behavior.drag()
@@ -41,7 +43,6 @@ jQuery(function ($) {
                 d.y = d3.event.y;
                 redrawDot(d.id);
                 updateCurrentPosition(d.id);
-
             })
             .on("dragend", function (d) {
                 d3.select(this).classed("dragging", false);
@@ -124,6 +125,8 @@ jQuery(function ($) {
         textLabel.attr("x", d.x).attr("y", d.y);
     }
 
+    var wrapperBoundingBox = wrapper.node().getBoundingClientRect();
+
     $('#side-head-top-button-n').click(function () {
         if (nodeData.length >= 0) {
             var index = currentDotIndex;
@@ -162,26 +165,29 @@ jQuery(function ($) {
     })
 
     $('#side-info-remove').click(function () {
-        var newLinkData = [];
-        for (var i in linkData) {
-            var link = linkData[i];
-            if (link.source != currentDotIndex && link.target != currentDotIndex) {
-                newLinkData.push(link);
-            }
+        if (nodeData[currentDotIndex] != undefined) {
+            linkData = linkData.filter(function (link) {
+                return link.source != currentDotIndex && link.target != currentDotIndex;
+            });
+
+            delete nodeData[currentDotIndex];
+            $('#side-head-top-button-p').click();
+
+            generateLinks();
+            generateDots();
+            generateTextLabels();
+
+            updateCurrentPosition(currentDotIndex);
         }
-        linkData = newLinkData;
-
-        delete nodeData[currentDotIndex];
-        $('#side-head-top-button-p').click();
-
-        generateLinks();
-        generateDots();
-        generateTextLabels();
     })
 
-    var wrapper = d3.select("#image");
+    $(document).keypress(function (e) {
+        if (e.which == 127) { // DELETE
+            $('#side-info-remove').click();
+        }
+    });
+
     var contextGeneTri = 0;
-    var wrapperBoundingBox = wrapper.node().getBoundingClientRect();
     var svg = wrapper.append("svg")
             .on("contextmenu", function (d) {
                 // Avoid the real one
@@ -227,34 +233,15 @@ jQuery(function ($) {
 
     container = svg.append("g");
 
-    container.append("g")
-            .attr("class", "x-axis")
-            .selectAll("line")
-            .data(d3.range(0, width + 1, 10))
-            .enter().append("line")
-            .attr("x1", function(d) { return d; })
-            .attr("y1", 0)
-            .attr("x2", function(d) { return d; })
-            .attr("y2", height);
+    var xLines = container.append("g").attr("class", "x-axis");
 
-    container.append("g")
-            .attr("class", "y-axis")
-            .selectAll("line")
-            .data(d3.range(0, height + 1, 10))
-            .enter().append("line")
-            .attr("x1", 0)
-            .attr("y1", function(d) { return d; })
-            .attr("x2", width)
-            .attr("y2", function(d) { return d; });
+    var yLines = container.append("g").attr("class", "y-axis");
 
-    var links = container.append("g")
-            .attr("class", "link");
+    var links = container.append("g").attr("class", "link");
 
-    var dots = container.append("g")
-            .attr("class", "dot");
+    var dots = container.append("g").attr("class", "dot");
 
-    var texts = container.append("g")
-            .attr("class",'txt');
+    var texts = container.append("g").attr("class",'txt');
 
     d3.json("data/data.json", function (error, dataGraph) {
         for (var node in dataGraph.nodes) {
@@ -271,10 +258,27 @@ jQuery(function ($) {
 
     var rClickGene; // ???
 
+    function generateLines() {
+        var dataLinesX = xLines.selectAll("line")
+                .data(d3.range(0, width + 1, 10));
+        dataLinesX.enter()
+                .append("line")
+                .attr("x1", function(d) { return d; })
+                .attr("y1", 0)
+                .attr("x2", function(d) { return d; })
+                .attr("y2", height);
+        var dataLinesY = yLines.selectAll("line")
+                .data(d3.range(0, height + 1, 10));
+        dataLinesY.enter().append("line")
+                .attr("x1", 0)
+                .attr("y1", function(d) { return d; })
+                .attr("x2", width)
+                .attr("y2", function(d) { return d; });
+    }
+
     function generateLinks() {
         var dataLink = links.selectAll("line")
-                .data(linkData, 
-                        function (d) { return d.source + ' ' + d.target });
+                .data(linkData, function (d) { return d.source + ' ' + d.target });
         dataLink.exit()
                 .transition()
                 .attr("x1", function (d) { return d3.select(this).attr("x2"); })
@@ -380,6 +384,7 @@ jQuery(function ($) {
     }
 
     function printGra() {
+        generateLines();
         generateLinks();
         generateDots();
         generateTextLabels();
