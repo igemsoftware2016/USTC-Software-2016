@@ -35,6 +35,7 @@ body, html {
 .x-axis line {
     fill: none;
     stroke: #1b5e20;
+    stroke-width: 2px;
     shape-rendering: crispEdges;
     vector-effect: non-scaling-stroke;
 }
@@ -42,6 +43,7 @@ body, html {
 .y-axis line {
     fill: none;
     stroke: #1b5e20;
+    stroke-width: 2px;
     shape-rendering: crispEdges;
     vector-effect: non-scaling-stroke;
 }
