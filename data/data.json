@@ -15,6 +15,9 @@
     {"id":14 ,"type":4, "u_name":"DNA4",  "x":600,  "y":400}
   ],
   "links":[
+    {"lid":0,  "source":1  ,"target":2  ,"weight":1},
+    {"lid":0,  "source":1  ,"target":4  ,"weight":1},
+    {"lid":0,  "source":3  ,"target":4  ,"weight":1},
     {"lid":0,  "source":1  ,"target":8  ,"weight":1},
     {"lid":0,  "source":3  ,"target":8  ,"weight":1},
     {"lid":0,  "source":9  ,"target":8  ,"weight":1}
