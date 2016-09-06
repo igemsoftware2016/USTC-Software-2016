@@ -659,4 +659,26 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
     var graph = new GraphCreator(svg, nodes, edges);
     graph.setIdCt(14);
     graph.updateGraph();
+
+
+    function postdata(){
+        var nodeData = JSON.stringify(nodes);
+        var edgeData = JSON.stringify(edges);
+        var dictPost  =  [{"plugin":"pano"},{"action":"update_data"},{"node-data":nodeData},{"edge-data":e\}];
+        console.log(dictPost);
+        $.ajax({
+            type: "POST",
+            url: "/plugin",
+            data: JSON.stringify(dictPost),
+            success: function(response){
+                console.log(response);
+                if(response['error'] == 'a1'){
+                    Materialize.toast('sth wrong Error', 3000, 'rounded');
+                }
+            },
+            dataType: "json",
+            contentType : "application/json"
+        });
+    }
+
 })(window.d3, window.saveAs, window.Blob);

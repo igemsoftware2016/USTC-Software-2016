@@ -2,18 +2,28 @@
 ## Data
 数据格式编程json格式 有两个变量域 nodes(节点信息) linkes(有向连接关系) 示例数据：  
 ```
-{
-  "nodes":[
-    {"id":0  ,"type":3, "u_name":"gene1", "x":300,  "y":300},
-    {"id":1  ,"type":3, "u_name":"gene2", "x":330,  "y":300},
-    {"id":2  ,"type":3, "u_name":"gene3", "x":360,  "y":300},
-  ]
-,
-"links":[
-  {"lid":0,  "source":1  ,"target":8  ,"weight":1},
-  {"lid":0,  "source":2  ,"target":8  ,"weight":1}
-]
-}
+    nodes = [
+        {"id":1  ,"type":3, "u_name":"gene1","title":"gene1", "x":1400,  "y":500},
+        {"id":2  ,"type":2, "u_name":"gRNA2","title":"gRNA2", "x":200,  "y":100},
+        {"id":3  ,"type":2, "u_name":"gRNA1","title":"gRNA1", "x":800,  "y":300},
+        {"id":4  ,"type":2, "u_name":"gene4","title":"gene4", "x":1100,  "y":100},
+        {"id":5  ,"type":3, "u_name":"gene3","title":"gene3", "x":800,  "y":100},
+        {"id":6  ,"type":3, "u_name":"gene2","title":"gene2", "x":1400,  "y":800},
+        {"id":7  ,"type":3, "u_name":"gRNA3","title":"gRNA3", "x":1800,  "y":800},
+        {"id":8  ,"type":2, "u_name":"DNA2", "title":"DNA2",  "x":1000,  "y":600},
+        {"id":9  ,"type":3, "u_name":"DNA1", "title":"DNA1",  "x":500,  "y":300},
+        {"id":10 ,"type":1, "u_name":"DNA3", "title":"DNA3",  "x":1000,  "y":900},
+        {"id":11 ,"type":1, "u_name":"DNA4", "title":"DNA4",  "x":1600,  "y":1000},
+        {"id":12 ,"type":4, "u_name":"DNA4", "title":"DNA4",  "x":1600,  "y":100},
+        {"id":14 ,"type":4, "u_name":"DNA4", "title":"DNA4",  "x":2000,  "y":1000}
+    ];
+
+    edges = [
+        {"lid":0,  "source":nodes[1]  ,"target":nodes[8]  ,"weight":1},
+        {"lid":0,  "source":nodes[3]  ,"target":nodes[8]  ,"weight":1},
+        {"lid":0,  "source":nodes[9]  ,"target":nodes[8]  ,"weight":1}
+    ];
+
 ```
 
 ## variable  
@@ -45,4 +55,12 @@ uid_num:接受的变量是一个数字字符串，代表一个节点的id
 ## attention  
 node上的标签是对应node的id  
 pano上的自定义右键只有node上的第一个可以用
+
+
+# 接口文档
+
+[{"plugin":"pano"},{"action":"update_data"},{"node-data":nodeData},{"edge-data":e\}];
+数据格式见上文
+
+
 
