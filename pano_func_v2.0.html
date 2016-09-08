@@ -11,6 +11,8 @@
     <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="js/materialize.min.js"></script>
     <script type="text/javascript" src="js/d3.v3.min.js"></script>
+
+
     <style>
     p {
         text-align: center;
@@ -126,8 +128,8 @@
             <div id="side-head" class="green darken-2">
                 <div id="side-head-top-buttons" class="row">
                     <a id="side-head-close-button" class="col s2 white-text left-align waves-effect"><i class="material-icons">close</i></a>
-                    <a id="side-head-top-button-p" href="javascript:void(0);" class="col s4 white-text center-align waves-effect">PREVIOUS</a>
-                    <a id="side-head-top-button-n" href="javascript:void(0);" class="col s4 white-text center-align waves-effect">NEXT</a>
+                    <a id="side-head-top-button-p" href="javascript:void(0);"  class="col s4 white-text center-align waves-effect">PREVIOUS</a>
+                    <a id="side-head-top-button-n" href="javascript:void(0);" onclick="kick_ass()" class="col s4 white-text center-align waves-effect">NEXT</a>
                     <a id="side-head-top-button-i" class="col s2 white-text right-align waves-effect"><i class="material-icons">perm_identity</i></a>
                 </div>
                 <div id="side-head-node-name" class="container">
@@ -245,6 +247,9 @@
         </ul>
     </div>
     -->
+    <div id="body"></div>
+    <canvas id="canvas" width="1000px" height="600px"></canvas>
+    <div id="png-container"></div>
     <script src="js/pano-v2.0.js" charset="utf-8"></script>
     <script src="js/d3.v3.min.js" charset="utf-8"></script>
     <script src="http://cdn.jsdelivr.net/filesaver.js/0.1/FileSaver.min.js"></script>

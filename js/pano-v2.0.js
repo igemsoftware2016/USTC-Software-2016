@@ -1,4 +1,6 @@
 var nodes;
+var kick_ass;
+
 document.onload = (function(d3, saveAs, Blob, undefined) {
     "use strict";
 
@@ -609,8 +611,6 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
         {"id":14 ,"type":4, "u_name":"DNA4", "title":"DNA4",  "x":2000,  "y":1000}
     ];
 
-
-
             // [{title: "node-1", id: 0, x: xLoc, y: yLoc},
         //{title: "node-2", id: 1, x: xLoc, y: yLoc + 200}];
     var edges = [
@@ -653,18 +653,45 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
 
 
     /** MAIN SVG **/
-    var svg = d3.select("body").append("svg")
+    var svg = d3.selectAll("#body").append("svg")
             .attr("width", width)
+            .attr("id","main_window")
             .attr("height", height);
     var graph = new GraphCreator(svg, nodes, edges);
     graph.setIdCt(14);
     graph.updateGraph();
 
 
+//generate png
+    //TODO:  需要把图片平移缩放之后再生成png
+     kick_ass = function(){
+         console.log(document.getElementById('main_window'));
+         var canvas = document.getElementById("canvas");
+         var png='';
+         var svgString = new XMLSerializer().serializeToString(document.querySelector('svg'));
+         var ctx = canvas.getContext("2d");
+         var DOMURL = self.URL || self.webkitURL || self;
+         var img = new Image();
+         var svg = new Blob([svgString], {type: "image/svg+xml;charset=utf-8"});
+         var url = DOMURL.createObjectURL(svg);
+         img.onload = function() {
+             ctx.drawImage(img, 0, 0);
+             png = canvas.toDataURL("image/png");
+             document.querySelector('#png-container').innerHTML = '<img src="'+png+'"/>';
+             DOMURL.revokeObjectURL(png);
+             console.log(png);
+
+         };
+         img.src = url;
+
+
+    };
+
+
     function postdata(){
         var nodeData = JSON.stringify(nodes);
         var edgeData = JSON.stringify(edges);
-        var dictPost  =  [{"plugin":"pano"},{"action":"update_data"},{"node-data":nodeData},{"edge-data":e\}];
+        var dictPost  =  [{"plugin":"pano"},{"action":"update_data"},{"node-data":nodeData},{"edge-data":edges}];
         console.log(dictPost);
         $.ajax({
             type: "POST",
