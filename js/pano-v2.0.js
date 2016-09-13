@@ -86,15 +86,17 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
         svg.on("mouseup", function(d) {self.svgMouseUp.call(self, d);});
 
         // listen for dragging
-        var dragSvg = d3.behavior.zoom()
+        this.zoomHandler = d3.behavior.zoom()
                 .on("zoom", function() {
                     if (d3.event.sourceEvent.shiftKey) {
                         // TODO  the internal d3 state is still changing
                         return false;
-                    } else{
-                        self.zoomed.call(self);
+                    } else {
+                        self.state.justScaleTransGraph = true;
+                        d3.select("." + self.consts.graphClass)
+                            .attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
+                        return true;
                     }
-                    return true;
                 })
                 .on("zoomstart", function() {
                     var ael = d3.select("#" + self.consts.activeEditId).node();
@@ -107,7 +109,7 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
                     d3.select('body').style("cursor", "auto");
                 });
 
-        svg.call(dragSvg).on("dblclick.zoom", null);
+        svg.call(self.zoomHandler).on("dblclick.zoom", null);
 
         // listen for resize
         window.onresize = function() {self.updateWindow(svg);};
@@ -223,8 +225,8 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
         var words = title.split(/\s+/g),
                 nwords = words.length;
         var el = gEl.append("text")
-                .attr("text-anchor","middle")
-                .attr("dy", "-" + (nwords-1)*7.5);
+                .attr("text-anchor","middle");
+        el.attr("dx", 0).attr("dy", "5");
 
         for (var i = 0; i < words.length; i++) {
             var tspan = el.append('tspan').text(words[i]);
@@ -562,12 +564,6 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
         thisGraph.circles.exit().remove();
     };
 
-    GraphCreator.prototype.zoomed = function() {
-        this.state.justScaleTransGraph = true;
-        d3.select("." + this.consts.graphClass)
-                .attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
-    };
-
     GraphCreator.prototype.updateWindow = function(svg) {
         var docEl = document.documentElement,
                 bodyEl = document.getElementsByTagName('body')[0];
@@ -579,7 +575,7 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
     var SideBar = function () {
         var self = this;
 
-        this.currentDotIndex = -1;
+        this.currentDotIndex = 0;
 
         this.update = function (index, graph) {
             var d = graph.nodes[index - 1];
@@ -605,13 +601,53 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
             self.currentDotIndex = index;
         };
 
+        this.center = function (index, graph) {
+            var x = -graph.nodes[index].x, y = -graph.nodes[index].y;
+            console.log(x, y)
+            d3.select("." + graph.consts.graphClass)
+                .transition()
+                .duration(400)
+                .attr("transform", function (d) {
+                    return "translate(" + x + ", " + y + ") scale(" + 1 + ")";
+                });
+            graph.zoomHandler.translate([x, y]).scale(1);
+        };
+
         $('#side-head-top-button-h').click(function () {
-            $('#side-wrapper > div').animate({ left: 0 }, 200, "easeOutQuad");
+            $('#side-wrapper > div').animate({ left: 0 }, 100, "easeOutQuad");
         });
 
         $('#side-head-close-button').click(function () {
             var width = $('#side-head').width();
-            $('#side-wrapper > div').animate({ left: -1.05 * width }, 200, "easeInQuad");
+            $('#side-wrapper > div').animate({ left: -1.05 * width }, 100, "easeInQuad");
+        });
+
+        $('#side-head-top-button-n').click(function () {
+            if (graph.nodes.length >= 0) {
+                var index = self.currentDotIndex;
+                do {
+                    index = (index + 1) % graph.nodes.length;
+                    if (index == self.currentDotIndex) {
+                        return;
+                    }
+                } while (graph.nodes[index] == undefined);
+                self.update(index, graph);
+                self.center(index, graph);
+            }
+        });
+
+        $('#side-head-top-button-p').click(function () {
+            if (graph.nodes.length >= 0) {
+                var index = self.currentDotIndex;
+                do {
+                    index = (index + graph.nodes.length - 1) % graph.nodes.length;
+                    if (index == self.currentDotIndex) {
+                        return;
+                    }
+                } while (graph.nodes[index] == undefined);
+                self.update(index, graph);
+                self.center(index, graph);
+            }
         });
     };
 
@@ -637,7 +673,6 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
         {"id":1  ,"type":3, "u_name":"gene1","title":"gene1", "x":1400,  "y":500},
         {"id":2  ,"type":2, "u_name":"gRNA2","title":"gRNA2", "x":200,  "y":100},
         {"id":3  ,"type":2, "u_name":"gRNA1","title":"gRNA1", "x":800,  "y":300},
-        {"id":4  ,"type":2, "u_name":"gene4","title":"gene4", "x":1100,  "y":100},
         {"id":5  ,"type":3, "u_name":"gene3","title":"gene3", "x":800,  "y":100},
         {"id":6  ,"type":3, "u_name":"gene2","title":"gene2", "x":1400,  "y":800},
         {"id":7  ,"type":3, "u_name":"gRNA3","title":"gRNA3", "x":1800,  "y":800},
@@ -646,7 +681,7 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
         {"id":10 ,"type":1, "u_name":"DNA3", "title":"DNA3",  "x":1000,  "y":900},
         {"id":11 ,"type":1, "u_name":"DNA4", "title":"DNA4",  "x":1600,  "y":1000},
         {"id":12 ,"type":4, "u_name":"DNA4", "title":"DNA4",  "x":1600,  "y":100},
-        {"id":14 ,"type":4, "u_name":"DNA4", "title":"DNA4",  "x":2000,  "y":1000}
+        {"id":15 ,"type":4, "u_name":"DNA4", "title":"DNA4",  "x":2000,  "y":1000}
     ];
 
             // [{title: "node-1", id: 0, x: xLoc, y: yLoc},
@@ -685,7 +720,7 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
              png = canvas.toDataURL("image/png");
              document.querySelector('#png-container').innerHTML = '<img src="'+png+'"/>';
              DOMURL.revokeObjectURL(png);
-             console.log(png);
+             // console.log(png);
 
          };
          img.src = url;
