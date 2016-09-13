@@ -191,7 +191,7 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
             d.x += d3.event.dx;
             d.y +=  d3.event.dy;
             thisGraph.updateGraph();
-            updateCurrentPosition(d.id,thisGraph);
+            sidebar.update(d.id,thisGraph);
         }
     };
 
@@ -314,7 +314,7 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
             return;
         }
         else {
-            updateCurrentPosition(d.id,thisGraph);
+            sidebar.update(d.id, thisGraph);
         }
     };
 
@@ -400,7 +400,7 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
                     thisGraph.selectElementContents(txtNode);
                     txtNode.focus();
                 } else{
-                    updateCurrentPosition(d.id,thisGraph);
+                    sidebar.update(d.id, thisGraph);
                     if (state.selectedEdge) {
                         thisGraph.removeSelectFromEdge();
                     }
@@ -576,6 +576,44 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
         svg.attr("width", x).attr("height", y);
     };
 
+    var SideBar = function () {
+        var self = this;
+
+        this.currentDotIndex = -1;
+
+        this.update = function (index, graph) {
+            var d = graph.nodes[index - 1];
+            if (d != undefined) {
+                $('#status-posx').html(Math.round(d.x));
+                $('#status-posy').html(Math.round(d.y));
+                $('#status-uid').html(Math.round(d.id));
+                $('#status-main-uid').html('Node ' + Math.round(d.id));
+                $('#status-type').html(Math.round(d.type));
+                $('#side-info-node').show();
+                $('#side-info-link').show();
+                $('#side-info-remove').show();
+            } else {
+                $('#status-posx').html('-');
+                $('#status-posy').html('-');
+                $('#status-uid').html('-');
+                $('#status-main-uid').html('-');
+                $('#status-type').html('-');
+                $('#side-info-node').hide();
+                $('#side-info-link').hide();
+                $('#side-info-remove').hide();
+            }
+            self.currentDotIndex = index;
+        };
+
+        $('#side-head-top-button-h').click(function () {
+            $('#side-wrapper > div').animate({ left: 0 }, 200, "easeOutQuad");
+        });
+
+        $('#side-head-close-button').click(function () {
+            var width = $('#side-head').width();
+            $('#side-wrapper > div').animate({ left: -1.05 * width }, 200, "easeInQuad");
+        });
+    };
 
 
     /**** MAIN ****/
@@ -619,38 +657,6 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
         {"lid":0,  "source":nodes[9]  ,"target":nodes[8]  ,"weight":1}
     ];
 
-
-    //[{source: nodes[1], target: nodes[0]}];
-
-    var currentDotIndex = 0;
-
-    function updateCurrentPosition(index, gra) {
-        console.log(index);
-        var d = gra.nodes[index - 1];
-        if (d != undefined) {
-            $('#status-posx').html(Math.round(d.x));
-            $('#status-posy').html(Math.round(d.y));
-            $('#status-uid').html(Math.round(d.id));
-            $('#status-main-uid').html('Node ' + Math.round(d.id));
-            $('#status-type').html(Math.round(d.type));
-            $('#side-info-node').show();
-            $('#side-info-link').show();
-            $('#side-info-remove').show();
-        } else {
-            $('#status-posx').html('-');
-            $('#status-posy').html('-');
-            $('#status-uid').html('-');
-            $('#status-main-uid').html('-');
-            $('#status-type').html('-');
-            $('#side-info-node').hide();
-            $('#side-info-link').hide();
-            $('#side-info-remove').hide();
-        }
-        currentDotIndex = index;
-    }
-
-
-
     /** MAIN SVG **/
     var svg = d3.selectAll("#body").append("svg")
             .attr("width", width)
@@ -660,6 +666,7 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
     graph.setIdCt(14);
     graph.updateGraph();
 
+    var sidebar = new SideBar();
 
 //generate png
     //TODO:  需要把图片平移缩放之后再生成png
