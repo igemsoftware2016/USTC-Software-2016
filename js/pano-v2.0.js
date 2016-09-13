@@ -624,15 +624,14 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
 
     var currentDotIndex = 0;
 
-    function updateCurrentPosition(index_0,gra) {
-        var index = index_0-1;
+    function updateCurrentPosition(index, gra) {
         console.log(index);
-        var d =  gra.nodes[index];
+        var d = gra.nodes[index - 1];
         if (d != undefined) {
             $('#status-posx').html(Math.round(d.x));
             $('#status-posy').html(Math.round(d.y));
             $('#status-uid').html(Math.round(d.id));
-            $('#status-main-uid').html(Math.round(d.id));
+            $('#status-main-uid').html('Node ' + Math.round(d.id));
             $('#status-type').html(Math.round(d.type));
             $('#side-info-node').show();
             $('#side-info-link').show();
