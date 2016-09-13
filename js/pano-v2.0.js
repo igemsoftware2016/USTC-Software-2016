@@ -602,8 +602,8 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
         };
 
         this.center = function (index, graph) {
-            var x = -graph.nodes[index].x, y = -graph.nodes[index].y;
-            console.log(x, y)
+            var x = $("#body").width() / 2 - graph.nodes[index].x;
+            var y = $("#body").height() / 2 - graph.nodes[index].y;
             d3.select("." + graph.consts.graphClass)
                 .transition()
                 .duration(400)
