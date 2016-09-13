@@ -6,13 +6,13 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
 
     // define graphcreator object
     var GraphCreator = function(svg, nodes, edges) {
-        var thisGraph = this;
-        thisGraph.idct = 0;
+        var self = this;
+        self.idct = 0;
 
-        thisGraph.nodes = nodes || [];
-        thisGraph.edges = edges || [];
+        self.nodes = nodes || [];
+        self.edges = edges || [];
 
-        thisGraph.state = {
+        self.state = {
             selectedNode: null,
             selectedEdge: null,
             mouseDownNode: null,
@@ -47,28 +47,28 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
                 .append('svg:path')
                 .attr('d', 'M0,-5L10,0L0,5');
 
-        thisGraph.svg = svg;
-        thisGraph.svgG = svg.append("g")
-                .classed(thisGraph.consts.graphClass, true);
-        var svgG = thisGraph.svgG;
+        self.svg = svg;
+        self.svgG = svg.append("g")
+                .classed(self.consts.graphClass, true);
+        var svgG = self.svgG;
 
         // displayed when dragging between nodes
-        thisGraph.dragLine = svgG.append('svg:path')
+        self.dragLine = svgG.append('svg:path')
                 .attr('class', 'link dragline hidden')
                 .attr('d', 'M0,0L0,0')
                 .style('marker-end', 'url(#mark-end-arrow)');
 
         // svg nodes and edges
-        thisGraph.paths = svgG.append("g").selectAll("g");
-        thisGraph.circles = svgG.append("g").selectAll("g");
+        self.paths = svgG.append("g").selectAll("g");
+        self.circles = svgG.append("g").selectAll("g");
 
-        thisGraph.drag = d3.behavior.drag()
+        self.drag = d3.behavior.drag()
                 .origin(function(d) {
                     return {x: d.x, y: d.y};
                 })
                 .on("drag", function(args) {
-                    thisGraph.state.justDragged = true;
-                    thisGraph.dragmove.call(thisGraph, args);
+                    self.state.justDragged = true;
+                    self.dragmove.call(self, args);
                 })
                 .on("dragend", function() {
                     // todo check if edge-mode is selected
@@ -77,13 +77,13 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
         // listen for key events
         d3.select(window)
                 .on("keydown", function() {
-                    thisGraph.svgKeyDown.call(thisGraph);
+                    self.svgKeyDown.call(self);
                 })
                 .on("keyup", function() {
-                    thisGraph.svgKeyUp.call(thisGraph);
+                    self.svgKeyUp.call(self);
                 });
-        svg.on("mousedown", function(d) {thisGraph.svgMouseDown.call(thisGraph, d);});
-        svg.on("mouseup", function(d) {thisGraph.svgMouseUp.call(thisGraph, d);});
+        svg.on("mousedown", function(d) {self.svgMouseDown.call(self, d);});
+        svg.on("mouseup", function(d) {self.svgMouseUp.call(self, d);});
 
         // listen for dragging
         var dragSvg = d3.behavior.zoom()
@@ -92,12 +92,12 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
                         // TODO  the internal d3 state is still changing
                         return false;
                     } else{
-                        thisGraph.zoomed.call(thisGraph);
+                        self.zoomed.call(self);
                     }
                     return true;
                 })
                 .on("zoomstart", function() {
-                    var ael = d3.select("#" + thisGraph.consts.activeEditId).node();
+                    var ael = d3.select("#" + self.consts.activeEditId).node();
                     if (ael) {
                         ael.blur();
                     }
@@ -110,15 +110,15 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
         svg.call(dragSvg).on("dblclick.zoom", null);
 
         // listen for resize
-        window.onresize = function() {thisGraph.updateWindow(svg);};
+        window.onresize = function() {self.updateWindow(svg);};
 
         // handle download data
         d3.select("#download-input").on("click", function() {
             var saveEdges = [];
-            thisGraph.edges.forEach(function(val, i) {
+            self.edges.forEach(function(val, i) {
                 saveEdges.push({source: val.source.id, target: val.target.id});
             });
-            var blob = new Blob([window.JSON.stringify({"nodes": thisGraph.nodes, "edges": saveEdges})], {type: "text/plain;charset=utf-8"});
+            var blob = new Blob([window.JSON.stringify({"nodes": self.nodes, "edges": saveEdges})], {type: "text/plain;charset=utf-8"});
             saveAs(blob, "mydag.json");
         });
 
@@ -137,16 +137,16 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
                     // TODO better error handling
                     try{
                         var jsonObj = JSON.parse(txtRes);
-                        thisGraph.deleteGraph(true);
-                        thisGraph.nodes = jsonObj.nodes;
-                        thisGraph.setIdCt(jsonObj.nodes.length + 1);
+                        self.deleteGraph(true);
+                        self.nodes = jsonObj.nodes;
+                        self.setIdCt(jsonObj.nodes.length + 1);
                         var newEdges = jsonObj.edges;
                         newEdges.forEach(function(e, i) {
-                            newEdges[i] = {source: thisGraph.nodes.filter(function(n) {return n.id == e.source;})[0],
-                                target: thisGraph.nodes.filter(function(n) {return n.id == e.target;})[0]};
+                            newEdges[i] = {source: self.nodes.filter(function(n) {return n.id == e.source;})[0],
+                                target: self.nodes.filter(function(n) {return n.id == e.target;})[0]};
                         });
-                        thisGraph.edges = newEdges;
-                        thisGraph.updateGraph();
+                        self.edges = newEdges;
+                        self.updateGraph();
                     }catch(err) {
                         window.alert("Error parsing uploaded file\nerror message: " + err.message);
                         return;
@@ -162,7 +162,7 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
 
         // handle delete graph
         d3.select("#delete-graph").on("click", function() {
-            thisGraph.deleteGraph(false);
+            self.deleteGraph(false);
         });
     };
 
