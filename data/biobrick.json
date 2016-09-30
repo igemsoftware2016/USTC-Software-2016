@@ -1,0 +1,9 @@
+{
+  "brick_data":[
+    {"id":1  ,"type":3, "u_name":"pSC101QC F1", "data1":{"description":"to remove BglII site on pSC101"},"data2":{"detail":"5'- gaatttacagatacccagatcAcccgggaaaagg-3'"},"data3":{"attention":"do not burn it"} },
+    {"id":2  ,"type":2, "u_name":"pSC101QC F1", "data1":{"description":"to remove BglII site on pSC101"},"data2":{"detail":"5'- gaatttacagatacccagatcAcccgggaaaagg-3'"},"data3":{"attention":"do not burn it"}  },
+    {"id":6  ,"type":3, "u_name":"pSC101QC F1", "data1":{"description":"to remove BglII site on pSC101"},"data2":{"detail":"5'- gaatttacagatacccagatcAcccgggaaaagg-3'"}, "data3":{"attention":"do not burn it"}  },
+    {"id":7  ,"type":3, "u_name":"pSC101QC F1", "data1":{"description":"to remove BglII site on pSC101"},"data2":{"detail":"5'- gaatttacagatacccagatcAcccgggaaaagg-3'"}, "data3":{"attention":"do not burn it"}  },
+    {"id":12 ,"type":4, "u_name":"pSC101QC F1", "data1":{"description":"to remove BglII site on pSC101"},"data2":{"detail":"5'- gaatttacagatacccagatcAcccgggaaaagg-3'"}, "data3":{"attention":"do not burn it"}  }
+  ]
+}
