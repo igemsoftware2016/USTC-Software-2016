@@ -9,7 +9,9 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
         var self = this;
         self.idct = 0;
 
-        self.nodes = nodes || [];
+        self.nodes = [];
+        nodes.forEach(function (n) { self.nodes[n.id] = n; });
+
         self.edges = edges || [];
 
         self.state = {
@@ -193,11 +195,11 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
         var thisGraph = this;
         if (thisGraph.state.shiftNodeDrag) {
             thisGraph.dragLine.attr('d', 'M' + d.x + ',' + d.y + 'L' + d3.mouse(thisGraph.svgG.node())[0] + ',' + d3.mouse(this.svgG.node())[1]);
-        } else{
+        } else {
             d.x += d3.event.dx;
-            d.y +=  d3.event.dy;
+            d.y += d3.event.dy;
             thisGraph.updateGraph();
-            sidebar.update(d.id,thisGraph);
+            sidebar.update(d.id, thisGraph);
         }
     };
 
@@ -318,8 +320,7 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
             thisGraph.dragLine.classed('hidden', false)
                     .attr('d', 'M' + d.x + ',' + d.y + 'L' + d.x + ',' + d.y);
             return;
-        }
-        else {
+        } else {
             sidebar.update(d.id, thisGraph);
         }
     };
@@ -500,7 +501,7 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
                 state = thisGraph.state;
 
         thisGraph.paths = thisGraph.paths.data(thisGraph.edges, function(d) {
-            return String(d.source) + "+" + String(d.target);
+            return String(d.source) + "&" + String(d.target);
         });
         var paths = thisGraph.paths;
         // update existing paths
@@ -534,7 +535,9 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
         paths.exit().remove();
 
         // update existing nodes
-        thisGraph.circles = thisGraph.circles.data(thisGraph.nodes, function(d) { return d.id;});
+        thisGraph.circles = thisGraph.circles.data(thisGraph.nodes.filter(function (n) {
+            return n != undefined;
+        }), function (d) { return d.id; });
         thisGraph.circles.attr("transform", function(d) {return "translate(" + d.x + "," + d.y + ")";});
 
         // add new nodes
@@ -584,7 +587,7 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
         this.currentDotIndex = 0;
 
         this.update = function (index, graph) {
-            var d = graph.nodes[index - 1];
+            var d = graph.nodes[index];
             if (d != undefined) {
                 $('#status-posx').html(Math.round(d.x));
                 $('#status-posy').html(Math.round(d.y));
@@ -682,8 +685,8 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
         {"id":5  ,"type":3, "u_name":"gene3","title":"gene3", "x":800,  "y":100},
         {"id":6  ,"type":3, "u_name":"gene2","title":"gene2", "x":1400,  "y":800},
         {"id":7  ,"type":3, "u_name":"gRNA3","title":"gRNA3", "x":1800,  "y":800},
-        {"id":8  ,"type":2, "u_name":"DNA2", "title":"DNA2",  "x":900,  "y":400},
-        {"id":9  ,"type":3, "u_name":"DNA1", "title":"DNA1",  "x":500,  "y":400},
+        {"id":8  ,"type":2, "u_name":"DNA2", "title":"DNA2",  "x":900,  "y":600},
+        {"id":9  ,"type":3, "u_name":"DNA1", "title":"DNA1",  "x":500,  "y":1100},
         {"id":10 ,"type":1, "u_name":"DNA3", "title":"DNA3",  "x":1000,  "y":900},
         {"id":11 ,"type":1, "u_name":"DNA4", "title":"DNA4",  "x":1600,  "y":1000},
         {"id":12 ,"type":4, "u_name":"DNA4", "title":"DNA4",  "x":1600,  "y":100},
