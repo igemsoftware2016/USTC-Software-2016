@@ -237,13 +237,14 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
         }
     };
 
-    GraphCreator.prototype.centerSelectedNode = function () {
+    GraphCreator.prototype.centerSelectedNode = function (duration) {
+        duration = duration || 500;
         if (this.state.selectedNode) {
             var x = $("#body").width() / 2 - this.state.selectedNode.x;
             var y = $("#body").height() / 2 - this.state.selectedNode.y;
             d3.select("." + this.consts.graphClass)
                 .transition()
-                .duration(400)
+                .duration(duration)
                 .attr("transform", function (d) {
                     return "translate(" + x + ", " + y + ") scale(" + 1 + ")";
                 });
@@ -274,6 +275,27 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
             if (nodeData) {
                 thisGraph.circles.filter(function (ed) { return ed === nodeData; }).classed(className, true);
             }
+        }
+    };
+
+    GraphCreator.prototype.delSelectedEdge = function () {
+        var selectedEdge = this.state.selectedEdge;
+        if (selectedEdge) {
+            this.edges.splice(this.edges.indexOf(selectedEdge), 1);
+            this.state.selectedEdge = null;
+            this.updateGraph();
+        }
+    };
+
+    GraphCreator.prototype.delSelectedNode = function () {
+        var selectedNode = this.state.selectedNode;
+        if (selectedNode) {
+            this.nodes[selectedNode.id] = undefined;
+            this.edges = this.edges.filter(function (l) {
+                return l.source != selectedNode.id && l.target != selectedNode.id;
+            });
+            this.state.selectedNode = null;
+            this.updateGraph();
         }
     };
 
@@ -361,7 +383,7 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
 
         if (mouseDownNode !== d) {
             // we're in a different node: create new edge for mousedown edge and add to graph
-            var newEdge = {source: mouseDownNode, target: d};
+            var newEdge = { source: mouseDownNode.id, target: d.id };
             var filtRes = thisGraph.paths.filter(function(d) {
                 if (d.source === newEdge.target && d.target === newEdge.source) {
                     thisGraph.edges.splice(thisGraph.edges.indexOf(d), 1);
@@ -391,7 +413,7 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
                         thisGraph.setSelectedEdge(null);
                     }
                     thisGraph.setSelectedNode(d);
-                    thisGraph.centerSelectedNode();
+                    thisGraph.centerSelectedNode(250);
                 }
             }
         }
@@ -439,26 +461,28 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
         if(state.lastKeyDown !== -1) return;
 
         state.lastKeyDown = d3.event.keyCode;
-        var selectedNode = state.selectedNode,
-                selectedEdge = state.selectedEdge;
 
         switch(d3.event.keyCode) {
             case consts.BACKSPACE_KEY:
             case consts.DELETE_KEY:
                 d3.event.preventDefault();
-                if (selectedNode) {
-                    thisGraph.nodes[selectedNode.id] = undefined;
-                    thisGraph.edges = thisGraph.edges.filter(function (l) {
-                        return l.source != selectedNode.id && l.target != selectedNode.id;
-                    });
-                    state.selectedNode = null;
-                    thisGraph.updateGraph();
-                } else if (selectedEdge) {
-                    thisGraph.edges.splice(thisGraph.edges.indexOf(selectedEdge), 1);
-                    state.selectedEdge = null;
-                    thisGraph.updateGraph();
+                var id = thisGraph.state.selectedNode.id;
+
+                thisGraph.delSelectedEdge();
+                thisGraph.delSelectedNode();
+
+                if (graph.nodes.length >= 0) {
+                    var index = id;
+                    do {
+                        index = (index + 1) % graph.nodes.length;
+                    } while (index != id && graph.nodes[index] == undefined);
+                    graph.setSelectedNode(graph.nodes[index]);
+                    graph.centerSelectedNode();
+                    sidebar.update(index, graph);
+                } else {
+                    graph.setSelectedNode(graph.nodes[graph.nodes.length]);
+                    sidebar.update(graph.nodes.length, thisGraph);
                 }
-                break;
         }
     };
 
@@ -556,6 +580,80 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
         this.update = function (index, graph) {
             var d = graph.nodes[index];
             if (d != undefined) {
+                $('#side-link-list').empty().hide();
+                graph.edges.forEach(function (edge) {
+                    if (edge.source == d.id) {
+                        var a = $('<a href="#!" class="collection-item valign-wrapper"></a>')
+                            .css('padding', '10px 20px')
+                            .css('font-weight', 'normal')
+                            .append($('<i class="material-icons tiny left valign">call_made</i>')
+                                .css('padding-top', '6px'))
+                            .append($('<i class="material-icons tiny right valign">clear</i>')
+                                .css('padding-top', '6px')
+                                .click(function (event) {
+                                    graph.delSelectedEdge();
+                                    event.stopPropagation();
+                                    $(this).parent().remove();
+                                    if ($('#side-link-list').children().length <= 0) {
+                                        $('#side-link-list').hide();
+                                    }
+                                }))
+                            .append($('<span class="valign"></span>')
+                                .text(graph.nodes[edge.target].title)
+                                .css('padding-top', '3px'))
+                            .click(function () {
+                                var toNode = graph.nodes[edge.target];
+                                graph.setSelectedNode(toNode);
+                                graph.centerSelectedNode();
+                                sidebar.update(edge.target, graph);
+                            })
+                            .hover(function () {
+                                graph.setSelectedNode(null);
+                                graph.setSelectedEdge(edge);
+                            }, function () {
+                                graph.setSelectedNode(d);
+                                graph.setSelectedEdge(null);
+                            });
+                        $('#side-link-list').append(a);
+                        $('#side-link-list').show();
+                    }
+                    if (edge.target == d.id) {
+                        var a = $('<a href="#!" class="collection-item valign-wrapper"></a>')
+                            .css('padding', '10px 20px')
+                            .css('font-weight', 'normal')
+                            .append($('<i class="material-icons tiny left valign">call_received</i>')
+                                .css('padding-top', '6px'))
+                            .append($('<i class="material-icons tiny right valign">clear</i>')
+                                .css('padding-top', '6px')
+                                .click(function (event) {
+                                    graph.delSelectedEdge();
+                                    event.stopPropagation();
+                                    $(this).parent().remove();
+                                    if ($('#side-link-list').children().length <= 0) {
+                                        $('#side-link-list').hide();
+                                    }
+                                }))
+                            .append($('<span class="valign"></span>')
+                                .text(graph.nodes[edge.target].title)
+                                .css('padding-top', '3px'))
+                            .click(function () {
+                                var toNode = graph.nodes[edge.source];
+                                graph.setSelectedNode(toNode);
+                                graph.centerSelectedNode();
+                                sidebar.update(edge.source, graph);
+                            })
+                            .hover(function () {
+                                graph.setSelectedNode(null);
+                                graph.setSelectedEdge(edge);
+                            }, function () {
+                                graph.setSelectedNode(d);
+                                graph.setSelectedEdge(null);
+                            });
+                        $('#side-link-list').append(a);
+                        $('#side-link-list').show();
+                    }
+                });
+                $('#side-link-wrap').show();
                 $('#status-posx').html(Math.round(d.x));
                 $('#status-posy').html(Math.round(d.y));
                 $('#status-uid').html(Math.round(d.id));
@@ -565,6 +663,7 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
                 $('#side-info-link').show();
                 $('#side-info-remove').show();
             } else {
+                $('#side-link-wrap').hide();
                 $('#status-posx').html('-');
                 $('#status-posy').html('-');
                 $('#status-uid').html('-');
@@ -598,6 +697,8 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
                 graph.setSelectedNode(graph.nodes[index]);
                 graph.centerSelectedNode();
                 self.update(index, graph);
+            } else {
+                graph.setSelectedNode(graph.nodes[graph.nodes.length]);
             }
         });
 
@@ -613,6 +714,8 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
                 graph.setSelectedNode(graph.nodes[index]);
                 graph.centerSelectedNode();
                 self.update(index, graph);
+            } else {
+                graph.setSelectedNode(graph.nodes[graph.nodes.length]);
             }
         });
     };
@@ -643,7 +746,7 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
         {"id":6  ,"type":3, "u_name":"gene2","title":"gene2", "x":1300,  "y":200},
         {"id":7  ,"type":3, "u_name":"gRNA3","title":"gRNA3", "x":1100,  "y":400},
         {"id":8  ,"type":2, "u_name":"DNA2", "title":"DNA2",  "x":900,  "y":600},
-        {"id":9  ,"type":3, "u_name":"DNA1", "title":"DNA1",  "x":500,  "y":1100},
+        {"id":9  ,"type":3, "u_name":"DNA1", "title":"DNA1",  "x":700,  "y":800},
         {"id":10 ,"type":1, "u_name":"DNA3", "title":"DNA3",  "x":1000,  "y":900},
         {"id":11 ,"type":1, "u_name":"DNA4", "title":"DNA4",  "x":1600,  "y":1000},
         {"id":12 ,"type":4, "u_name":"DNA4", "title":"DNA4",  "x":1600,  "y":100},
@@ -654,9 +757,9 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
         {"source": 1, "target": 8, "weight": 1},
         {"source": 3, "target": 8, "weight": 1},
         {"source": 9, "target": 8, "weight": 1},
-        {"source": 1, "target": 7, "weight": 1},
-        {"source": 3, "target": 7, "weight": 1},
-        {"source": 1, "target": 6, "weight": 1}
+        {"source": 1, "target": 9, "weight": 1},
+        {"source": 3, "target": 9, "weight": 1},
+        {"source": 1, "target": 10, "weight": 1}
     ];
 
     /** MAIN SVG **/
