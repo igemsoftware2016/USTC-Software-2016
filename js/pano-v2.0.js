@@ -18,9 +18,7 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
             selectedNode: null,
             selectedEdge: null,
             mouseDownNode: null,
-            mouseDownLink: null,
             justDragged: false,
-            justScaleTransGraph: false,
             lastKeyDown: -1,
             shiftNodeDrag: false,
             selectedText: null
@@ -107,7 +105,6 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
                         // TODO  the internal d3 state is still changing
                         return false;
                     } else {
-                        self.state.justScaleTransGraph = true;
                         d3.select("." + self.consts.graphClass)
                             .attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
                         return true;
@@ -240,56 +237,52 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
         }
     };
 
-    GraphCreator.prototype.replaceSelectEdge = function(d3Path, edgeData) {
-        var thisGraph = this;
-        d3Path.classed(thisGraph.consts.selectedClass, true);
-        if (thisGraph.state.selectedEdge) {
-            thisGraph.removeSelectFromEdge();
+    GraphCreator.prototype.centerSelectedNode = function () {
+        if (this.state.selectedNode) {
+            var x = $("#body").width() / 2 - this.state.selectedNode.x;
+            var y = $("#body").height() / 2 - this.state.selectedNode.y;
+            d3.select("." + this.consts.graphClass)
+                .transition()
+                .duration(400)
+                .attr("transform", function (d) {
+                    return "translate(" + x + ", " + y + ") scale(" + 1 + ")";
+                });
+            this.zoomHandler.translate([x, y]).scale(1);
         }
-        thisGraph.state.selectedEdge = edgeData;
     };
-
-    GraphCreator.prototype.replaceSelectNode = function(d3Node, nodeData) {
-        var thisGraph = this;
-        d3Node.classed(this.consts.selectedClass, true);
-        if (thisGraph.state.selectedNode) {
-            thisGraph.removeSelectFromNode();
+    
+    GraphCreator.prototype.setSelectedEdge = function (edgeData) {
+        var thisGraph = this, oldEdge = thisGraph.state.selectedEdge, className = thisGraph.consts.selectedClass;
+        if (oldEdge !== edgeData) {
+            if (oldEdge) {
+                thisGraph.paths.filter(function (ed) { return ed === oldEdge; }).classed(className, false);
+            }
+            thisGraph.state.selectedEdge = edgeData;
+            if (edgeData) {
+                thisGraph.paths.filter(function (ed) { return ed === edgeData; }).classed(className, true);
+            }
         }
-        thisGraph.state.selectedNode = nodeData;
     };
 
-    GraphCreator.prototype.removeSelectFromNode = function() {
-        var thisGraph = this;
-        thisGraph.circles.filter(function(cd) {
-            return cd.id === thisGraph.state.selectedNode.id;
-        }).classed(thisGraph.consts.selectedClass, false);
-        thisGraph.state.selectedNode = null;
-    };
-
-    GraphCreator.prototype.removeSelectFromEdge = function() {
-        var thisGraph = this;
-        thisGraph.paths.filter(function(cd) {
-            return cd === thisGraph.state.selectedEdge;
-        }).classed(thisGraph.consts.selectedClass, false);
-        thisGraph.state.selectedEdge = null;
+    GraphCreator.prototype.setSelectedNode = function (nodeData) {
+        var thisGraph = this, oldNode = thisGraph.state.selectedNode, className = thisGraph.consts.selectedClass;
+        if (oldNode !== nodeData) {
+            if (oldNode) {
+                thisGraph.circles.filter(function (ed) { return ed === oldNode; }).classed(className, false);
+            }
+            thisGraph.state.selectedNode = nodeData;
+            if (nodeData) {
+                thisGraph.circles.filter(function (ed) { return ed === nodeData; }).classed(className, true);
+            }
+        }
     };
 
     GraphCreator.prototype.pathMouseDown = function(d3path, d) {
-        var thisGraph = this,
-                state = thisGraph.state;
+        var thisGraph = this, state = thisGraph.state;
         d3.event.stopPropagation();
-        state.mouseDownLink = d;
 
-        if (state.selectedNode) {
-            thisGraph.removeSelectFromNode();
-        }
-
-        var prevEdge = state.selectedEdge;
-        if (!prevEdge || prevEdge !== d) {
-            thisGraph.replaceSelectEdge(d3path, d);
-        } else{
-            thisGraph.removeSelectFromEdge();
-        }
+        thisGraph.setSelectedNode(null);
+        thisGraph.setSelectedEdge(d);
     };
 
     // mousedown on node
@@ -306,7 +299,6 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
             // reposition dragged directed edge
             thisGraph.dragLine.classed('hidden', false)
                     .attr('d', 'M' + d.x + ',' + d.y + 'L' + d.x + ',' + d.y);
-            return;
         } else {
             sidebar.update(d.id, thisGraph);
         }
@@ -396,15 +388,10 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
                 } else{
                     sidebar.update(d.id, thisGraph);
                     if (state.selectedEdge) {
-                        thisGraph.removeSelectFromEdge();
+                        thisGraph.setSelectedEdge(null);
                     }
-                    var prevNode = state.selectedNode;
-
-                    if (!prevNode || prevNode.id !== d.id) {
-                        thisGraph.replaceSelectNode(d3node, d);
-                    } else{
-                        thisGraph.removeSelectFromNode();
-                    }
+                    thisGraph.setSelectedNode(d);
+                    thisGraph.centerSelectedNode();
                 }
             }
         }
@@ -422,10 +409,7 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
     GraphCreator.prototype.svgMouseUp = function() {
         var thisGraph = this,
                 state = thisGraph.state;
-        if (state.justScaleTransGraph) {
-            // dragged not clicked
-            state.justScaleTransGraph = false;
-        } else if (state.graphMouseDown && d3.event.shiftKey) {
+        if (state.graphMouseDown && d3.event.shiftKey) {
             // clicked not dragged from svg
             var xycoords = d3.mouse(thisGraph.svgG.node()),
                     d = {id: thisGraph.idct++, title: "new concept", x: xycoords[0], y: xycoords[1]};
@@ -508,10 +492,7 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
                     "L" + thisGraph.nodes[d.target].x + "," + thisGraph.nodes[d.target].y;
             })
             .on("mousedown", function (d) {
-                    thisGraph.pathMouseDown.call(thisGraph, d3.select(this), d);
-            })
-            .on("mouseup", function (d) {
-                state.mouseDownLink = null;
+                thisGraph.pathMouseDown.call(thisGraph, d3.select(this), d);
             });
 
         paths.exit().remove();
@@ -596,18 +577,6 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
             self.currentDotIndex = index;
         };
 
-        this.center = function (index, graph) {
-            var x = $("#body").width() / 2 - graph.nodes[index].x;
-            var y = $("#body").height() / 2 - graph.nodes[index].y;
-            d3.select("." + graph.consts.graphClass)
-                .transition()
-                .duration(400)
-                .attr("transform", function (d) {
-                    return "translate(" + x + ", " + y + ") scale(" + 1 + ")";
-                });
-            graph.zoomHandler.translate([x, y]).scale(1);
-        };
-
         $('#side-head-top-button-h').click(function () {
             $('#side-wrapper > div').animate({ left: 0 }, 100, "easeOutQuad");
         });
@@ -626,8 +595,9 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
                         return;
                     }
                 } while (graph.nodes[index] == undefined);
+                graph.setSelectedNode(graph.nodes[index]);
+                graph.centerSelectedNode();
                 self.update(index, graph);
-                self.center(index, graph);
             }
         });
 
@@ -640,8 +610,9 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
                         return;
                     }
                 } while (graph.nodes[index] == undefined);
+                graph.setSelectedNode(graph.nodes[index]);
+                graph.centerSelectedNode();
                 self.update(index, graph);
-                self.center(index, graph);
             }
         });
     };
