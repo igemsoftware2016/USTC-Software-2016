@@ -65,13 +65,13 @@ $(function () {
             .attr("style","margin:2px")
             .append("i")
             .attr("class","material-icons")
-            .html("edit")
+            .html("edit");
 
         card_ac.append("button").attr("class","hoverable btn waves-effect waves-light blue-grey")
             .attr("style","margin:2px")
             .append("i")
             .attr("class","material-icons")
-            .html("delete")
+            .html("delete");
 
         card_ac.append("button").attr("class","hoverable btn waves-effect waves-light blue-grey")
             .attr("style","margin:2px")
