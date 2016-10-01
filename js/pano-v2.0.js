@@ -116,9 +116,8 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
 
         // handle download data
         d3.select("#download-input").on("click", function() {
-            var saveEdges = [];
-            self.edges.forEach(function(val, i) {
-                saveEdges.push({source: val.source.id, target: val.target.id});
+            var saveEdges = self.edges.map(function(val) {
+                return {source: val.source, target: val.target};
             });
             var blob = new Blob([window.JSON.stringify({"nodes": self.nodes, "edges": saveEdges})], {type: "text/plain;charset=utf-8"});
             saveAs(blob, "mydag.json");
@@ -142,10 +141,15 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
                         self.deleteGraph(true);
                         self.nodes = jsonObj.nodes;
                         self.setIdCt(jsonObj.nodes.length + 1);
-                        var newEdges = jsonObj.edges;
-                        newEdges.forEach(function(e, i) {
-                            newEdges[i] = {source: self.nodes.filter(function(n) {return n.id == e.source;})[0],
-                                target: self.nodes.filter(function(n) {return n.id == e.target;})[0]};
+                        var newEdges = jsonObj.edges.map(function (e) {
+                            return {
+                                source: self.nodes.filter(function (n) {
+                                    return n.id == e.source;
+                                })[0].id,
+                                target: self.nodes.filter(function (n) {
+                                    return n.id == e.target;
+                                })[0].id
+                            };
                         });
                         self.edges = newEdges;
                         self.updateGraph();
@@ -237,12 +241,12 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
 
 
     // remove edges associated with a node
-    GraphCreator.prototype.spliceLinksForNode = function(node) {
-        var thisGraph = this,
-                toSplice = thisGraph.edges.filter(function(l) {
-                    return (l.source === node || l.target === node);
-                });
-        toSplice.map(function(l) {
+    GraphCreator.prototype.spliceLinksForNode = function (node) {
+        var thisGraph = this;
+        var toSplice = thisGraph.edges.filter(function (l) {
+            return (l.source === node.id || l.target === node.id);
+        });
+        toSplice.map(function (l) {
             thisGraph.edges.splice(thisGraph.edges.indexOf(l), 1);
         });
     };
@@ -496,7 +500,7 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
                 state = thisGraph.state;
 
         thisGraph.paths = thisGraph.paths.data(thisGraph.edges, function(d) {
-            return String(d.source.id) + "+" + String(d.target.id);
+            return String(d.source) + "+" + String(d.target);
         });
         var paths = thisGraph.paths;
         // update existing paths
@@ -505,7 +509,8 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
                     return d === state.selectedEdge;
                 })
                 .attr("d", function(d) {
-                    return "M" + d.source.x + "," + d.source.y + "L" + d.target.x + "," + d.target.y;
+                    return "M" + thisGraph.nodes[d.source].x + "," + thisGraph.nodes[d.source].y +
+                        "L" + thisGraph.nodes[d.target].x + "," + thisGraph.nodes[d.target].y;
                 });
 
         // add new paths
@@ -513,8 +518,9 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
                 .append("path")
                 .style('marker-end','url(#end-arrow)')
                 .classed("link", true)
-                .attr("d", function(d) {
-                    return "M" + d.source.x + "," + d.source.y + "L" + d.target.x + "," + d.target.y;
+                .attr("d", function (d) {
+                    return "M" + thisGraph.nodes[d.source].x + "," + thisGraph.nodes[d.source].y +
+                        "L" + thisGraph.nodes[d.target].x + "," + thisGraph.nodes[d.target].y;
                 })
                 .on("mousedown", function(d) {
                             thisGraph.pathMouseDown.call(thisGraph, d3.select(this), d);
@@ -669,27 +675,25 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
             yLoc = 100;
 
     // initial node data
-    nodes = [
+    var nodes = [
         {"id":1  ,"type":3, "u_name":"gene1","title":"gene1", "x":1400,  "y":500},
         {"id":2  ,"type":2, "u_name":"gRNA2","title":"gRNA2", "x":200,  "y":100},
         {"id":3  ,"type":2, "u_name":"gRNA1","title":"gRNA1", "x":800,  "y":300},
         {"id":5  ,"type":3, "u_name":"gene3","title":"gene3", "x":800,  "y":100},
         {"id":6  ,"type":3, "u_name":"gene2","title":"gene2", "x":1400,  "y":800},
         {"id":7  ,"type":3, "u_name":"gRNA3","title":"gRNA3", "x":1800,  "y":800},
-        {"id":8  ,"type":2, "u_name":"DNA2", "title":"DNA2",  "x":1000,  "y":600},
-        {"id":9  ,"type":3, "u_name":"DNA1", "title":"DNA1",  "x":500,  "y":300},
+        {"id":8  ,"type":2, "u_name":"DNA2", "title":"DNA2",  "x":900,  "y":400},
+        {"id":9  ,"type":3, "u_name":"DNA1", "title":"DNA1",  "x":500,  "y":400},
         {"id":10 ,"type":1, "u_name":"DNA3", "title":"DNA3",  "x":1000,  "y":900},
         {"id":11 ,"type":1, "u_name":"DNA4", "title":"DNA4",  "x":1600,  "y":1000},
         {"id":12 ,"type":4, "u_name":"DNA4", "title":"DNA4",  "x":1600,  "y":100},
         {"id":15 ,"type":4, "u_name":"DNA4", "title":"DNA4",  "x":2000,  "y":1000}
     ];
 
-            // [{title: "node-1", id: 0, x: xLoc, y: yLoc},
-        //{title: "node-2", id: 1, x: xLoc, y: yLoc + 200}];
     var edges = [
-        {"lid":0,  "source":nodes[1]  ,"target":nodes[8]  ,"weight":1},
-        {"lid":0,  "source":nodes[3]  ,"target":nodes[8]  ,"weight":1},
-        {"lid":0,  "source":nodes[9]  ,"target":nodes[8]  ,"weight":1}
+        {"source": 1, "target": 8, "weight": 1},
+        {"source": 3, "target": 8, "weight": 1},
+        {"source": 9, "target": 8, "weight": 1}
     ];
 
     /** MAIN SVG **/
@@ -706,7 +710,6 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
 //generate png
     //TODO:  需要把图片平移缩放之后再生成png
      kick_ass = function(){
-         console.log(document.getElementById('main_window'));
          var canvas = document.getElementById("canvas");
          var png='';
          var svgString = new XMLSerializer().serializeToString(document.querySelector('svg'));
@@ -724,8 +727,6 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
 
          };
          img.src = url;
-
-
     };
 
 
