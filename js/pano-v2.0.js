@@ -362,6 +362,7 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
                     d.title = this.textContent;
                     thisGraph.insertTitleLinebreaks(d3node, d.title);
                     d3.select(this.parentElement).remove();
+                    sidebar.update(d.id, thisGraph);
                 });
         return d3txt;
     };
@@ -634,7 +635,7 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
                                     }
                                 }))
                             .append($('<span class="valign"></span>')
-                                .text(graph.nodes[edge.target].title)
+                                .text(graph.nodes[edge.source].title)
                                 .css('padding-top', '3px'))
                             .click(function () {
                                 var toNode = graph.nodes[edge.source];
@@ -749,8 +750,8 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
         {"id":9  ,"type":3, "u_name":"DNA1", "title":"DNA1",  "x":700,  "y":800},
         {"id":10 ,"type":1, "u_name":"DNA3", "title":"DNA3",  "x":1000,  "y":900},
         {"id":11 ,"type":1, "u_name":"DNA4", "title":"DNA4",  "x":1600,  "y":1000},
-        {"id":12 ,"type":4, "u_name":"DNA4", "title":"DNA4",  "x":1600,  "y":100},
-        {"id":15 ,"type":4, "u_name":"DNA4", "title":"DNA4",  "x":2000,  "y":1000}
+        {"id":12 ,"type":4, "u_name":"DNA5", "title":"DNA5",  "x":1600,  "y":100},
+        {"id":15 ,"type":4, "u_name":"DNA6", "title":"DNA6",  "x":2000,  "y":1000}
     ];
 
     var edges = [
