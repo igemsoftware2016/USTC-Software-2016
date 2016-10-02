@@ -58,10 +58,19 @@ json:[{"plugin":"user_model"},{"action":"head_change"},{"data":base64 image}]
 location : login-1.html  
 POST : /plugin/  
 data : JSON.parse("{"plugin":"user_model","action":"create_user","email":"sam@gmail.com","password":"123456","username":"Big Sam"}")  
-如果成功：  
-如果失败：  
+如果成功 ：跳转到home页面  
+如果失败 ：后端返回错误原因 弹出提示信息  
 
-  
+
+### 注册
+ 
+### 修改头像
+location : profile_edit.html  
+POST : /plugin/  
+data : JSON.parse("[{"plugin":"user_model"},{"action":"head_change"},{"data":"data:image/png;base64,iVBORw0KGg..........mCPQ73/mO/e63v/CC"}]")  
+如果成功 ：弹出提示修改成功的信息   
+如果失败 ：弹出提示修改失败的信息  
+
     
       
       
