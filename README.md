@@ -105,8 +105,9 @@ res :
 ### 修改用户信息
 location : profile_edit.html
 POST : /plugin/  
-data : JSON.parse("{"plugin":"user_model","action":"edit_profile","username":"sam J","edu":"ustc","major":"hook","desc":"nothing"}")    
+data : JSON.parse("{"plugin":"user_model","action":"edit_profile","username":"sam J","education":"ustc","major":"hook","description":"nothing"}")    
 如果成功，返回home界面
 失败 ： 登录信息过期之类的（返回login-1）
 
-     
+
+### 

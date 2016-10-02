@@ -549,7 +549,7 @@
 
     function postForm_edit_profile(){
         var formData = ($('#user_profile_edit').serializeObject());
-        var  dictPost  =  {"plugin":"user_model","action":"edit_profile","username":formData.user_name,"edu":formData.edu,"major":formData.major,"desc":formData.desc};
+        var  dictPost  =  {"plugin":"user_model","action":"edit_profile","username":formData.user_name,"education":formData.edu,"major":formData.major,"description":formData.desc};
         console.log(dictPost);
         $.ajax({
             type: "POST",

@@ -29,6 +29,7 @@ function get_user_info(){
         url: "/plugin/",
         data: dictPost,
         success: function(response){
+            console.log(response);
             Jr = JSON.parse(response);
             if(Jr['success']==true) {
             }
