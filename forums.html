@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="https://code.getmdl.io/1.2.0/material.green-blue.min.css">
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://code.getmdl.io/1.2.0/material.min.js"></script>
+    <script src="js/user.js"></script>
     <style>
         html, body {
             font-family: 'Roboto', 'Helvetica';
@@ -178,7 +179,7 @@
         }
     </style> 
 </head>
-<body>
+<body onload="get_user_info()">
 <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
     <header class="demo-header mdl-layout__header mdl-color--green-A700 mdl-color-text--white">
         <div class="mdl-layout__header-row">
@@ -195,9 +196,9 @@
     </header>
     <div class="demo-drawer mdl-layout__drawer mdl-color--green-A700 mdl-color-text--white">
         <header class="demo-drawer-header">
-            <img id="avatarimg" src="" class="demo-avatar">
+            <img id="side-head" class="demo-avatar" />
             <div class="demo-avatar-dropdown">
-                <span id="usermail" style="font-size: 16px"></span>
+                <span id="user-email" style="font-size: 16px"></span>
                 <div class="mdl-layout-spacer"></div>
                 <button id="account_dropdown" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
                     <i class="material-icons" role="presentation">arrow_drop_down</i>
@@ -208,11 +209,6 @@
                 </ul>
             </div>
         </header>
-        <script type="text/javascript">
-          $(document).ready(function(){
-            document.getElementById("avatarimg").src="img/logo.ico";
-            document.getElementById("usermail").innerHTML="user@mail.com";
-          })
         </script>
         <nav class="demo-navigation mdl-navigation mdl-color--white" >
             <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href=""><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">home</i>Home</a>
