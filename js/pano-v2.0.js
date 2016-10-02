@@ -781,8 +781,36 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
         return "Make sure to save your graph locally before leaving :-)";
     };
 
+    $('#body').append($('<svg id="main_window"></svg>')
+        .attr("width", $(document.body).width())
+        .attr("height", $(document.body).height()));
+
+    var nodes = [], edges = [];
+    var svg, graph, sidebar;
+
+    function start() {
+        svg = d3.selectAll("#main_window");
+        graph = new GraphCreator(svg, nodes, edges);
+        sidebar = new SideBar();
+
+        if (graph.state.selectedNode) {
+            sidebar.update(graph.state.selectedNode.id, graph);
+            graph.centerSelectedNode(1); // 1 millisecond
+        }
+    }
+
+    $.post("/plugin", {plugin: "pano", action: "load_pano", project_id: 0}).done(function (res) {
+        var json = JSON.parse(res);
+        nodes = json['nodes'];
+        edges = json['edges'];
+        start();
+    }).fail(function () {
+        start();
+    });
+
     // initial node data
-    var nodes = [
+    /*
+    nodes = [
         {"id": 1,  "type": 3, "u_name": "gene1", "title": "gene1", "x": 1400, "y": 500},
         {"id": 2,  "type": 2, "u_name": "gRNA2", "title": "gRNA2", "x": 200,  "y": 100},
         {"id": 3,  "type": 2, "u_name": "gRNA1", "title": "gRNA1", "x": 800,  "y": 300},
@@ -797,7 +825,7 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
         {"id": 15, "type": 4, "u_name": "DNA6",  "title": "DNA6",  "x": 2000, "y": 1000}
     ];
 
-    var edges = [
+    edges = [
         {"source": 1, "target": 8,  "weight": 1},
         {"source": 3, "target": 8,  "weight": 1},
         {"source": 9, "target": 8,  "weight": 1},
@@ -805,23 +833,7 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
         {"source": 3, "target": 9,  "weight": 1},
         {"source": 1, "target": 10, "weight": 1}
     ];
-
-    /** MAIN SVG **/
-
-    $('#body').append($('<svg id="main_window"></svg>')
-        .attr("width", $(document.body).width())
-        .attr("height", $(document.body).height()));
-
-    var svg = d3.selectAll("#main_window");
-
-    var graph = new GraphCreator(svg, nodes, edges);
-
-    var sidebar = new SideBar();
-
-    if (graph.state.selectedNode) {
-        sidebar.update(graph.state.selectedNode.id, graph);
-        graph.centerSelectedNode(1); // 1 millisecond
-    }
+    */
 
 //generate png
     //TODO:  需要把图片平移缩放之后再生成png
