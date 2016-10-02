@@ -1,6 +1,6 @@
 var kick_ass;
 
-document.onload = (function (d3, saveAs, Blob, undefined) {
+document.onload = (function ($, d3, saveAs, Blob, undefined) {
     "use strict";
 
     // define graphcreator object
@@ -910,4 +910,4 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
         });
     }
 
-})(window.d3, window.saveAs, window.Blob);
+})(jQuery, window.d3, window.saveAs, window.Blob);
