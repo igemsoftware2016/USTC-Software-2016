@@ -36,6 +36,10 @@ class user_model(Plugin):
             session.add(user)
             session.commit()
             return {'success': True}
+        elif request['action'] == 'logout':
+            print('Logout')
+            logout_user()
+            return {'success': True}
 
     def unload(self):
         print('user plugin unloaded')
