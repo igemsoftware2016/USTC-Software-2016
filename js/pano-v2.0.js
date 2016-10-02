@@ -619,10 +619,8 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
                                 sidebar.update(edge.target, graph);
                             })
                             .hover(function () {
-                                graph.setSelectedNode(null);
                                 graph.setSelectedEdge(edge);
                             }, function () {
-                                graph.setSelectedNode(d);
                                 graph.setSelectedEdge(null);
                             });
                         $('#side-link-list').append(a);
@@ -654,10 +652,8 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
                                 sidebar.update(edge.source, graph);
                             })
                             .hover(function () {
-                                graph.setSelectedNode(null);
                                 graph.setSelectedEdge(edge);
                             }, function () {
-                                graph.setSelectedNode(d);
                                 graph.setSelectedEdge(null);
                             });
                         $('#side-link-list').append(a);
@@ -727,6 +723,15 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
                 self.update(index, graph);
             } else {
                 graph.setSelectedNode(graph.nodes[graph.nodes.length]);
+            }
+        });
+
+        $(document).keyup(function (event) {
+            if (event.which == 37) {
+                $('#side-head-top-button-p').click();
+            }
+            if (event.which == 39) {
+                $('#side-head-top-button-n').click();
             }
         });
     };
