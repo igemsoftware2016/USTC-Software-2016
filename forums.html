@@ -242,7 +242,7 @@
                       
                       var user=document.createElement("div");
                       var user_chip=document.createElement("a");
-                      user_chip.href="personal_center.html";
+                      user_chip.href=obj.event[i-1].usr_src;
                       user_chip.className="mdl-chip mdl-chip--contact mdl-shadow--4dp";
                       var user_img=document.createElement("img");
                       user_img.src=obj.event[i-1].avt_src;
@@ -460,7 +460,7 @@
                       document.getElementById("forum").appendChild(divider);
                     }
                   }
-                  var txt='{"event":['+'{"avt_src":"img/logo.png","user_id":"abc","time":"2015-10-1","img_src":"img/pjer.jpg","state":"Created","project_id":"sth1","author_id":"rghuuh","private":"Public","last_update_time":"2016-4-3","praise":"yes","comment":[{"id":"a","content":"233"},{"id":"b","content":"244"},{"id":"gfy","content":"666"}]},'+'{"avt_src":"img/logo.png","user_id":"def","time":"2015-11-1","img_src":"img/logo.png","state":"Updated","project_id":"zzzz","author_id":"bla","private":"Private","last_update_time":"2016-7-2","praise":"yes","comment":[{"id":"a","content":"233"},{"id":"b","content":"244"},{"id":"gfy","content":"666"}]},'+'{"avt_src":"img/pjer.jpg","user_id":"ghi","time":"2015-12-1","img_src":"img/logo.png","state":"Created","project_id":"orz","author_id":"bingqiu","private":"Public","last_update_time":"2016-9-30","praise":"no","comment":[{"id":"a","content":"233"},{"id":"b","content":"244"},{"id":"gfy","content":"zhaoyanbingshizhizhang"}]}]}';
+                  var txt='{"event":['+'{"avt_src":"img/logo.png","user_id":"abc","usr_src":"personal_center.html","time":"2015-10-1","img_src":"img/pjer.jpg","state":"Created","project_id":"sth1","author_id":"rghuuh","private":"Public","last_update_time":"2016-4-3","praise":"yes","comment":[{"id":"a","content":"233"},{"id":"b","content":"244"},{"id":"gfy","content":"666"}]},'+'{"avt_src":"img/logo.png","user_id":"def","usr_src":"personal_center.html","time":"2015-11-1","img_src":"img/logo.png","state":"Updated","project_id":"zzzz","author_id":"bla","private":"Private","last_update_time":"2016-7-2","praise":"yes","comment":[{"id":"a","content":"233"},{"id":"b","content":"244"},{"id":"gfy","content":"666"}]},'+'{"avt_src":"img/pjer.jpg","user_id":"ghi","usr_src":"personal_center.html","time":"2015-12-1","img_src":"img/logo.png","state":"Created","project_id":"orz","author_id":"bingqiu","private":"Public","last_update_time":"2016-9-30","praise":"no","comment":[{"id":"a","content":"233"},{"id":"b","content":"244"},{"id":"gfy","content":"zhaoyanbingshizhizhang"}]}]}';
                   loadforum(txt);
                 </script>
               </div>
