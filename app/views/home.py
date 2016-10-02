@@ -8,7 +8,7 @@ home = Blueprint('home', __name__)
 
 @home.route('/')
 def index():
-    return redirect(url_for('static', filename='login.html'))
+    return redirect(url_for('static', filename='login-1.html'))
 
 
 @home.route('/validateLogin', methods=['POST'])
