@@ -50,8 +50,8 @@ function postForm_sign_up(){
             if(Jr['success']==true) {
                 window.location="login-1.html"
             }
-            else if(Jr['error'] == 'a2'){
-                Materialize.toast('Email already registered!!', 3000, 'rounded');
+            else {
+                Materialize.toast(Jr['error'], 3000, 'rounded');
             }
         }
     });

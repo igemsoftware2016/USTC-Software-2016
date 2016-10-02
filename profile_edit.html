@@ -580,12 +580,17 @@
         console.log(dictPost);
         $.ajax({
             type: "POST",
-            url: "/plugin",
+            url: "/plugin/",
             data: dictPost,
             success: function(response){
-                console.log(response);
-                if(response['error'] == 'err_code'){
-                    Materialize.toast('conditions', 3000, 'rounded');
+                var Jr = JSON.parse(response);
+                if(Jr['success']==true){
+                    Materialize.toast('successfully changed', 3000, 'rounded');
+                    // something else
+                }
+                else{
+                    Materialize.toast(Jr['error'], 3000, 'rounded')
+
                 }
 
                 // TODO: if success change head of the page

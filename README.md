@@ -55,12 +55,14 @@ json:[{"plugin":"user_model"},{"action":"head_change"},{"data":base64 image}]
 
 ## example
 ### 登陆
-location:login-1.html  
-POST:/plugin
-json:
+location : login-1.html  
+POST : /plugin/  
+data : JSON.parse("{"plugin":"user_model","action":"create_user","email":"sam@gmail.com","password":"123456","username":"Big Sam"}")  
+如果成功：  
+如果失败：  
 
   
     
       
-      d
       
+     
