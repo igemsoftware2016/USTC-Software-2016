@@ -781,6 +781,8 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
         return "Make sure to save your graph locally before leaving :-)";
     };
 
+    var projectId = (/project_id=(\d*)/.exec(location.href) || [])[1];
+
     $('#body').append($('<svg id="main_window"></svg>')
         .attr("width", $(document.body).width())
         .attr("height", $(document.body).height()));
@@ -799,7 +801,7 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
         }
     }
 
-    $.post("/plugin", {plugin: "pano", action: "load_pano", project_id: 0}).done(function (res) {
+    $.post("/plugin", {plugin: "pano", action: "load_pano", project_id: projectId}).done(function (res) {
         var json = JSON.parse(res);
         nodes = json['nodes'];
         edges = json['edges'];
