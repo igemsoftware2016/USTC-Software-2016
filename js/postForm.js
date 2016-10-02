@@ -24,7 +24,7 @@ function postForm(){
     $.ajax({
         type: "POST",
         url: "/plugin/",
-        data: JSON.stringify(dictPost),
+        data: (dictPost),
         success: function(response){
             console.log(response);
             if(response['error'] == 'a1'){
@@ -43,10 +43,11 @@ function postForm_sign_up(){
         url: "/plugin/",
         data: dictPost,
         success: function(response){
-            if(response['success']==true) {
+            var Jr = new JSONObject(response);
+            if(Jr['success']==true) {
                 window.location="home.html"
             }
-            else if(response['error'] == 'a2'){
+            else if(Jr['error'] == 'a2'){
                 Materialize.toast('Email already registered!!', 3000, 'rounded');
             }
         }
