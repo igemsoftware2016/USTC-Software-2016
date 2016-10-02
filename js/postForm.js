@@ -44,7 +44,10 @@ function postForm_sign_up(){
         url: "/plugin",
         data: dictPost,
         success: function(){
-            if(response['error'] == 'a2'){
+            if(response['success']==true) {
+                window.location="home.html"
+            }
+            else if(response['error'] == 'a2'){
                 Materialize.toast('Email already registered!!', 3000, 'rounded');
             }
         },
