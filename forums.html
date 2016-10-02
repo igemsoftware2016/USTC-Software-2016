@@ -56,6 +56,7 @@
         }
         .demo-content { 
             min-height: 437px;
+            margin: none;
         }
         .demo-drawer {
             border: none;
@@ -169,6 +170,9 @@
             color: rgba(255, 255, 255, 0.56);
             font-weight: 500;
         }
+        .mdl-chip:active {
+            background-color: #00C853 !important;
+        }
     </style> 
 </head>
 <body>
@@ -188,9 +192,9 @@
     </header>
     <div class="demo-drawer mdl-layout__drawer mdl-color--green-A700 mdl-color-text--white">
         <header class="demo-drawer-header">
-            <img src="img/logo.png" class="demo-avatar">
+            <img id="avatarimg" src="" class="demo-avatar">
             <div class="demo-avatar-dropdown">
-                <span style="font-size: 16px">user@mail.com</span>
+                <span id="usermail" style="font-size: 16px"></span>
                 <div class="mdl-layout-spacer"></div>
                 <button id="account_dropdown" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
                     <i class="material-icons" role="presentation">arrow_drop_down</i>
@@ -201,6 +205,12 @@
                 </ul>
             </div>
         </header>
+        <script type="text/javascript">
+          $(document).ready(function(){
+            document.getElementById("avatarimg").src="img/logo.ico";
+            document.getElementById("usermail").innerHTML="user@mail.com";
+          })
+        </script>
         <nav class="demo-navigation mdl-navigation mdl-color--white" >
             <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href=""><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">home</i>Home</a>
             <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="projects.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">inbox</i>Projects</a>
@@ -220,8 +230,9 @@
             <div class="mdl-grid mdl-grid--no-spacing">
               <div id="forum" class="mdl-cell mdl-cell--12-col mdl-grid mdl-grid--no-spacing" style="padding: 0px 64px 0px 64px;">
                 <script type="text/javascript">
-                  function loadforum() {
-                    var num=5;
+                  function loadforum(txt) {
+                    var obj=JSON.parse(txt);
+                    var num=obj.event.length;
                     for (var i=1;i<=num;i++) {
                       var time_user=document.createElement("div");
                       time_user.className="demo-icon_text-align_1 mdl-cell mdl-cell--12-col";
@@ -230,13 +241,13 @@
                       var user_chip=document.createElement("button");
                       user_chip.className="mdl-chip mdl-chip--contact mdl-shadow--4dp";
                       var user_img=document.createElement("img");
-                      user_img.src="img/logo.ico";
+                      user_img.src=obj.event[i-1].imgsrc;
                       user_img.className="mdl-chip__contact";
                       componentHandler.upgradeElement(user_img);
                       user_chip.appendChild(user_img);
                       var user_span=document.createElement("span");
                       user_span.className="mdl-chip__text";
-                      user_span.innerHTML="User_Id";
+                      user_span.innerHTML=obj.event[i-1].userid;
                       componentHandler.upgradeElement(user_span);
                       user_chip.appendChild(user_span);
                       componentHandler.upgradeElement(user_chip);
@@ -247,7 +258,7 @@
                       var time=document.createElement("div");
                       time.style.margin="0px 16px 0px 16px";
                       var time_span=document.createElement("span");
-                      time_span.innerHTML="2000-0-0 00:00:00"
+                      time_span.innerHTML=obj.event[i-1].time;
                       componentHandler.upgradeElement(time_span);
                       time.appendChild(time_span);
                       componentHandler.upgradeElement(time);
@@ -277,7 +288,7 @@
                       var project_title=document.createElement("span");
                       project_title.style.color="black";
                       project_title.style.fontSize="25px";
-                      project_title.innerHTML="Created Project: Project_Id/Updated Project: Project_Id";
+                      project_title.innerHTML=obj.event[i-1].state+" Project: "+obj.event[i-1].projectid;
                       componentHandler.upgradeElement(project_title);
                       project_text.appendChild(project_title);
                       var divider=document.createElement("br");
@@ -286,7 +297,7 @@
                       var project_content=document.createElement("p");
                       project_content.style.paddingTop="25px";
                       var content_span=document.createElement("span");
-                      content_span.innerHTML="Author: User_Id/Group_Id(User_Id,User_Id,User_Id)<br/>State: Public/Private<br/>Last Update: 2000-0-0";
+                      content_span.innerHTML="Author: "+obj.event[i-1].authorname+"<br/>State: "+obj.event[i-1].privacy+"<br/>Last Update: "+obj.event[i-1].lastupdate;
                       componentHandler.upgradeElement(content_span);
                       project_content.appendChild(content_span);
                       componentHandler.upgradeElement(project_content);
@@ -305,8 +316,8 @@
                       project_actions.style.textAlign="center";
                       var actions_view=document.createElement("a");
                       actions_view.href="#";
-                      actions_view.className="show-dialog-view-timeline mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect";
-                      var textNode=document.createTextNode("View Event");
+                      actions_view.className="show-dialog-view-timeline mdl-button mdl-color-text--green-A700 mdl-js-button mdl-js-ripple-effect";
+                      var textNode=document.createTextNode("View Project...");
                       actions_view.appendChild(textNode);
                       componentHandler.upgradeElement(actions_view);
                       project_actions.appendChild(actions_view);
@@ -315,7 +326,12 @@
                       actions_praise.style.margin="0px 8px 0px 8px";
                       var icons_praise=document.createElement("i");
                       icons_praise.className="demo-icons-praise material-icons";
-                      icons_praise.style.color="gray";
+                      if (obj.event[i-1].praise=="yes") {
+                        icons_praise.style.color="yellow";
+                      }
+                      else {
+                        icons_praise.style.color="gray";
+                      }
                       var textNode=document.createTextNode("thumb_up");
                       icons_praise.appendChild(textNode);
                       componentHandler.upgradeElement(icons_praise);
@@ -387,7 +403,7 @@
                       comment_submit.className="mdl-cell mdl-cell--2-col";
                       var submit=document.createElement("button");
                       submit.className="demo-commentsbm mdl-button mdl-js-button mdl-js-ripple-effect";
-                      submit.style.color="green";
+                      submit.style.color="#00C853";
                       var textNode=document.createTextNode("submit");
                       submit.appendChild(textNode);
                       componentHandler.upgradeElement(submit);
@@ -400,35 +416,32 @@
 
                       var comment_tag=document.createElement("p");
                       comment_tag.style.fontSize="16px";
+                      comment_tag.style.color="#00C853";
                       var textNode=document.createTextNode("Comments");
                       comment_tag.appendChild(textNode);
                       componentHandler.upgradeElement(comment_tag);
                       document.getElementById("forum").appendChild(comment_tag);
 
-                      for (var j=1;j<=5;j++) {
+                      var q=obj.event[i-1].comment.length;
+                      for (var j=1;j<=q;j++) {
                         var comment_other=document.createElement("div");
                         comment_other.className="demo-icon_text-align_1 mdl-cell mdl-cell--12-col";
-                        var user_div=document.createElement("div");
                         var user=document.createElement("a");
                         user.href="#";
                         user.style.textDecoration="none";
-                        user.style.color="green";
+                        user.style.color="#00C853";
                         user.style.fontSize="16px";
-                        var textNode=document.createTextNode("User_Id");
+                        user.style.paddingRight="4px";
+                        var textNode=document.createTextNode(obj.event[i-1].comment[j-1].id);
                         user.appendChild(textNode);
                         componentHandler.upgradeElement(user);
-                        user_div.appendChild(user);
-                        componentHandler.upgradeElement(user_div);
-                        comment_other.appendChild(user_div);
-                        var comment_div=document.createElement("div");
-                        comment_div.style.margin="0px 16px 0px 16px";
+                        comment_other.appendChild(user);
                         var comment=document.createElement("span");
                         comment.style.fontSize="16px";
-                        comment.innerHTML=" content<br/>";
+                        comment.style.paddingLeft="4px";
+                        comment.innerHTML=" "+obj.event[i-1].comment[j-1].content+"<br/>";
                         componentHandler.upgradeElement(comment);
-                        comment_div.appendChild(comment);
-                        componentHandler.upgradeElement(comment_div);
-                        comment_other.appendChild(comment_div);
+                        comment_other.appendChild(comment);
                         componentHandler.upgradeElement(comment_other);
                         document.getElementById("forum").appendChild(comment_other);
                       }
@@ -439,7 +452,8 @@
                       document.getElementById("forum").appendChild(divider);
                     }
                   }
-                  loadforum();
+                  var txt='{"event":['+'{"imgsrc":"img/logo.png","userid":"abc","time":"2015-10-1","state":"Created","projectid":"sth1","authorname":"rghuuh","privacy":"Public","lastupdate":"2016-4-3","praise":"yes","comment":[{"id":"a","content":"233"},{"id":"b","content":"244"},{"id":"gfy","content":"666"}]},'+'{"imgsrc":"img/logo.png","userid":"def","time":"2015-11-1","state":"Updated","projectid":"zzzz","authorname":"bla","privacy":"Private","lastupdate":"2016-7-2","praise":"yes","comment":[{"id":"a","content":"233"},{"id":"b","content":"244"},{"id":"gfy","content":"666"}]},'+'{"imgsrc":"img/pjer.jpg","userid":"ghi","time":"2015-12-1","state":"Created","projectid":"orz","authorname":"bingqiu","privacy":"Public","lastupdate":"2016-9-30","praise":"no","comment":[{"id":"a","content":"233"},{"id":"b","content":"244"},{"id":"gfy","content":"zhaoyanbingshizhizhang"}]}]}';
+                  loadforum(txt);
                 </script>
               </div>
             </div>
@@ -451,13 +465,13 @@
               if (praise_icons[i-1].style.color=="gray") {
                 praise_buttons[i-1].addEventListener("click",changecolor_1(i));
               }
-              if (praise_icons[i-1].style.color=="green") {
+              if (praise_icons[i-1].style.color=="yellow") {
                 praise_buttons[i-1].addEventListener("click",changecolor_2(i));
               }
             }
             function changecolor_1(i) {
               return function() {
-                praise_icons[i-1].setAttribute("style","color: green;");
+                praise_icons[i-1].setAttribute("style","color: yellow;");
                 praise_buttons[i-1].addEventListener("click",changecolor_2(i));
               }  
             }
