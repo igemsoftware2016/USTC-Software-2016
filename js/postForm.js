@@ -43,7 +43,7 @@ function postForm_sign_up(){
         url: "/plugin/",
         data: dictPost,
         success: function(response){
-            var Jr = new JSONObject(response);
+            var Jr = new JSON.parse(response);
             if(Jr['success']==true) {
                 window.location="home.html"
             }
