@@ -14,7 +14,7 @@ class PluginDocument(object):
     id = Column(Integer(), primary_key=True)
     @declared_attr
     def owner(cls):
-        return Column(Integer(), ForeignKey('user.user_id'))
+        return Column(Integer(), ForeignKey('user.id'))
     title = Column(String(256))
     last_modified = Column(DateTime())
     description = Column(String(1024))
