@@ -26,9 +26,12 @@ function postForm(){
         url: "/plugin/",
         data: (dictPost),
         success: function(response){
-            console.log(response);
-            if(response['error'] == 'a1'){
-                Materialize.toast('Account or Password Error', 3000, 'rounded');
+            var Jr = JSON.parse(response);
+            if(Jr['success']==true) {
+                window.location="home.html"
+            }
+            else {
+                Materialize.toast(Jr['error'], 3000, 'rounded');
             }
         }
     });
@@ -43,9 +46,9 @@ function postForm_sign_up(){
         url: "/plugin/",
         data: dictPost,
         success: function(response){
-            var Jr = new JSON.parse(response);
+            var Jr = JSON.parse(response);
             if(Jr['success']==true) {
-                window.location="home.html"
+                window.location="login-1.html"
             }
             else if(Jr['error'] == 'a2'){
                 Materialize.toast('Email already registered!!', 3000, 'rounded');
