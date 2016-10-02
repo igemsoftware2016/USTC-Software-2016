@@ -13,6 +13,6 @@ class Document(TableBase):
         self.plugin_document_id = doc.id
 
     document_id = Column(Integer(), primary_key=True)
-    owner = Column(Integer(), ForeignKey('user.user_id'))
+    owner = Column(Integer(), ForeignKey('user.id'))
     plugin_name = Column(String(256))
     plugin_document_id = Column(Integer())
