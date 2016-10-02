@@ -781,7 +781,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         return "Make sure to save your graph locally before leaving :-)";
     };
 
-    var projectId = (/project_id=(\d*)/.exec(location.href) || [])[1];
+    var projectId = location.hash != "" ? Number(location.hash.substring(1)) : NaN;
 
     $('#body').append($('<svg id="main_window"></svg>')
         .attr("width", $(document.body).width())
@@ -802,9 +802,10 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
     }
 
     function save(callback) {
-        if (!projectId) {
-            $.post("/plugin", {plugin: "pano", action: "find_project_id"}).done(function (res) {
-                projectId = res['project_id'];
+        if (isNaN(projectId)) {
+            $.post("/plugin/", {plugin: "pano", action: "new"}).done(function (res) {
+                projectId = Number(JSON.parse(res)['id']);
+                location.hash = '#' + projectId;
                 save(callback);
             }).fail(function () {
                 callback(false);
@@ -812,11 +813,11 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             return;
         }
         callback = callback || function () {};
-        $.post("/plugin", {
+        $.post("/plugin/", {
             plugin: "pano",
-            action: "save_pano",
-            project_id: projectId,
-            data: JSON.stringify({nodes: nodes, edges: edges})
+            action: "save",
+            id: projectId,
+            data: JSON.stringify({nodes: graph.nodes, edges: graph.edges})
         }).done(function () {
             callback(true);
         }).fail(function () {
@@ -826,16 +827,23 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
 
     window.save = save;
 
-    if (!projectId) {
+    if (isNaN(projectId)) {
         start();
     } else {
-        $.post("/plugin", {plugin: "pano", action: "load_pano", project_id: projectId}).done(function (res) {
-            var json = JSON.parse(res);
-            nodes = json['nodes'];
-            edges = json['edges'];
-            start();
+        $.post("/plugin/", {plugin: "pano", action: "load", id: projectId}).done(function (res) {
+            if (JSON.parse(res).success) {
+                var json = JSON.parse(JSON.parse(res).data);
+                nodes = json['nodes'];
+                edges = json['edges'];
+                start();
+            } else {
+                projectId = NaN;
+                location.hash = "";
+                start();
+            }
         }).fail(function () {
-            projectId = undefined;
+            projectId = NaN;
+            location.hash = "";
             start();
         });
     }
