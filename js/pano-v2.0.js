@@ -110,22 +110,23 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
             case consts.BACKSPACE_KEY:
             case consts.DELETE_KEY:
                 d3.event.preventDefault();
-                var id = thisGraph.state.selectedNode.id;
+                var oldNode = thisGraph.state.selectedNode;
 
                 thisGraph.delSelectedEdge();
                 thisGraph.delSelectedNode();
-
-                if (graph.nodes.length >= 0) {
-                    var index = id;
-                    do {
-                        index = (index + 1) % graph.nodes.length;
-                    } while (index != id && graph.nodes[index] == undefined);
-                    graph.setSelectedNode(graph.nodes[index]);
-                    graph.centerSelectedNode();
-                    sidebar.update(index, graph);
-                } else {
-                    graph.setSelectedNode(graph.nodes[graph.nodes.length]);
-                    sidebar.update(graph.nodes.length, thisGraph);
+                if (oldNode) {
+                    if (graph.nodes.length >= 0) {
+                        var index = oldNode.id;
+                        do {
+                            index = (index + 1) % graph.nodes.length;
+                        } while (index != oldNode.id && graph.nodes[index] == undefined);
+                        graph.setSelectedNode(graph.nodes[index]);
+                        graph.centerSelectedNode();
+                        sidebar.update(index, graph);
+                    } else {
+                        graph.setSelectedNode(graph.nodes[graph.nodes.length]);
+                        sidebar.update(graph.nodes.length, thisGraph);
+                    }
                 }
             }
         }).on("keyup", function () {
@@ -306,17 +307,22 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
         this.setSelectedNode(this.nodes[this.nextId]);
     };
 
-    GraphCreator.prototype.centerSelectedNode = function (duration) {
+    GraphCreator.prototype.centerSelectedNode = function (duration, callback) {
         duration = duration || 500;
-        if (this.state.selectedNode) {
+        callback = callback || function () {};
+        var thisGraph = this;
+        if (thisGraph.state.selectedNode) {
             var svgWrapper = $("#body");
-            var x = svgWrapper.width() / 2 - this.state.selectedNode.x;
-            var y = svgWrapper.height() / 2 - this.state.selectedNode.y;
-            d3.select("." + this.consts.graphClass)
+            var x = svgWrapper.width() / 2 - thisGraph.state.selectedNode.x;
+            var y = svgWrapper.height() / 2 - thisGraph.state.selectedNode.y;
+            d3.select("." + thisGraph.consts.graphClass)
                 .transition()
                 .duration(duration)
-                .attr("transform", function (d) {
+                .attr("transform", function () {
                     return "translate(" + x + ", " + y + ") scale(" + 1 + ")";
+                })
+                .each("end", function () {
+                    callback(thisGraph.state.selectedNode);
                 });
             this.zoomHandler.translate([x, y]).scale(1);
         }
@@ -413,16 +419,16 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
             htmlEl = d3node.node();
         d3node.selectAll("text").remove();
         var nodeBCR = htmlEl.getBoundingClientRect(),
-            curScale = nodeBCR.width / consts.nodeRadius,
-            placePad = 5 * curScale,
-            useHW = curScale > 1 ? nodeBCR.width * 0.71 : consts.nodeRadius * 1.42;
+            curScaleWidth = nodeBCR.width / consts.nodeRadius,
+            curScaleHeight = nodeBCR.height / consts.nodeRadius,
+            useHW = curScaleWidth > 1 && curScaleHeight > 1 ? nodeBCR.width * 0.75 : consts.nodeRadius * 1.5;
         // replace with editableconent text
         var d3txt = thisGraph.svg.selectAll("foreignObject")
             .data([d])
             .enter()
             .append("foreignObject")
-            .attr("x", nodeBCR.left + placePad)
-            .attr("y", nodeBCR.top + placePad)
+            .attr("x", nodeBCR.left + nodeBCR.width / 2 - useHW / 2)
+            .attr("y", nodeBCR.top + nodeBCR.height / 2 - useHW / 4)
             .attr("height", 2 * useHW)
             .attr("width", useHW)
             .append("xhtml:p")
@@ -719,6 +725,25 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
             } else {
                 graph.setSelectedNode(graph.nodes[graph.nodes.length]);
             }
+        });
+
+        $('#side-info-add').click(function () {
+            var d = graph.state.selectedNode;
+            if (!d) {
+                graph.createNodeAndSelect({u_name: "", title: "new concept", x: 0, y: 0});
+            } else {
+                graph.createNodeAndSelect({u_name: "", title: "new concept", x: d.x + 125, y: d.y});
+            }
+            d = graph.state.selectedNode;
+            // make title of text immediently editable
+            var circles = graph.circles.filter(function (dval) {
+                return dval.id === d.id;
+            });
+            graph.centerSelectedNode(250, function () {
+                var txtNode = graph.changeTextOfNode(circles, d).node();
+                graph.selectElementContents(txtNode);
+                txtNode.focus();
+            });
         });
 
         $('#side-info-remove').click(function () {
