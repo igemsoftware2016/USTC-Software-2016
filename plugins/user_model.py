@@ -61,6 +61,17 @@ class user_model(Plugin):
                 session.add(current_user)
                 session.commit()
                 return {'success': True}
+        elif request['action'] == 'edit_profile':
+            if not current_user.is_authenticated:
+                return {'success': False, 'error': 'Not logged in'}
+            else:
+                current_user.username = request['username']
+                current_user.description = request['description']
+                current_user.education = request['education']
+                current_user.major = request['major']
+                session.add(current_user)
+                session.commit()
+                return {'success': True}
         else:
             return {'success': False, 'error': 'Unknown action'}
 
