@@ -740,26 +740,26 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
 
     // initial node data
     var nodes = [
-        {"id":1  ,"type":3, "u_name":"gene1","title":"gene1", "x":1400,  "y":500},
-        {"id":2  ,"type":2, "u_name":"gRNA2","title":"gRNA2", "x":200,  "y":100},
-        {"id":3  ,"type":2, "u_name":"gRNA1","title":"gRNA1", "x":800,  "y":300},
-        {"id":5  ,"type":3, "u_name":"gene3","title":"gene3", "x":800,  "y":100},
-        {"id":6  ,"type":3, "u_name":"gene2","title":"gene2", "x":1300,  "y":200},
-        {"id":7  ,"type":3, "u_name":"gRNA3","title":"gRNA3", "x":1100,  "y":400},
-        {"id":8  ,"type":2, "u_name":"DNA2", "title":"DNA2",  "x":900,  "y":600},
-        {"id":9  ,"type":3, "u_name":"DNA1", "title":"DNA1",  "x":700,  "y":800},
-        {"id":10 ,"type":1, "u_name":"DNA3", "title":"DNA3",  "x":1000,  "y":900},
-        {"id":11 ,"type":1, "u_name":"DNA4", "title":"DNA4",  "x":1600,  "y":1000},
-        {"id":12 ,"type":4, "u_name":"DNA5", "title":"DNA5",  "x":1600,  "y":100},
-        {"id":15 ,"type":4, "u_name":"DNA6", "title":"DNA6",  "x":2000,  "y":1000}
+        {"id":1  ,"type":3, "u_name":"gene1", "title":"gene1", "x":1400, "y":500},
+        {"id":2  ,"type":2, "u_name":"gRNA2", "title":"gRNA2", "x":200,  "y":100},
+        {"id":3  ,"type":2, "u_name":"gRNA1", "title":"gRNA1", "x":800,  "y":300},
+        {"id":5  ,"type":3, "u_name":"gene3", "title":"gene3", "x":800,  "y":100},
+        {"id":6  ,"type":3, "u_name":"gene2", "title":"gene2", "x":1300, "y":200},
+        {"id":7  ,"type":3, "u_name":"gRNA3", "title":"gRNA3", "x":1100, "y":400},
+        {"id":8  ,"type":2, "u_name":"DNA2",  "title":"DNA2",  "x":900,  "y":600},
+        {"id":9  ,"type":3, "u_name":"DNA1",  "title":"DNA1",  "x":700,  "y":800},
+        {"id":10 ,"type":1, "u_name":"DNA3",  "title":"DNA3",  "x":1000, "y":900},
+        {"id":11 ,"type":1, "u_name":"DNA4",  "title":"DNA4",  "x":1600, "y":1000},
+        {"id":12 ,"type":4, "u_name":"DNA5",  "title":"DNA5",  "x":1600, "y":100},
+        {"id":15 ,"type":4, "u_name":"DNA6",  "title":"DNA6",  "x":2000, "y":1000}
     ];
 
     var edges = [
-        {"source": 1, "target": 8, "weight": 1},
-        {"source": 3, "target": 8, "weight": 1},
-        {"source": 9, "target": 8, "weight": 1},
-        {"source": 1, "target": 9, "weight": 1},
-        {"source": 3, "target": 9, "weight": 1},
+        {"source": 1, "target": 8,  "weight": 1},
+        {"source": 3, "target": 8,  "weight": 1},
+        {"source": 9, "target": 8,  "weight": 1},
+        {"source": 1, "target": 9,  "weight": 1},
+        {"source": 3, "target": 9,  "weight": 1},
         {"source": 1, "target": 10, "weight": 1}
     ];
 
