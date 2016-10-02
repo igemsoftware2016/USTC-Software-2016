@@ -7,7 +7,7 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
     // define graphcreator object
     var GraphCreator = function(svg, nodes, edges) {
         var self = this;
-        self.idct = 0;
+        self.nextId = 0;
 
         self.nodes = [];
         nodes.forEach(function (n) { self.nodes[n.id] = n; });
@@ -152,7 +152,7 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
                         var jsonObj = JSON.parse(txtRes);
                         self.deleteGraph(true);
                         self.nodes = jsonObj.nodes;
-                        self.setIdCt(jsonObj.nodes.length + 1);
+                        self.setnextId(jsonObj.nodes.length + 1);
                         var newEdges = jsonObj.edges.map(function (e) {
                             return {
                                 source: self.nodes.filter(function (n) {
@@ -182,10 +182,6 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
         d3.select("#delete-graph").on("click", function() {
             self.deleteGraph(false);
         });
-    };
-
-    GraphCreator.prototype.setIdCt = function(idct) {
-        this.idct = idct;
     };
 
     GraphCreator.prototype.consts =  {
@@ -237,21 +233,36 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
         }
     };
 
+    GraphCreator.prototype.createNodeAndSelect = function (nodeData) {
+        while (this.nodes[this.nextId] != undefined) {
+            this.nextId += 1;
+        }
+        this.nodes[this.nextId] = {
+            "id": this.nextId,
+            "type": nodeData.type,
+            "u_name": nodeData.u_name,
+            "title": nodeData.title,
+            "x": nodeData.x,
+            "y": nodeData.y
+        };
+        this.updateGraph();
+        this.setSelectedNode(this.nodes[this.nextId]);
+    };
+
     GraphCreator.prototype.centerSelectedNode = function (duration) {
         duration = duration || 500;
         if (this.state.selectedNode) {
-            var x = $("#body").width() / 2 - this.state.selectedNode.x;
-            var y = $("#body").height() / 2 - this.state.selectedNode.y;
+            var svgWrapper = $("#body");
+            var x = svgWrapper.width() / 2 - this.state.selectedNode.x;
+            var y = svgWrapper.height() / 2 - this.state.selectedNode.y;
             d3.select("." + this.consts.graphClass)
                 .transition()
                 .duration(duration)
-                .attr("transform", function (d) {
-                    return "translate(" + x + ", " + y + ") scale(" + 1 + ")";
-                });
+                .attr("transform", function (d) { return "translate(" + x + ", " + y + ") scale(" + 1 + ")"; });
             this.zoomHandler.translate([x, y]).scale(1);
         }
     };
-    
+
     GraphCreator.prototype.setSelectedEdge = function (edgeData) {
         var thisGraph = this, oldEdge = thisGraph.state.selectedEdge, className = thisGraph.consts.selectedClass;
         if (oldEdge !== edgeData) {
@@ -295,6 +306,9 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
                 return l.source != selectedNode.id && l.target != selectedNode.id;
             });
             this.state.selectedNode = null;
+            if (selectedNode.id < this.nextId) {
+                this.nextId = selectedNode.id;
+            }
             this.updateGraph();
         }
     };
@@ -434,17 +448,13 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
                 state = thisGraph.state;
         if (state.graphMouseDown && d3.event.shiftKey) {
             // clicked not dragged from svg
-            var xycoords = d3.mouse(thisGraph.svgG.node()),
-                    d = {id: thisGraph.idct++, title: "new concept", x: xycoords[0], y: xycoords[1]};
-            thisGraph.nodes.push(d);
-            thisGraph.updateGraph();
+            var xycoords = d3.mouse(thisGraph.svgG.node());
+            thisGraph.createNodeAndSelect({u_name: "", title: "new concept", x: xycoords[0], y: xycoords[1]});
+            var d = thisGraph.state.selectedNode;
             // make title of text immediently editable
-            var d3txt = thisGraph.changeTextOfNode(thisGraph.circles.filter(function(dval) {
-                        return dval.id === d.id;
-                    }), d),
-                    txtNode = d3txt.node();
-            thisGraph.selectElementContents(txtNode);
-            txtNode.focus();
+            var circles = thisGraph.circles.filter(function (dval) { return dval.id === d.id; });
+            var txtNode = thisGraph.changeTextOfNode(circles, d).node();
+            thisGraph.selectElementContents(txtNode.focus());
         } else if (state.shiftNodeDrag) {
             // dragged from node
             state.shiftNodeDrag = false;
@@ -769,10 +779,21 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
             .attr("id","main_window")
             .attr("height", height);
     var graph = new GraphCreator(svg, nodes, edges);
-    graph.setIdCt(14);
     graph.updateGraph();
 
+    for (var i in nodes) {
+        if (nodes[i] != undefined) {
+            graph.setSelectedNode(nodes[i]);
+            break;
+        }
+    }
+
     var sidebar = new SideBar();
+
+    if (graph.state.selectedNode) {
+        sidebar.update(graph.state.selectedNode.id, graph);
+        graph.centerSelectedNode(1);
+    }
 
 //generate png
     //TODO:  需要把图片平移缩放之后再生成png
