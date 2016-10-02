@@ -37,23 +37,12 @@ major:str
 description:str
 
 用户模型-url post
-#### 登陆  
-post_url:/plugin  
-json:[{"plugin":"user_model"},{"action":"validate_login"},{"data":formData}]
-#### 注册  
-post_url:/plugin  
-json:[{"plugin":"user_model"},{"action":"create_user"},{"data":formData}]
-#### 个人信息  
-post_url:/plugin  
-json:[{"plugin":"user_model"},{"action":"get_profile"},{"data":user_id}]  
-#### 修改个人信息  
-post_url:/plugin  
-json:[{"plugin":"user_model"},{"action":"edit_profile"},{"data":profile_form}]  
-### 修改头像
-post_url:/plugin  
-json:[{"plugin":"user_model"},{"action":"head_change"},{"data":base64 image}]  
 
-## example
+### abstract
+关于用户退登陆的接口在user.js里面，  
+logout_form()向服务器发出退出登陆的请求并在前端重定向到login界面,  
+get_user_info()向服务器请求用户数据，用于侧边栏的头像和id的展示。
+
 ### 登陆
 location : login-1.html  
 POST : /plugin/  
@@ -108,6 +97,5 @@ POST : /plugin/
 data : JSON.parse("{"plugin":"user_model","action":"edit_profile","username":"sam J","education":"ustc","major":"hook","description":"nothing"}")    
 如果成功，返回home界面  
 失败 ： 登录信息过期之类的（返回login-1）  
+用于把各种数据分发到各个位置
 
-
-### 
