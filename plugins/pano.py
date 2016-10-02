@@ -36,24 +36,24 @@ class Pano(Plugin):
         elif request['action'] == 'save':
             request['id'] = int(request['id'])
             doc = self.documents.get(request['id'])
-            if not (doc and doc.owner == self.user):
+            if not (doc and doc.owner == self.user.id):
                 raise ValueError('Document %d does not exists.' % request['id'])
             doc.text = request['data']
             self.documents.update(doc)
             return {}
         elif request['action'] == 'list':
-            docs = self.documents.list(self.user)
+            docs = self.documents.list(self.user.id)
             return dict(ids=list(map(lambda x:x.id, docs)))
         elif request['action'] == 'load':
             request['id'] = int(request['id'])
             doc = self.documents.get(request['id'])
-            if not (doc and doc.owner == self.user):
+            if not (doc and doc.owner == self.user.id):
                 raise ValueError('Document %d does not exists.' % request['id'])
             return dict(data=doc.text)
         elif request['action'] == 'delete':
             request['id'] = int(request['id'])
             doc = self.documents.get(request['id'])
-            if not (doc and doc.owner == self.user):
+            if not (doc and doc.owner == self.user.id):
                 raise ValueError('Document %d does not exists.' % request['id'])
             self.documents.delete(doc)
             return {}
