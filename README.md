@@ -106,8 +106,8 @@ res :
 location : profile_edit.html
 POST : /plugin/  
 data : JSON.parse("{"plugin":"user_model","action":"edit_profile","username":"sam J","education":"ustc","major":"hook","description":"nothing"}")    
-如果成功，返回home界面
-失败 ： 登录信息过期之类的（返回login-1）
+如果成功，返回home界面  
+失败 ： 登录信息过期之类的（返回login-1）  
 
 
 ### 

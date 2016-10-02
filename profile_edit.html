@@ -566,7 +566,7 @@
 
 
     function postForm_head(data){
-        var  dictPost  =  [{"plugin":"user_model"},{"action":"head_change"},{"data":data}];
+        var  dictPost  =  {"plugin":"user_model","action":"head_change","data":data};
         console.log(dictPost);
         $.ajax({
             type: "POST",
