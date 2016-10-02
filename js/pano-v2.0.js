@@ -68,7 +68,7 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
         self.paths = svgG.append("g").selectAll("g");
         self.circles = svgG.append("g").selectAll("g");
 
-        self.drag = d3.behavior.drag()
+        self.dragHandler = d3.behavior.drag()
             .origin(function (d) {
                 return {x: d.x, y: d.y};
             })
@@ -572,7 +572,7 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
             .on("mouseup", function (d) {
                 thisGraph.circleMouseUp.call(thisGraph, d3.select(this), d);
             })
-            .call(thisGraph.drag)
+            .call(thisGraph.dragHandler)
             .each(function (d) {
                 d3.select(this).append("circle").attr("r", String(consts.nodeRadius));
                 thisGraph.insertTitleLinebreaks(d3.select(this), d.title);
@@ -606,8 +606,9 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
                         var a = $('<a href="#!" class="collection-item valign-wrapper"></a>')
                             .css('padding', '10px 20px')
                             .css('font-weight', 'normal')
-                            .append($('<i class="material-icons tiny left valign">call_made</i>')
-                                .css('padding-top', '6px'))
+                            .append($('<img src="img/link_from.svg" class="tiny left valign">')
+                                .css('padding-top', '6px')
+                                .css('margin-right', '15px'))
                             .append($('<i class="material-icons tiny right valign">clear</i>')
                                 .css('padding-top', '6px')
                                 .click(function (event) {
@@ -639,8 +640,9 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
                         var a = $('<a href="#!" class="collection-item valign-wrapper"></a>')
                             .css('padding', '10px 20px')
                             .css('font-weight', 'normal')
-                            .append($('<i class="material-icons tiny left valign">call_received</i>')
-                                .css('padding-top', '6px'))
+                            .append($('<img src="img/link_to.svg" class="tiny left valign">')
+                                .css('padding-top', '6px')
+                                .css('margin-right', '15px'))
                             .append($('<i class="material-icons tiny right valign">clear</i>')
                                 .css('padding-top', '6px')
                                 .click(function (event) {
