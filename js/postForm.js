@@ -30,9 +30,7 @@ function postForm(){
             if(response['error'] == 'a1'){
                 Materialize.toast('Account or Password Error', 3000, 'rounded');
             }
-        },
-        dataType: "json",
-        contentType : "application/json"
+        }
     });
 }
 
@@ -51,8 +49,6 @@ function postForm_sign_up(){
             else if(response['error'] == 'a2'){
                 Materialize.toast('Email already registered!!', 3000, 'rounded');
             }
-        },
-        dataType: "json",
-        contentType : "application/json"
+        }
     });
 }
