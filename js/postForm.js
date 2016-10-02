@@ -42,7 +42,7 @@ function postForm_sign_up(){
         type: "POST",
         url: "/plugin/",
         data: dictPost,
-        success: function(){
+        success: function(response){
             if(response['success']==true) {
                 window.location="home.html"
             }
