@@ -30,7 +30,7 @@ class Pano(Plugin):
 
     def process(self, request):
         if request['action'] == 'new':
-            doc = PanoDocument(self.user)
+            doc = PanoDocument(self.user.id)
             self.documents.create(doc)
             return dict(id=doc.id)
         elif request['action'] == 'save':
