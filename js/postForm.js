@@ -22,7 +22,7 @@ function postForm(){
     console.log(dictPost);
     $.ajax({
         type: "POST",
-        url: "/plugin",
+        url: "/plugin/",
         data: JSON.stringify(dictPost),
         success: function(response){
             console.log(response);
@@ -41,7 +41,7 @@ function postForm_sign_up(){
     console.log(dictPost);
     $.ajax({
         type: "POST",
-        url: "/plugin",
+        url: "/plugin/",
         data: dictPost,
         success: function(){
             if(response['success']==true) {
