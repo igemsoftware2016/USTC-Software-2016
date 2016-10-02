@@ -278,15 +278,7 @@
                                 <label class="mdl-textfield__label" for="user_name">Peter</label>
                             </div>
                         </div>
-                        <hr class="gap mdl-cell--9-col">
-                        <div class="mgtp txtSize mdl-cell--9-col" align="left">
-                            <div class="txtSize mdl-cell--3-col mdl-color-text--teal-A700" style="align-items: center">Email</div>
-                            <div class="mdl-cell--8-col mdl-textfield mdl-js-textfield">
-                                <input class="mdl-textfield__input" type="email" id="email" name="email">
-                                <label class="mdl-textfield__label" for="email">xxxxx@xxx.xxx.xx</label>
-                                <span class="mdl-textfield__error">Wrong format for email</span>
-                            </div>
-                        </div>
+
                         <hr class="gap mdl-cell--9-col">
 
                         <div class="mgtp txtSize mdl-cell--9-col" align="left">
@@ -556,8 +548,8 @@
     };
 
     function postForm_edit_profile(){
-        var formData = JSON.stringify($('#user_profile_edit').serializeObject());
-        var  dictPost  =  [{"plugin":"user_model"},{"action":"edit_profile"},{"data":formData}];
+        var formData = ($('#user_profile_edit').serializeObject());
+        var  dictPost  =  {"plugin":"user_model","action":"edit_profile","username":formData.user_name,"edu":formData.edu,"major":formData.major,"desc":formData.desc};
         console.log(dictPost);
         $.ajax({
             type: "POST",
@@ -568,9 +560,7 @@
                 if(response['error'] == 'err_code'){
                     Materialize.toast('conditions', 3000, 'rounded');
                 }
-            },
-            dataType: "json",
-            contentType : "application/json"
+            }
         });
     }
 
@@ -594,9 +584,7 @@
                 }
 
                 // TODO: if success change head of the page
-            },
-            dataType: "json",
-            contentType : "application/json"
+            }
         });
     }
 
