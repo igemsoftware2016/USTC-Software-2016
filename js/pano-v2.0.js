@@ -182,6 +182,15 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
         d3.select("#delete-graph").on("click", function() {
             self.deleteGraph(false);
         });
+
+        self.updateGraph();
+
+        for (var i in nodes) {
+            if (nodes[i] != undefined) {
+                self.setSelectedNode(nodes[i]);
+                break;
+            }
+        }
     };
 
     GraphCreator.prototype.consts =  {
@@ -744,15 +753,6 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
         return "Make sure to save your graph locally before leaving :-)";
     };
 
-    var docEl = document.documentElement,
-            bodyEl = document.getElementsByTagName('body')[0];
-
-    var width = window.innerWidth || docEl.clientWidth || bodyEl.clientWidth,
-            height =  window.innerHeight|| docEl.clientHeight|| bodyEl.clientHeight;
-
-    var xLoc = width/2 - 25,
-            yLoc = 100;
-
     // initial node data
     var nodes = [
         {"id":1  ,"type":3, "u_name":"gene1", "title":"gene1", "x":1400, "y":500},
@@ -779,25 +779,20 @@ document.onload = (function(d3, saveAs, Blob, undefined) {
     ];
 
     /** MAIN SVG **/
-    var svg = d3.selectAll("#body").append("svg")
-            .attr("width", width)
-            .attr("id","main_window")
-            .attr("height", height);
-    var graph = new GraphCreator(svg, nodes, edges);
-    graph.updateGraph();
 
-    for (var i in nodes) {
-        if (nodes[i] != undefined) {
-            graph.setSelectedNode(nodes[i]);
-            break;
-        }
-    }
+    $('#body').append($('<svg id="main_window"></svg>')
+        .attr("width", $(document.body).width())
+        .attr("height", $(document.body).height()));
+
+    var svg = d3.selectAll("#main_window");
+
+    var graph = new GraphCreator(svg, nodes, edges);
 
     var sidebar = new SideBar();
 
     if (graph.state.selectedNode) {
         sidebar.update(graph.state.selectedNode.id, graph);
-        graph.centerSelectedNode(1);
+        graph.centerSelectedNode(1); // 1 millisecond
     }
 
 //generate png
