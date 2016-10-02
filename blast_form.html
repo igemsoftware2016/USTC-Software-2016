@@ -15,6 +15,7 @@
     <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="js/materialize.min.js"></script>
     <script type="text/javascript" src="js/d3.v3.min.js"></script>
+    <script type="text/javascript" src="js/blast.js"></script>
 </head>
 
 
@@ -72,15 +73,21 @@
             <div   id="blast_form" class="center-align card-panel teal lighten-5">
                 <div class="row">
 
-                    <form class="col s12">
+                    <form id="form_bl" class="form col s12">
                         <h5 class="col s12 m3" style="margin-top: 20px">sequence:</h5>
                         <div class="col s12 m9">
                             <div class="input-field col s12">
-                                <textarea id="textarea1" class="materialize-textarea"></textarea>
-                                <label for="textarea1">input original sequence here</label>
+                                <textarea id="sequence" name="sequence" class="materialize-textarea"></textarea>
+                                <label for="sequence">input original sequence here</label>
                             </div>
                         </div>
                     </form>
+
+                </div>
+
+                <div class="row">
+                    <div><a class = "btn btn-large teal lighten-2 waves-effect" onclick="blast_req()" >Blast!!!</a>
+                    </div>
                 </div>
             </div>
             <h4>Result</h4>

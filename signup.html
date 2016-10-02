@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>pure md login</title>
+    <title>BioHub</title>
     <link rel="stylesheet" href="css/materialize.min.css">
     <!--link rel="stylesheet" href="css/bootstrap.min.css"-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -23,6 +23,19 @@
             margin-top: 3px;
             margin-bottom: 2px;
         }
+
+        .demo-flex-align {
+            display: -webkit-flex !important;
+            display: -ms-flexbox !important;
+            display: flex !important;
+            -webkit-box-orient: horizontal;
+            -webkit-flex-direction: row;
+            -ms-flex-direction: row;
+            flex-direction: row;
+            -webkit-align-items: center;
+            -ms-flex-align: center;
+            align-items: center;
+        }
     </style>
     <!--[if IE]>
     <script src="http://libs.useso.com/js/html5shiv/3.7/html5shiv.min.js"></script>
@@ -33,14 +46,12 @@
     <div class="card-panel " style="width: 400px;align-content: center">
         <form>
             <div class="row">
-                <div class="input-field col s12 center">
+                <div class="input-field col s12 center demo-flex-align">
+                    <img src="images/logo.ico" alt="" class="responsive-img valign profile-image-login" style="height: 76px;margin: 15px">
                     <span>
-                        <h2><span>BioHub</span><img src="images/logo.ico" alt="" class="responsive-img valign profile-image-login" style="height: 76px;margin: 15px"></h2>
+                        <h2><span>BioHub</span></h2>
                     </span>
                 </div>
-            </div>
-            <div class="htmleaf-links">
-                <a class="material-icons">trending_flat</a>
             </div>
 
             <div class="row margin">
