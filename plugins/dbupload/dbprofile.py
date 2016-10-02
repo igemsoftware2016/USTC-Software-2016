@@ -324,8 +324,8 @@ def link_commit(e_e, res, tax):
         Link.__table__.insert(),
         [
             dict(tax_id=tax,
-                 node_a_id=oneline[1],
-                 node_b_id=oneline[2])
+                 node_a_id=oneline[0],
+                 node_b_id=oneline[1])
             for oneline in res
         ]
     )
