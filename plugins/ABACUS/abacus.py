@@ -5,67 +5,85 @@
     "inpath": inputFilePath
     "filename": filename
     "amount": amount #optional
+    "tag":tag
+    "design": desginpath
+    "mutationScan": scanpath
     }
 """
 from time import ctime
 from subprocess import Popen
+
 from singleMutationScan import singleMutationScan
 from design import design
-from suspiciousSites import suspiciousSites
 from plugin import Plugin, PluginDocument
-from design import design
+
 from callabacus import InternalError, FileFormatError
 from database import TableBase, Column, Text
 from database import engine
 
 
-
 class ABACUS(Plugin):
 
     def process(self, request):
-        print('example plugin got a request:' + str(request))
-        if request['action'] == 'design':
+        print("example plugin got a request:" + str(request))
+        if request["action"] == "design":
             try:
-                design(request["inpath"], request["filename"], request["amount"])
-            except ValueError:
-                return {'success': False, 'reason': 'Invalid input'}
-            except InternalError:
-                return {'success': False, 'reason': 'Unknown internal errror'}
-            except FileFormatError:
-                return {'success': False, 'reason': 'File format error!'}
-            else:
-                return {'success': True, 'time': ctime()}
+                try:
+                    tag = request["tag"]
+                except KeyError:
+                    Popen(["python3", "\"" + request["design"] + "\"",
+                          "\"" + request["inpath"] + "\"",
+                          "\"" + request["filename"] + "\"",
+                          request["amount"]]
+                          )
 
-        elif request['action'] == 'suspiciousSites':
+                else:
+                    Popen(["python3", "\"" + request["design"] + "\"",
+                          "\"" + request["inpath"] + "\"",
+                          "\"" + request["filename"] + "\"",
+                          request["amount"],
+                          "\"" + tag + "\""]
+                          )
+
+                return {"status": "running"}
+
+            except ValueError:
+                return {"success": False, "reason": "Invalid input"}
+            except InternalError:
+                return {"success": False, "reason": "Unknown internal errror"}
+            except FileFormatError:
+                return {"success": False, "reason": "File format error!"}
+            else:
+                return {"success": True, "time": ctime()}
+
+        elif request["action"] == "singleMutationScan":
             try:
-                design(request["inpath"], request["filename"], request["amount"])
+                try:
+                    size = request["size"]
+                except KeyError:
+                    Popen(["python3", "\"" + request["mutationScan"] + "\"",
+                          "\"" + request["inpath"] + "\"",
+                          "\"" + request["filename"] + "\"",
+                          "\"" + request["output"] + "\""]
+                          )
+                else:
+                    Popen(["python3", "\"" + request["mutationScan"] + "\"",
+                           "\"" + request["inpath"] + "\"",
+                           "\"" + request["filename"] + "\"",
+                           "\"" + request["output"] + "\"",
+                           size]
+                          )
             except ValueError:
-                return {'success': False, 'reason': 'Invalid input'}
+                return {"success": False, "reason": "Invalid input"}
             except InternalError:
-                return {'success': False, 'reason': 'Unknown internal errror'}
+                return {"success": False, "reason": "Unknown internal errror"}
             except FileFormatError:
-                return {'success': False, 'reason': 'File format error!'}
+                return {"success": False, "reason": "File format error!"}
             else:
-                return {'success': True, 'time': ctime()}
+                return {"success": True, "time": ctime()}
 
-        elif request['action'] == 'singleMutationScan':
-            try:
-                design(request["inpath"], request["filename"], request["amount"])
-            except ValueError:
-                return {'success': False, 'reason': 'Invalid input'}
-            except InternalError:
-                return {'success': False, 'reason': 'Unknown internal errror'}
-            except FileFormatError:
-                return {'success': False, 'reason': 'File format error!'}
-            else:
-                return {'success': True, 'time': ctime()}
-
-        elif request['action'] == 'get':
-            doc = self.documents.get(request['id'])
-            return {'id': doc.id, 'owner': doc.owner, 'title': doc.title, 'text': doc.text,
-                    'last_modified': doc.last_modified}
         else:
-            return {'success': False, 'reason': 'unknown action: ' + request['action']}
+            return {"success": False, "reason": "unknown action: " + request["action"]}
 
 
 __plugin__ = ABACUS()

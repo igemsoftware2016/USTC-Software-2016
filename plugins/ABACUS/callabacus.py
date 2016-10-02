@@ -14,7 +14,7 @@ def ABACUS_prepare(path, file):
     while p.poll() is None:
         pass
     if p.poll():
-        f = open(path+'err.log')
+        f = open(path+'err.log', 'r')
         exp = f.read(1E4)
         if exp.find("no protein chain detected") != -1:
             raise FileFormatError("File format error! No protein chain detected!")
@@ -44,18 +44,12 @@ def ABACUS_vdwEtable(path, file):
     return p.poll()
 
 
-def ABACUS_design(path, file, num):
-    p = Popen([".\ABACUS_design", path+file, num])
-    while p.poll() is None:
-        pass
-    if p.poll():
-        raise InternalError("We are sorry, something wrong happened")
+def ABACUS_design(path, file, num, tag=None):
+    if tag is None:
+        p = Popen([".\ABACUS_design", path + file, num])
+    else:
+        p = Popen([".\ABACUS_design", path + file, num, tag])
 
-    return p.poll()
-
-
-def ABACUS_suspiciousSites(path, file, output):
-    p = Popen([".\ABACUS_suspiciousSites", path+file, output])
     while p.poll() is None:
         pass
     if p.poll():
