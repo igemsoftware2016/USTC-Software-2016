@@ -62,7 +62,6 @@ data : JSON.parse("{"plugin":"user_model","action":"create_user","email":"sam@gm
 如果失败 ：后端返回错误原因 弹出提示信息  
 
 
-### 注册
  
 ### 修改头像
 location : profile_edit.html  
@@ -70,8 +69,38 @@ POST : /plugin/
 data : JSON.parse("[{"plugin":"user_model"},{"action":"head_change"},{"data":"data:image/png;base64,iVBORw0KGg..........mCPQ73/mO/e63v/CC"}]")  
 如果成功 ：弹出提示修改成功的信息   
 如果失败 ：弹出提示修改失败的信息  
+  
+  
+### 退出登陆
+location : anywhere  
+POST : /plugin/  
+data : JSON.parse("{"plugin":"user_model","action":"logout"}")  
+重定向到login页面
 
+
+### 注册  
+location : signup.html  
+POST : /plugin/  
+data :  JSON.parse("{"plugin":"user_model","action":"create_user","email":"sam@gmail.com","password":"123456","username":"uncle sam"}")   
+如果注册成功，跳转到注册页面
+如果注册失败，后端返回错误原因，弹出提示信息
+
+
+### 获取用户信息
+location : anywhere  
+POST : /plugin/  
+data : JSON.parse("{"plugin":"user_model","action":"get_user_data")  
+res :   
+    email *(string)   
+    username *(string)    
+    avatar  (string(base64))   
+    description (long string)  
+    education (long string)  
+    major (long string)  
     
+如果成功，没有提示  
+如果失败，后端返回错误原因，弹出提示信息  
+
       
       
      
