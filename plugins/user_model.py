@@ -14,7 +14,7 @@ class user_model(Plugin):
 
     def process(self, request):
         if request['action'] == 'validate_login':
-            print('Login: ', request['email'], ' ', request['password'], request['remember'])
+            print('Login: ', request['email'], request['password'])
             email = request['email']
             password = request['password']
             user = User.get_user_by_email(email)
@@ -23,10 +23,10 @@ class user_model(Plugin):
             elif not user.check_password(password):
                 return {'success': False, 'error': 'Email or password incorrect'}
             else:
-                login_user(user, remember=(request['remember'] == 'on'))
+                login_user(user, remember='remember' in request)
                 return {'success': True}
         elif request['action'] == 'create_user':
-            print('Create: ', request['email'], ' ', request['password'], request['username'])
+            print('Create: ', request['email'], request['password'], request['username'])
             email = request['email']
             password = request['password']
             username = request['username']
