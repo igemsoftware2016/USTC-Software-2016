@@ -173,6 +173,9 @@
         .mdl-chip:active {
             background-color: #00C853 !important;
         }
+        .mdl-chip {
+            border-radius: 4px !important;
+        }
     </style> 
 </head>
 <body>
@@ -238,16 +241,18 @@
                       time_user.className="demo-icon_text-align_1 mdl-cell mdl-cell--12-col";
                       
                       var user=document.createElement("div");
-                      var user_chip=document.createElement("button");
+                      var user_chip=document.createElement("a");
+                      user_chip.href="personal_center.html";
                       user_chip.className="mdl-chip mdl-chip--contact mdl-shadow--4dp";
                       var user_img=document.createElement("img");
-                      user_img.src=obj.event[i-1].imgsrc;
+                      user_img.src=obj.event[i-1].avt_src;
                       user_img.className="mdl-chip__contact";
                       componentHandler.upgradeElement(user_img);
                       user_chip.appendChild(user_img);
                       var user_span=document.createElement("span");
                       user_span.className="mdl-chip__text";
-                      user_span.innerHTML=obj.event[i-1].userid;
+                      user_span.style.fontSize="16px";
+                      user_span.innerHTML=obj.event[i-1].user_id;
                       componentHandler.upgradeElement(user_span);
                       user_chip.appendChild(user_span);
                       componentHandler.upgradeElement(user_chip);
@@ -258,6 +263,7 @@
                       var time=document.createElement("div");
                       time.style.margin="0px 16px 0px 16px";
                       var time_span=document.createElement("span");
+                      time_span.style.fontSize="16px";
                       time_span.innerHTML=obj.event[i-1].time;
                       componentHandler.upgradeElement(time_span);
                       time.appendChild(time_span);
@@ -272,7 +278,7 @@
 
                       var project_image=document.createElement("div");
                       project_image.className="mdl-cell mdl-cell--4-col";
-                      project_image.style.backgroundImage="url(img/logo.png)";
+                      project_image.style.backgroundImage="url("+obj.event[i-1].img_src+")";
                       project_image.style.backgroundRepeat="no-repeat";
                       project_image.style.backgroundPosition="center";
                       componentHandler.upgradeElement(project_image);
@@ -287,8 +293,8 @@
                       project_text.style.minHeight="120px";
                       var project_title=document.createElement("span");
                       project_title.style.color="black";
-                      project_title.style.fontSize="25px";
-                      project_title.innerHTML=obj.event[i-1].state+" Project: "+obj.event[i-1].projectid;
+                      project_title.style.fontSize="24px";
+                      project_title.innerHTML=obj.event[i-1].state+" Project: "+obj.event[i-1].project_id;
                       componentHandler.upgradeElement(project_title);
                       project_text.appendChild(project_title);
                       var divider=document.createElement("br");
@@ -297,7 +303,8 @@
                       var project_content=document.createElement("p");
                       project_content.style.paddingTop="25px";
                       var content_span=document.createElement("span");
-                      content_span.innerHTML="Author: "+obj.event[i-1].authorname+"<br/>State: "+obj.event[i-1].privacy+"<br/>Last Update: "+obj.event[i-1].lastupdate;
+                      content_span.style.fontSize="16px";
+                      content_span.innerHTML="Author: "+obj.event[i-1].author_id+"<br/>State: "+obj.event[i-1].private+"<br/>Last Update: "+obj.event[i-1].last_update_time;
                       componentHandler.upgradeElement(content_span);
                       project_content.appendChild(content_span);
                       componentHandler.upgradeElement(project_content);
@@ -414,7 +421,7 @@
                       componentHandler.upgradeElement(comment_area);
                       document.getElementById("forum").appendChild(comment_area);
 
-                      var comment_tag=document.createElement("p");
+                      var comment_tag=document.createElement("div");
                       comment_tag.style.fontSize="16px";
                       comment_tag.style.color="#00C853";
                       var textNode=document.createTextNode("Comments");
@@ -442,6 +449,7 @@
                         comment.innerHTML=" "+obj.event[i-1].comment[j-1].content+"<br/>";
                         componentHandler.upgradeElement(comment);
                         comment_other.appendChild(comment);
+
                         componentHandler.upgradeElement(comment_other);
                         document.getElementById("forum").appendChild(comment_other);
                       }
@@ -452,7 +460,7 @@
                       document.getElementById("forum").appendChild(divider);
                     }
                   }
-                  var txt='{"event":['+'{"imgsrc":"img/logo.png","userid":"abc","time":"2015-10-1","state":"Created","projectid":"sth1","authorname":"rghuuh","privacy":"Public","lastupdate":"2016-4-3","praise":"yes","comment":[{"id":"a","content":"233"},{"id":"b","content":"244"},{"id":"gfy","content":"666"}]},'+'{"imgsrc":"img/logo.png","userid":"def","time":"2015-11-1","state":"Updated","projectid":"zzzz","authorname":"bla","privacy":"Private","lastupdate":"2016-7-2","praise":"yes","comment":[{"id":"a","content":"233"},{"id":"b","content":"244"},{"id":"gfy","content":"666"}]},'+'{"imgsrc":"img/pjer.jpg","userid":"ghi","time":"2015-12-1","state":"Created","projectid":"orz","authorname":"bingqiu","privacy":"Public","lastupdate":"2016-9-30","praise":"no","comment":[{"id":"a","content":"233"},{"id":"b","content":"244"},{"id":"gfy","content":"zhaoyanbingshizhizhang"}]}]}';
+                  var txt='{"event":['+'{"avt_src":"img/logo.png","user_id":"abc","time":"2015-10-1","img_src":"img/pjer.jpg","state":"Created","project_id":"sth1","author_id":"rghuuh","private":"Public","last_update_time":"2016-4-3","praise":"yes","comment":[{"id":"a","content":"233"},{"id":"b","content":"244"},{"id":"gfy","content":"666"}]},'+'{"avt_src":"img/logo.png","user_id":"def","time":"2015-11-1","img_src":"img/logo.png","state":"Updated","project_id":"zzzz","author_id":"bla","private":"Private","last_update_time":"2016-7-2","praise":"yes","comment":[{"id":"a","content":"233"},{"id":"b","content":"244"},{"id":"gfy","content":"666"}]},'+'{"avt_src":"img/pjer.jpg","user_id":"ghi","time":"2015-12-1","img_src":"img/logo.png","state":"Created","project_id":"orz","author_id":"bingqiu","private":"Public","last_update_time":"2016-9-30","praise":"no","comment":[{"id":"a","content":"233"},{"id":"b","content":"244"},{"id":"gfy","content":"zhaoyanbingshizhizhang"}]}]}';
                   loadforum(txt);
                 </script>
               </div>
