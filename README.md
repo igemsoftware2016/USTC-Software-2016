@@ -53,3 +53,14 @@ json:[{"plugin":"user_model"},{"action":"edit_profile"},{"data":profile_form}]
 post_url:/plugin  
 json:[{"plugin":"user_model"},{"action":"head_change"},{"data":base64 image}]  
 
+## example
+### 登陆
+location:login-1.html  
+POST:/plugin
+json:
+
+  
+    
+      
+      d
+      

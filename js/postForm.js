@@ -17,8 +17,9 @@ $.fn.serializeObject = function()
 };
 
 function postForm(){
-    var formData = JSON.stringify($('form').serializeObject());
-    var  dictPost  =  [{"plugin":"user_model"},{"action":"validate_login"},{"data":formData}];
+    var formData = ($('form').serializeObject());
+    console.log(formData);
+    var  dictPost  =  {"plugin":"user_model","action":"validate_login","email":formData["email"],"password":formData["password"],"remember":formData["remember"]};
     console.log(dictPost);
     $.ajax({
         type: "POST",
@@ -36,8 +37,8 @@ function postForm(){
 }
 
 function postForm_sign_up(){
-    var formData = JSON.stringify($('form').serializeObject());
-    var  dictPost  =  [{"plugin":"user_model"},{"action":"create_user"},{"data":formData}];
+    var FormData = ($('form').serializeObject());
+    var  dictPost  =  {"plugin":"user_model","action":"create_user","email":FormData["email"],"password":FormData["passwd"],"username":FormData["username"]};
     console.log(dictPost);
     $.ajax({
         type: "POST",
