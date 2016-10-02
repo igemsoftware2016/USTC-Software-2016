@@ -1,6 +1,6 @@
 var kick_ass;
 
-document.onload = (function (d3, saveAs, Blob, undefined) {
+document.onload = (function ($, d3, saveAs, Blob, undefined) {
     "use strict";
 
     // define graphcreator object
@@ -801,14 +801,44 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
         }
     }
 
-    $.post("/plugin", {plugin: "pano", action: "load_pano", project_id: projectId}).done(function (res) {
-        var json = JSON.parse(res);
-        nodes = json['nodes'];
-        edges = json['edges'];
+    function save(callback) {
+        if (!projectId) {
+            $.post("/plugin", {plugin: "pano", action: "find_project_id"}).done(function (res) {
+                projectId = res['project_id'];
+                save(callback);
+            }).fail(function () {
+                callback(false);
+            });
+            return;
+        }
+        callback = callback || function () {};
+        $.post("/plugin", {
+            plugin: "pano",
+            action: "save_pano",
+            project_id: projectId,
+            data: JSON.stringify({nodes: nodes, edges: edges})
+        }).done(function () {
+            callback(true);
+        }).fail(function () {
+            callback(false);
+        });
+    }
+
+    window.save = save;
+
+    if (!projectId) {
         start();
-    }).fail(function () {
-        start();
-    });
+    } else {
+        $.post("/plugin", {plugin: "pano", action: "load_pano", project_id: projectId}).done(function (res) {
+            var json = JSON.parse(res);
+            nodes = json['nodes'];
+            edges = json['edges'];
+            start();
+        }).fail(function () {
+            projectId = undefined;
+            start();
+        });
+    }
 
     // initial node data
     /*
@@ -880,4 +910,4 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
         });
     }
 
-})(window.d3, window.saveAs, window.Blob);
+})(jQuery, window.d3, window.saveAs, window.Blob);
