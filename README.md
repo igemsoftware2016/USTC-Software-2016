@@ -102,5 +102,11 @@ res :
 如果失败，后端返回错误原因，弹出提示信息  
 
       
-      
+### 修改用户信息
+location : profile_edit.html
+POST : /plugin/  
+data : JSON.parse("{"plugin":"user_model","action":"edit_profile","username":"sam J","edu":"ustc","major":"hook","desc":"nothing"}")    
+如果成功，返回home界面
+失败 ： 登录信息过期之类的（返回login-1）
+
      
