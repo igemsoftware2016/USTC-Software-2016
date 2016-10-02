@@ -40,6 +40,29 @@ class user_model(Plugin):
             print('Logout')
             logout_user()
             return {'success': True}
+        elif request['action'] == 'get_user_data':
+            if not current_user.is_authenticated:
+                return {'success': False, 'error': 'Not logged in'}
+            else:
+                d = {'success': True}
+                d['id'] = current_user.id
+                d['email'] = current_user.email
+                d['username'] = current_user.username
+                d['avatar'] = current_user.avatar
+                d['description'] = current_user.description
+                d['education'] = current_user.education
+                d['major'] = current_user.major
+                return d
+        elif request['action'] == 'head_change':
+            if not current_user.is_authenticated:
+                return {'success': False, 'error': 'Not logged in'}
+            else:
+                current_user.avatar = request['data']
+                session.add(current_user)
+                session.commit()
+                return {'success': True}
+        else:
+            return {'success': False, 'error': 'Unknown action'}
 
     def unload(self):
         print('user plugin unloaded')
