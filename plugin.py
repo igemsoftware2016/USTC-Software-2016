@@ -78,6 +78,9 @@ class Documents:
     def get(self, pid):
         return session.query(self.document_table).get(pid)
 
+    def list(self, owner):
+        return session.query(self.document_table).filter(self.document_table.owner == owner).all()
+
     def create(self, pdoc: PluginDocument):
         session.add(pdoc)
         session.commit()

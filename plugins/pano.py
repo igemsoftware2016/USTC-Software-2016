@@ -41,6 +41,9 @@ class Pano(Plugin):
             doc.text = request['data']
             self.documents.update(doc)
             return {}
+        elif request['action'] == 'list':
+            docs = self.documents.list(self.user)
+            return dict(ids=list(map(lambda x:x.id, docs)))
         elif request['action'] == 'load':
             request['id'] = int(request['id'])
             doc = self.documents.get(request['id'])
