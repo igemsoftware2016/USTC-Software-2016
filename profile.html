@@ -16,7 +16,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="Material Design Lite">
     <link rel="apple-touch-icon-precomposed" href="images/logo.ico">
-
+    <script src="js/user.js"></script>
     <!-- Tile icon for Win8 (144x144 + tile color) -->
     <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
     <meta name="msapplication-TileColor" content="#3372DF">
@@ -76,7 +76,7 @@
 
     </style>
 </head>
-<body>
+<body onload="get_user_info()">
 <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
     <header class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
         <div class="mdl-layout__header-row">
@@ -103,9 +103,9 @@
     </header>
     <div class="demo-drawer mdl-layout__drawer mdl-color--teal-A700 mdl-color-text--white">
         <header class="demo-drawer-header">
-            <img src="img/pjer.jpg" class="demo-avatar">
+            <img id="side-head" src="img/user-a.png" class="demo-avatar">
             <div class="demo-avatar-dropdown">
-                <span style="font-size: 15px">pjer1316@mail.com</span>
+                <span  id="user-email" style="font-size: 15px">pjer1316@mail.com</span>
                 <div class="mdl-layout-spacer"></div>
                 <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
                     <i class="material-icons" role="presentation">arrow_drop_down</i>
