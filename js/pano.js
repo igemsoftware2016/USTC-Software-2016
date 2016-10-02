@@ -22,7 +22,8 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             justDragged: false,
             lastKeyDown: -1,
             shiftNodeDrag: false,
-            selectedText: null
+            selectedText: null,
+            tryReconnect: false
         };
 
         self.svg = svg;
@@ -168,7 +169,9 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             var x = window.innerWidth || docEl.clientWidth || bodyEl.clientWidth;
             var y = window.innerHeight || docEl.clientHeight || bodyEl.clientHeight;
             svg.attr("width", x).attr("height", y);
-            resizeOld.apply(this, arguments);
+            if (resizeOld) {
+                resizeOld.apply(this, arguments);
+            }
         };
 
         // handle download data
@@ -580,6 +583,18 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
 
         thisGraph.paths = paths;
         thisGraph.circles = circles;
+
+        save(thisGraph, function (success) {
+            if (!success && !thisGraph.state.tryReconnect) {
+                thisGraph.state.tryReconnect = true;
+                Materialize.toast('Cannot connect to server, try reconnecting...  ', 3000, 'rounded', function () {
+                    setTimeout(function () {
+                        thisGraph.state.tryReconnect = false;
+                        thisGraph.updateGraph();
+                    }, 12000);
+                });
+            }
+        });
     };
 
     var SideBar = function () {
@@ -801,12 +816,12 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         }
     }
 
-    function save(callback) {
+    function save(graph, callback) {
         if (isNaN(projectId)) {
             $.post("/plugin/", {plugin: "pano", action: "new"}).done(function (res) {
                 projectId = Number(JSON.parse(res)['id']);
                 location.hash = '#' + projectId;
-                save(callback);
+                save(graph, callback);
             }).fail(function () {
                 callback(false);
             });
@@ -817,7 +832,9 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             plugin: "pano",
             action: "save",
             id: projectId,
-            data: JSON.stringify({nodes: graph.nodes, edges: graph.edges})
+            data: JSON.stringify({nodes: graph.nodes.filter(function (d) {
+                return d != undefined;
+            }), edges: graph.edges})
         }).done(function () {
             callback(true);
         }).fail(function () {
