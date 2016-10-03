@@ -47,7 +47,7 @@ function get_user_info(){
 
             if(Jr.username=null){
                 if(Jr.username.length>0){
-                    document.getElementById('this_is_a_user_name_always_used').innerHTML=Jr.username
+                    document.getElementById('this_is_a_user_name').innerHTML=Jr.username
                 }
             }
             //this is for the current user name

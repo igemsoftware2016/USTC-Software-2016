@@ -23,6 +23,7 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://code.getmdl.io/1.2.0/material.min.js"></script>
     <script src="js/user.js"></script>
+    <script src="js/forum.js"></script>
     <style>
         html, body {
             font-family: 'Roboto', 'Helvetica';
@@ -220,6 +221,7 @@
         </nav>
     </div>
     <main class="mdl-layout__content mdl-color--white">
+        <span id="this_is_a_user_name" style="visibility: hidden;">sth</span>
         <div class="demo-content">
             <div class="mdl-grid mdl-grid--no-spacing">
                 <div class="mdl-cell mdl-cell--12-col">
@@ -229,8 +231,7 @@
             <div class="mdl-grid mdl-grid--no-spacing">
               <div id="forum" class="mdl-cell mdl-cell--12-col mdl-grid mdl-grid--no-spacing" style="padding: 0px 64px 0px 64px;">
                 <script type="text/javascript">
-                  function loadforum(txt) {
-                    var obj=JSON.parse(txt);
+                  function loadforum(obj) {
                     var num=obj.event.length;
                     for (var i=1;i<=num;i++) {
                       var time_user=document.createElement("div");
@@ -241,7 +242,12 @@
                       user_chip.href=obj.event[i-1].usr_src;
                       user_chip.className="mdl-chip mdl-chip--contact mdl-shadow--4dp";
                       var user_img=document.createElement("img");
-                      user_img.src=obj.event[i-1].avt_src;
+                      if(obj.event[i-1].avt_src==null){
+                        user_img.src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIAAgMAAACJFjxpAAAADFBMVEXFxcX////p6enW1tbAmiBwAAAFiElEQVR4AezAgQAAAACAoP2pF6kAAAAAAAAAAAAAAIDbu2MkvY0jiuMWWQoUmI50BB+BgRTpCAz4G6C8CJDrC3AEXGKPoMTlYA/gAJfwETawI8cuBs5Nk2KtvfiLW+gLfK9m+r3X82G653+JP/zjF8afP1S//y+An4/i51//AsB4aH+/QPD6EQAY/zwZwN8BAP50bh786KP4+VT+3fs4/noigEc+jnHeJrzxX+NWMDDh4g8+EXcnLcC9T8U5S/CdT8bcUeBEIrwBOiI8ki7Ba5+NrePgWUy89/nYyxQ8Iw3f+pWY4h1gb3eAW7sDTPEOsLc7wK1TIeDuDB+I/OA1QOUHv/dFsZQkhKkh4QlEfOULYz2nGj2/Nn1LmwR/86VxlCoAW6kCsHRGANx1RgCMo5Qh2EsZgrXNQZZShp5Liv7Il8eIc5C91EHY2hxk6bwYmNscZIReDBwtCdhbErC1JGBpScBcOgFMLQsZMQs5Whayd+UQsLYsZGlZyNyykKllISNmIUfAwifw8NXvTojAjGFrdYi11SGWVoeYWx1i6lmQCiEjFkKOVgjZ+xxIhZCtFULWHkCqxCw9gNQKmP9vNHzipdEPrRcxtVbAeDkAvve0iM2QozVD9hfjhp4YP/UrkJYDbD2AtBxgfSkAvvHEeNcDSAsilgtAWxIy91J8AXgZAJ5e33+4tuACcAG4AFwALgBXRXQB6AFcB5MXAuA6nl9/0Vx/011/1V5/1/dfTPJvRtdnu/zL6beeFO/7r+fXBYbrEkt/j+i6ytXfpuvvE/ZXOnsA/a3a/l5xf7O6v1t+Xe/vOyz6HpO8yyboM8o7rfJes77bru83THk48p7TvOs27zvOO6/73vO++z7l4cgnMPQzKPopHC0N9noSSz6LJp/Gk88jyicy5TOp6qlc+VyyfDJbPpuuns6XzyfMJzTmMyrrKZ35nNJ8Ums+q7af1tvPK+4nNodEnPKp3fnc8npyez67/qVP7+/fL8hfcMjfsOhf8cjfMclfcnn9+BkOnLECP8Q58OYeyJ40eoyF6Ee/En/JHlP6mIlRVXprF4BxtAvArV0AxtEuALd2ARhHuwDc2gVgHPX/hFv9fMBddjIGeKg/WCxlCsI46u+Ga5mCcJd+sIG9UkGAW32ZbApFAHhod4Bb3eo04h3god0BbiUHYApVCNjbHeBW+QDAXT4a7qg7r7e214057vg0QhkEHkoSwq0kIdydXw4/Q3H8hjYJ3vL0WConBJhCHQaOToeBrU0BljYFmEoVgHGUKgAPnREAt84IgLuqFgAYSUEOAHszDwuAtSkHAZhLGYIpdCLgKGUIHtocZG1zkLmUIRhxDnJU1RDA1uYga5uDzKUOwhTnIEfnxcDe5iBrcyQAYGlzkKkUYhhxDrKXQgxbSwLWUohhbknA1JKAEZOAvSUBW0sC1pYEzC0JmFoSMMJyCDhaFrK3JGDtyiFgaVnI3LKQqWUhI2YhR8tC9paFrC0LWVoWMrcsZGpZyIhZyNGykL2rSIGtlQHWVgZYWhlgbmWAqZUBRiwDHK0MsLcywNbKAGsOoNUhllaHmFsdYmp1iBHrEEerQ+w5gFYI2VodYm11iKXVIeYcQCuETK0QMmIh5MgBtELI3gohWyuErDmAVolZWiFkzgG0SszUKjGjfj6gVmKOVonZcwCtFbB9HQC+ozWDbz1bvGu9iKW1AuYcQOtFTLEX1GbIaFegN0OOHEBrhuw5gNYM2XIArRuz5gDacoB3bTnAEktxXQ4wfw0AvveM8b4tiJjSJOwLIsbXsAKeNeKCiOO3D+AVbUl0AfjGs8ZPbUnIdgFoa1LWC0BblfMuB9AeC1j6gqQE0J9LmC8AOYD2ZMb7i4bt2ZTpWoHfPoB7Tj2fXzT8N1X41vkq/QHOAAAAAElFTkSuQmCC";
+                      }
+                      else{
+                        user_img.src=obj.event[i-1].avt_src;
+                      }
                       user_img.className="mdl-chip__contact";
                       componentHandler.upgradeElement(user_img);
                       user_chip.appendChild(user_img);
@@ -329,7 +335,7 @@
                       actions_praise.style.margin="0px 8px 0px 8px";
                       var icons_praise=document.createElement("i");
                       icons_praise.className="demo-icons-praise material-icons";
-                      if (obj.event[i-1].praise=="yes") {
+                      if (obj.event[i-1].praise==true) {
                         icons_praise.style.color="yellow";
                       }
                       else {
@@ -425,12 +431,15 @@
                       componentHandler.upgradeElement(comment_tag);
                       document.getElementById("forum").appendChild(comment_tag);
 
+                      var com_area=document.createElement("div");
+                      com_area.className="demo-comment-other mdl-cell mdl-cell--12-col";
+
                       var q=obj.event[i-1].comment.length;
                       for (var j=1;j<=q;j++) {
                         var comment_other=document.createElement("div");
-                        comment_other.className="demo-icon_text-align_1 mdl-cell mdl-cell--12-col";
+                        comment_other.className="demo-icon_text-align_1";
                         var user=document.createElement("a");
-                        user.href="#";
+                        user.href=obj.event[i-1].comment[j-1].cmt_src;
                         user.style.textDecoration="none";
                         user.style.color="#00C853";
                         user.style.fontSize="16px";
@@ -447,8 +456,11 @@
                         comment_other.appendChild(comment);
 
                         componentHandler.upgradeElement(comment_other);
-                        document.getElementById("forum").appendChild(comment_other);
+                        com_area.appendChild(comment_other);
                       }
+
+                      componentHandler.upgradeElement(com_area);
+                      document.getElementById("forum").appendChild(com_area);
 
                       var divider=document.createElement("div");
                       divider.className="mdl-cell mdl-cell--12-col demo-spacer_2";
@@ -456,8 +468,8 @@
                       document.getElementById("forum").appendChild(divider);
                     }
                   }
-                  var txt='{"event":['+'{"avt_src":"img/logo.png","user_id":"abc","usr_src":"personal_center.html","time":"2015-10-1","img_src":"img/pjer.jpg","state":"Created","project_id":"sth1","author_id":"rghuuh","private":"Public","last_update_time":"2016-4-3","praise":"yes","comment":[{"id":"a","content":"233"},{"id":"b","content":"244"},{"id":"gfy","content":"666"}]},'+'{"avt_src":"img/logo.png","user_id":"def","usr_src":"personal_center.html","time":"2015-11-1","img_src":"img/logo.png","state":"Updated","project_id":"zzzz","author_id":"bla","private":"Private","last_update_time":"2016-7-2","praise":"yes","comment":[{"id":"a","content":"233"},{"id":"b","content":"244"},{"id":"gfy","content":"666"}]},'+'{"avt_src":"img/pjer.jpg","user_id":"ghi","usr_src":"personal_center.html","time":"2015-12-1","img_src":"img/logo.png","state":"Created","project_id":"orz","author_id":"bingqiu","private":"Public","last_update_time":"2016-9-30","praise":"no","comment":[{"id":"a","content":"233"},{"id":"b","content":"244"},{"id":"gfy","content":"zhaoyanbingshizhizhang"}]}]}';
-                  loadforum(txt);
+                  var obj=JSON.parse(['{"event":['+'{"event_id":"aa","avt_src":null,"user_id":"abc","usr_src":"personal_center.html","time":"2015-10-1","img_src":"img/pjer.jpg","state":"Created","project_id":"sth1","author_id":"rghuuh","private":"Public","last_update_time":"2016-4-3","praise":true,"comment":[{"id":"a","cmt_src":"#","content":"233"},{"id":"b","cmt_src":"#","content":"244"},{"id":"gfy","cmt_src":"#","content":"666"}]},'+'{"event_id":"bb","avt_src":"img/logo.png","user_id":"def","usr_src":"personal_center.html","time":"2015-11-1","img_src":"img/logo.png","state":"Updated","project_id":"zzzz","author_id":"bla","private":"Private","last_update_time":"2016-7-2","praise":true,"comment":[{"id":"a","cmt_src":"#","content":"233"},{"id":"b","cmt_src":"#","content":"244"},{"id":"gfy","cmt_src":"#","content":"666"}]},'+'{"event_id":"23333","avt_src":"img/pjer.jpg","user_id":"ghi","usr_src":"personal_center.html","time":"2015-12-1","img_src":"img/logo.png","state":"Created","project_id":"orz","author_id":"bingqiu","private":"Public","last_update_time":"2016-9-30","praise":false,"comment":[{"id":"a","cmt_src":"#","content":"233"},{"id":"b","cmt_src":"#","content":"244"},{"id":"gfy","cmt_src":"#","content":"zhaoyanbingshizhizhang"}]}]}']);
+                  loadforum(obj);
                 </script>
               </div>
             </div>
@@ -468,9 +480,11 @@
             for (var i=1;i<=(praise_buttons.length);i++) {
               if (praise_icons[i-1].style.color=="gray") {
                 praise_buttons[i-1].addEventListener("click",changecolor_1(i));
+                praise_buttons[i-1].addEventListener("click",submitPraise(i,obj,true));
               }
               if (praise_icons[i-1].style.color=="yellow") {
                 praise_buttons[i-1].addEventListener("click",changecolor_2(i));
+                praise_buttons[i-1].addEventListener("click",submitPraise(i,obj,false));
               }
             }
             function changecolor_1(i) {
@@ -517,17 +531,7 @@
             var sbmbutton=document.getElementsByClassName("demo-commentsbm");
             var txtfld=document.getElementsByClassName("demo-comment-input");
             for (var i=1;i<=sbmbutton.length;i++) {
-              sbmbutton[i-1].addEventListener("click",emptytxtfld(i));
-            }
-            function emptytxtfld(i){
-              return function() {
-                if (txtfld[i-1].value=="") {
-                  alert("Empty Comment!");
-                }
-                else {
-                  txtfld[i-1].value="";
-                }
-              }
+              sbmbutton[i-1].addEventListener("click",submitComment(i,obj));
             }
         </script>
         <dialog class="demo-select-tool mdl-dialog" style="width: 370px; text-align: center;">
