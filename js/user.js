@@ -39,7 +39,7 @@ function get_user_info(){
                 else {
                     document.getElementById('side-head').setAttribute( 'src', Jr.avatar );
                 }
-                document.getElementById('user-email').innerHTML=Jr.email
+                document.getElementById('user_email').innerHTML=Jr.email
             }
             else {
                 Materialize.toast(Jr['error'], 3000, 'rounded');
