@@ -46,6 +46,7 @@ url:"/plugin/"
 
 response:{
 	"success":true or false
+	"error":不知道
 	其它什么随便...
 }
 

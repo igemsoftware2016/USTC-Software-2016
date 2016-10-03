@@ -22,6 +22,8 @@
     <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.green-blue.min.css">
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+    <script src="js/user.js"></script>
+    <script src="js/projects.js"></script>
     <style>
         html, body {
             font-family: 'Roboto', 'Helvetica';
@@ -151,14 +153,14 @@
             height: 32px;
         }
         section {
-            -webkit-border-radius: 10px;
-            -moz-border-radius: 10px;
-            -o-border-radius: 10px;
-            border-radius: 10px;
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            -o-border-radius: 2px;
+            border-radius: 2px;
         }
     </style>
 </head>
-<body>
+<body onload="get_user_info()">
 <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
     <header class="demo-header mdl-layout__header mdl-color--green-A700 mdl-color-text--white">
         <div class="mdl-layout__header-row">
@@ -198,6 +200,7 @@
         </nav>
     </div>
     <main class="mdl-layout__content mdl-color--white">
+    <span id="this_is_a_user_name" style="visibility: hidden;">sth</span>
         <div class="demo-content">
             <div class="mdl-grid mdl-grid--no-spacing" style="min-height: 64px;">
                 <div class="mdl-cell mdl-cell--12-col">
@@ -210,15 +213,15 @@
             <div class="mdl-grid mdl-grid--no-spacing">
               <div id="project" class="mdl-cell mdl-cell--12-col" style="padding: 0px 64px 0px 64px;">
                 <script type="text/javascript">
-                  function loadproject() {
-                    var num=5;
+                  function loadproject(obj) {
+                    var num=obj.project.length;
                     for (var i=1;i<=num;i++) {
                       var timeline_section=document.createElement("section");
                       timeline_section.className="demo-card-project mdl-grid mdl-grid--no-spacing mdl-shadow--4dp";
 
                       var img=document.createElement("div");
                       img.className="mdl-cell mdl-cell--4-col";
-                      img.style.backgroundImage="url(img/logo.png)";
+                      img.style.backgroundImage="url(data:image/png;base64,"+obj.project[i-1].img_src+")";
                       img.style.backgroundRepeat="no-repeat";
                       img.style.backgroundPosition="center";
                       componentHandler.upgradeElement(img);
@@ -232,8 +235,8 @@
                       supporting_text.style.minHeight="120px";
                       var title=document.createElement("span");
                       title.style.color="black";
-                      title.style.fontSize="25px";
-                      var textNode=document.createTextNode("Project_Id");
+                      title.style.fontSize="24px";
+                      var textNode=document.createTextNode(obj.project[i-1].project_id);
                       title.appendChild(textNode);
                       componentHandler.upgradeElement(title);
                       supporting_text.appendChild(title);
@@ -243,7 +246,8 @@
                       var content=document.createElement("p");
                       content.style.paddingTop="25px";
                       var textNode=document.createElement("span");
-                      textNode.innerHTML="Author: User_Id/Group_Id(User_Id,User_Id,User_Id)<br/>State: Public/Private<br/>Last Update: 2000-0-0";
+                      textNode.style.fontSize="16px";
+                      textNode.innerHTML="Author: "+obj.project[i-1].author_id+"<br/>State: "+obj.project[i-1].private+"<br/>Last Update: "+obj.project[i-1].last_update_time;
                       componentHandler.upgradeElement(textNode);
                       content.appendChild(textNode);
                       componentHandler.upgradeElement(content);
@@ -261,8 +265,8 @@
                       componentHandler.upgradeElement(view);
                       actions.appendChild(view);
                       var edit=document.createElement("a");
-                      edit.href="#";
-                      edit.className="show-dialog-edit-project mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect";
+                      edit.href=obj.project[i-1].prj_src;
+                      edit.className="mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect";
                       var textNode=document.createTextNode("Edit");
                       edit.appendChild(textNode);
                       componentHandler.upgradeElement(edit);
@@ -288,113 +292,47 @@
                       document.getElementById("project").appendChild(divider);
                     }
                   }
-                  loadproject();
+                  var obj=getProjectData();
+                  loadproject(obj);
                 </script>
               </div>
             </div>
         </div>
-        <dialog class="demo-add-project mdl-dialog" style="width: 500px;">
+        <dialog class="demo-add-project mdl-dialog">
             <h4 class="mdl-dialog__title" style="text-align: center;">Create Project</h4>
-            <div class="mdl-dialog__content mdl-grid mdl-grid--no-spacing" style="margin-left: 23px; margin-right: 23px;">
+            <div class="mdl-dialog__content mdl-grid mdl-grid--no-spacing" style="margin-left: 10px; margin-right: 10px;">
                 <div class="mdl-cell mdl-cell--12-col mdl-grid mdl-grid--no-spacing">
-                    <div class="mdl-cell mdl-cell--12-col" style="padding-top: 23px;">
+                    <div class="mdl-cell mdl-cell--12-col" style="padding-top: 25px;">
                         <span>Select your preferences...</span>
                     </div>
-                    <div class="mdl-cell mdl-cell--12-col mdl-grid mdl-grid--no-spacing">
-                        <div class="demo-icon_text-align mdl-cell mdl-cell--12-col mdl-grid mdl-grid--no-spacing" style="margin-left: 10px; margin-right: 10px;">
-                            <span class="mdl-cell mdl-cell--3-col" style="text-align: left;">Name</span>
-                            <div class="mdl-textfield mdl-textfield--floating-label mdl-js-textfield mdl-cell mdl-cell--9-col" style="text-align: right;">
-                                <input id="add_project_name" class="mdl-textfield__input" type="text" />
-                                <label for="add_project_name" class="mdl-textfield__label">Name</label>
-                            </div>
-                            <span class="mdl-cell mdl-cell--3-col" style="text-align: left;">Remark</span>
-                            <div class="mdl-textfield mdl-textfield--floating-label mdl-js-textfield mdl-cell mdl-cell--9-col" style="text-align: right;">
-                                <input id="add_project_remark" class="mdl-textfield__input" type="text" />
-                                <label for="add_project_remark" class="mdl-textfield__label">Remark</label>
-                            </div>
-                            <div class="demo-inputbox mdl-cell mdl-cell--12-col mdl-grid mdl-grid--no-spacing">
-                                <span class="mdl-cell mdl-cell--3-col" style="text-align: left;">State</span>
-                                <label class="mdl-radio mdl-color-text--green mdl-js-radio mdl-js-ripple-effect mdl-cell" for="add_private_state_private">
-                                    <input type="radio" id="add_private_state_private" class="mdl-radio__button" name="add_private_state" value="private">
-                                    <span class="mdl-radio__label">Private</span>
-                                </label>
-                                <label class="mdl-radio mdl-color-text--green mdl-js-radio mdl-js-ripple-effect mdl-cell" for="add_private_state_public">
-                                    <input type="radio" id="add_private_state_public" class="mdl-radio__button" name="add_private_state" value="public">
-                                    <span class="mdl-radio__label">Public</span>
-                                </label>
-                            </div>
+                    <div class="demo-icon_text-align mdl-cell mdl-cell--12-col mdl-grid mdl-grid--no-spacing" style="margin-left: 10px; margin-right: 10px; padding-bottom: 25px;">
+                        <span class="mdl-cell mdl-cell--3-col" style="text-align: left;">Name</span>
+                        <div class="mdl-textfield mdl-textfield--floating-label mdl-js-textfield mdl-cell mdl-cell--9-col" style="text-align: right;">
+                            <input id="add_project_name" class="mdl-textfield__input" type="text" />
+                            <label for="add_project_name" class="mdl-textfield__label">Name</label>
                         </div>
-                        <div class="mdl-cell mdl-cell--12-col" style="margin-top: 23px;">
-                            <span>Invite other users to join your project</span>
+                        <span class="mdl-cell mdl-cell--3-col" style="text-align: left;">Remark</span>
+                        <div class="mdl-textfield mdl-textfield--floating-label mdl-js-textfield mdl-cell mdl-cell--9-col" style="text-align: right;">
+                            <input id="add_project_remark" class="mdl-textfield__input" type="text" />
+                            <label for="add_project_remark" class="mdl-textfield__label">Remark</label>
                         </div>
-                        <div class="demo-icon_text-align mdl-cell mdl-cell--12-col mdl-grid mdl-grid--no-spacing" style="margin-left: 10px; margin-right: 10px;">
-                            <span class="mdl-cell mdl-cell--3-col" style="text-align: left;">Search User</span>
-                            <div class="mdl-textfield mdl-textfield--floating-label mdl-js-textfield mdl-cell mdl-cell--9-col" style="text-align: right;">
-                                <input id="add_search_users" class="mdl-textfield__input" type="text" />
-                                <label for="add_search_users" class="mdl-textfield__label">User's Id</label>
-                            </div>
+                        <div class="demo-inputbox mdl-cell mdl-cell--12-col mdl-grid mdl-grid--no-spacing">
+                            <span class="mdl-cell mdl-cell--3-col" style="text-align: left;">State</span>
+                            <label class="mdl-radio mdl-color-text--green mdl-js-radio mdl-js-ripple-effect mdl-cell" for="add_private_state_private">
+                                <input type="radio" id="add_private_state_private" class="mdl-radio__button" name="add_private_state" value="private">
+                                <span class="mdl-radio__label">Private</span>
+                            </label>
+                            <label class="mdl-radio mdl-color-text--green mdl-js-radio mdl-js-ripple-effect mdl-cell" for="add_private_state_public">
+                                <input type="radio" id="add_private_state_public" class="mdl-radio__button" name="add_private_state" value="public">
+                                <span class="mdl-radio__label">Public</span>
+                            </label>
                         </div>
                     </div>
-                    <div class="mdl-cell mdl-cell--12-col mdl-grid mdl-grid--no-spacing">
-                        <ul class="demo-list-user-search mdl-list mdl-cell mdl-cell--12-col">
-                            <li class="mdl-list__item">
-                                <span class="mdl-list__item-primary-content">
-                                    <img src="img/logo.png" class="demo-avatar mdl-list__item-avatar" />
-                                    <span id="User_Id_add_search_user" style="color: green;">User_Id</span>
-                                </span>
-                                <a class="mdl-list__item-secondary-action"><i class="material-icons">add</i></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="mdl-cell mdl-cell--12-col mdl-grid mdl-grid--no-spacing">
-                  <span class="mdl-cell mdl-cell--12-col">Members of your project</span>
-                  <ul id="add_member_list" class="mdl-list mdl-cell mdl-cell--12-col">
-                    <script type="text/javascript">
-                      function loaduserlist() {
-                        var num=5;
-                        for (var i=1;i<=num;i++) {
-                          var user=document.createElement("li");
-                          user.className="mdl-list__item";
-
-                          var user_primary=document.createElement("span");
-                          user_primary.className="mdl-list__item-primary-content";
-                          var user_avatar=document.createElement("img");
-                          user_avatar.className="demo-avatar mdl-list__item-avatar";
-                          user_avatar.src="img/logo.png";
-                          componentHandler.upgradeElement(user_avatar);
-                          user_primary.appendChild(user_avatar);
-                          var user_name=document.createElement("span");
-                          user_name.style.color="green";
-                          var user_textNode1=document.createTextNode("User_Id");
-                          user_name.appendChild(user_textNode1);
-                          componentHandler.upgradeElement(user_name);
-                          user_primary.appendChild(user_name);
-                          componentHandler.upgradeElement(user_primary);
-                          user.appendChild(user_primary);
-
-                          var user_secondary=document.createElement("a");
-                          user_secondary.className="show-dialog-remove-user mdl-list__item-secondary-action";
-                          var user_invite=document.createElement("i");
-                          user_invite.className="material-icons";
-                          var user_textNode2=document.createTextNode("clear");
-                          user_invite.appendChild(user_textNode2);
-                          componentHandler.upgradeElement(user_invite);
-                          user_secondary.appendChild(user_invite);
-                          componentHandler.upgradeElement(user_secondary);
-                          user.appendChild(user_secondary);
-                          componentHandler.upgradeElement(user);
-                          document.getElementById("add_member_list").appendChild(user);
-                        }
-                      }
-                      loaduserlist();
-                    </script>
-                  </ul>
                 </div>
             </div>
             <div class="mdl-dialog__actions">  
                 <button type="button" class="close-dialog-add-project mdl-button">Close</button>
-                <button type="button" class="close-dialog-add-project mdl-button">Add Project</button>
+                <button id="add_project_control" type="button" class="close-dialog-add-project mdl-button">Add Project</button>
             </div>
         </dialog>
         <script>
@@ -409,46 +347,15 @@
             dialog_add_project.querySelector('.close-dialog-add-project').addEventListener('click', function() {
                 dialog_add_project.close();
             });
+            var addpr=document.getElementById("add_project_control");
+            addpr.addEventListener("click",sendCreateRequest());
         </script>
-        <dialog class="demo-view-project mdl-dialog" style="width: 500px;">
+        <dialog class="demo-view-project mdl-dialog">
             <h4 class="mdl-dialog__title" style="text-align: center;">View Project</h4>
-            <div class="mdl-dialog__content mdl-grid mdl-grid--no-spacing" style="margin-left:23px; margin-right: 23px;">
+            <div class="mdl-dialog__content mdl-grid mdl-grid--no-spacing" style="margin-left:10px; margin-right: 10px;">
                 <div class="mdl-cell mdl-cell--12-col">
-                    <p class="mdl-cell mdl-cell--12-col" style="padding-top: 25px; text-align: left;"><span id="project_name" style="font-size: 16px; color: black;">Project_Name</span><br/><span id="project_remark">Project_Remark</span><br/><br/>Created By <span id="create_user_id" style="color: green;">User_Id</span> and <span id="create_user_number" style="color: green;">5</span> friends on <span id="create_user_date" style="color: green;">2000-0-0</span> <br/>State: <span id="project_state" style="color: green;">Private/Public</span> <br/>Recent Update By <span id="update_user_id" style="color: green;">User_Id</span> on <span id="update_user_date" style="color: green;">2000-0-0</span> </p>
+                    <p class="mdl-cell mdl-cell--12-col" style="padding-top: 25px; padding-bottom:25px; text-align: left;font-size: 16px;"><span id="project_name" style="color: black;">Project_Name</span><br/><span id="project_remark">Project_Remark</span><br/><br/>Created By <span id="create_user_id" style="color: green;">User_Id</span> on <span id="create_user_date" style="color: green;">2000-0-0</span> <br/>State: <span id="project_state" style="color: green;">Private/Public</span> <br/>Recent Update By <span id="update_user_id" style="color: green;">User_Id</span> on <span id="update_user_date" style="color: green;">2000-0-0</span> </p>
                 </div>
-                <div class="mdl-cell mdl-cell--12-col">
-                    <p class="mdl-cell mdl-cell--12-col" style="text-align: left; font-size: 16px; color: green;">Contributors:</p>
-                </div>
-                <ul id="contributor_list" class="mdl-list mdl-cell mdl-cell--12-col">
-                  <script type="text/javascript">
-                    function loaduserlist() {
-                      for (var i=1;i<=5;i++) {
-                        var user=document.createElement("li");
-                        user.className="mdl-list__item";
-
-                        var user_primary=document.createElement("span");
-                        user_primary.className="mdl-list__item-primary-content";
-                        var user_avatar=document.createElement("img");
-                        user_avatar.className="demo-avatar mdl-list__item-avatar";
-                        user_avatar.src="img/logo.png";
-                        componentHandler.upgradeElement(user_avatar);
-                        user_primary.appendChild(user_avatar);
-                        var user_name=document.createElement("span");
-                        user_name.style.color="green";
-                        var user_textNode1=document.createTextNode("User_Id");
-                        user_name.appendChild(user_textNode1);
-                        componentHandler.upgradeElement(user_name);
-                        user_primary.appendChild(user_name);
-                        componentHandler.upgradeElement(user_primary);
-                        user.appendChild(user_primary);
-
-                        componentHandler.upgradeElement(user);
-                        document.getElementById("contributor_list").appendChild(user);
-                      }
-                    }
-                    loaduserlist();
-                  </script>
-                </ul>
             </div>
             <div class="mdl-dialog__actions">
                 <button type="button" class="close-dialog-view-project mdl-button">Close</button>
@@ -461,135 +368,13 @@
                 dialogPolyfill.registerDialog(dialog_view_project);
             }
             for (var i=1;i<=(show_dialogButtons_view_project.length);i++) {
+              show_dialogButtons_view_project[i-1].addEventListener('click',prepareViewData(i,obj));
               show_dialogButtons_view_project[i-1].addEventListener('click', function() {
                 dialog_view_project.showModal();
             });
             }
             dialog_view_project.querySelector('.close-dialog-view-project').addEventListener('click', function() {
                 dialog_view_project.close();
-            });
-        </script>
-        <dialog class="demo-edit-project mdl-dialog" style="width: 500px;">
-            <h4 class="mdl-dialog__title" style="text-align: center;">Edit Project</h4>
-            <div class="mdl-grid mdl-grid--no-spacing mdl-dialog__content" style="margin-left: 23px; margin-right: 23px;">
-                <div class="mdl-cell mdl-cell--12-col" style="padding-top: 23px;">
-                    <a href="#" style="color: green; font-size:16px; text-decoration: none;"><span class="demo-icon_text-align">Biopano...<i class="material-icons">keyboard_arrow_right</i></span></a>
-                </div>
-                <div class="mdl-cell mdl-cell--12-col" style="padding-top: 23px;">
-                    <a href="#" style="color: green; font-size:16px; text-decoration: none;"><span class="demo-icon_text-align">Profile...<i class="material-icons">keyboard_arrow_right</i></span></a>
-                </div>
-                <div class="mdl-cell mdl-cell--12-col mdl-grid mdl-grid--no-spacing">
-                    <div class="mdl-cell mdl-cell--12-col" style="padding-top: 23px;">
-                        <span>Select your preferences...</span>
-                    </div>
-                    <div class="mdl-cell mdl-cell--12-col mdl-grid mdl-grid--no-spacing">
-                        <div class="demo-icon_text-align mdl-cell mdl-cell--12-col mdl-grid mdl-grid--no-spacing" style="margin-left: 10px; margin-right: 10px;">
-                            <span class="mdl-cell mdl-cell--3-col" style="text-align: left;">Name</span>
-                            <div class="mdl-textfield mdl-textfield--floating-label mdl-js-textfield mdl-cell mdl-cell--9-col" style="text-align: right;">
-                                <input id="edit_project_name" class="mdl-textfield__input" type="text" />
-                                <label for="edit_project_name" class="mdl-textfield__label">Name</label>
-                            </div>
-                            <span class="mdl-cell mdl-cell--3-col" style="text-align: left;">Remark</span>
-                            <div class="mdl-textfield mdl-textfield--floating-label mdl-js-textfield mdl-cell mdl-cell--9-col" style="text-align: right;">
-                                <input id="edit_project_remark" class="mdl-textfield__input" type="text" />
-                                <label for="edit_project_remark" class="mdl-textfield__label">Remark</label>
-                            </div>
-                            <div class="demo-inputbox mdl-cell mdl-cell--12-col mdl-grid mdl-grid--no-spacing">
-                                <span class="mdl-cell mdl-cell--3-col" style="text-align: left;">State</span>
-                                <label class="mdl-radio mdl-color-text--green mdl-js-radio mdl-js-ripple-effect mdl-cell" for="edit_private_state_private">
-                                    <input type="radio" id="edit_private_state_private" class="mdl-radio__button" name="edit_private_state" value="private">
-                                    <span class="mdl-radio__label">Private</span>
-                                </label>
-                                <label class="mdl-radio mdl-color-text--green mdl-js-radio mdl-js-ripple-effect mdl-cell" for="edit_private_state_public">
-                                    <input type="radio" id="edit_private_state_public" class="mdl-radio__button" name="edit_private_state" value="public">
-                                    <span class="mdl-radio__label">Public</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="mdl-cell mdl-cell--12-col" style="margin-top: 23px;">
-                            <span>Invite other users to join your project</span>
-                        </div>
-                        <div class="demo-icon_text-align mdl-cell mdl-cell--12-col mdl-grid mdl-grid--no-spacing" style="margin-left: 10px; margin-right: 10px;">
-                            <span class="mdl-cell mdl-cell--3-col" style="text-align: left;">Search User</span>
-                            <div class="mdl-textfield mdl-textfield--floating-label mdl-js-textfield mdl-cell mdl-cell--9-col" style="text-align: right;">
-                                <input id="edit_search_users" class="mdl-textfield__input" type="text" />
-                                <label for="edit_search_users" class="mdl-textfield__label">User's Id</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mdl-cell mdl-cell--12-col mdl-grid mdl-grid--no-spacing">
-                        <ul class="demo-list-user-search mdl-list mdl-cell mdl-cell--12-col">
-                            <li class="mdl-list__item">
-                                <span class="mdl-list__item-primary-content">
-                                    <img src="img/logo.png" class="demo-avatar mdl-list__item-avatar" />
-                                    <span id="User_Id_edit_search_user" style="color: green;">User_Id</span>
-                                </span>
-                                <a class="mdl-list__item-secondary-action"><i class="material-icons">add</i></a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="mdl-cell mdl-cell--12-col mdl-grid mdl-grid--no-spacing">
-                      <span class="mdl-cell mdl-cell--12-col">Members of your project</span>
-                      <ul id="edit_member_list" class="mdl-list mdl-cell mdl-cell--12-col">
-                        <script type="text/javascript">
-                          function loaduserlist() {
-                            var num=5;
-                            for (var i=1;i<=num;i++) {
-                              var user=document.createElement("li");
-                              user.className="mdl-list__item";
-  
-                              var user_primary=document.createElement("span");
-                              user_primary.className="mdl-list__item-primary-content";
-                              var user_avatar=document.createElement("img");
-                              user_avatar.className="demo-avatar mdl-list__item-avatar";
-                              user_avatar.src="img/logo.png";
-                              componentHandler.upgradeElement(user_avatar);
-                              user_primary.appendChild(user_avatar);
-                              var user_name=document.createElement("span");
-                              user_name.style.color="green";
-                              var user_textNode1=document.createTextNode("User_Id");
-                              user_name.appendChild(user_textNode1);
-                              componentHandler.upgradeElement(user_name);
-                              user_primary.appendChild(user_name);
-                              componentHandler.upgradeElement(user_primary);
-                              user.appendChild(user_primary);
-
-                              var user_secondary=document.createElement("a");
-                              user_secondary.className="show-dialog-remove-user mdl-list__item-secondary-action";
-                              var user_invite=document.createElement("i");
-                              user_invite.className="material-icons";
-                              var user_textNode2=document.createTextNode("clear");
-                              user_invite.appendChild(user_textNode2);
-                              componentHandler.upgradeElement(user_invite);
-                              user_secondary.appendChild(user_invite);
-                              componentHandler.upgradeElement(user_secondary);
-                              user.appendChild(user_secondary);
-                              componentHandler.upgradeElement(user);
-                              document.getElementById("edit_member_list").appendChild(user);
-                            }
-                          }
-                          loaduserlist();
-                        </script>
-                      </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="mdl-dialog__actions">  
-                <button type="button" class="close-dialog-edit-project mdl-button">Close</button>
-                <button type="button" class="close-dialog-edit-project mdl-button">Add Project</button>
-            </div>
-        </dialog>
-        <script>
-            var dialog_edit_project = document.querySelector('.demo-edit-project');
-            var show_dialogButton_edit_project = document.querySelector('.show-dialog-edit-project');
-            if (! dialog_edit_project.showModal) {
-                dialogPolyfill.registerDialog(dialog_edit_project);
-            }
-            show_dialogButton_edit_project.addEventListener('click', function() {
-                dialog_edit_project.showModal();
-            });
-            dialog_edit_project.querySelector('.close-dialog-edit-project').addEventListener('click', function() {
-                dialog_edit_project.close();
             });
         </script>
         <dialog class="demo-remove-project mdl-dialog">
@@ -599,7 +384,7 @@
             </div>
             <div class="mdl-dialog__actions">
                 <button type="button" class="close-dialog-remove-project mdl-button">No</button>
-                <button type="button" class="close-dialog-remove-project mdl-button">Yes</button>
+                <button id="remove_project" type="button" class="close-dialog-remove-project mdl-button">Yes</button>
             </div>
         </dialog>
         <script>
@@ -609,6 +394,7 @@
                 dialogPolyfill.registerDialog(dialog_remove_project);
             }
             for (var i=1;i<=(show_dialogButtons_remove_project.length);i++) {
+              show_dialogButtons_remove_project[i-1].addEventListener('click', prepareRemoveData(i,obj));
               show_dialogButtons_remove_project[i-1].addEventListener('click', function() {
                 dialog_remove_project.showModal();
             });
@@ -619,34 +405,8 @@
                 dialog_remove_project.close();
             });
             }
-        </script>
-        <dialog class="demo-remove-user mdl-dialog">
-            <h4 class="mdl-dialog__title" style="text-align: center;">Notice</h4>
-            <div class="mdl-dialog__content">
-                <p style="text-align: center;">Do you really want to remove <span id="remove_user_id" style="color: green;">User_Id</span> from the project <span id="remove_user_project_id" style="color: green;">Project_Id</span> ?</p>
-            </div>
-            <div class="mdl-dialog__actions">
-                <button type="button" class="close-dialog-remove-user mdl-button">No</button>
-                <button type="button" class="close-dialog-remove-user mdl-button">Yes</button>
-            </div>
-        </dialog>
-        <script>
-            var dialog_remove_user=document.querySelector('.demo-remove-user');
-            var show_dialogButtons_remove_user = document.querySelectorAll('.show-dialog-remove-user');
-            if (! dialog_remove_user.showModal) {
-                dialogPolyfill.registerDialog(dialog_remove_user);
-            }
-            for (var i=1;i<=(show_dialogButtons_remove_user.length);i++) {
-              show_dialogButtons_remove_user[i-1].addEventListener('click', function() {
-                dialog_remove_user.showModal();
-            });
-            }
-            var remove_userButtons=dialog_remove_user.querySelectorAll('.close-dialog-remove-user');
-            for (var i=1;i<=(remove_userButtons.length);i++) {
-              remove_userButtons[i-1].addEventListener('click', function() {
-                dialog_remove_user.close();
-            });
-            }
+            var remove_project_control=document.getElementById("remove_project");
+            remove_project_control.addEventListener("click",sendRemoveRequest());
         </script>
         <footer class="mdl-mini-footer">
             <div class="mdl-mini-footer__left-section">
