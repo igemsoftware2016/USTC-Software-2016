@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Material Design Lite</title>
+    <title>Edit Profile</title>
 
     <!-- Add to homescreen for Chrome on Android -->
     <meta name="mobile-web-app-capable" content="yes">
@@ -204,9 +204,9 @@
     </header>
     <div class="demo-drawer mdl-layout__drawer mdl-color--teal-A700 mdl-color-text--white">
         <header class="demo-drawer-header">
-            <img id="side-head" src="img/pjer.jpg" class="demo-avatar">
+            <img id="side-head" src="img/user-a.png" class="demo-avatar">
             <div class="demo-avatar-dropdown">
-                <span id="user_email_drawer" style="font-size: 15px">pjer1316@mail.com</span>
+                <span id="user_email_drawer" style="font-size: 15px">User Email</span>
                 <div class="mdl-layout-spacer"></div>
                 <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
                     <i class="material-icons" role="presentation">arrow_drop_down</i>
@@ -236,7 +236,7 @@
 
             <div class="demo-graphs mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--12-col">
                 <div align="center">
-                    <img id="user_head" class="demo-avatar-big" src="img/pjer.jpg" >click to customize
+                    <img id="user_head" class="demo-avatar-big" src="img/user-a.png" >click to customize
 
 
 
@@ -324,6 +324,8 @@
 
 <script src="js/jquery-2.1.1.min.js"></script>
 <script src="js/material.min.js"></script>
+<script src="js/materialize.min.js"></script>
+
 
 <script>
     (function() {
@@ -571,24 +573,39 @@
     function postForm_head(data){
         var  dictPost  =  {"plugin":"user_model","action":"head_change","data":data};
         console.log(dictPost);
+        var q_suc = 0;
         $.ajax({
             type: "POST",
             url: "/plugin/",
             data: dictPost,
             success: function(response){
+                q_suc=1;
                 var Jr = JSON.parse(response);
                 if(Jr['success']==true){
-                    Materialize.toast('successfully changed', 3000, 'rounded');
-                    // something else
+                    alert("Avatar changed");
+                    var dialog = document.querySelector('#upload_img');
+                    get_user_info();
+                    get_user_info_for_update();
+                    dialog.close();
                 }
                 else{
-                    Materialize.toast(Jr['error'], 3000, 'rounded')
-
+                    alert(Jr['error']+'[something is wrong]');
                 }
 
                 // TODO: if success change head of the page
+            },
+            error: function(xhr, error){
+                if(xhr['status']==404){
+                    alert("Network Error! check your network connection")
+                }
+                console.log(error);
             }
-        });
+        }).done(function () {
+            console.log(q_suc);
+            if (q_suc==0){
+                alert('Network Error');
+            }
+        })
     }
 
 
