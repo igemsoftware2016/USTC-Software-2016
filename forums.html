@@ -296,7 +296,7 @@
                       var project_title=document.createElement("span");
                       project_title.style.color="black";
                       project_title.style.fontSize="24px";
-                      project_title.innerHTML=obj.event[i-1].state+" Project: "+obj.event[i-1].project_id;
+                      project_title.innerHTML=obj.event[i-1].state+"d"+" Project: "+obj.event[i-1].project_id;
                       componentHandler.upgradeElement(project_title);
                       project_text.appendChild(project_title);
                       var divider=document.createElement("br");
@@ -306,7 +306,7 @@
                       project_content.style.paddingTop="25px";
                       var content_span=document.createElement("span");
                       content_span.style.fontSize="16px";
-                      content_span.innerHTML="Author: "+obj.event[i-1].author_id+"<br/>State: "+obj.event[i-1].private+"<br/>Last Update: "+obj.event[i-1].last_update_time;
+                      content_span.innerHTML="Author: "+obj.event[i-1].user_id+"<br/>State: "+obj.event[i-1].private+"<br/>Last Update: "+obj.event[i-1].last_update_time;
                       componentHandler.upgradeElement(content_span);
                       project_content.appendChild(content_span);
                       componentHandler.upgradeElement(project_content);
@@ -468,7 +468,7 @@
                       document.getElementById("forum").appendChild(divider);
                     }
                   }
-                  var obj=JSON.parse(['{"event":['+'{"event_id":"aa","avt_src":null,"user_id":"abc","usr_src":"personal_center.html","time":"2015-10-1","img_src":"img/pjer.jpg","state":"Created","project_id":"sth1","author_id":"rghuuh","private":"Public","last_update_time":"2016-4-3","praise":true,"comment":[{"id":"a","cmt_src":"#","content":"233"},{"id":"b","cmt_src":"#","content":"244"},{"id":"gfy","cmt_src":"#","content":"666"}]},'+'{"event_id":"bb","avt_src":"img/logo.png","user_id":"def","usr_src":"personal_center.html","time":"2015-11-1","img_src":"img/logo.png","state":"Updated","project_id":"zzzz","author_id":"bla","private":"Private","last_update_time":"2016-7-2","praise":true,"comment":[{"id":"a","cmt_src":"#","content":"233"},{"id":"b","cmt_src":"#","content":"244"},{"id":"gfy","cmt_src":"#","content":"666"}]},'+'{"event_id":"23333","avt_src":"img/pjer.jpg","user_id":"ghi","usr_src":"personal_center.html","time":"2015-12-1","img_src":"img/logo.png","state":"Created","project_id":"orz","author_id":"bingqiu","private":"Public","last_update_time":"2016-9-30","praise":false,"comment":[{"id":"a","cmt_src":"#","content":"233"},{"id":"b","cmt_src":"#","content":"244"},{"id":"gfy","cmt_src":"#","content":"zhaoyanbingshizhizhang"}]}]}']);
+                  var obj=JSON.parse(['{"event":['+'{"event_id":"aa","avt_src":null,"user_id":"abc","usr_src":"personal_center.html","time":"2015-10-1","img_src":"img/pjer.jpg","state":"Create","project_id":"sth1","private":"Public","last_update_time":"2016-4-3","praise":true,"comment":[{"id":"a","cmt_src":"#","content":"233"},{"id":"b","cmt_src":"#","content":"244"},{"id":"gfy","cmt_src":"#","content":"666"}]},'+'{"event_id":"bb","avt_src":"img/logo.png","user_id":"def","usr_src":"personal_center.html","time":"2015-11-1","img_src":"img/logo.png","state":"Update","project_id":"zzzz","private":"Private","last_update_time":"2016-7-2","praise":true,"comment":[{"id":"a","cmt_src":"#","content":"233"},{"id":"b","cmt_src":"#","content":"244"},{"id":"gfy","cmt_src":"#","content":"666"}]},'+'{"event_id":"23333","avt_src":"img/pjer.jpg","user_id":"ghi","usr_src":"personal_center.html","time":"2015-12-1","img_src":"img/logo.png","state":"Create","project_id":"orz","private":"Public","last_update_time":"2016-9-30","praise":false,"comment":[{"id":"a","cmt_src":"#","content":"233"},{"id":"b","cmt_src":"#","content":"244"},{"id":"gfy","cmt_src":"#","content":"zhaoyanbingshizhizhang"}]}]}']);
                   loadforum(obj);
                 </script>
               </div>
