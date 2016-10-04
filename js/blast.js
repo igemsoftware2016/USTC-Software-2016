@@ -44,39 +44,39 @@ function blast_req(){
 
 raw_data={"q_length":46,"blast_result":[{'index':0,'ID':'gi|688010384|gb|KM018299.1|',
 'description':'Synthetic fluorescent protein expression cassette cat-J23101-mTagBFP2, complete sequence',
-    'E-value':7.8e-14,
+    'E_value':7.8e-14,
     'score':84.24,
     'span':46,
-    'query_start':0,
+    'query_start':1,
     'query_end':46,
 'hit_start':21,
 'hit_end':67
 },
-{'index':0,'ID':'gi|688010384|gb|KM018299.1|',
+{'index':1,'ID':'gi|6aaaaaaa4|gb|KM018299.1|',
     'description':'Synthetic fluorescent protein expression cassette cat-J23101-mTagBFP2, complete sequence',
-    'E-value':7.8e-14,
+    'E_value':7.8e-14,
     'score':84.24,
     'span':46,
-    'query_start':0,
-    'query_end':46,
+    'query_start':15,
+    'query_end':45,
     'hit_start':21,
     'hit_end':67,
-},{'index':0,'ID':'gi|688010384|gb|KM018299.1|',
+},{'index':2,'ID':'gi|688044384|gb|KM018299.1|',
     'description':'Synthetic fluorescent protein expression cassette cat-J23101-mTagBFP2, complete sequence',
-    'E-value':7.8e-14,
+    'E_value':7.8e-14,
     'score':84.24,
     'span':46,
-    'query_start':0,
-    'query_end':46,
+    'query_start':11,
+    'query_end':35,
     'hit_start':21,
     'hit_end':67,
-},{'index':0,'ID':'gi|688010384|gb|KM018299.1|',
-    'description':'Synthetic fluorescent protein expression cassette cat-J23101-mTagBFP2, complete sequence',
-    'E-value':7.8e-14,
+},{'index':3,'ID':'gi|68asdf384|gb|KM018299.1|',
+    'description':'bla blabl ablablablab lablab lablab lablabla b labla bla blabla blab  la blabla blabla blablab labla',
+    'E_value':7.8e-14,
     'score':84.24,
     'span':46,
-    'query_start':0,
-    'query_end':46,
+    'query_start':11,
+    'query_end':25,
     'hit_start':21,
     'hit_end':67
 }]};
@@ -84,17 +84,22 @@ raw_data={"q_length":46,"blast_result":[{'index':0,'ID':'gi|688010384|gb|KM01829
 
 console.log(raw_data);
 result = raw_data["blast_result"];
+q_len = raw_data["q_length"];
 sample = result[0];
 
 var text_start;
 var text_end;
 var radius;
 var arc_k;
+var color;
+var root_text;
+var text_info;
+var text_benchmark;
 
 var draw_arcs = function(svg,target_id,q_start,q_end,hit_start,hit_end){
 
 
-    var color = d3.scale.linear()
+    color = d3.scale.linear()
         .range(["hsl(-180,60%,50%)", "hsl(180,60%,50%)"])
         .interpolate(function(a, b) { var i = d3.interpolateString(a, b); return function(t) { return d3.hsl(i(t)); }; });
 
@@ -135,7 +140,7 @@ var draw_arcs = function(svg,target_id,q_start,q_end,hit_start,hit_end){
         })
         .attr("id","root_path");
 
-    svg.append("text")
+    root_text=svg.append("text")
         .attr("dy", "3.35em")
         .attr("dx", ".75em")
         .style("text-anchor", "start")
@@ -146,6 +151,21 @@ var draw_arcs = function(svg,target_id,q_start,q_end,hit_start,hit_end){
         .text( "Original  Sequence VS "+target_id)
         .attr("style","font-size:24px;font-family:consolas")
         .attr("fill","white");
+
+    text_info=svg.append("text")
+        .attr("dy", "3.35em")
+        .attr("dx", ".75em")
+        .style("text-anchor", "start")
+        .attr("x",-220)
+        .attr("y",250);
+
+    text_benchmark=svg.append("text")
+        .attr("dy", "3.35em")
+        .attr("dx", ".75em")
+        .style("text-anchor", "start")
+        .attr("x",-50)
+        .attr("y",-20);
+
 
     svg.append("text")
         .attr("dy", "1.35em")
@@ -241,10 +261,11 @@ window.onload=(
 
         var res_width = 500;
         var res_height = 500;
-        var svg = d3.select('#result_blast').append('svg')
-            .attr('width',res_width)
-            .attr('height',res_height+300)
-            .append("g")
+        var svg_container = d3.select('#result_blast').append('svg')
+            .attr('width',res_width+280)
+            .attr('height',res_height+120);
+
+        var svg  = svg_container.append("g")
             .attr("transform", "translate(" + res_width / 2 + "," + res_height / 2 + ")");
 
         var arc_ret = draw_arcs(svg,'gi|688010384|gb|KM018299.1|',1,146,1,120);
@@ -252,13 +273,55 @@ window.onload=(
         current_end = 25;
 
 
-        arc_ret.transition().duration(300).delay(6000)
-            .attrTween("d", arcTween(0.3,6)).each("end",function () {
-            text_end.text("dsaf");
-            text_start.text("asdf");
-        });
+        var data = result;
 
-        console.log(arc_ret);
+        var res_data_enter = svg.append("g").selectAll("text")
+            .data(result)
+            .enter();
+
+
+        var global_len = 47;
+
+        var rec = res_data_enter.append("rect")
+            .attr("rx", 6)
+            .attr("ry", 6)
+            .attr("x",250)
+            .attr("y", function (d) {
+                return d.index*24-215
+            })
+            .attr("width", 215)
+            .attr("height", 20)
+            .attr("fill",function (d) {
+                console.log(color((d.query_end-d.query_start)/global_len));
+                return color((d.query_end-d.query_start)/global_len)
+            })
+            .on("mouseover", function(d){renew_graph(d)});
+
+        var text = res_data_enter.append("text")
+            .text(function (d) {return d.ID})
+            .attr("x",260)
+            .attr("y",function (d) {
+                return d.index*24-200
+            })
+            .attr("pointer-events", "none")
+            .classed('noselect',true);
+
+
+        function renew_graph(d) {
+            arc_ret.transition().duration(300)
+                .attrTween("d", arcTween(d.query_start*Math.PI*2/global_len,d.query_end*Math.PI*2/global_len)).each("end",function () {
+                text_end.text(d.query_end);
+                text_start.text(d.query_start);
+                root_text.text("Original Sequence VS" + d.ID);
+                text_info.text("Description : "+d.description);
+                text_benchmark.text("E-value"+d.E_value)
+            });
+
+            console.log(arc_ret);
+        }
+
+
+
 
     }
 );
