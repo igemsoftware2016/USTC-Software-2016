@@ -1,5 +1,5 @@
 function getProjectData(){
-	var dictPost={"plugin":"project","action":"get_project_data"};
+	var dictPost={"plugin":"pano","action":"get_project_data"};
 	console.log(dictPost);
 	var jsonResp=[];
 	$.ajax({
@@ -10,6 +10,10 @@ function getProjectData(){
         	        console.log(response);
         	        jsonResp=JSON.parse(response);
         	        if(jsonResp['success']==true){
+                                for (var i=1;i<=jsonResp.project.length;i++){
+                                var res=get_user_info_by_id(jsonResp.project[i-1].user_id);
+                                jsonResp.project[i-1].user_name=res.user_name;
+                        }
         	        }
         	        else{
         		        Materialize.toast(jsonResp['error'],2500,'rounded');
@@ -17,6 +21,27 @@ function getProjectData(){
                 }
 	});
 	return jsonResp;
+}
+
+function get_user_info_by_id(id) {
+    var  dictPost  =  {"plugin":"user_model","action":"get_user_data_by_id","user_id":id};
+    console.log(dictPost);
+    var jsonResp=[];
+    $.ajax({
+        type: "POST",
+        url: "/plugin/",
+        data: dictPost,
+        success: function(response){
+            console.log(response);
+            jsonResp = JSON.parse(response);
+            if(jsonResp['success']==true) {
+            }
+            else {
+                Materialize.toast(jsonResp['error'], 2500, 'rounded');
+            }
+        }
+    });
+    return jsonResp;
 }
 
 function prepareViewData(i,obj){
@@ -48,7 +73,7 @@ function sendRemoveRequest(i,obj){
    return function(){
         var user=document.getElementById("this_is_a_user_name").innerHTML;
         var id=obj.project[i-1].project_id;
-        var dictPost={"plugin":"pano","action":"delete","user_name":user,"project_name":id};
+        var dictPost={"plugin":"pano","action":"delete","project_name":id};
         console.log(dictPost);
         var jsonResp=[];
         $.ajax({
@@ -85,7 +110,7 @@ function sendCreateRequest(){
                 alert("Please complete the information!");
                 return;
         }
-        var dictPost={"plugin":"project","action":"new","user_name":user,"project_name":name,"project_remark":remark,"private":privacy};
+        var dictPost={"plugin":"project","action":"new","project_name":name,"project_remark":remark,"private":privacy};
         console.log(dictPost);
         var jsonResp=[];
         $.ajax({
@@ -97,7 +122,7 @@ function sendCreateRequest(){
                         jsonResp=JSON.parse(response);
                         if(jsonResp['success']==true){
                                 alert('Successfully created!');
-                                window.location="pano.html#"+jsonResp['project_id'];
+                                window.location="pano.html?project_id="+jsonResp['project_id'];
                         }
                         else{
                                 Materialize.toast(jsonResp['error'],2500,'rounded');

@@ -1,4 +1,4 @@
-获得project数据：
+﻿获得project数据：
 data:{
 		"plugin":"pano",
 		"action":"get_project_data"	
@@ -14,7 +14,7 @@ url:"/plugin/"
 			"project_id":string    相应的project的唯一标记值
 			"project_name":string     project的标题
 			"project_remark":string     project的备注
-			"user_name":string      project作者的user name
+			"user_id":string      project作者的user id
             "private":string,"Public" or "Private"     仅有两个可能值，表示相应project的权限状态
             "create_time":string     project创建时的服务器时间
             "last_update_time":string     project最近一次被修改的服务器时间
@@ -27,7 +27,6 @@ url:"/plugin/"
 data:{
 		"plugin":"pano",
 		"action":"new",
-		"user_name":string,
 		"project_name":string,
 		"project_remark":string,
 		"private":string,"Public" or "Private"
@@ -47,7 +46,6 @@ data:
 	{
 		"plugin":"pano",
 		"action":"delete",
-		"user_name":string,
 		"project_id":string
 }
 type:POST
