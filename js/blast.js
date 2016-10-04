@@ -84,9 +84,12 @@ raw_data={"q_length":46,"blast_result":[{'index':0,'ID':'gi|688010384|gb|KM01829
 
 console.log(raw_data);
 result = raw_data["blast_result"];
-
 sample = result[0];
 
+var text_start;
+var text_end;
+var radius;
+var arc_k;
 
 var draw_arcs = function(svg,target_id,q_start,q_end,hit_start,hit_end){
 
@@ -107,24 +110,25 @@ var draw_arcs = function(svg,target_id,q_start,q_end,hit_start,hit_end){
         dotRadius = armRadius - 6;
 
     var arc_root = d3.svg.arc()
-        .startAngle(deg2arc(0.5))
-        .endAngle(deg2arc(359.5))
+        //.startAngle(deg2arc(0.5))
+        //.endAngle(deg2arc(359.5))
         .innerRadius(0.78 * radius)
         .outerRadius(0.50 * radius)
         .cornerRadius(10);
 
-    var arc_k = d3.svg.arc()
-        .startAngle(deg2arc(360*hit_start/(q_end-q_start+1)))
-        .endAngle(deg2arc(360*hit_end/(q_end-q_start+1)))
+    arc_k = d3.svg.arc()
+        //.startAngle(deg2arc(360*hit_start/(q_end-q_start+1)))
+        //.endAngle(deg2arc(360*hit_end/(q_end-q_start+1)))
         .innerRadius(0.9 * radius)
         .outerRadius(0.8 * radius)
-        .cornerRadius(armRadius-3);
+        .cornerRadius(9);
 
 
 
     var total = raw_data["q_length"];
 
     svg.append("path")
+        .datum({endAngle:deg2arc(359),startAngle:deg2arc(1)})
         .attr("d",arc_root)
         .attr("fill",function (d) {
             return color(0.4)
@@ -160,7 +164,7 @@ var draw_arcs = function(svg,target_id,q_start,q_end,hit_start,hit_end){
         .attr("dx", ".75em")
         .style("text-anchor", "start")
         .append("textPath")
-        .attr("startOffset", "52.5%")
+        .attr("startOffset", "52%")
         .attr("class", "arc-text")
         .attr("xlink:href", "#root_path")
         .text( "end point")
@@ -169,7 +173,8 @@ var draw_arcs = function(svg,target_id,q_start,q_end,hit_start,hit_end){
 
 
 
-    svg.append("path")
+    var arc_ret=svg.append("path")
+        .datum({endAngle:deg2arc(360*hit_end/(q_end-q_start+1)),startAngle:deg2arc(360*hit_start/(q_end-q_start+1))})
         .attr("d",arc_k)
         .attr("fill",function (d) {
             return color(0.99)
@@ -177,24 +182,24 @@ var draw_arcs = function(svg,target_id,q_start,q_end,hit_start,hit_end){
         .attr("id","hit_path");
 
 
-    svg.append("text")
+    text_start = svg.append("text")
         .attr("dy", "1.15em")
         .attr("dx", ".75em")
         .style("text-anchor", "start")
         .append("textPath")
-        .attr("startOffset", "1.2%")
+        .attr("startOffset", "0%")
         .attr("class", "arc-text")
         .attr("xlink:href", "#hit_path")
         .text(hit_start)
         .attr("style","font-size:14px;font-family:consolas")
         .attr("fill","white");
 
-    svg.append("text")
+    text_end = svg.append("text")
         .attr("dy", "1.15em")
-        .attr("dx", ".75em")
-        .style("text-anchor", "start")
+        .attr("dx", "2.15em")
+        .style("text-anchor", "end")
         .append("textPath")
-        .attr("startOffset", "48.0%")
+        .attr("startOffset", "53.2301%")
         .attr("class", "arc-text")
         .attr("xlink:href", "#hit_path")
         .text(hit_end)
@@ -206,15 +211,30 @@ var draw_arcs = function(svg,target_id,q_start,q_end,hit_start,hit_end){
         .attr("cx",17)
         .attr("cy",-0.72*radius)
         .attr("r",8)
-        .attr("fill","black")
+        .attr("fill","black");
 
     var e_start = svg.append("circle")
         .attr("cx",-17)
         .attr("cy",-0.72*radius)
         .attr("r",8)
-        .attr("fill","black")
+        .attr("fill","black");
+
+    return arc_ret
 
 };
+
+
+function arcTween(start_n,end_n) {
+    return function(d) {
+        var interpolate_end = d3.interpolate(d.endAngle, end_n);
+        var interpolate_begin = d3.interpolate(d.startAngle, start_n);
+        return function(t) {
+            d.endAngle = interpolate_end(t);
+            d.startAngle = interpolate_begin(t);
+            return arc_k(d);
+        }
+    }
+}
 
 window.onload=(
     function () {
@@ -223,13 +243,22 @@ window.onload=(
         var res_height = 500;
         var svg = d3.select('#result_blast').append('svg')
             .attr('width',res_width)
-            .attr('height',res_height)
+            .attr('height',res_height+300)
             .append("g")
             .attr("transform", "translate(" + res_width / 2 + "," + res_height / 2 + ")");
 
+        var arc_ret = draw_arcs(svg,'gi|688010384|gb|KM018299.1|',1,146,1,120);
+        current_start = 8;
+        current_end = 25;
 
-        draw_arcs(svg,'gi|688010384|gb|KM018299.1|',1,46,8,25)
 
+        arc_ret.transition().duration(300).delay(6000)
+            .attrTween("d", arcTween(0.3,6)).each("end",function () {
+            text_end.text("dsaf");
+            text_start.text("asdf");
+        });
+
+        console.log(arc_ret);
 
     }
 );
