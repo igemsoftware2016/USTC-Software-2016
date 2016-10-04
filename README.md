@@ -107,55 +107,42 @@ agagaatataaaaagccagattattaatccggcttttttattattt
 后端经过BLAST得到处理结果示例如下  
 
 ``` javascript
-JSON.parse("[{'index':0,'ID':'gi|688010384|gb|KM018299.1|',
+{"q_length":46,"blast_result":[{'index':0,'ID':'gi|688010384|gb|KM018299.1|',
 'description':'Synthetic fluorescent protein expression cassette cat-J23101-mTagBFP2, complete sequence',
-'E-value':7.8e-14,
-'score':84.24,
-'span':46,
-'query_start':0,
-'query_end':46
-'hit_start':21
+    'E-value':7.8e-14,
+    'score':84.24,
+    'span':46,
+    'query_start':0,
+    'query_end':46,
+'hit_start':21,
 'hit_end':67
 },
 {'index':0,'ID':'gi|688010384|gb|KM018299.1|',
-'description':'Synthetic fluorescent protein expression cassette cat-J23101-mTagBFP2, complete sequence',
-'E-value':7.8e-14,
-'score':84.24,
-'span':46,
-'query_start':0,
-'query_end':46
-'hit_start':21
-'hit_end':67
-},{'index':0,'ID':'gi|688010384|gb|KM018299.1|',
-  'description':'Synthetic fluorescent protein expression cassette cat-J23101-mTagBFP2, complete sequence',
-  'E-value':7.8e-14,
-  'score':84.24,
-  'span':46,
-  'query_start':0,
-  'query_end':46
-  'hit_start':21
-  'hit_end':67
-  },{'index':0,'ID':'gi|688010384|gb|KM018299.1|',
     'description':'Synthetic fluorescent protein expression cassette cat-J23101-mTagBFP2, complete sequence',
     'E-value':7.8e-14,
     'score':84.24,
     'span':46,
     'query_start':0,
-    'query_end':46
-    'hit_start':21
+    'query_end':46,
+    'hit_start':21,
+    'hit_end':67,
+},{'index':0,'ID':'gi|688010384|gb|KM018299.1|',
+    'description':'Synthetic fluorescent protein expression cassette cat-J23101-mTagBFP2, complete sequence',
+    'E-value':7.8e-14,
+    'score':84.24,
+    'span':46,
+    'query_start':0,
+    'query_end':46,
+    'hit_start':21,
+    'hit_end':67,
+},{'index':0,'ID':'gi|688010384|gb|KM018299.1|',
+    'description':'Synthetic fluorescent protein expression cassette cat-J23101-mTagBFP2, complete sequence',
+    'E-value':7.8e-14,
+    'score':84.24,
+    'span':46,
+    'query_start':0,
+    'query_end':46,
+    'hit_start':21,
     'hit_end':67
-    }
-    
-    ......
-    
-    {'index':0,'ID':'gi|688010384|gb|KM018299.1|',
-      'description':'Synthetic fluorescent protein expression cassette cat-J23101-mTagBFP2, complete sequence',
-      'E-value':7.8e-14,
-      'score':84.24,
-      'span':46,
-      'query_start':0,
-      'query_end':46
-      'hit_start':21
-      'hit_end':67
-      }]")
+}]};
 ```
