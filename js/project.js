@@ -20,6 +20,7 @@ function getProjectData(){
 }
 
 function prepareViewData(i,obj){
+    return function(){
         var id=obj.project[i-1].project_id;
         var remark=obj.project[i-1].project_remark;
         var user_id=obj.project[i-1].author_id;
@@ -33,14 +34,18 @@ function prepareViewData(i,obj){
         document.getElementById("project_state").innerHTML=privacy;
         document.getElementById("update_user_id").innerHTML=id;
         document.getElementById("update_user_date").innerHTML=last_update;
+   }
 }
 
 function prepareRemoveData(i,obj){
+    return function(){
         var id=obj.project[i-1].project_id;
         document.getElementById("remove_project_id").innerHTML=id;
+    }
 }
 
 function sendRemoveRequest(){
+   return function(){
         var user=document.getElementById("this_is_a_user_name").innerHTML;
         var id=document.getElementById("remove_project_id").innerHTML;
         var dictPost={"plugin":"project","action":"remove","user_id":user,"project_id":id};
@@ -61,9 +66,11 @@ function sendRemoveRequest(){
                         }
                 }
         });
+    }
 }
 
 function sendCreateRequest(){
+   return function(){
         var user=document.getElementById("this_is_a_user_name").innerHTML;
         var name=document.getElementById("add_project_name").value;
         var remark=document.getElementById("add_project_remark").value;
@@ -97,4 +104,5 @@ function sendCreateRequest(){
                         }
                 }
         });
+   }
 }
