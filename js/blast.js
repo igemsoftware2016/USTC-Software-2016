@@ -39,3 +39,59 @@ function blast_req(){
         }
     });
 }
+
+// initial blast data (should be from serve)
+
+raw_data=[{'index':0,'ID':'gi|688010384|gb|KM018299.1|',
+'description':'Synthetic fluorescent protein expression cassette cat-J23101-mTagBFP2, complete sequence',
+    'E-value':7.8e-14,
+    'score':84.24,
+    'span':46,
+    'query_start':0,
+    'query_end':46,
+'hit_start':21,
+'hit_end':67
+},
+{'index':0,'ID':'gi|688010384|gb|KM018299.1|',
+    'description':'Synthetic fluorescent protein expression cassette cat-J23101-mTagBFP2, complete sequence',
+    'E-value':7.8e-14,
+    'score':84.24,
+    'span':46,
+    'query_start':0,
+    'query_end':46,
+    'hit_start':21,
+    'hit_end':67,
+},{'index':0,'ID':'gi|688010384|gb|KM018299.1|',
+    'description':'Synthetic fluorescent protein expression cassette cat-J23101-mTagBFP2, complete sequence',
+    'E-value':7.8e-14,
+    'score':84.24,
+    'span':46,
+    'query_start':0,
+    'query_end':46,
+    'hit_start':21,
+    'hit_end':67,
+},{'index':0,'ID':'gi|688010384|gb|KM018299.1|',
+    'description':'Synthetic fluorescent protein expression cassette cat-J23101-mTagBFP2, complete sequence',
+    'E-value':7.8e-14,
+    'score':84.24,
+    'span':46,
+    'query_start':0,
+    'query_end':46,
+    'hit_start':21,
+    'hit_end':67
+}];
+
+
+console.log(raw_data);
+
+window.onload=(
+    function () {
+        var res_width = 500;
+        var res_height = 500;
+        var svg = d3.select('#result_blast').append('svg')
+            .attr('width',res_width)
+            .attr('height',res_height);
+        console.log('start')
+
+    }
+);
