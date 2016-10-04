@@ -23,6 +23,10 @@ function submitComment(i,obj){
 	return function() {
 		var textfield=document.getElementsByClassName("demo-comment-input");
 		var comment=textfield[i-1].value;
+		if(comment==null||comment.length==0){
+			alert("Empty comment!");
+			return;
+		}
         var id1=obj.event[i-1].event_id;
         var id2=document.getElementById("this_is_a_user_name").innerHTML;
 		var dictPost={"plugin":"forum","action":"submit_comment","comment":comment,"event_id":id1,"user_id":id2};
