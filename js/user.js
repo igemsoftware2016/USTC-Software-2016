@@ -11,7 +11,7 @@ function logout_form(){
         success: function(response){
             var Jr = JSON.parse(response);
             if(Jr['success']==true) {
-                window.location="login-1.html"
+                window.location="login-1.html";
             }
             else {
                 Materialize.toast(Jr['error'], 3000, 'rounded');

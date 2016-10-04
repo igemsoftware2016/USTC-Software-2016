@@ -1,32 +1,32 @@
-获得forum数据：
+﻿获得forum数据：
 data:{
-	"plugin":"forum",
+	"plugin":"pano",
 	"action":"get_event_data"
 }
 type:POST
 url:"/plugin/"
 
 返回值：
-'{"event":   ---这个event的值是一个数组，数组长度不定，包含最近7天的所有event
+'{"event":   ---这个event的值是一个数组，数组长度不定，包含最近7天的所有好友的public event
 	[
 		{
-			"event_id":string,   ---事件的唯一标记值
-			"avt_src":string or null,   ---完成事件的用户的头像链接
-			"user_id":string,   ---完成事件的用户的username
-			"usr_src":string,   ---完成事件的用户的personal profile的链接
+			"project_id":string,   ---project的唯一标记值
+			//"avt_src":string or null,   ---完成事件的用户的头像链接
+			//"user_name":string,   ---完成事件的用户的username
+                        user_id
 			"time":string,   ---服务器端相应事件发生的时间
-			"img_src":base64,   ---事件相应的project的缩略图
+			"img_src":base64,   ---事件相应的project的缩略图base64
 			"state":"Create" or "Update",   ---事件相应的project的最后一次更改的属性，如果是创建project则为Create，更改project则为Update
-			"project_id":string,   ---project的project name
-			"private":"Public" or "Private",   ---project的权限属性，Public为对全体用户公开，反之为对好友公开
+			"project_name":string,   ---project的project name
+			//"private":"Public" or "Private",   ---project的权限属性，Public为对好友公开，反之为私有
 			"last_update_time":string,   ---事件相应的project最近一次更新的时间
 			"praise":true or false,   ---当前用户有没有赞过这个event
 			"comment":   ---这个comment的值是一个数组，数组里包含project的所有评论的数据
 				[
 					{
-						"id":string,   ---作出评论的用户的username
-						"cmt_src":string,   ---作出评论的用户的personal profile的链接
+						"user_id":string,   ---作出评论的用户的userid
 						"content":string   ---评论的内容
+                                                "time":string    ---评论的时间
 					}
 				]
 		}
@@ -35,33 +35,32 @@ url:"/plugin/"
 
 提交评论
 data:{
-	"plugin":"forum",
+	"plugin":"pano",
 	"action":"submit_comment",
 	"comment":string,   ---评论内容
 	"event_id":string,   ---被评论的事件的id
-	"user_id":string   ---评论者的username
 }
 type:POST
 url:"/plugin/"
 
 response:{
 	"success":true or false
-	"error":不知道
+	"error":错误信息
 	其它什么随便...
 }
 
 提交赞
 data:{
-	"plugin":"forum",
+	"plugin":"pano",
 	"action":"submit_praise",
 	"modify":boolean,   ---若点赞 则为true 若取消赞 则为false
 	"event_id":string,   ---被赞的事件id
-	"user_id":string   ---赞者的username
 }
 type:POST
 url:"/plugin/"
 
 response:{
 	"success":true or false
-	其它什么随便...
+        "error":错误信息
+	其它什么还是随便...
 }

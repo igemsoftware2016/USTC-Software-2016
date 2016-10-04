@@ -1,5 +1,5 @@
 function getEventData(){
-	var dictPost={"plugin":"forum","action":"get_event_data"};
+	var dictPost={"plugin":"pano","action":"get_event_data"};
 	console.log(dictPost);
 	var jsonResp=[];
 	$.ajax({
@@ -13,6 +13,7 @@ function getEventData(){
         	}
         	else{
         		Materialize.toast(jsonResp['error'],2500,'rounded');
+        		return 0;
         	}
         }
 	});
@@ -29,7 +30,7 @@ function submitComment(i,obj){
 		}
         var id1=obj.event[i-1].event_id;
         var id2=document.getElementById("this_is_a_user_name").innerHTML;
-		var dictPost={"plugin":"forum","action":"submit_comment","comment":comment,"event_id":id1,"user_id":id2};
+		var dictPost={"plugin":"forum","action":"submit_comment","comment":comment,"event_id":id1};
 		console.log(dictPost);
 		var jsonResp=[];
 		var user_area=document.getElementsByClassName("demo-comment-other")[i-1];
@@ -74,7 +75,7 @@ function submitPraise(i,obj,bool){
 	return function(){
 		var id1=obj.event[i-1].event_id;
     	var id2=document.getElementById("this_is_a_user_name").innerHTML;
-		var dictPost={"plugin":"forum","action":"submit_praise","modify":bool,"event_id":id1,"user_id":id2};
+		var dictPost={"plugin":"forum","action":"submit_praise","modify":bool,"event_id":id1,"user_name":id2};
 		console.log(dictPost);
 		var jsonResp=[];
 		$.ajax({
@@ -85,6 +86,53 @@ function submitPraise(i,obj,bool){
         		console.log(response);
         		jsonResp=JSON.parse(response);
         		if(jsonResp['success']==true){
+        		}
+        		else{
+        			Materialize.toast(jsonResp['error'],2500,'rounded');
+        		}
+        	}
+		});
+	}
+}
+
+function postId_1(i,obj){
+	return function(){
+		var id=obj.event[i-1].user_name;
+		var dictPost={"plugin":"post_info","action":"post_id","id",id};
+		console.log(dictPost);
+		var jsonResp=[];
+		$.ajax({
+			type:"POST",
+    	    url:"/plugin/",
+        	data:dictPost,
+        	success:function(response){
+        		console.log(response);
+        		jsonResp=JSON.parse(response);
+        		if(jsonResp['success']==true){
+        		}
+        		else{
+        			Materialize.toast(jsonResp['error'],2500,'rounded');
+        		}
+        	}
+		});
+	}
+}
+
+function postId_2(i){
+	return function(){
+		var id=document.getElementsByClassName("demo-comment-user")[i-1].innerHTML;
+		var dictPost={"plugin":"post_info","action":"post_id","id",id};
+		console.log(dictPost);
+		var jsonResp=[];
+		$.ajax({
+			type:"POST",
+    	    url:"/plugin/",
+        	data:dictPost,
+        	success:function(response){
+        		console.log(response);
+        		jsonResp=JSON.parse(response);
+        		if(jsonResp['success']==true){
+        			window.location("user_data.html");
         		}
         		else{
         			Materialize.toast(jsonResp['error'],2500,'rounded');

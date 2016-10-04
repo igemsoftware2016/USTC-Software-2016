@@ -105,9 +105,3 @@ function sendResponse(i,obj){
         });
     }
 }
-
-function relocate(i,obj){
-        return function(){
-                window.location(obj.friend[i-1].usr_src);
-        }
-}

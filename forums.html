@@ -176,7 +176,7 @@
             background-color: #00C853 !important;
         }
         .mdl-chip {
-            border-radius: 4px !important;
+            border-radius: 2px !important;
         }
     </style> 
 </head>
@@ -239,7 +239,8 @@
                       
                       var user=document.createElement("div");
                       var user_chip=document.createElement("a");
-                      user_chip.href=obj.event[i-1].usr_src;
+                      user_chip.className="demo-event-user";
+                      user_chip.href="#";
                       user_chip.className="mdl-chip mdl-chip--contact mdl-shadow--4dp";
                       var user_img=document.createElement("img");
                       if(obj.event[i-1].avt_src==null){
@@ -254,7 +255,7 @@
                       var user_span=document.createElement("span");
                       user_span.className="mdl-chip__text";
                       user_span.style.fontSize="16px";
-                      user_span.innerHTML=obj.event[i-1].user_id;
+                      user_span.innerHTML=obj.event[i-1].user_name;
                       componentHandler.upgradeElement(user_span);
                       user_chip.appendChild(user_span);
                       componentHandler.upgradeElement(user_chip);
@@ -306,7 +307,7 @@
                       project_content.style.paddingTop="25px";
                       var content_span=document.createElement("span");
                       content_span.style.fontSize="16px";
-                      content_span.innerHTML="Author: "+obj.event[i-1].user_id+"<br/>State: "+obj.event[i-1].private+"<br/>Last Update: "+obj.event[i-1].last_update_time;
+                      content_span.innerHTML="Author: "+obj.event[i-1].user_name+"<br/>Last Update: "+obj.event[i-1].last_update_time;
                       componentHandler.upgradeElement(content_span);
                       project_content.appendChild(content_span);
                       componentHandler.upgradeElement(project_content);
@@ -324,7 +325,7 @@
                       project_actions.className="demo-icon_text-align_2 mdl-card__actions mdl-card--border";
                       project_actions.style.textAlign="center";
                       var actions_view=document.createElement("a");
-                      actions_view.href="#";
+                      actions_view.href="pano.html#"+obj.event[i-1].project_id;
                       actions_view.className="show-dialog-view-timeline mdl-button mdl-color-text--green-A700 mdl-js-button mdl-js-ripple-effect";
                       var textNode=document.createTextNode("View Project...");
                       actions_view.appendChild(textNode);
@@ -359,19 +360,6 @@
                       actions_comment.appendChild(icons_comment);
                       componentHandler.upgradeElement(actions_comment);
                       project_actions.appendChild(actions_comment);
-                      var actions_tool=document.createElement("button");
-                      actions_tool.id="demo-actions-tool";
-                      actions_tool.className="demo-actions-tool mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect";
-                      actions_tool.style.margin="0px 8px 0px 8px";
-                      var icons_tool=document.createElement("i");
-                      icons_tool.className="demo-icons-tool material-icons";
-                      icons_tool.style.color="gray";
-                      var textNode=document.createTextNode("build");
-                      icons_tool.appendChild(textNode);
-                      componentHandler.upgradeElement(icons_tool);
-                      actions_tool.appendChild(icons_tool);
-                      componentHandler.upgradeElement(actions_tool);
-                      project_actions.appendChild(actions_tool);
                       componentHandler.upgradeElement(project_actions);
                       project_info.appendChild(project_actions);
 
@@ -439,12 +427,13 @@
                         var comment_other=document.createElement("div");
                         comment_other.className="demo-icon_text-align_1";
                         var user=document.createElement("a");
-                        user.href=obj.event[i-1].comment[j-1].cmt_src;
+                        user.href="#";
+                        user.className="demo-comment-user";
                         user.style.textDecoration="none";
                         user.style.color="#00C853";
                         user.style.fontSize="16px";
                         user.style.paddingRight="4px";
-                        var textNode=document.createTextNode(obj.event[i-1].comment[j-1].id);
+                        var textNode=document.createTextNode(obj.event[i-1].comment[j-1].user_name);
                         user.appendChild(textNode);
                         componentHandler.upgradeElement(user);
                         comment_other.appendChild(user);
@@ -534,34 +523,15 @@
               sbmbutton[i-1].addEventListener("click",submitComment(i,obj));
             }
         </script>
-        <dialog class="demo-select-tool mdl-dialog" style="width: 370px; text-align: center;">
-            <h4 class="mdl-dialog__title" style="font-size: 23px;">Use Tool For Discussion</h4>
-            <div class="mdl-dialog__content" style="font-size: 17px;">
-                <p>Select the function or plugin you want to use</p>
-            </div>
-            <div class="mdl-dialog__actions">
-                <button type="button" class="mdl-button close-dialog-tool">No</button>
-                <button type="button" class="mdl-button close-dialog-tool">BLAST</button>
-                <button type="button" class="mdl-button close-dialog-tool">Findpath</button>
-            </div>
-        </dialog>
-        <script>
-            var dialog_tool = document.querySelector('.demo-select-tool');
-            var show_dialogButtons = document.querySelectorAll('.demo-actions-tool');
-            if (! dialog_tool.showModal) {
-                dialogPolyfill.registerDialog(dialog_tool);
-            }
-            for (var i=1;i<=(show_dialogButtons.length);i++) {
-              show_dialogButtons[i-1].addEventListener('click', function() {
-                dialog_tool.showModal();
-            });
-            }
-            var close_Buttons=dialog_tool.querySelectorAll('.close-dialog-tool');
-            for (var i=1;i<=(close_Buttons.length);i++) {
-              close_Buttons[i-1].addEventListener('click', function() {
-                dialog_tool.close();
-            });
-            }
+        <script type="text/javascript">
+          var profileRelocate_1=document.querySelectorAll(".demo-event-user");
+          for(var i=1;i<=profileloc_1.length;i++){
+            profileRelocate_1[i-1].addEventListener("click",postId_1(i,obj));
+          }
+          var profileRelocate_2=document.querySelectorAll(".demo-comment-user");
+          for(var i=1;i<=profileloc_1.length;i++){
+            profileRelocate_1[i-1].addEventListener("click",postId_2(i));
+          }
         </script>
         <footer class="mdl-mini-footer">
             <div class="mdl-mini-footer__left-section">

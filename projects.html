@@ -194,7 +194,6 @@
             <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href=""><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">home</i>Home</a>
             <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href=""><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">inbox</i>Projects</a>
             <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href=""><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">library_books</i>Documents</a>
-            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href=""><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">group</i>Groups</a>
             <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href=""><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">question_answer</i>Forum</a>
             <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href=""><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">account_circle</i>Developer</a>
         </nav>
@@ -236,7 +235,7 @@
                       var title=document.createElement("span");
                       title.style.color="black";
                       title.style.fontSize="24px";
-                      var textNode=document.createTextNode(obj.project[i-1].project_id);
+                      var textNode=document.createTextNode(obj.project[i-1].project_name);
                       title.appendChild(textNode);
                       componentHandler.upgradeElement(title);
                       supporting_text.appendChild(title);
@@ -247,7 +246,7 @@
                       content.style.paddingTop="25px";
                       var textNode=document.createElement("span");
                       textNode.style.fontSize="16px";
-                      textNode.innerHTML="Author: "+obj.project[i-1].author_id+"<br/>State: "+obj.project[i-1].private+"<br/>Last Update: "+obj.project[i-1].last_update_time;
+                      textNode.innerHTML="Author: "+document.getElementById("this_is_a_user_name").innerHTML+"<br/>State: "+obj.project[i-1].private+"<br/>Last Update: "+obj.project[i-1].last_update_time;
                       componentHandler.upgradeElement(textNode);
                       content.appendChild(textNode);
                       componentHandler.upgradeElement(content);
@@ -265,7 +264,7 @@
                       componentHandler.upgradeElement(view);
                       actions.appendChild(view);
                       var edit=document.createElement("a");
-                      edit.href=obj.project[i-1].prj_src;
+                      edit.href="#";
                       edit.className="mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect";
                       var textNode=document.createTextNode("Edit");
                       edit.appendChild(textNode);

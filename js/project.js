@@ -21,9 +21,9 @@ function getProjectData(){
 
 function prepareViewData(i,obj){
     return function(){
-        var id=obj.project[i-1].project_id;
+        var id=obj.project[i-1].project_name;
         var remark=obj.project[i-1].project_remark;
-        var user_id=obj.project[i-1].author_id;
+        var user_id=document.getElementById("this_is_a_user_name").innerHTML;
         var create=obj.project[i-1].create_time;
         var privacy=obj.project[i-1].private;
         var last_update=obj.project[i-1].last_update_time;
@@ -39,16 +39,16 @@ function prepareViewData(i,obj){
 
 function prepareRemoveData(i,obj){
     return function(){
-        var id=obj.project[i-1].project_id;
+        var id=obj.project[i-1].project_name;
         document.getElementById("remove_project_id").innerHTML=id;
     }
 }
 
-function sendRemoveRequest(){
+function sendRemoveRequest(i,obj){
    return function(){
         var user=document.getElementById("this_is_a_user_name").innerHTML;
-        var id=document.getElementById("remove_project_id").innerHTML;
-        var dictPost={"plugin":"project","action":"remove","user_id":user,"project_id":id};
+        var id=obj.project[i-1].project_id;
+        var dictPost={"plugin":"pano","action":"delete","user_name":user,"project_name":id};
         console.log(dictPost);
         var jsonResp=[];
         $.ajax({
@@ -85,7 +85,7 @@ function sendCreateRequest(){
                 alert("Please complete the information!");
                 return;
         }
-        var dictPost={"plugin":"project","action":"create","user_id":user,"project_id":name,"project_remark":remark,"private":privacy};
+        var dictPost={"plugin":"project","action":"new","user_name":user,"project_name":name,"project_remark":remark,"private":privacy};
         console.log(dictPost);
         var jsonResp=[];
         $.ajax({
@@ -97,7 +97,7 @@ function sendCreateRequest(){
                         jsonResp=JSON.parse(response);
                         if(jsonResp['success']==true){
                                 alert('Successfully created!');
-                                window.location=jsonResp['prj_src'];
+                                window.location="pano.html#"+jsonResp['project_id'];
                         }
                         else{
                                 Materialize.toast(jsonResp['error'],2500,'rounded');
