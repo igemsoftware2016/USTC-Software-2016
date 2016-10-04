@@ -325,7 +325,7 @@
                       project_actions.className="demo-icon_text-align_2 mdl-card__actions mdl-card--border";
                       project_actions.style.textAlign="center";
                       var actions_view=document.createElement("a");
-                      actions_view.href="pano.html#"+obj.event[i-1].project_id;
+                      actions_view.href="pano.html?project_id="+obj.event[i-1].project_id;
                       actions_view.className="show-dialog-view-timeline mdl-button mdl-color-text--green-A700 mdl-js-button mdl-js-ripple-effect";
                       var textNode=document.createTextNode("View Project...");
                       actions_view.appendChild(textNode);
@@ -522,16 +522,6 @@
             for (var i=1;i<=sbmbutton.length;i++) {
               sbmbutton[i-1].addEventListener("click",submitComment(i,obj));
             }
-        </script>
-        <script type="text/javascript">
-          var profileRelocate_1=document.querySelectorAll(".demo-event-user");
-          for(var i=1;i<=profileloc_1.length;i++){
-            profileRelocate_1[i-1].addEventListener("click",postId_1(i,obj));
-          }
-          var profileRelocate_2=document.querySelectorAll(".demo-comment-user");
-          for(var i=1;i<=profileloc_1.length;i++){
-            profileRelocate_1[i-1].addEventListener("click",postId_2(i));
-          }
         </script>
         <footer class="mdl-mini-footer">
             <div class="mdl-mini-footer__left-section">

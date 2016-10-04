@@ -10,6 +10,16 @@ function getEventData(){
         	console.log(response);
         	jsonResp=JSON.parse(response);
         	if(jsonResp['success']==true){
+        		for (var i=1;i<=jsonResp.event.length;i++){
+                    var res=get_user_info_by_id(jsonResp.event[i-1].user_id);
+        			jsonResp.event[i-1].user_name=res.user_name;
+        			jsonResp.event[i-1].avt_src=res.avt_src;
+        			for (var j=1;j<=jsonResp.event[i-1].comment.length;j++){
+        				var res=get_user_info_by_id(jsonResp.event[i-1].comment[j-1].user_id);
+        				jsonResp.event[i-1].comment[j-1].user_name=res.user_name;
+        				jsonResp.event[i-1].comment[j-1].avt_src=res.avt_src;
+        			}
+        		}
         	}
         	else{
         		Materialize.toast(jsonResp['error'],2500,'rounded');
@@ -19,6 +29,28 @@ function getEventData(){
 	});
 	return jsonResp;
 }
+
+function get_user_info_by_id(id) {
+    var  dictPost  =  {"plugin":"user_model","action":"get_user_data_by_id","user_id":id};
+    console.log(dictPost);
+    var Jr=[];
+    $.ajax({
+        type: "POST",
+        url: "/plugin/",
+        data: dictPost,
+        success: function(response){
+            console.log(response);
+            Jr = JSON.parse(response);
+            if(Jr['success']==true) {
+            }
+            else {
+                Materialize.toast(Jr['error'], 2500, 'rounded');
+            }
+        }
+    });
+    return Jr;
+}
+
 
 function submitComment(i,obj){
 	return function() {
@@ -30,7 +62,7 @@ function submitComment(i,obj){
 		}
         var id1=obj.event[i-1].event_id;
         var id2=document.getElementById("this_is_a_user_name").innerHTML;
-		var dictPost={"plugin":"forum","action":"submit_comment","comment":comment,"event_id":id1};
+		var dictPost={"plugin":"pano","action":"submit_comment","comment":comment,"event_id":id1};
 		console.log(dictPost);
 		var jsonResp=[];
 		var user_area=document.getElementsByClassName("demo-comment-other")[i-1];
@@ -75,7 +107,7 @@ function submitPraise(i,obj,bool){
 	return function(){
 		var id1=obj.event[i-1].event_id;
     	var id2=document.getElementById("this_is_a_user_name").innerHTML;
-		var dictPost={"plugin":"forum","action":"submit_praise","modify":bool,"event_id":id1,"user_name":id2};
+		var dictPost={"plugin":"pano","action":"submit_praise","modify":bool,"event_id":id1};
 		console.log(dictPost);
 		var jsonResp=[];
 		$.ajax({
@@ -86,53 +118,6 @@ function submitPraise(i,obj,bool){
         		console.log(response);
         		jsonResp=JSON.parse(response);
         		if(jsonResp['success']==true){
-        		}
-        		else{
-        			Materialize.toast(jsonResp['error'],2500,'rounded');
-        		}
-        	}
-		});
-	}
-}
-
-function postId_1(i,obj){
-	return function(){
-		var id=obj.event[i-1].user_name;
-		var dictPost={"plugin":"post_info","action":"post_id","id",id};
-		console.log(dictPost);
-		var jsonResp=[];
-		$.ajax({
-			type:"POST",
-    	    url:"/plugin/",
-        	data:dictPost,
-        	success:function(response){
-        		console.log(response);
-        		jsonResp=JSON.parse(response);
-        		if(jsonResp['success']==true){
-        		}
-        		else{
-        			Materialize.toast(jsonResp['error'],2500,'rounded');
-        		}
-        	}
-		});
-	}
-}
-
-function postId_2(i){
-	return function(){
-		var id=document.getElementsByClassName("demo-comment-user")[i-1].innerHTML;
-		var dictPost={"plugin":"post_info","action":"post_id","id",id};
-		console.log(dictPost);
-		var jsonResp=[];
-		$.ajax({
-			type:"POST",
-    	    url:"/plugin/",
-        	data:dictPost,
-        	success:function(response){
-        		console.log(response);
-        		jsonResp=JSON.parse(response);
-        		if(jsonResp['success']==true){
-        			window.location("user_data.html");
         		}
         		else{
         			Materialize.toast(jsonResp['error'],2500,'rounded');
