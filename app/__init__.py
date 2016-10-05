@@ -11,7 +11,7 @@ login_manager.init_app(app)
 login_manager.login_view = 'user.login'
 
 from models import User
-from database import session
+from database import session, TableBase, engine
 
 
 @login_manager.user_loader
@@ -23,6 +23,8 @@ from app.views import *
 
 app.register_blueprint(home, url_prefix='')
 app.register_blueprint(plugin, url_prefix='/plugin')
+
+TableBase.metadata.create_all(engine)
 
 from plugin import plugin_manager
 

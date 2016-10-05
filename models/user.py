@@ -1,4 +1,4 @@
-from database import TableBase, Column, Integer, String, session
+from database import TableBase, Column, Integer, String, session, Text
 from flask_login import UserMixin
 import hashlib
 import random
@@ -16,10 +16,10 @@ class User(TableBase, UserMixin):
     passwordhash = Column(String(127), nullable=False)
     salt = Column(String(127), nullable=False)
     username = Column(String(127))
-    avatar = Column(String(1048575))
-    description = Column(String(65535))
-    education = Column(String(65535))
-    major = Column(String(65535))
+    avatar = Column(Text(1048575))
+    description = Column(Text(65535))
+    education = Column(Text(65535))
+    major = Column(Text(65535))
 
     def __init__(self, email, password, username):
         self.email = email
