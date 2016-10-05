@@ -219,12 +219,11 @@ hr.gap {
     </div>
     <main class="mdl-layout__content mdl-color--grey-100">
     <span id="this_is_a_user_name" style="visibility: hidden;">sth</span>
-    <span id="this_is_another_user_name" style="visibility: hidden;">sth</span>
         <div class="mdl-grid demo-content">
             <div class="demo-graphs mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--12-col">
                 <div align="center">
                     <div id="user_profile_view">
-                        <img  class="demo-avatar-big" src="img/pjer.jpg" style="margin-top: 24px; margin-bottom: 24px;">
+                        <img  id="user-head" class="demo-avatar-big" src="img/pjer.jpg" style="margin-top: 24px; margin-bottom: 24px;">
                         <hr class="style14">
                         <div class="mgtp txtSize mdl-cell--9-col mdl-card__title-text" align="left">
                             <div class="txtSize mdl-cell--3-col mdl-card__title-text mdl-color-text--teal-A700" style="align-items: center">Name</div>
@@ -251,11 +250,15 @@ hr.gap {
                             <div id="description" class="txtSize mdl-cell--9-col mdl-card__title-text">publish</div>
                         </div>
                     </div>
-                    <div class="mdl-cell--9-col" align="right" style="margin-top: 36px; margin-bottom: 36px;">
+                    <div id="apply_div" class="mdl-cell--9-col" align="right" style="margin-top: 36px; margin-bottom: 36px;">
                         <a id="apply_friend" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" href="#">
                             Apply for friend
                         </a>
                     </div>
+                    <script type="text/javascript">
+                        var apply=document.querySelector("#apply_friend");
+                        apply.addEventListener("click",applyFriend());
+                    </script>
                 </div>
             </div>
         </div>
