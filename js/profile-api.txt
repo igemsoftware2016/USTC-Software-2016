@@ -1,0 +1,120 @@
+获得当前用户的最近30条信息：
+data:{
+	"plugin":"user_model"
+	"action":"get_message_data"
+}
+
+type:POST
+url:"/plugin/"
+
+返回值:
+{
+	"message":
+	[
+		{
+			"user_id":string   ---发信息的用户的id
+			"message":string   ---信息的概述，只可能是"Comment"和"Apply for friend"
+			"detail":string   ---信息的具体内容，若是"Comment"则为评论内容，若是"Apply for friend"则为null
+		}
+	]
+	"success":string
+	"error":string
+}
+
+
+
+获得当前用户的所有好友：
+data:{
+	"plugin":"user_model"
+	"action":"get_friend_data"
+}
+
+type:POST
+url:"/plugin/"
+返回值:
+{
+	"friend":
+	[
+		{
+			"user_id":string   ---好友的id
+		}
+	]
+	"success":string
+	"error":string
+}
+
+
+
+通过id查询用户信息：
+data:{
+	"plugin":"user_model"
+	"action":"get_user_data_by_id"
+	"user_id":string
+}
+
+type:POST
+url:"/plugin/"
+返回值:
+{
+	"user_name":string   ---用户名
+	"user_email":string    ---邮箱
+	"avt_src":string   ---头像的链接
+	"description":string   ---用户描述
+	"major":string   ---专业
+	"education":string   ---教育情况
+	"is_friend":boolean   ---当前用户与被查询的用户是否是好友
+
+	"success":string
+	"error":string
+}
+
+
+发送好友请求：
+data:{
+	"plugin":"user_model"
+	"action":"apply_friend"
+	"user_id":string   ---若A向B发送好友请求，则此处为B的id
+}
+type:POST
+url:"/plugin/"
+
+返回值：
+{
+	"success":string
+	"error":string
+}
+
+
+
+处理好友请求：
+data:{
+	"plugin":"user_model"
+	"action":"response_friend"
+	"user_id":string   ---若B处理A向B发送的好友请求，则此处为A的id
+	"modify":boolean   ---拒绝好友请求为false 反之为true
+}
+type:POST
+url:"/plugin/"
+
+返回值：
+{
+	"success":string
+	"error":string
+}
+
+
+发送信息：
+data:{
+	"plugin":"user_model"
+	"action":"message"
+	"user_id":string   ---若A向B发送信息，则此处为B的id
+	"response":string   ---消息内容
+}
+type:POST
+url:"/plugin/"
+
+返回值：
+{
+	"success":string
+	"error":string
+}
