@@ -2,6 +2,7 @@
  * Created by Pjer1 on 10/3/2016.
  */
 function logout_form(){
+    return function(){
     var  dictPost  =  {"plugin":"user_model","action":"logout"};
     console.log(dictPost);
     $.ajax({
@@ -18,6 +19,7 @@ function logout_form(){
             }
         }
     });
+}
 }
 
 function get_user_info(){

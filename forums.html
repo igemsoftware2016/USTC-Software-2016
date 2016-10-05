@@ -184,40 +184,42 @@
 <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
     <header class="demo-header mdl-layout__header mdl-color--green-A700 mdl-color-text--white">
         <div class="mdl-layout__header-row">
-            <span class="mdl-layout-title">Groups</span>
+            <span class="mdl-layout-title">Projects</span>
             <div class="mdl-layout-spacer"></div>
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="contact_dropdown">
                 <i class="material-icons">more_horiz</i>
             </button>
             <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="contact_dropdown">
                 <li class="mdl-menu__item">About BioHub</li>
-                <li class="mdl-menu__item">About us</li>
+                <li class="mdl-menu__item"><a href="developers.html">About us</a></li>
             </ul>
         </div>
     </header>
     <div class="demo-drawer mdl-layout__drawer mdl-color--green-A700 mdl-color-text--white">
         <header class="demo-drawer-header">
-            <img id="side-head" class="demo-avatar" />
+            <img id="side-head" src="img/user-a.png" class="demo-avatar">
             <div class="demo-avatar-dropdown">
-                <span id="user-email" style="font-size: 16px"></span>
+                <span  id="user-email" style="font-size: 15px">pjer1316@mail.com</span>
                 <div class="mdl-layout-spacer"></div>
-                <button id="account_dropdown" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+                <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
                     <i class="material-icons" role="presentation">arrow_drop_down</i>
+                    <span class="visuallyhidden">Accounts</span>
                 </button>
-                <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="account_dropdown">
-                    <li class="mdl-menu__item mdl-color-text--black">View My Profile</li>
-                    <li class="mdl-menu__item mdl-color-text--black">Login As Another User</li>
+                <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
+                    <li class="mdl-menu__item"><a href="profile_edit.html">Edit my profile</a></li>
+                    <li class="mdl-menu__item"><a href="profile.html">View my information</a></li>
+                    <li class="mdl-menu__item demo-flex-align"><a href="#" id="logout_btn"><i class="material-icons">compare_arrows</i>Login as another user</a></li>
                 </ul>
             </div>
         </header>
-        </script>
+        <script type="text/javascript">
+        document.getElementById("logout_btn").addEventListener("click",logout_form());
+    </script>
         <nav class="demo-navigation mdl-navigation mdl-color--white" >
-            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href=""><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">home</i>Home</a>
-            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="projects.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">inbox</i>Projects</a>
-            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href=""><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">library_books</i>Documents</a>
-            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="groups.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">group</i>Groups</a>
-            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href=""><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">question_answer</i>Forum</a>
-            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href=""><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">account_circle</i>Developer</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="profile.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">home</i>Profile</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="projects.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">inbox</i>Project</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="forums.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">question_answer</i>Forum</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="developers.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">account_circle</i>Developer</a>
         </nav>
     </div>
     <main class="mdl-layout__content mdl-color--white">

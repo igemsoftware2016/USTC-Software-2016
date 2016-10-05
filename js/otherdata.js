@@ -37,7 +37,9 @@ function get_user_info(){
 }
 
 function get_others_info() {
-    var  dictPost  =  {"plugin":"user_model","action":"get_others_data"};
+    var url = window.location.search;
+    var loc = url.substring(url.lastIndexOf('=')+1, url.length);
+    var  dictPost  =  {"plugin":"user_model","action":"get_user_data_by_id","user_id":loc};
     console.log(dictPost);
     var Jr=[];
     $.ajax({
@@ -92,10 +94,11 @@ function get_others_info() {
         }
 
     });
+}
 
 function get_all(){
     get_user_info();
-        get_others_info_();
+    get_others_info();
 }
 
 function applyFriend(){
