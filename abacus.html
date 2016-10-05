@@ -15,6 +15,7 @@
     <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="js/materialize.min.js"></script>
     <script type="text/javascript" src="js/d3.v3.min.js"></script>
+    <script type="text/javascript" src="js/abacus.js"></script>
 </head>
 
 
@@ -30,6 +31,38 @@
         font-size: 13px;
     }
 
+
+
+    /* Start by setting display:none to make this hidden.
+   Then we position it in relation to the viewport window
+   with position:fixed. Width, height, top and left speak
+   speak for themselves. Background we set to 80% white with
+   our animation centered, and no-repeating */
+    .modal {
+        display:    none;
+        position:   fixed;
+        z-index:    1000;
+        top:        0;
+        left:       0;
+        height:     100%;
+        width:      100%;
+        background: rgba( 255, 255, 255, .8 )
+        url('http://sampsonresume.com/labs/pIkfp.gif')
+        50% 50%
+        no-repeat;
+    }
+
+    /* When the body has the loading class, we turn
+       the scrollbar off with overflow:hidden */
+    body.loading {
+        overflow: hidden;
+    }
+
+    /* Anytime the body has the loading class, our
+       modal element will be visible */
+    body.loading .modal {
+        display: block;
+    }
 </style>
 
 <body>
@@ -57,12 +90,42 @@
             <h4>Upload files</h4>
             <div   id="functions"  class="card-panel teal lighten-3">
 
+
+                <form action="#">
+                    <div class="file-field input-field">
+                        <div class="btn">
+                            <span>UPLOAD .PDB file</span>
+                            <input type="file">
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text">
+                        </div>
+                    </div>
+                    <div id="loading" class="hide center right preloader-wrapper  active">
+                        <div class="spinner-layer spinner-green-only">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div><div class="gap-patch">
+                            <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="right-align">
+                    <a id="upload_btn" onclick="upload_file()" class="waves-effect btn btn-large right-align center-align">upload and calculate</a>
+                </div>
+
+
             </div>
 
         </div>
     </div>
 
 </div>
+
 
 
 
