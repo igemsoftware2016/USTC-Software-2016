@@ -256,6 +256,7 @@ function arcTween(start_n,end_n) {
     }
 }
 
+
 window.onload=(
     function () {
 
@@ -295,7 +296,16 @@ window.onload=(
                 console.log(color((d.query_end-d.query_start)/global_len));
                 return color((d.query_end-d.query_start)/global_len)
             })
-            .on("mouseover", function(d){renew_graph(d)});
+            .attr("id",function (d) {
+                return "rectangle_"+d.index;
+            })
+            .on("mouseover", function(d){
+                renew_graph(d);
+                renew_label(d)
+            }
+            ).on("mouseout",function (d) {
+                flash_label(d)
+            }).attr("stroke","white").attr("stroke-width",3);;
 
         var text = res_data_enter.append("text")
             .text(function (d) {return d.ID})
@@ -307,6 +317,27 @@ window.onload=(
             .classed('noselect',true);
 
 
+        function flash_label(d) {
+            d3.selectAll("#rectangle_"+d.index).attr("stroke","white").attr("stroke-width",3);
+            d3.selectAll("#rectangle_"+d.index)
+                .transition().duration(200).attrTween("width",function (d,i,a) {
+                return d3.interpolate(a,215);
+
+
+        });
+        }
+
+        function renew_label(d) {
+            d3.selectAll("#rectangle_"+d.index).attr("stroke","yellow").attr("stroke-width",3);
+             d3.selectAll("#rectangle_"+d.index)
+                 .transition().duration(200).attrTween("width",function (d,i,a) {
+                    return d3.interpolate(a,240)
+             });
+
+
+        }
+
+
         function renew_graph(d) {
             arc_ret.transition().duration(300)
                 .attrTween("d", arcTween(d.query_start*Math.PI*2/global_len,d.query_end*Math.PI*2/global_len)).each("end",function () {
@@ -315,9 +346,9 @@ window.onload=(
                 root_text.text("Original Sequence VS" + d.ID);
                 text_info.text("Description : "+d.description);
                 text_benchmark.text("E-value"+d.E_value)
-            });
+                arc_ret.attr("fill", color((d.query_end-d.query_start)/global_len))
+            })
 
-            console.log(arc_ret);
         }
 
 
