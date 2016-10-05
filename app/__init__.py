@@ -3,9 +3,14 @@
 
 from flask import Flask
 from flask_login import LoginManager, current_user
+import os
+import sys
 
 app = Flask(__name__)
 app.config.from_object('config')
+if os.getenv('FLASK_TESTING'):
+    app.config['DATABASE_URI'] = 'sqlite://'  # in memory
+    print('Using temp database in memory', file=sys.stderr)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'user.login'

@@ -1,4 +1,4 @@
-from config import DATABASE_URI
+import app
 
 from sqlalchemy import *
 from sqlalchemy.dialects.mysql import *
@@ -7,7 +7,7 @@ from sqlalchemy.ext.declarative import declarative_base
 import sys
 
 TableBase = declarative_base()
-engine = create_engine(DATABASE_URI)
+engine = create_engine(app.app.config['DATABASE_URI'])
 DBSession = sessionmaker(bind=engine)
 
 if 'app' in sys.modules:
