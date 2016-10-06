@@ -1,7 +1,9 @@
+from time import time
+
 from plugin import Plugin, PluginDocument
 
-from database import TableBase, Column, Text
-from database import engine
+from database import TableBase, Column, Text, Integer, Boolean
+from database import engine, session
 
 
 class PanoDocument(TableBase, PluginDocument):
@@ -15,6 +17,10 @@ class PanoDocument(TableBase, PluginDocument):
         self.text = text
         self.description = 'not support description'
     text = Column(Text())
+    created = Column(Integer())
+    public = Column(Boolean())
+    comments = Column(Text())
+    praises = Column(Text())
 
 
 class Pano(Plugin):
@@ -29,35 +35,95 @@ class Pano(Plugin):
             pass
 
     def process(self, request):
-        if request['action'] == 'new':
-            doc = PanoDocument(self.user.id)
-            self.documents.create(doc)
-            return dict(id=doc.id)
-        elif request['action'] == 'save':
-            request['id'] = int(request['id'])
-            doc = self.documents.get(request['id'])
-            if not (doc and doc.owner == self.user.id):
-                raise ValueError('Document %d does not exists.' % request['id'])
-            doc.text = request['data']
-            self.documents.update(doc)
-            return {}
-        elif request['action'] == 'list':
-            docs = self.documents.list(self.user.id)
-            return dict(ids=list(map(lambda x:x.id, docs)))
-        elif request['action'] == 'load':
-            request['id'] = int(request['id'])
-            doc = self.documents.get(request['id'])
-            if not (doc and doc.owner == self.user.id):
-                raise ValueError('Document %d does not exists.' % request['id'])
-            return dict(data=doc.text)
-        elif request['action'] == 'delete':
-            request['id'] = int(request['id'])
-            doc = self.documents.get(request['id'])
-            if not (doc and doc.owner == self.user.id):
-                raise ValueError('Document %d does not exists.' % request['id'])
-            self.documents.delete(doc)
-            return {}
-        else:
-            raise ValueError('Unknown action: %s' % request['action'])
+        return getattr(self, request['action'])(**request)
+
+    def new(self, title, data, public, img, **kwargs):
+        doc = PanoDocument(self.user.id, title, data)
+        doc.description = img
+        doc.created = time()
+        doc.last_modified = time()
+        doc.public = public
+        doc.comments = '[]'
+        doc.praises = 'set()'
+        self.documents.create(doc)
+        return dict(id=doc.id)
+
+    def save(self, id, title, data, img, **kwargs):
+        id = int(id)
+        doc = self.documents.get(id)
+        if not (doc and doc.owner == self.user.id):
+            raise ValueError('Document %d does not exists.' % id)
+        doc.title = title
+        doc.text = data
+        doc.description = img
+        doc.last_modified = time()
+        self.documents.update(doc)
+        return {}
+
+    def list(self, **kwargs):
+        docs = self.documents.list(self.user.id)
+        return dict(ids=list(map(lambda x:x.id, docs)))
+
+    def load(self, id, **kwargs):
+        id = int(id)
+        doc = self.documents.get(id)
+        if not (doc and (doc.owner == self.user.id or doc.public)):
+            raise ValueError('Document %d does not exists.' % id)
+        return dict(data=doc.text, title=doc.title, owner=doc.owner.id, ctime=doc.created, mtime=doc.last_modified,
+                public=doc.public, comments=eval(doc.comments), praises=len(eval(doc.praises)), img=doc.description)
+
+    def delete(self, id, **kwargs):
+        id = int(id)
+        doc = self.documents.get(id)
+        if not (doc and doc.owner == self.user.id):
+            raise ValueError('Document %d does not exists.' % id)
+        self.documents.delete(doc)
+        return {}
+
+    def get_event_data(self, **kwargs):
+        events = []
+        for i in session.query(PanoDocument).filter(PanoDocument.created > time()-7*24*3600).all():
+            if(i.owner != self.user.id and i.public):
+                events.append(dict(project_id=i.id, user_id=i.owner, time=i.created, img_src=i.description, state='Create',
+                        project_name=i.title, last_update_time=i.last_modified, praise=self.user.id in eval(i.praises),
+                        comment=eval(i.comments)))
+        for i in session.query(PanoDocument).filter(PanoDocument.last_modified > time()-7*24*3600).all():
+            if(i.owner != self.user.id and i.public):
+                events.append(dict(project_id=i.id, user_id=i.owner, time=i.created, img_src=i.description, state='Update',
+                    project_name=i.title, last_update_time=i.last_modified, praise=self.user.id in eval(i.praises),
+                    comment=eval(i.comments)))
+        return dict(events=events)
+
+    def submit_comment(self, comment, event_id, **kwargs):
+        id = int(event_id)
+        doc = self.documents.get(id)
+        if not (doc and (doc.owner == self.user.id or doc.public)):
+            raise ValueError('Document %d does not exists.' % id)
+        comments = eval(doc.comments)
+        comments.append(dict(user_id=self.user.id, content=comment, time=time()))
+        doc.comments = repr(comments)
+        self.documents.update(doc)
+        return {}
+
+    def submit_praise(self, modify, event_id, **kwargs):
+        modify = modify=='true' if type(modify) is str else bool(modify)
+        id = int(event_id)
+        doc = self.documents.get(id)
+        if not (doc and (doc.owner == self.user.id or doc.public)):
+            raise ValueError('Document %d does not exists.' % id)
+        praises = eval(doc.praises)
+        praises.discard(self.user.id)
+        if modify:
+            praises.add(self.user.id)
+        doc.praises = repr(praises)
+        self.documents.update(doc)
+        return {}
+
+    def get_project_data(self, **kwargs):
+        events = []
+        for i in self.documents.list(self.user.id):
+            events.append(dict(project_id=i.id, user_id=i.owner, time=i.created, img_src=i.description, public=i.public,
+                project_name=i.title, last_update_time=i.last_modified, praise=self.user.id in eval(i.praises),
+                comment=eval(i.comments)))
 
 __plugin__ = Pano()
