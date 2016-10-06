@@ -69,7 +69,7 @@ class bio_simulation:
     def plot_data(self):
         plt.plot(self.t_range,self.data_all[0,0:len(self.data_all[0,:])-1])
         plt.plot(self.t_range,self.data_all[1,0:len(self.data_all[0,:])-1])
-        plt.show
+        plt.show()
 
 
 
