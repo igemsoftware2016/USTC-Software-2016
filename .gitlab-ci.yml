@@ -1,7 +1,7 @@
 build_linux:
   script:
-    - sudo apt install python3-pip python3-flask python3-mock python3-sqlalchemy
-    - sudo pip3 install flask-login
+    - apt-get install python3-pip python3-flask python3-mock python3-sqlalchemy
+    - pip3 install flask-login
     - coverage run set_up.py
 lint:
   allow_failure: true
