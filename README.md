@@ -24,17 +24,18 @@ eg:
 D3.js  v3  
 material.min.css    v1.1.3  
 materialize         0.97.7  
+jquery              v2.1.1
 
 
-## 接口文档
-### plugin:user_module
-用户模型-属性
-face:base64  
-name:str  
-email:str(key)
-education:str
-major:str
-description:str
+# 接口文档
+### plugin:user_module  
+用户模型-属性  
+face:base64    
+name:str    
+email:str(key)  
+education:str  
+major:str  
+description:str  
 
 用户模型-url post
 
@@ -101,7 +102,7 @@ data : JSON.parse("{"plugin":"user_model","action":"edit_profile","username":"sa
 
 ## BLAST
 
-## data example 
+### data example 
 前端向后端提供一段基因序列例如：      
 agagaatataaaaagccagattattaatccggcttttttattattt  
 后端经过BLAST得到处理结果示例如下  
@@ -146,4 +147,49 @@ agagaatataaaaagccagattattaatccggcttttttattattt
     'hit_end':67
 }]};
 ```
+
+## simulation
+
+#### upload data example:  
+location : profile_edit.html  
+POST : /plugin/    
+plugin : simulation  
+action : run_sim  
+data :
+``` javascript
+[
+{
+    "index":0,//index of equation starts from 0
+    "name_dydx":"dy0dx" //name of equation (not important)
+    "function":"0.05*y[1]+0.0005*y[1]" //function important
+    "initial_value":0.1
+},
+{
+    "index":1,//index of equation starts from 0
+    "name_dydx":"dy1dx" //name of equation (not important)
+    "function":"0.05*y[1]+0.0005*y[1]" //function important
+    "initial_value":0.1
+},
+{
+    "index":2,//index of equation starts from 0
+    "name_dydx":"dy2dx" //name of equation (not important)
+    "function":"0.05*y[1]+0.0005*y[1]" //function important
+    "initial_value":0.1
+}
+
+```
+
+
+response : 
+``` javascript
+
+{
+   "index":0,//corespond to the query index
+    "t"   :[2.1,2.2,2.3,......]
+    "data":[2,3,4,.......]//calculate result
+}
+```
+
+
+
 
