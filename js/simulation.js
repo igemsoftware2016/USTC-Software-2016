@@ -16,8 +16,9 @@ Array.prototype.min = function() {
 
 var data_raw;
 function vis_data(data,x_max,x_min,y_max,y_min){
-    var vis = d3.select("#visualisation"),
-        WIDTH = 600,
+    var vis = d3.select("#visualisation")
+    vis.remove();
+    var    WIDTH = 600,
         HEIGHT = 500,
         MARGINS = {
             top: 20,
@@ -33,7 +34,6 @@ function vis_data(data,x_max,x_min,y_max,y_min){
         yAxis = d3.svg.axis()
             .scale(yScale)
             .orient("left");
-    vis.html='';
 
 
 
