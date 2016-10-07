@@ -8,16 +8,13 @@ Created on Sat Aug 06 17:18:46 2016
 
 import numpy as np
 import string
-#from matplotlib import pyplot as plt
+from matplotlib import pyplot as plt
 
 #from plugin import Plugin
 
 
 class bio_simulation:
-    def __init__(self,str_coefs,str_eqs,str_init):
-        print('INFO: simulation: \n\t%r\n\t%r\n\t%r' % (str_coefs, str_eqs, str_init))
-        self.coefs = str_coefs
-        
+    def __init__(self,str_eqs,str_init):
         # parse equations to str arrays for further use
         self.eqs_str_arr= str.split(str_eqs,'\n')
         self.eqs_arr = self.eqs_str_arr[1:len(self.eqs_str_arr)-1] 
@@ -26,11 +23,8 @@ class bio_simulation:
         
         # define defualt coef        
         start_t = 0
-        end_t = 1
+        end_t = 200
         step_l = 0.005
-        
-        # user input coef    
-        exec(self.coefs)
         
         self.start_t = start_t
         self.end_t = end_t
@@ -41,7 +35,7 @@ class bio_simulation:
     def run_sim(self):
         self.t_range = np.linspace(self.start_t,self.end_t,((self.end_t-self.start_t)/self.step_l))
         # generate varable name : y[1] y[2]......        
-        var_all = map(lambda x:"y"+str(x) , range(1,len(self.eqs_arr)+1))
+        var_all = list(map(lambda x:"y"+str(x) , range(1,len(self.eqs_arr)+1)))
         self.data_all  = np.zeros((len(self.eqs_arr),len(self.t_range)+1))        
         y = np.zeros(len(self.eqs_arr))
         
@@ -68,16 +62,15 @@ class bio_simulation:
         
     def parse_data(self):
         return self.data_all
-    '''
+
     def plot_data(self):
         plt.plot(self.t_range,self.data_all[0,0:len(self.data_all[0,:])-1])
         plt.plot(self.t_range,self.data_all[1,0:len(self.data_all[0,:])-1])
         plt.show()
-    '''
+
 
 
 def main():
-    str_coefs="start_t=0;end_t=200;step=0.005;"
     str_eqs ="""# equations (one equation one line)
     dy0dt = 0.01*y[0] +0.005*y[1]
     dy1dt = 0.05*y[1]*(1-y[1]/2)
@@ -86,19 +79,18 @@ def main():
     y0 = 0.2
     y1 = 0.1
     # end line"""
-    sim = bio_simulation(str_coefs,str_eqs, str_init);
+    sim = bio_simulation(str_eqs, str_init)
     sim.run_sim()
     print(repr(list(map(list, sim.data_all))))
-if __name__=="plugins.simulation":
+    sim.plot_data()
+if __name__ in ("plugins.simulation", '__main__'):
     main()
 '''
 class Simulation(Plugin):
     name = 'simulation'
     def process(self, request):
-        str_coefs = "start_t=0;end_t=200;step=0.005;"
         str_eqs = request['eqs']
         str_init = request['init']
-        str_coefs="start_t=0;end_t=200;step=0.005;"
         str_eqs ="""# equations (one equation one line)
         dy0dt = 0.01*y[0] +0.005*y[1]
         dy1dt = 0.05*y[1]*(1-y[1]/2)
@@ -107,7 +99,7 @@ class Simulation(Plugin):
         y0 = 0.2
         y1 = 0.1
         # end line"""
-        sim = bio_simulation(str_coefs, str_eqs, str_init)
+        sim = bio_simulation(str_eqs, str_init)
         sim.run_sim()
         print(repr(list(map(list, sim.data_all))))
         return dict(result=repr(list(map(list, sim.data_all))))
