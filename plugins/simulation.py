@@ -15,6 +15,7 @@ import string
 
 class bio_simulation:
     def __init__(self,str_coefs,str_eqs,str_init):
+        print('INFO: simulation: \n\t%r\n\t%r\n\t%r' % (str_coefs, str_eqs, str_init))
         self.coefs = str_coefs
         
         # parse equations to str arrays for further use
@@ -75,8 +76,7 @@ class bio_simulation:
     '''
 
 
-
-if __name__=="__main__":
+def main():
     str_coefs="start_t=0;end_t=200;step=0.005;"
     str_eqs ="""# equations (one equation one line)
     dy0dt = 0.01*y[0] +0.005*y[1]
@@ -89,8 +89,8 @@ if __name__=="__main__":
     sim = bio_simulation(str_coefs,str_eqs, str_init);
     sim.run_sim()
     print(repr(list(map(list, sim.data_all))))
-    
-    data_sim = sim.plot_data()
+if __name__=="plugins.simulation":
+    main()
 '''
 class Simulation(Plugin):
     name = 'simulation'
@@ -98,9 +98,19 @@ class Simulation(Plugin):
         str_coefs = "start_t=0;end_t=200;step=0.005;"
         str_eqs = request['eqs']
         str_init = request['init']
+        str_coefs="start_t=0;end_t=200;step=0.005;"
+        str_eqs ="""# equations (one equation one line)
+        dy0dt = 0.01*y[0] +0.005*y[1]
+        dy1dt = 0.05*y[1]*(1-y[1]/2)
+        # end line """
+        str_init = """# init values
+        y0 = 0.2
+        y1 = 0.1
+        # end line"""
         sim = bio_simulation(str_coefs, str_eqs, str_init)
         sim.run_sim()
-        return dict(result=repr(sim.data_all).replace('array(', '')[:-1])
+        print(repr(list(map(list, sim.data_all))))
+        return dict(result=repr(list(map(list, sim.data_all))))
 
 __plugin__ = Simulation()
 '''
