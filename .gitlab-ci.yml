@@ -1,5 +1,10 @@
 build_linux:
   script:
+    - cd app/static
+    - git submodule init
+    - git submodule update
+    - cd ../..
+    - cp config.py.example config.py
     - coverage run set_up.py
 lint:
   allow_failure: true
