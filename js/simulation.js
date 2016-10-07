@@ -3,7 +3,19 @@
 .
  */
 
-function vis_data(data){
+
+Array.prototype.max = function() {
+    return Math.max.apply(null, this);
+};
+
+Array.prototype.min = function() {
+    return Math.min.apply(null, this);
+};
+
+
+
+var data_raw;
+function vis_data(data,x_max,x_min,y_max,y_min){
     var vis = d3.select("#visualisation"),
         WIDTH = 600,
         HEIGHT = 500,
@@ -13,8 +25,8 @@ function vis_data(data){
             bottom: 20,
             left: 50
         },
-        xScale = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([2000,2010]),
-        yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([134,215]),
+        xScale = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([x_min,x_max]),
+        yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([y_min,y_max]),
         xAxis = d3.svg.axis()
             .scale(xScale),
 
@@ -94,16 +106,27 @@ function  run_sim(n,data_graph) {
             if(Jr['success']==true) {
                 var meta_data = JSON.parse(Jr['result']);
                 var data_res = [];
-                for (var i = 0;i< meta_data[0].length;i++)
-                {
-                    var data_temp =[];
-                    for (var j = 0; j < meta_data.length; j++)
-                    {
-                        data_temp.push(meta_data[j][i])
+                var data_all = [];
+                var data_t_all = [];
+                for (var i = 0;i< meta_data[0].length;i++) {
+                    if (i % 20 == 0) {
+                        var data_temp = [];
+                        for (var j = 0; j < meta_data.length; j++) {
+                            data_temp.push(meta_data[j][i]);
+                            data_all.push(meta_data[j][i]);
+                        }
+                        data_res.push({"value": data_temp, "time": i / 200.});
+                        data_t_all.push(i/200.);
                     }
-                    data_res.push({"value":data_temp,"time":i/10.});
                 }
+                var glo_max = (data_all).max();
+                var glo_min = (data_all).min();
+                var glo_t_max = (data_t_all).max();
+                var glo_t_min = (data_t_all).min();
+
                 console.log(data_res);
+
+                vis_data(data_res,glo_t_max,glo_t_min,glo_max,glo_min);
             }
             else {
                 Materialize.toast(Jr['error']+"error", 3000, 'rounded');
@@ -205,7 +228,7 @@ $(function () {
         
         
 
-        var data = [{
+        data_raw = [{
             "value": ["202","177"],
             "time": "2000"
         }, {
@@ -225,7 +248,7 @@ $(function () {
             "time": "2010"
         }];
 
-        vis_data(data)
+        //vis_data(data_raw)
 
 
     });
