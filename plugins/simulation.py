@@ -99,3 +99,5 @@ class Simulation(Plugin):
         sim = bio_simulation(str_coefs, str_eqs, str_init)
         sim.run_sim()
         return dict(result=repr(sim.data_all).replace('array(', '')[:-1])
+
+__plugin__ = Simulation()
