@@ -1,8 +1,8 @@
 [
     #'example_plugin',
-    #'user_model',
+    'user_model',
     #'biobrick_manager',
-    #'pano',
+    'pano',
     #'path_finder',
     'simulation',
 ]

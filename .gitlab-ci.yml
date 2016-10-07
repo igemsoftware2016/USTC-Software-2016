@@ -1,7 +1,10 @@
 build_linux:
   script:
-    - apt-get install python3-pip python3-flask python3-mock python3-sqlalchemy
-    - pip3 install flask-login
+    - cd app/static
+    - git submodule init
+    - git submodule update
+    - cd ../..
+    - cp config.py.example config.py
     - coverage run set_up.py
 lint:
   allow_failure: true
