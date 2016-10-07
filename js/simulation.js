@@ -33,6 +33,7 @@ function vis_data(data,x_max,x_min,y_max,y_min){
         yAxis = d3.svg.axis()
             .scale(yScale)
             .orient("left");
+    vis.html='';
 
 
 
