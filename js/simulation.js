@@ -15,9 +15,13 @@ Array.prototype.min = function() {
 
 
 var data_raw;
+var vis;
 function vis_data(data,x_max,x_min,y_max,y_min){
-    var vis = d3.select("#visualisation")
     vis.remove();
+    var vis_root = d3.select("#visualisation");
+    vis=vis_root.append("svg")
+        .attr("width",600)
+        .attr("height",500);
     var    WIDTH = 600,
         HEIGHT = 500,
         MARGINS = {
