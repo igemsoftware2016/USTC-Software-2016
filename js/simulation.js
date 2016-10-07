@@ -92,7 +92,18 @@ function  run_sim(n,data_graph) {
         success: function(response){
             var Jr = JSON.parse(response);
             if(Jr['success']==true) {
-
+                var meta_data = Jr['result'];
+                var data_res = [];
+                for (var i = 0;i< meta_data[0].length;i++)
+                {
+                    var data_temp =[];
+                    for (var j = 0; j < meta_data.length; j++)
+                    {
+                        data_temp.push(meta_data[j][i])
+                    }
+                    console.log();
+                    data_res.push({"value":data_temp});
+                }
             }
             else {
                 Materialize.toast(Jr['error']+"error", 3000, 'rounded');
@@ -139,10 +150,11 @@ $(function () {
                 return fnstr;
             }).attr("type" ,"text");
 
-        inp.append("label").attr("for",function (d) {
+        inp.append("label")
+            .attr("for",function (d) {
             fnstr = "input_label_func_"+d.id;
             return fnstr;
-        }).html(function (d) {
+        }).text(function (d) {
             return "Control Function of index "+d.id;
         });
 
