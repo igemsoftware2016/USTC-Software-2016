@@ -1,22 +1,24 @@
 from plugin import Plugin
-# from database import session
+from database import session
 
-from .Biobrick import Biobrick
-from .Feature import Feature
+from .BiobrickOfficial import BiobrickOfficial
+from .FeatureOfficial import FeatureOfficial
 
 
 class BiobrickManager(Plugin):
     def __init__(self):
         super().__init__()
         self.documents.set_document_type('biobrick')
-        self.documents.set_document_table(Biobrick)
+        self.documents.set_document_table(BiobrickOfficial)
         self.name = 'biobrick_manager'
 
     def process(self, request):
         return getattr(self, request['action'])(**request)
 
-    def new(self, values, **kwargs):
-        pass
+    def search(self, key, **kwargs):
+        filter_str = 'concat(part_name, short_desc, description, notes) like "%%%s%%"' % key
+        q = session.query(BiobrickOfficial).filter(filter_str)
+        return dict(list=repr(list(map(BiobrickOfficial.__get_info__, q))))
     '''
         doc = Biobrick()
         doc.__set_by_kwargs__(**values)

@@ -10,7 +10,7 @@ import numpy as np
 import string
 #from matplotlib import pyplot as plt
 
-from plugin import Plugin
+#from plugin import Plugin
 
 
 class bio_simulation:
@@ -75,7 +75,7 @@ class bio_simulation:
     '''
 
 
-'''
+
 if __name__=="__main__":
     str_coefs="start_t=0;end_t=200;step=0.005;"
     str_eqs ="""# equations (one equation one line)
@@ -86,8 +86,9 @@ if __name__=="__main__":
     y0 = 0.2
     y1 = 0.1
     # end line"""
-    sim = bio_simulation(str_coefs,str_eqs);
+    sim = bio_simulation(str_coefs,str_eqs, str_init);
     sim.run_sim()
+    print(repr(list(map(list, sim.data_all))))
     
     data_sim = sim.plot_data()
 '''
@@ -102,3 +103,4 @@ class Simulation(Plugin):
         return dict(result=repr(sim.data_all).replace('array(', '')[:-1])
 
 __plugin__ = Simulation()
+'''

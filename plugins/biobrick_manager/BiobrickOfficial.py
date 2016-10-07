@@ -1,5 +1,6 @@
 from database import TableBase, Column, \
     INTEGER, TINYINT, VARCHAR, LONGTEXT, DATE, DATETIME, TEXT, BINARY, DOUBLE
+from database import session
 
 
 class BiobrickOfficial(TableBase):
@@ -38,7 +39,7 @@ class BiobrickOfficial(TableBase):
     group_u_list = Column(LONGTEXT)
     has_barcode = Column(TINYINT(1))
     notes = Column(LONGTEXT)
-    sources = Column(TEXT)
+    source = Column(TEXT)
     nickname = Column(VARCHAR(10))
     categories = Column(VARCHAR(500))
     sequence = Column(LONGTEXT)
