@@ -152,7 +152,7 @@ function get_user_info_for_display() {
         get_user_info();
         get_user_info_for_update();
     }
-}
+
 
 function get_all(){
     get_user_info();

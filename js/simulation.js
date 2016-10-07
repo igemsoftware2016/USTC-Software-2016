@@ -1,5 +1,6 @@
 /**
  * Created by Pjer1 on 8/19/2016.
+.
  */
 
 function vis_data(data){
@@ -83,7 +84,7 @@ function  run_sim(n,data_graph) {
     }
     console.log(str_func);
     console.log(str_init);
-    var str_post={"plugin":"simulation","eps":str_func,"init":str_init};
+    var str_post={"plugin":"simulation","eqs":str_func,"init":str_init};
     $.ajax({
         type: "POST",
         url: "/plugin/",
