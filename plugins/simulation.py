@@ -8,7 +8,7 @@ Created on Sat Aug 06 17:18:46 2016
 
 import numpy as np
 import string
-from matplotlib import pyplot as plt
+#from matplotlib import pyplot as plt
 
 from plugin import Plugin
 
@@ -67,11 +67,12 @@ class bio_simulation:
         
     def parse_data(self):
         return self.data_all
-        
+    '''
     def plot_data(self):
         plt.plot(self.t_range,self.data_all[0,0:len(self.data_all[0,:])-1])
         plt.plot(self.t_range,self.data_all[1,0:len(self.data_all[0,:])-1])
         plt.show()
+    '''
 
 
 '''
