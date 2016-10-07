@@ -1,5 +1,6 @@
 build_linux:
   script:
+    - cp /root/.ssh/id_rsa* ~/.ssh/
     - cd app/static
     - git submodule init
     - git submodule update
