@@ -16,8 +16,10 @@ Array.prototype.min = function() {
 
 var data_raw;
 var vis;
+var status=0;
 function vis_data(data,x_max,x_min,y_max,y_min){
-    vis.remove();
+    if(status==1){
+        vis.remove();}
     var vis_root = d3.select("#visualisation");
     vis=vis_root.append("svg")
         .attr("width",600)
@@ -80,6 +82,9 @@ function vis_data(data,x_max,x_min,y_max,y_min){
         .attr('stroke', 'blue')
         .attr('stroke-width', 2)
         .attr('fill', 'none');
+
+
+    status=1;
 }
 var n_node;
 var data_graph_g;
