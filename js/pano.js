@@ -820,7 +820,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         if (isNaN(projectId)) {
             $.post("/plugin/", {plugin: "pano", action: "new"}).done(function (res) {
                 projectId = Number(JSON.parse(res)['id']);
-                location.hash = '#' + projectId;
+                location.hash = isNaN(projectId) ? '' : '#' + projectId;
                 save(graph, callback);
             }).fail(function () {
                 callback(false);
