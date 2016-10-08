@@ -5,4 +5,5 @@
     'pano',
     #'path_finder',
     'simulation',
+    'BLAST',
 ]
