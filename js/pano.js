@@ -821,7 +821,11 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             $.post("/plugin/", {plugin: "pano", action: "new"}).done(function (res) {
                 projectId = Number(JSON.parse(res)['id']);
                 location.hash = isNaN(projectId) ? '' : '#' + projectId;
-                save(graph, callback);
+                if (JSON.parse(res).success) {
+                    save(graph, callback);
+                } else {
+                    callback(false);
+                }
             }).fail(function () {
                 callback(false);
             });
@@ -913,26 +917,4 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         };
         img.src = url;
     };
-
-
-    function postdata() {
-        var nodeData = JSON.stringify(nodes);
-        var edgeData = JSON.stringify(edges);
-        var dictPost = [{"plugin": "pano"}, {"action": "update_data"}, {"node-data": nodeData}, {"edge-data": edges}];
-        console.log(dictPost);
-        $.ajax({
-            type: "POST",
-            url: "/plugin",
-            data: JSON.stringify(dictPost),
-            success: function (response) {
-                console.log(response);
-                if (response['error'] == 'a1') {
-                    Materialize.toast('sth wrong Error', 3000, 'rounded');
-                }
-            },
-            dataType: "json",
-            contentType: "application/json"
-        });
-    }
-
 })(jQuery, window.d3, window.saveAs, window.Blob);
