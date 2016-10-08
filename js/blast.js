@@ -1,5 +1,6 @@
 /**
- * Created by Pjer1 on 10/3/2016.
+ * Created by Pjer on 10/3/2016.
+ * 
  */
 $.fn.serializeObject = function()
 {
@@ -21,23 +22,28 @@ $.fn.serializeObject = function()
 
 function blast_req(){
     var s_data = ($('#form_bl').serializeObject());
-    console.log(s_data);
-    var  dictPost  =  {"plugin":"blast","action":"req","sequence":s_data["sequence"]};
-    console.log(dictPost);
-    $.ajax({
-        type: "POST",
-        url: "/plugin/",
-        data: dictPost,
-        success: function(response){
-            var Jr = JSON.parse(response);
-            if(Jr['success']==true) {
-                //get the result ready for everyone
+    //console.log(s_data);
+    var  dictPost  =  {"plugin":"BLAST","seq":s_data["sequence"]};
+    //console.log(dictPost);
+    if(dictPost.seq.length>0) {
+        $.ajax({
+            type: "POST",
+            url: "/plugin/",
+            data: dictPost,
+            success: function (response) {
+                var Jr = JSON.parse(response);
+                if (Jr['success'] == true) {
+                    //get the result ready for everyone
+                    console.log("successfully request")
+                }
+                else {
+                    Materialize.toast(Jr['error'], 3000, 'rounded');
+                }
             }
-            else {
-                Materialize.toast(Jr['error'], 3000, 'rounded');
-            }
-        }
-    });
+        })
+    }else {
+        alert("input a codon sequence to BLAST")
+    };
 }
 
 // initial blast data (should be from serve)
