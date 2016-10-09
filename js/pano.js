@@ -472,7 +472,11 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         state.shiftNodeDrag = false;
         d3node.classed(consts.connectClass, false);
 
-        var mouseDownNode = state.mouseDownNode || state.currentLinkSource;
+        var mouseDownNode = state.currentLinkSource || state.mouseDownNode;
+
+        if (state.currentLinkSource) {
+            state.currentLinkSource = null;
+        }
 
         if (!mouseDownNode) return;
 
