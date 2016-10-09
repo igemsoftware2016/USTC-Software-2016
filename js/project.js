@@ -110,7 +110,7 @@ function sendCreateRequest(){
                 alert("Please complete the information!");
                 return;
         }
-        var dictPost={"plugin":"project","action":"new","project_name":name,"project_remark":remark,"private":privacy};
+        var dictPost={"plugin":"pano","action":"new","project_name":name,"project_remark":remark,"private":privacy};
         console.log(dictPost);
         var jsonResp=[];
         $.ajax({

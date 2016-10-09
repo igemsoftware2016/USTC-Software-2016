@@ -224,7 +224,7 @@
 
                       var img=document.createElement("div");
                       img.className="mdl-cell mdl-cell--4-col";
-                      img.style.backgroundImage="url(data:image/png;base64,"+obj.project[i-1].img_src+")";
+                      img.style.backgroundImage="url("+obj.project[i-1].img_src+")";
                       img.style.backgroundRepeat="no-repeat";
                       img.style.backgroundPosition="center";
                       componentHandler.upgradeElement(img);

@@ -283,7 +283,7 @@
 
                       var project_image=document.createElement("div");
                       project_image.className="mdl-cell mdl-cell--4-col";
-                      project_image.style.backgroundImage="url(data:image/png;base64,"+obj.project[i-1].img_src+")";
+                      project_image.style.backgroundImage="url("+obj.project[i-1].img_src+")";
                       project_image.style.backgroundRepeat="no-repeat";
                       project_image.style.backgroundPosition="center";
                       componentHandler.upgradeElement(project_image);
