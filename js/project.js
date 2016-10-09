@@ -18,6 +18,32 @@ function getProjectData(){
                     document.getElementById('side-head').setAttribute( 'src', Jr.avatar );
                 }
                 document.getElementById('user-email').innerHTML=Jr.email;
+                var dictPost={"plugin":"pano","action":"load","id":Jr.id};
+    console.log(dictPost);
+    var jsonResp=[];
+    $.ajax({
+        type:"POST",
+                url:"/plugin/",
+                data:dictPost,
+                success:function(response){
+                    console.log(response);
+                    jsonResp=JSON.parse(response);
+                    if(jsonResp['success']==true){
+                                for (var i=1;i<=jsonResp.project.length;i++){
+                                var res=get_user_info_by_id(jsonResp.project[i-1].user_id);
+                                jsonResp.project[i-1].user_name=res.user_name;
+                        }
+                    }
+                    else{
+                        var data={
+                            message: jsonResp['error'],
+                            timeout: 2500
+                        }
+                        snackbarContainer.MaterialSnackbar.showSnackbar(data);
+                    }
+                }
+    });
+    return jsonResp;
             }
             else {
                 Materialize.toast(Jr['error'], 3000, 'rounded');
@@ -25,32 +51,7 @@ function getProjectData(){
         }
 
     });
-	var dictPost={"plugin":"pano","action":"load","id":Jr.id};
-	console.log(dictPost);
-	var jsonResp=[];
-	$.ajax({
-		type:"POST",
-                url:"/plugin/",
-                data:dictPost,
-                success:function(response){
-        	        console.log(response);
-        	        jsonResp=JSON.parse(response);
-        	        if(jsonResp['success']==true){
-                                for (var i=1;i<=jsonResp.project.length;i++){
-                                var res=get_user_info_by_id(jsonResp.project[i-1].user_id);
-                                jsonResp.project[i-1].user_name=res.user_name;
-                        }
-        	        }
-        	        else{
-                        var data={
-                            message: jsonResp['error'],
-                            timeout: 2500
-                        }
-        		        snackbarContainer.MaterialSnackbar.showSnackbar(data);
-        	        }
-                }
-	});
-	return jsonResp;
+	
 }
 
 function get_user_info_by_id(id) {
