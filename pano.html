@@ -174,13 +174,9 @@
                 <div class="collection-item" id="side-link-wrap" style="display: none">
                     <div class="collection" id="side-link-list"></div>
                     <div class="collection">
-                        <a href="#!" class="collection-item valign-wrapper" style="padding: 10px 20px; font-weight: normal;">
+                        <a href="#!" id="side-link-to" class="collection-item valign-wrapper" style="padding: 10px 20px; font-weight: normal;">
                             <i class="material-icons tiny left valign" style="padding-top: 6px;">add</i>
                             <span class="valign" style="padding-top: 3px;">New link to ...</span>
-                        </a>
-                        <a href="#!" class="collection-item valign-wrapper" style="padding: 10px 20px; font-weight: normal;">
-                            <i class="material-icons tiny left valign" style="padding-top: 6px;">add</i>
-                            <span class="valign" style="padding-top: 3px;">New link from ...</span>
                         </a>
                     </div>
                 </div>
@@ -190,62 +186,6 @@
             </div>
         </div>
     </div>
-    <!-- modals -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"
-                            aria-hidden="true">×
-                    </button>
-                    <h4 class="modal-title" id="myModalLabel">
-                        Add Node
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    properties:Proteins (/ˈproʊˌtiːnz/ or /ˈproʊti.ᵻnz/) are large biomolecules, or macromolecules, consisting of one or more long chains of amino acid residues. Proteins perform a vast array of functions within living organisms, including catalysing metabolic reactions, DNA replication, responding to stimuli, and transporting molecules from one location to another. Proteins differ from one another primarily in their sequence of amino acids, which is dictated by the nucleotide sequence of their genes, and which usually results in protein folding into a specific three-dimensional structure that determines its activity.
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default"
-                            data-dismiss="modal">
-                        Cancel
-                    </button>
-                    <button id="addSth" type="button" class="btn btn-primary">
-                        Add
-                    </button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
-    <!-- node info modal-->
-    <div id="modal-node-info" class="modal modal-fixed-footer blue accent=4" style="width: 400px">
-        <div class="modal-content">
-            <h4 class="white-text" style="text-align:left;">About this Node</h4>
-            <div id="detail-info-node"></div>
-        </div>
-        <div class="modal-footer blue accent=3">
-            <button id="close-btn" type="button" class="modal-action white-text waves-effect modal-close btn-flat" style="float:right">Close</button>
-        </div>
-    </div>
-
-    <!--
-    <div class='custom-menu-pano'>
-        <ul>
-            <li data-action = "first">Add node</li>
-            <li data-action = "second">edit link</li>
-        </ul>
-
-    </div>
-
-    <div class='custom-menu-gene'>
-        <ul>
-        <li data-action="about"  href="#modal-node-info" class="modal-trigger" >About this node</li>
-        <li data-action="link-to">Link to a node</li>
-        <li data-action="edit-form">Edit coefficient</li>
-        </ul>
-    </div>
-    -->
     <div id="body"></div>
     <canvas id="canvas" width="1000px" height="600px"></canvas>
     <div id="png-container"></div>

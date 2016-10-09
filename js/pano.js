@@ -23,7 +23,8 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             lastKeyDown: -1,
             shiftNodeDrag: false,
             selectedText: null,
-            tryReconnect: false
+            tryReconnect: false,
+            currentLinkSource: null
         };
 
         self.svg = svg;
@@ -471,7 +472,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         state.shiftNodeDrag = false;
         d3node.classed(consts.connectClass, false);
 
-        var mouseDownNode = state.mouseDownNode;
+        var mouseDownNode = state.mouseDownNode || state.currentLinkSource;
 
         if (!mouseDownNode) return;
 
@@ -787,6 +788,10 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 graph.setSelectedNode(graph.nodes[graph.nodes.length]);
                 self.update(graph.nodes.length, graph);
             }
+        });
+
+        $('#side-link-to').click(function () {
+            graph.state.currentLinkSource = graph.state.selectedNode;
         });
 
         $(document).keyup(function (event) {
