@@ -1,5 +1,5 @@
 function getProjectData(){
-	var dictPost={"plugin":"pano","action":"load","id":document.getElementById("this_is_a_user_name").innerHTML};
+	var dictPost={"plugin":"pano","action":"load","id":parseInt(document.getElementById("this_is_a_user_name").innerHTML)};
 	console.log(dictPost);
 	var jsonResp=[];
 	$.ajax({
