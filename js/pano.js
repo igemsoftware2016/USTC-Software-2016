@@ -77,6 +77,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 sidebar.update(d.id, self);
             }
         }).on("dragend", function () {
+            self.trySave();
             // todo check if edge-mode is selected
         });
 
@@ -216,6 +217,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                         });
                         self.edges = newEdges;
                         self.updateGraph();
+                        self.trySave();
                     } catch (err) {
                         window.alert("Error parsing uploaded file\nerror message: " + err.message);
                         return;
@@ -267,6 +269,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             thisGraph.nodes = [];
             thisGraph.edges = [];
             thisGraph.updateGraph();
+            thisGraph.trySave();
         }
     };
 
@@ -307,6 +310,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             "y": nodeData.y
         };
         this.updateGraph();
+        this.trySave();
         this.setSelectedNode(this.nodes[this.nextId]);
     };
 
@@ -371,6 +375,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             this.edges.splice(this.edges.indexOf(selectedEdge), 1);
             this.state.selectedEdge = null;
             this.updateGraph();
+            this.trySave();
         }
     };
 
@@ -386,6 +391,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 this.nextId = selectedNode.id;
             }
             this.updateGraph();
+            this.trySave();
         }
     };
 
@@ -483,6 +489,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             if (!filtRes[0].length) {
                 thisGraph.edges.push(newEdge);
                 thisGraph.updateGraph();
+                thisGraph.trySave();
             }
         } else {
             // we're in the same node
@@ -584,13 +591,17 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         thisGraph.paths = paths;
         thisGraph.circles = circles;
 
+    };
+
+    GraphCreator.prototype.trySave = function () {
+        var thisGraph = this;
         save(thisGraph, function (success) {
             if (!success && !thisGraph.state.tryReconnect) {
                 thisGraph.state.tryReconnect = true;
                 Materialize.toast('Cannot connect to server, try reconnecting...  ', 3000, 'rounded', function () {
                     setTimeout(function () {
                         thisGraph.state.tryReconnect = false;
-                        thisGraph.updateGraph();
+                        thisGraph.trySave();
                     }, 12000);
                 });
             }
@@ -820,8 +831,12 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         if (isNaN(projectId)) {
             $.post("/plugin/", {plugin: "pano", action: "new"}).done(function (res) {
                 projectId = Number(JSON.parse(res)['id']);
-                location.hash = '#' + projectId;
-                save(graph, callback);
+                location.hash = isNaN(projectId) ? '' : '#' + projectId;
+                if (JSON.parse(res).success) {
+                    save(graph, callback);
+                } else {
+                    callback(false);
+                }
             }).fail(function () {
                 callback(false);
             });
@@ -913,26 +928,4 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         };
         img.src = url;
     };
-
-
-    function postdata() {
-        var nodeData = JSON.stringify(nodes);
-        var edgeData = JSON.stringify(edges);
-        var dictPost = [{"plugin": "pano"}, {"action": "update_data"}, {"node-data": nodeData}, {"edge-data": edges}];
-        console.log(dictPost);
-        $.ajax({
-            type: "POST",
-            url: "/plugin",
-            data: JSON.stringify(dictPost),
-            success: function (response) {
-                console.log(response);
-                if (response['error'] == 'a1') {
-                    Materialize.toast('sth wrong Error', 3000, 'rounded');
-                }
-            },
-            dataType: "json",
-            contentType: "application/json"
-        });
-    }
-
 })(jQuery, window.d3, window.saveAs, window.Blob);
