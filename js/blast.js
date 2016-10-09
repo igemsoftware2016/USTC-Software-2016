@@ -24,7 +24,7 @@ function blast_req(){
     var s_data = ($('#form_bl').serializeObject());
     //console.log(s_data);
     var  dictPost  =  {"plugin":"BLAST","seq":s_data["sequence"]};
-    
+    myLoader();
     //console.log(dictPost);
     if(dictPost.seq.length>0) {
         $.ajax({
@@ -34,7 +34,7 @@ function blast_req(){
             success: function (response) {
                 var Jr = JSON.parse(response);
                 if (Jr['success'] == true) {
-                    
+
                     d3.select('#svg_blast').remove();
                     var data_res = Jr['result'];
                     var res_width = 500;
@@ -64,44 +64,7 @@ function blast_req(){
 
 // initial blast data (should be from serve)
 
-var raw_data={"q_length":46,"blast_result":[{'index':0,'ID':'gi|688010384|gb|KM018299.1|',
-'description':'Synthetic fluorescent protein expression cassette cat-J23101-mTagBFP2, complete sequence',
-    'E_value':7.8e-14,
-    'score':84.24,
-    'span':46,
-    'query_start':1,
-    'query_end':46,
-'hit_start':21,
-'hit_end':67
-},
-{'index':1,'ID':'gi|6aaaaaaa4|gb|KM018299.1|',
-    'description':'Synthetic fluorescent protein expression cassette cat-J23101-mTagBFP2, complete sequence',
-    'E_value':7.8e-14,
-    'score':84.24,
-    'span':46,
-    'query_start':15,
-    'query_end':45,
-    'hit_start':21,
-    'hit_end':67,
-},{'index':2,'ID':'gi|688044384|gb|KM018299.1|',
-    'description':'Synthetic fluorescent protein expression cassette cat-J23101-mTagBFP2, complete sequence',
-    'E_value':7.8e-14,
-    'score':84.24,
-    'span':46,
-    'query_start':11,
-    'query_end':35,
-    'hit_start':21,
-    'hit_end':67,
-},{'index':3,'ID':'gi|68asdf384|gb|KM018299.1|',
-    'description':'bla blabl ablablablab lablab lablab lablabla b labla bla blabla blab  la blabla blabla blablab labla',
-    'E_value':7.8e-14,
-    'score':84.24,
-    'span':46,
-    'query_start':11,
-    'query_end':25,
-    'hit_start':21,
-    'hit_end':67
-}]};
+var raw_data={"q_length":46,"blast_result":[]};
 
 
 console.log(raw_data);
@@ -370,6 +333,60 @@ function glo_draw(svg,data_result,ori_length) {
 
 }
 
+
+
+
+function loader(config) {
+    return function() {
+        var radius = Math.min(config.width, config.height) / 2;
+        var tau = 2 * Math.PI;
+
+        var arc = d3.svg.arc()
+            .innerRadius(radius*0.6)
+            .outerRadius(radius*0.9)
+            .cornerRadius(10)
+            .startAngle(0);
+
+        var svg = d3.select(config.container).append("svg")
+            .attr("id", config.id)
+            .attr("width", config.width)
+            .attr("height", config.height)
+            .append("g")
+            .attr("transform", "translate(" + config.width / 2 + "," + config.height / 2 + ")")
+
+        var background = svg.append("path")
+            .datum({endAngle: 0.33*tau})
+            .style("fill", "#4D4D4D")
+            .attr("d", arc)
+            .call(spin, 1500)
+
+        function spin(selection, duration) {
+            selection.transition()
+                .ease("linear")
+                .duration(duration)
+                .attrTween("transform", function() {
+                    return d3.interpolateString("rotate(0)", "rotate(360)");
+                });
+
+            setTimeout(function() { spin(selection, duration); }, duration);
+        }
+
+        function transitionFunction(path) {
+            path.transition()
+                .duration(7500)
+                .attrTween("stroke-dasharray", tweenDash)
+                .each("end", function() { d3.select(this).call(transition); });
+        }
+
+    };
+}
+
+
+var myLoader = loader({width: 500, height: 500, container: "#result_blast", id: "svg_blast"});
+
+
+
+
 window.onload=(function () {
 
         console.log(raw_data)
@@ -380,9 +397,13 @@ window.onload=(function () {
             .attr('width', res_width + 280)
             .attr('height', res_height + 120)
             .attr("id","svg_blast");
-
+        
         var svg = svg_container.append("g")
             .attr("transform", "translate(" + res_width / 2 + "," + res_height / 2 + ")");
-        glo_draw(svg,raw_data.blast_result,46);
+
+        svg_container.remove();
+
     }
 );
+
+
