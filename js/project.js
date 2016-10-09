@@ -1,5 +1,5 @@
 function getProjectData(){
-	var dictPost={"plugin":"pano","action":"get_project_data"};
+	var dictPost={"plugin":"pano","action":"load","id":document.getElementById("this_is_a_user_name").innerHTML};
 	console.log(dictPost);
 	var jsonResp=[];
 	$.ajax({
@@ -16,7 +16,11 @@ function getProjectData(){
                         }
         	        }
         	        else{
-        		        Materialize.toast(jsonResp['error'],2500,'rounded');
+                        var data={
+                            message: jsonResp['error'],
+                            timeout: 2500
+                        }
+        		        snackbarContainer.MaterialSnackbar.showSnackbar(data);
         	        }
                 }
 	});
@@ -101,16 +105,16 @@ function sendCreateRequest(){
         var remark=document.getElementById("add_project_remark").value;
         var privacy=null;
         if(document.getElementById("add_private_state_private").checked=true){
-                privacy="Private";
+                privacy=false;
         }
         if(document.getElementById("add_private_state_public").checked=true){
-                privacy="Public";
+                privacy=true;
         }
         if(name==null||remark==null||privacy==null||name.length==0||remark.length==0){
                 alert("Please complete the information!");
                 return;
         }
-        var dictPost={"plugin":"pano","action":"new","project_name":name,"project_remark":remark,"private":privacy};
+        var dictPost={"plugin":"pano","action":"new","title":name,"img":null,"public":privacy,"data":'{"nodes":[],"edges":[],"remark":'+remark+'}'};
         console.log(dictPost);
         var jsonResp=[];
         $.ajax({
