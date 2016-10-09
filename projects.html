@@ -217,6 +217,7 @@
               <div id="project" class="mdl-cell mdl-cell--12-col" style="padding: 0px 64px 0px 64px;">
                 <script type="text/javascript">
                   function loadproject(obj) {
+                    return function(){
                     var num=obj.project.length;
                     for (var i=1;i<=num;i++) {
                       var timeline_section=document.createElement("section");
@@ -295,8 +296,11 @@
                       document.getElementById("project").appendChild(divider);
                     }
                   }
+                }
                   var obj=getProjectData();
-                  loadproject(obj);
+                  $(document).ready(){
+                     loadproject(obj);
+                    }
                 </script>
               </div>
             </div>
