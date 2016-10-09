@@ -397,7 +397,7 @@ window.onload=(function () {
         var res_height = 500;
         var svg_container = d3.select('#result_blast').append('svg')
             .attr('width', res_width + 280)
-            .attr('height', res_height + 120)
+            .attr('height', res_height + 180)
             .attr("id","svg_blast");
         
         var svg = svg_container.append("g")
