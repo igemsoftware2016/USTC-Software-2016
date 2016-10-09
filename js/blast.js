@@ -310,30 +310,30 @@ function glo_draw(svg,data_result,ori_length) {
             console.log(color((d.query_end-d.query_start)/ori_length));
             return color((d.query_end-d.query_start)/ori_length)
         })
-        .attr("id",function (d) {
-            return "rectangle_"+d.index;
+        .attr("id",function (d,i) {
+            return "rectangle_" + i;
         })
-        .on("mouseover", function(d){
-                renew_graph(d);
-                renew_label(d)
+        .on("mouseover", function(d,i){
+                renew_graph(d,i);
+                renew_label(d,i)
             }
-        ).on("mouseout",function (d) {
-            flash_label(d)
+        ).on("mouseout",function (d,i) {
+            flash_label(d,i)
         }).attr("stroke","white").attr("stroke-width",3);;
 
     var text = res_data_enter.append("text")
         .text(function (d) {return d.ID})
         .attr("x",260)
-        .attr("y",function (d) {
-            return d.index*24-200
+        .attr("y",function (d,i) {
+            return i*24-200
         })
         .attr("pointer-events", "none")
-        .classed('noselect',true);
+        .classed('noselcect',true);
 
 
-    function flash_label(d) {
-        d3.selectAll("#rectangle_"+d.index).attr("stroke","white").attr("stroke-width",3);
-        d3.selectAll("#rectangle_"+d.index)
+    function flash_label(d,i) {
+        d3.selectAll("#rectangle_"+i).attr("stroke","white").attr("stroke-width",3);
+        d3.selectAll("#rectangle_"+i)
             .transition().duration(200).attrTween("width",function (d,i,a) {
             return d3.interpolate(a,215);
 
@@ -341,9 +341,9 @@ function glo_draw(svg,data_result,ori_length) {
         });
     }
 
-    function renew_label(d) {
-        d3.selectAll("#rectangle_"+d.index).attr("stroke","yellow").attr("stroke-width",3);
-        d3.selectAll("#rectangle_"+d.index)
+    function renew_label(d,i) {
+        d3.selectAll("#rectangle_"+i).attr("stroke","yellow").attr("stroke-width",3);
+        d3.selectAll("#rectangle_"+i)
             .transition().duration(200).attrTween("width",function (d,i,a) {
             return d3.interpolate(a,240)
         });
