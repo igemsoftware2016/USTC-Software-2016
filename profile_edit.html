@@ -23,7 +23,7 @@
 
     <link rel="shortcut icon" href="images/logo.ico">
     <script src="js/jquery-2.1.1.min.js"></script>
-    <script src="js/user.js"></script>
+    <script src="js/profile_edit.js"></script>
 
 
     <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
@@ -206,7 +206,7 @@
         <header class="demo-drawer-header">
             <img id="side-head" src="img/user-a.png" class="demo-avatar">
             <div class="demo-avatar-dropdown">
-                <span id="user-email" style="font-size: 15px">User Email</span>
+                <span id="user_email_drawer" style="font-size: 15px">User Email</span>
                 <div class="mdl-layout-spacer"></div>
                 <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
                     <i class="material-icons" role="presentation">arrow_drop_down</i>
@@ -250,8 +250,8 @@
                                 <div class="action">
 
                                     <label class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"style="width:80px">
-                                    <i class="material-icons">file_upload</i>  Upload Image
-                                    <input type="file" id="file" class="none" style="width:30px;visibility: hidden">
+                                        <i class="material-icons">file_upload</i>  Upload Image
+                                        <input type="file" id="file" class="none" style="width:30px;visibility: hidden">
                                     </label>
 
                                     <input type="button" class="mdl-button mdl-js-button  mdl-js-ripple-effect mdl-button--accent" id="btnCrop" value="Submit" style="margin-left:4px;float: right">
@@ -532,7 +532,7 @@
 
 
 
-//post data and image to server
+    //post data and image to server
 
 
     $.fn.serializeObject = function()
@@ -558,7 +558,7 @@
         console.log(dictPost);
         $.ajax({
             type: "POST",
-            url: "/plugin/",
+            url: "/plugin",
             data: dictPost,
             success: function(response){
                 console.log(response);
@@ -613,11 +613,6 @@
 
 
 </script>
-
-<script>window.onload=function () {
-    get_user_info();
-    get_user_info_for_update();
-}</script>
 
 </body>
 </html>
