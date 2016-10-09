@@ -250,7 +250,7 @@ function arcTween(start_n,end_n) {
 function glo_draw(svg,data_result,ori_length) {
     
 
-    ori_length = ori_length+1;
+    ori_length = ori_length+0.0001;
     var current_data = data_result[0];
     var current_start = data_result[0].query_start;
     var current_end = data_result[0].query_end;
