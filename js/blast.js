@@ -24,6 +24,7 @@ function blast_req(){
     var s_data = ($('#form_bl').serializeObject());
     //console.log(s_data);
     var  dictPost  =  {"plugin":"BLAST","seq":s_data["sequence"]};
+    
     //console.log(dictPost);
     if(dictPost.seq.length>0) {
         $.ajax({
@@ -33,6 +34,21 @@ function blast_req(){
             success: function (response) {
                 var Jr = JSON.parse(response);
                 if (Jr['success'] == true) {
+                    
+                    d3.select('#svg_blast').remove();
+                    var data_res = Jr['result'];
+                    var res_width = 500;
+                    var res_height = 500;
+                    var svg_container = d3.select('#result_blast').append('svg')
+                        .attr('width', res_width + 280)
+                        .attr('height', res_height + 120)
+                        .attr("id","svg_blast");
+
+                    var svg = svg_container.append("g")
+                        .attr("transform", "translate(" + res_width / 2 + "," + res_height / 2 + ")");
+                    glo_draw(svg,data_res,s_data["sequence"].length);
+
+
                     //get the result ready for everyone
                     console.log("successfully request")
                 }
@@ -43,12 +59,12 @@ function blast_req(){
         })
     }else {
         alert("input a codon sequence to BLAST")
-    };
+    }
 }
 
 // initial blast data (should be from serve)
 
-raw_data={"q_length":46,"blast_result":[{'index':0,'ID':'gi|688010384|gb|KM018299.1|',
+var raw_data={"q_length":46,"blast_result":[{'index':0,'ID':'gi|688010384|gb|KM018299.1|',
 'description':'Synthetic fluorescent protein expression cassette cat-J23101-mTagBFP2, complete sequence',
     'E_value':7.8e-14,
     'score':84.24,
@@ -263,102 +279,110 @@ function arcTween(start_n,end_n) {
 }
 
 
-window.onload=(
-    function () {
+
+
+
+
+function glo_draw(svg,data_result,ori_length) {
+    
+
+    var current_data = data_result[0];
+    var current_start = data_result[0].query_start;
+    var current_end = data_result[0].query_end;
+    
+    var arc_ret = draw_arcs(svg,current_data.ID,0,ori_length,current_start,current_end);
+    
+
+    var res_data_enter = svg.append("g").selectAll("text")
+        .data(data_result)
+        .enter();
+
+    var rec = res_data_enter.append("rect")
+        .attr("rx", 6)
+        .attr("ry", 6)
+        .attr("x",250)
+        .attr("y", function (d) {
+            return d.index*24-215
+        })
+        .attr("width", 215)
+        .attr("height", 20)
+        .attr("fill",function (d) {
+            console.log(color((d.query_end-d.query_start)/ori_length));
+            return color((d.query_end-d.query_start)/ori_length)
+        })
+        .attr("id",function (d) {
+            return "rectangle_"+d.index;
+        })
+        .on("mouseover", function(d){
+                renew_graph(d);
+                renew_label(d)
+            }
+        ).on("mouseout",function (d) {
+            flash_label(d)
+        }).attr("stroke","white").attr("stroke-width",3);;
+
+    var text = res_data_enter.append("text")
+        .text(function (d) {return d.ID})
+        .attr("x",260)
+        .attr("y",function (d) {
+            return d.index*24-200
+        })
+        .attr("pointer-events", "none")
+        .classed('noselect',true);
+
+
+    function flash_label(d) {
+        d3.selectAll("#rectangle_"+d.index).attr("stroke","white").attr("stroke-width",3);
+        d3.selectAll("#rectangle_"+d.index)
+            .transition().duration(200).attrTween("width",function (d,i,a) {
+            return d3.interpolate(a,215);
+
+
+        });
+    }
+
+    function renew_label(d) {
+        d3.selectAll("#rectangle_"+d.index).attr("stroke","yellow").attr("stroke-width",3);
+        d3.selectAll("#rectangle_"+d.index)
+            .transition().duration(200).attrTween("width",function (d,i,a) {
+            return d3.interpolate(a,240)
+        });
+
+
+    }
+
+
+    function renew_graph(d) {
+        arc_ret.transition().duration(300)
+            .attrTween("d", arcTween(d.query_start*Math.PI*2/ori_length,d.query_end*Math.PI*2/ori_length)).each("end",function () {
+            text_end.text(d.query_end);
+            text_start.text(d.query_start);
+            root_text.text("Original Sequence VS" + d.ID);
+            text_info.text("Description : "+d.description);
+            text_benchmark.text("E-value"+d.E_value);
+            arc_ret.attr("fill", color((d.query_end-d.query_start)/ori_length))
+        })
+
+    }
+
+
+
+
+}
+
+window.onload=(function () {
+
+        console.log(raw_data)
 
         var res_width = 500;
         var res_height = 500;
         var svg_container = d3.select('#result_blast').append('svg')
-            .attr('width',res_width+280)
-            .attr('height',res_height+120);
+            .attr('width', res_width + 280)
+            .attr('height', res_height + 120)
+            .attr("id","svg_blast");
 
-        var svg  = svg_container.append("g")
+        var svg = svg_container.append("g")
             .attr("transform", "translate(" + res_width / 2 + "," + res_height / 2 + ")");
-
-        var arc_ret = draw_arcs(svg,'gi|688010384|gb|KM018299.1|',1,146,1,120);
-        current_start = 8;
-        current_end = 25;
-
-
-        var data = result;
-
-        var res_data_enter = svg.append("g").selectAll("text")
-            .data(result)
-            .enter();
-
-
-        var global_len = 47;
-
-        var rec = res_data_enter.append("rect")
-            .attr("rx", 6)
-            .attr("ry", 6)
-            .attr("x",250)
-            .attr("y", function (d) {
-                return d.index*24-215
-            })
-            .attr("width", 215)
-            .attr("height", 20)
-            .attr("fill",function (d) {
-                console.log(color((d.query_end-d.query_start)/global_len));
-                return color((d.query_end-d.query_start)/global_len)
-            })
-            .attr("id",function (d) {
-                return "rectangle_"+d.index;
-            })
-            .on("mouseover", function(d){
-                renew_graph(d);
-                renew_label(d)
-            }
-            ).on("mouseout",function (d) {
-                flash_label(d)
-            }).attr("stroke","white").attr("stroke-width",3);;
-
-        var text = res_data_enter.append("text")
-            .text(function (d) {return d.ID})
-            .attr("x",260)
-            .attr("y",function (d) {
-                return d.index*24-200
-            })
-            .attr("pointer-events", "none")
-            .classed('noselect',true);
-
-
-        function flash_label(d) {
-            d3.selectAll("#rectangle_"+d.index).attr("stroke","white").attr("stroke-width",3);
-            d3.selectAll("#rectangle_"+d.index)
-                .transition().duration(200).attrTween("width",function (d,i,a) {
-                return d3.interpolate(a,215);
-
-
-        });
-        }
-
-        function renew_label(d) {
-            d3.selectAll("#rectangle_"+d.index).attr("stroke","yellow").attr("stroke-width",3);
-             d3.selectAll("#rectangle_"+d.index)
-                 .transition().duration(200).attrTween("width",function (d,i,a) {
-                    return d3.interpolate(a,240)
-             });
-
-
-        }
-
-
-        function renew_graph(d) {
-            arc_ret.transition().duration(300)
-                .attrTween("d", arcTween(d.query_start*Math.PI*2/global_len,d.query_end*Math.PI*2/global_len)).each("end",function () {
-                text_end.text(d.query_end);
-                text_start.text(d.query_start);
-                root_text.text("Original Sequence VS" + d.ID);
-                text_info.text("Description : "+d.description);
-                text_benchmark.text("E-value"+d.E_value)
-                arc_ret.attr("fill", color((d.query_end-d.query_start)/global_len))
-            })
-
-        }
-
-
-
-
+        glo_draw(svg,raw_data.blast_result,46);
     }
 );
