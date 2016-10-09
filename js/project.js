@@ -16,7 +16,11 @@ function getProjectData(){
                         }
         	        }
         	        else{
-        		        Materialize.toast(jsonResp['error'],2500,'rounded');
+                        var data={
+                            message: jsonResp['error'],
+                            timeout: 2500
+                        }
+        		        snackbarContainer.MaterialSnackbar.showSnackbar(data);
         	        }
                 }
 	});
@@ -101,16 +105,16 @@ function sendCreateRequest(){
         var remark=document.getElementById("add_project_remark").value;
         var privacy=null;
         if(document.getElementById("add_private_state_private").checked=true){
-                privacy="Private";
+                privacy=true;
         }
         if(document.getElementById("add_private_state_public").checked=true){
-                privacy="Public";
+                privacy=false;
         }
         if(name==null||remark==null||privacy==null||name.length==0||remark.length==0){
                 alert("Please complete the information!");
                 return;
         }
-        var dictPost={"plugin":"pano","action":"new","project_name":name,"project_remark":remark,"private":privacy};
+        var dictPost={"plugin":"pano","action":"new","title":name,"image":null,"private":privacy,"data":'{"nodes":[],"edges":[],"remark":'+remark+'}'};
         console.log(dictPost);
         var jsonResp=[];
         $.ajax({
