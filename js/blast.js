@@ -1,6 +1,7 @@
 /**
  * Created by Pjer on 10/3/2016.
- * 
+ *
+ *  haha
  */
 $.fn.serializeObject = function()
 {
@@ -46,7 +47,7 @@ function blast_req(){
 
                     var svg = svg_container.append("g")
                         .attr("transform", "translate(" + res_width / 2 + "," + res_height / 2 + ")");
-                    glo_draw(svg,data_res,s_data["sequence"].length);
+                    glo_draw(svg,data_res.slice(0,22),s_data["sequence"].length);
 
 
                     //get the result ready for everyone
@@ -249,6 +250,7 @@ function arcTween(start_n,end_n) {
 function glo_draw(svg,data_result,ori_length) {
     
 
+    ori_length = ori_length+1;
     var current_data = data_result[0];
     var current_start = data_result[0].query_start;
     var current_end = data_result[0].query_end;
@@ -265,7 +267,7 @@ function glo_draw(svg,data_result,ori_length) {
         .attr("ry", 6)
         .attr("x",250)
         .attr("y", function (d,i) {
-            return i*24-215
+            return i*24-255
         })
         .attr("width", 215)
         .attr("height", 20)
@@ -288,7 +290,7 @@ function glo_draw(svg,data_result,ori_length) {
         .text(function (d) {return d.ID})
         .attr("x",260)
         .attr("y",function (d,i) {
-            return i*24-200
+            return i*24-240
         })
         .attr("pointer-events", "none")
         .classed('noselcect',true);
@@ -356,7 +358,7 @@ function loader(config) {
 
         var background = svg.append("path")
             .datum({endAngle: 0.33*tau})
-            .style("fill", "#4D4D4D")
+            .style("fill", "#4a9c47")
             .attr("d", arc)
             .call(spin, 1500)
 
