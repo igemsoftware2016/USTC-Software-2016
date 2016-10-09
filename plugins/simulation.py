@@ -18,7 +18,7 @@ class ParameterMissedError(Exception):
 
 
 class bio_simulation:
-    def __init__(self, str_eqs, str_init, start_t=0, end_t=200, step_l=0.005):
+    def __init__(self, str_eqs, str_init, start_t=0, end_t=1, step_l=0.002):
         # Clean all white space in input strings
         str_eqs = str_eqs.replace(' ','')
         str_eqs = str_eqs.replace('\t','')
