@@ -105,16 +105,16 @@ function sendCreateRequest(){
         var remark=document.getElementById("add_project_remark").value;
         var privacy=null;
         if(document.getElementById("add_private_state_private").checked=true){
-                privacy=true;
+                privacy=false;
         }
         if(document.getElementById("add_private_state_public").checked=true){
-                privacy=false;
+                privacy=true;
         }
         if(name==null||remark==null||privacy==null||name.length==0||remark.length==0){
                 alert("Please complete the information!");
                 return;
         }
-        var dictPost={"plugin":"pano","action":"new","title":name,"image":null,"private":privacy,"data":'{"nodes":[],"edges":[],"remark":'+remark+'}'};
+        var dictPost={"plugin":"pano","action":"new","title":name,"img":null,"public":privacy,"data":'{"nodes":[],"edges":[],"remark":'+remark+'}'};
         console.log(dictPost);
         var jsonResp=[];
         $.ajax({
