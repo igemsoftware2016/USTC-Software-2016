@@ -301,8 +301,8 @@ function glo_draw(svg,data_result,ori_length) {
         .attr("rx", 6)
         .attr("ry", 6)
         .attr("x",250)
-        .attr("y", function (d) {
-            return d.index*24-215
+        .attr("y", function (d,i) {
+            return i*24-215
         })
         .attr("width", 215)
         .attr("height", 20)
