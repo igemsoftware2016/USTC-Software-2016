@@ -23,6 +23,7 @@ function getUrlVars() {
 }
 
 
+console.log(getUrlVars()["id"]);
 
 var data_raw;
 var vis;
@@ -155,9 +156,8 @@ function  run_sim(n,data_graph) {
     });
 }
 
-
-$(function () {
-    console.log("begin");
+function  no_connection_status() {
+    console.log("no internet connection");
     d3.json("data/simu_data.json", function (error, data_graph) {
 
 
@@ -247,7 +247,7 @@ $(function () {
 
         
         
-
+/*
         data_raw = [{
             "value": ["202","177"],
             "time": "2000"
@@ -267,9 +267,128 @@ $(function () {
             "value": ["176","157"],
             "time": "2010"
         }];
-
+*/ 
+        //debug data
         //vis_data(data_raw)
 
 
     });
-});
+}
+
+
+
+function draw_functions_simu(data_graph) {
+
+
+    data_graph_g = data_graph;
+    var func_container = d3.selectAll("#functions");
+    var func = func_container.append("div")
+        .selectAll("div")
+        .data(data_graph.nodes)
+        .enter()
+        .append("div")
+        .attr("class", "card row")
+        .attr("style", "margin:25px");
+
+    func.append("div")
+        .attr("class", "col m2 s4")
+        .attr("style", "margin-top:15px")
+        .attr("lang", "latex")
+        .append("img")
+        .attr("src", function (d, i) {
+            src_str = "http://latex.codecogs.com/gif.latex?\\frac{dy_{"
+                + d.id
+                + "}}{dx} \\quad=";
+            return src_str
+        });
+
+    var inp = func.append("div")
+        .attr("class", "input-field col m10 s12");
+
+
+    inp.append("input")
+        .attr("id", function (d) {
+            fnstr = ("input_func_" + d.id);
+            return fnstr;
+        }).attr("type", "text");
+
+    inp.append("label")
+        .attr("for", function (d) {
+            fnstr = "input_label_func_" + d.id;
+            return fnstr;
+        }).text(function (d) {
+        return "Control Function of index " + d.id;
+    });
+
+
+    func.append("div")
+        .attr("class", "col m2 s4")
+        .attr("style", "margin-top:25px")
+        .attr("lang", "latex")
+        .append("img")
+        .attr("src", function (d, i) {
+            src_str = "http://latex.codecogs.com/gif.latex?y_{"
+                + d.id
+                + "} \\quad=";
+            return src_str
+        });
+
+    var inp_1 = func.append("div")
+        .attr("class", "input-field col m10 s12");
+
+
+    inp_1.append("input")
+        .attr("id", function (d) {
+            fnstr = ("input_init_" + d.id);
+            return fnstr;
+        }).attr("type", "text");
+
+    inp_1.append("label").attr("for", function (d) {
+        fnstr = "input_label_init_" + d.id;
+        return fnstr;
+    }).html(function (d) {
+        return "Initial Value of index " + d.id;
+    });
+
+    func_container
+        .append("div")
+        .attr("class", "center")
+        .append("a")
+        .attr("class", "btn btn-large waves-effect ")
+        .html("run!")
+        .attr("onclick", "run_sim(n_node,data_graph_g)");
+
+
+    n_node = data_graph.nodes.length;
+    console.log(n_node);
+
+}
+
+
+
+    window.onload(function () {
+    var id_from_pano = getUrlVars()["id"];
+    
+    var dictData = {"plugin":"pano","action":"load","id":id_from_pano}
+    $.ajax({
+        type:"POST",
+        url:"/plugin/",
+        data:dictData,
+        success:function (response) {
+                draw_functions_simu(response["nodes"])
+        },
+        statusCode: {
+            404: function() {
+                console.log("connection error(404)");
+                alert("can not connect to server");
+                no_connection_status();
+            },
+            400: function() {
+                console.log("connection error(400)");
+                alert("can not connect to server");
+                no_connection_status();
+            }
+        }
+    });
+}
+);
