@@ -33,8 +33,7 @@ class ABACUS(Plugin):
                     tag = request["tag"]
                 except KeyError:
                     Popen(["python3", "\"" + request["design"] + "\"",
-                          "\"" + request["inpath"] + "\"",
-                          "\"" + request["filename"] + "\"",
+                          "\"" + request["inpath"] + request["filename"] + "\"",
                           request["amount"]]
                           )
 
