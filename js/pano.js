@@ -118,7 +118,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 thisGraph.delSelectedEdge();
                 thisGraph.delSelectedNode();
                 if (oldNode) {
-                    if (graph.nodes.length >= 0) {
+                    if (graph.nodes.length > 0) {
                         var index = oldNode.id;
                         do {
                             index = (index + 1) % graph.nodes.length;
@@ -725,7 +725,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         });
 
         $('#side-head-top-button-n').click(function () {
-            if (graph.nodes.length >= 0) {
+            if (graph.nodes.length > 0) {
                 var index = self.currentDotIndex;
                 do {
                     index = (index + 1) % graph.nodes.length;
@@ -742,7 +742,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         });
 
         $('#side-head-top-button-p').click(function () {
-            if (graph.nodes.length >= 0) {
+            if (graph.nodes.length > 0) {
                 var index = self.currentDotIndex;
                 do {
                     index = (index + graph.nodes.length - 1) % graph.nodes.length;
@@ -756,6 +756,16 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             } else {
                 graph.setSelectedNode(graph.nodes[graph.nodes.length]);
             }
+        });
+
+        $('#side-head-top-button-i').dropdown({
+            inDuration: 30000,
+            outDuration: 225,
+            constrain_width: false,
+            hover: true,
+            gutter: 0,
+            belowOrigin: true,
+            alignment: 'right'
         });
 
         $('#side-info-add').click(function () {
@@ -780,7 +790,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         $('#side-info-remove').click(function () {
             var id = graph.state.selectedNode.id;
             graph.delSelectedNode();
-            if (graph.nodes.length >= 0) {
+            if (graph.nodes.length > 0) {
                 var index = id;
                 do {
                     index = (index + 1) % graph.nodes.length;
