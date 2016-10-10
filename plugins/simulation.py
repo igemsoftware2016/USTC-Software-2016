@@ -23,7 +23,7 @@ For the interface:
 
 '''
 from numpy import *
-#from matplotlib import pyplot as plt
+# from matplotlib import pyplot as plt
 from scipy.integrate import odeint
 from plugin import Plugin
 
@@ -33,18 +33,18 @@ class ParameterMissedError(Exception):
 
 
 class bio_simulation:
-    def __init__(self, str_eqs, str_init, start_t=0, end_t=20, step_l=0.005):
+    def __init__(self, str_eqs, str_init, start_t=0., end_t=20., step_l=0.005):
         # Clean all white space in input strings
-        str_eqs = str_eqs.replace(' ','')
-        str_eqs = str_eqs.replace('\t','')
-        str_init = str_init.replace(' ','')
-        str_init = str_init.replace('\t','')
+        str_eqs = str_eqs.replace(' ', '')
+        str_eqs = str_eqs.replace('\t', '')
+        str_init = str_init.replace(' ', '')
+        str_init = str_init.replace('\t', '')
 
         # Divide strings for parsing
         self.eqs_arr = str.split(str_eqs, '\n')
         self.init_arr = str.split(str_init, '\n')
 
-        # Intial values and equations don't match
+        # Initial values and equations don't match
         if len(self.eqs_arr) != len(self.init_arr):
             raise ParameterMissedError
 
@@ -61,31 +61,22 @@ class bio_simulation:
         for i in range(len(eqs)):
             eqs[i] = eqs[i].replace('^', "**")
 
-        try:
-            #Calculate expressions and return a list
-            dydt = list(map(eval, eqs))
-        except NameError as e: # Invalid variable name
-            print(e)
-        except ZeroDivisionError as e:
-            print(e)
+        dydt = list(map(eval, eqs))
 
         return dydt
 
 
-    def run_sim(self, ratio = 0.995):
-        self.t_range = linspace(self.start_t, self.end_t, ((self.end_t - self.start_t) / self.step_l))
-        
+    def run_sim(self, ratio=0.995):
+        self.t_range = linspace(self.start_t, self.end_t, int((self.end_t - self.start_t) / self.step_l))
+
         # Get initial values
         y0 = []
         testy = []
         for init_single_line in self.init_arr:
             parse_init = str.split(init_single_line, '=')[1]
-            try:
-                y0.append(float(parse_init))
-            except ValueError as e:
-                print(e)
-        
-        # I recommend to modify interface to remove the follwing 2 lines.
+            y0.append(float(parse_init))
+
+        # I recommend to modify interface to remove the following 2 lines.
         for i in range(len(self.eqs_arr)):
             self.eqs_arr[i] = self.eqs_arr[i].split('=')[1]
 
@@ -96,7 +87,7 @@ class bio_simulation:
         for i in y0:
             testy.append(ratio * i)
 
-        test_res = odeint(self.func, testy, self.t_range, args=(self.eqs_arr, ))
+        test_res = odeint(self.func, testy, self.t_range, args=(self.eqs_arr,))
         res = (abs(test_res - self.data_all) / self.data_all) > (1 - ratio) * 1.5
 
         self.unstable = None
@@ -107,34 +98,37 @@ class bio_simulation:
             for j in row:
                 if j == False:
                     fc += 1
-            #print(row, isUnstable)
+            # print(row, isUnstable)
             if fc <= 1:
                 if counter == 2:
                     self.unstable = self.start_t + (i - 10) * self.step_l
-                    #print(self.unstable)
+                    # print(self.unstable)
                     break
                 else:
                     counter += 1
             else:
-                    counter = 0
+                counter = 0
 
         self.data_all = self.data_all.transpose()
-        self.lyapunov = log(abs((self.data_all[:,-1] - test_res.transpose()[:,-1]) / (array(y0) * (1-ratio)))) / self.data_all.shape[1]
-        #print(self.lyapunov)
+        self.lyapunov = log(abs((self.data_all[:, -1] - test_res.transpose()[:, -1]) / (array(y0) * (1 - ratio)))) / \
+                        self.data_all.shape[1]
+        # print(self.lyapunov)
         return 0
 
 
     def parse_data(self):
         return self.data_all
 
-
+    '''
     def plot_data(self):
         for i in range(self.data_all.shape[0]):
-            plt.plot(self.t_range, self.data_all[i, :], label='y'+str(i))
+            plt.plot(self.t_range, self.data_all[i, :], label='y' + str(i))
 
         if self.unstable is not None:
             plt.axvline(x=self.unstable, linewidth=3, color='r')
         plt.show()
+    '''
+
 
 '''
 def main():
@@ -165,23 +159,14 @@ class Simulation(Plugin):
         str_eqs = request['eqs']
         str_init = request['init']
 
-        # !===Plugin manager should implement the exception handling below===!
-        try:
-            end_t = float(request['end_t'])
-            step_l = float(request['step_l'])
-            sim = bio_simulation(str_eqs, str_init)
-            sim.run_sim()
-        except ParameterMissedError:
-            pass # For implementation
-        except NameError:
-            pass # For implementation
-        except ZeroDivisionError:
-            pass # For implementation
-        except ValueError:
-            pass # For implementation
+        end_t = float(request['end_t'])
+        step_l = float(request['step_l'])
+        sim = bio_simulation(str_eqs, str_init, 0, end_t, step_l)
+        sim.run_sim()
 
         # May be you should modify this line below to satify your interface
-        return dict(result=repr(list(map(list, sim.data_all))), unstable=str(self.unstable), lyapunov=repr(self.lyapunov), success=True)
+        return dict(result=repr(list(map(list, sim.data_all))), unstable=self.unstable,
+                    lyapunov=repr(self.lyapunov))
 
 
 __plugin__ = Simulation()
