@@ -1,0 +1,5 @@
+SQLAlchemy
+flask
+flask_login
+pylint
+mock
