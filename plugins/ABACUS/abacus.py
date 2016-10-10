@@ -1,6 +1,6 @@
 """This is an ABACUS plugin.
     request = {
-    "action": "design" or "suspiciousSites" or "singleMutationScan"
+    "action": "design" or "singleMutationScan"
     "id": fileID
     "inpath": inputFilePath
     "filename": filename
@@ -13,16 +13,17 @@
 from time import ctime
 from subprocess import Popen
 
-from singleMutationScan import singleMutationScan
-from design import design
+from .singleMutationScan import singleMutationScan
+from .design import design
 from plugin import Plugin, PluginDocument
 
-from callabacus import InternalError, FileFormatError
+from .callabacus import InternalError, FileFormatError
 from database import TableBase, Column, Text
 from database import engine
 
 
 class ABACUS(Plugin):
+    name = 'BLAST'
 
     def process(self, request):
         print("example plugin got a request:" + str(request))
@@ -50,7 +51,7 @@ class ABACUS(Plugin):
             except ValueError:
                 return {"success": False, "reason": "Invalid input"}
             except InternalError:
-                return {"success": False, "reason": "Unknown internal errror"}
+                return {"success": False, "reason": "Unknown internal error"}
             except FileFormatError:
                 return {"success": False, "reason": "File format error!"}
             else:
