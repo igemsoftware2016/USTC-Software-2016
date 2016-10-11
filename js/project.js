@@ -52,6 +52,7 @@ function get_user_info_by_id(i,obj) {
         type: "POST",
         url: "/plugin/",
         data: dictPost,
+        async: false;
         success: function(response){
             console.log(response);
             jsonResp = JSON.parse(response);
