@@ -860,7 +860,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
 
     function invalidProjectId() {
         alert('Invalid Project ID! ');
-        location.href = 'project.html';
+        location.href = 'projects.html';
     }
 
     if (isNaN(projectId)) {
