@@ -269,7 +269,7 @@
                       componentHandler.upgradeElement(view);
                       actions.appendChild(view);
                       var edit=document.createElement("a");
-                      edit.href="pano.html?project_id=";
+                      edit.href="pano.html#"+obj.project[i-1].project_id;
                       edit.className="mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect";
                       var textNode=document.createTextNode("Edit");
                       edit.appendChild(textNode);
@@ -298,9 +298,7 @@
                   }
                 }
                   var obj=getProjectData();
-                  $(document).ready(function(){
                      loadproject(obj);
-                    });
                 </script>
               </div>
             </div>

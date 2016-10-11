@@ -11,8 +11,12 @@ function getProjectData(){
         	        jsonResp=JSON.parse(response);
         	        if(jsonResp['success']==true){
                                 for (var i=1;i<=jsonResp.project.length;i++){
-                                var res=get_user_info_by_id(jsonResp.project[i-1].user_id);
-                                jsonResp.project[i-1].user_name=res.user_name;
+                                if (jsonResp.project[i-1].public==true){
+                                    jsonResp.project[i-1].private="Public";
+                                }
+                                else {
+                                    jsonResp.project[i-1].private="Private";
+                                }
                         }
         	        }
         	        else{
@@ -76,8 +80,8 @@ function prepareRemoveData(i,obj){
 function sendRemoveRequest(i,obj){
    return function(){
         var user=document.getElementById("this_is_a_user_name").innerHTML;
-        var id=obj.project[i-1].project_id;
-        var dictPost={"plugin":"pano","action":"delete","project_name":id};
+        var id=obj.project[i-1].id;
+        var dictPost={"plugin":"pano","action":"delete","id":id};
         console.log(dictPost);
         var jsonResp=[];
         $.ajax({
@@ -126,7 +130,7 @@ function sendCreateRequest(){
                         jsonResp=JSON.parse(response);
                         if(jsonResp['success']==true){
                                 alert('Successfully created!');
-                                window.location="pano.html?id="+jsonResp['id'];
+                                window.location="pano.html#"+jsonResp['id'];
                         }
                         else{
                                 Materialize.toast(jsonResp['error'],2500,'rounded');
