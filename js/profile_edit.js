@@ -82,25 +82,25 @@ function get_user_info_for_update() {
 
                 if(Jr.education!=null){
                     if(Jr.education.length>0){
-                        document.getElementById('edu').innerHTML=Jr["education"]
+                        document.getElementById('edu').value=Jr["education"]
                     }
                 }
 
                 if(Jr.username!=null){
                     if(Jr.username.length>0){
-                        document.getElementById('user_name').innerHTML=Jr['username']
+                        document.getElementById('user_name').value=Jr['username']
                     }
                 }
 
                 if(Jr.describe!=null){
                     if(Jr.describe.length>0){
-                        document.getElementById('describe').innerHTML=Jr['describe']
+                        document.getElementById('describe').value=Jr['describe']
                     }
                 }
 
                 if(Jr.major!=null){
                     if(Jr.major.length>0){
-                        document.getElementById('major').innerHTML=Jr['major']
+                        document.getElementById('major').value=Jr['major']
                     }
                 }
 
