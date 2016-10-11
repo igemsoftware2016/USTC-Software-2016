@@ -42,6 +42,7 @@ class Pano(Plugin):
         doc.description = img
         doc.created = time()
         doc.last_modified = time()
+        public = 1 if public else 0
         doc.public = public
         doc.comments = '[]'
         doc.praises = 'set()'
