@@ -485,11 +485,11 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 return d.source === newEdge.source && d.target === newEdge.target;
             });
             if (!filtRes[0].length) {
-                sidebar.update(mouseDownNode.id);
                 thisGraph.edges.push(newEdge);
                 thisGraph.setSelectedNode(graph.nodes[mouseDownNode.id]);
                 thisGraph.updateGraph();
                 thisGraph.trySave();
+                sidebar.update(mouseDownNode.id);
             }
         } else {
             // we're in the same node
