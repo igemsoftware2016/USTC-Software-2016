@@ -93,7 +93,6 @@ function get_user_info_by_id(i,obj) {
         success: function(response){
             console.log(response);
             jsonResp = JSON.parse(response);
-            i++;
             if(jsonResp['success']==true) {
                  obj.project[i-1].user_name=jsonResp.user_name;
                  if (obj.project[i-1].public==true){
@@ -107,7 +106,10 @@ function get_user_info_by_id(i,obj) {
                                 }
 
                 loadproject(obj.project[i-1]);
+                i++;
+                if(i<=num){
                 get_user_info_by_id(i,obj);
+            }
             }
             else {
                 Materialize.toast(jsonResp['error'], 2500, 'rounded');
