@@ -133,7 +133,7 @@ function date(format, timestamp){
   U: function(){return Math.round(jsdate.getTime()/1000)} 
  }; 
    
- return format.replace(/[\]?([a-zA-Z])/g, function(t, s){ 
+ return format.replace(/[\]?([a-zA-Z]/g, function(t, s){ 
   if( t!=s ){ 
    // escaped 
    ret = s; 
