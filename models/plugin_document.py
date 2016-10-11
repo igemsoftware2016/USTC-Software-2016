@@ -1,6 +1,6 @@
 from sqlalchemy.ext.declarative import declared_attr
 
-from database import Column, Integer, String, ForeignKey
+from database import Column, Integer, String, ForeignKey, Text
 
 
 class PluginDocument(object):
@@ -17,4 +17,4 @@ class PluginDocument(object):
         return Column(Integer(), ForeignKey('user.id'))
     title = Column(String(256))
     last_modified = Column(Integer())
-    description = Column(String(1024))
+    description = Column(Text())
