@@ -217,14 +217,12 @@
               <div id="project" class="mdl-cell mdl-cell--12-col" style="padding: 0px 64px 0px 64px;">
                 <script type="text/javascript">
                   function loadproject(obj) {
-                    var num=obj.project.length;
-                    for (var i=1;i<=num;i++) {
                       var timeline_section=document.createElement("section");
                       timeline_section.className="demo-card-project mdl-grid mdl-grid--no-spacing mdl-shadow--4dp";
 
                       var img=document.createElement("div");
                       img.className="mdl-cell mdl-cell--4-col";
-                      img.style.backgroundImage="url("+obj.project[i-1].img_src+")";
+                      img.style.backgroundImage="url("+obj.img_src+")";
                       img.style.backgroundRepeat="no-repeat";
                       img.style.backgroundPosition="center";
                       componentHandler.upgradeElement(img);
@@ -239,7 +237,7 @@
                       var title=document.createElement("span");
                       title.style.color="black";
                       title.style.fontSize="24px";
-                      var textNode=document.createTextNode(obj.project[i-1].project_name);
+                      var textNode=document.createTextNode(obj.project_name);
                       title.appendChild(textNode);
                       componentHandler.upgradeElement(title);
                       supporting_text.appendChild(title);
@@ -250,7 +248,7 @@
                       content.style.paddingTop="25px";
                       var textNode=document.createElement("span");
                       textNode.style.fontSize="16px";
-                      textNode.innerHTML="Author: "+obj.project[i-1].user_name+"<br/>State: "+obj.project[i-1].private+"<br/>Last Update: "+date(obj.project[i-1].last_update_time);
+                      textNode.innerHTML="Author: "+obj.user_name+"<br/>State: "+obj.private+"<br/>Last Update: "+date(obj.last_update_time);
                       componentHandler.upgradeElement(textNode);
                       content.appendChild(textNode);
                       componentHandler.upgradeElement(content);
@@ -261,7 +259,7 @@
                       var actions=document.createElement("div");
                       actions.className="demo-icon_text-align mdl-card__actions mdl-card--border";
                       var edit=document.createElement("a");
-                      edit.href="pano.html#"+String(obj.project[i-1].project_id);
+                      edit.href="pano.html#"+String(obj.project_id);
                       edit.className="mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect";
                       var textNode=document.createTextNode("Edit");
                       edit.appendChild(textNode);
@@ -286,7 +284,6 @@
                       componentHandler.upgradeElement(divider);
                       document.getElementById("project").appendChild(divider);
                     }
-                }
                 getProjectData();
                 </script>
               </div>
