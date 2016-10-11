@@ -125,5 +125,6 @@ class Pano(Plugin):
             events.append(dict(project_id=i.id, user_id=i.owner, time=i.created, img_src=i.description, public=i.public,
                 project_name=i.title, last_update_time=i.last_modified, praise=self.user.id in eval(i.praises),
                 comment=eval(i.comments)))
+        return dict(project=events)
 
 __plugin__ = Pano()
