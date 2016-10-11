@@ -813,7 +813,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         });
     };
 
-    var projectId = Number(location.href.match(/id=(\d*)/)[1]);
+    var projectId = Number((location.href.match(/id=(\d*)/) || [])[1]);
 
     $('#body').append($('<svg id="main_window"></svg>')
         .attr("width", $(document.body).width())
@@ -860,7 +860,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
 
     function invalidProjectId() {
         alert('Invalid Project ID! ');
-        location.href = 'project.html';
+        location.href = 'projects.html';
     }
 
     if (isNaN(projectId)) {
