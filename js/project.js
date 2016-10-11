@@ -18,7 +18,7 @@ function getProjectData(){
                                     jsonResp.project[i-1].private="Private";
                                 }
                                 if (jsonResp.project[i-1].img_src==""){
-                                    jsonResp.project[i-1].img_src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIAAgMAAACJFjxpAAAADFBMVEXFxcX////p6enW1tbAmiBwAAAFiElEQVR4AezAgQAAAACAoP2pF6kAAAAAAAAAAAAAAIDbu2MkvY0jiuMWWQoUmI50BB+BgRTpCAz4G6C8CJDrC3AEXGKPoMTlYA/gAJfwETawI8cuBs5Nk2KtvfiLW+gLfK9m+r3X82G653+JP/zjF8afP1S//y+An4/i51//AsB4aH+/QPD6EQAY/zwZwN8BAP50bh786KP4+VT+3fs4/noigEc+jnHeJrzxX+NWMDDh4g8+EXcnLcC9T8U5S/CdT8bcUeBEIrwBOiI8ki7Ba5+NrePgWUy89/nYyxQ8Iw3f+pWY4h1gb3eAW7sDTPEOsLc7wK1TIeDuDB+I/OA1QOUHv/dFsZQkhKkh4QlEfOULYz2nGj2/Nn1LmwR/86VxlCoAW6kCsHRGANx1RgCMo5Qh2EsZgrXNQZZShp5Liv7Il8eIc5C91EHY2hxk6bwYmNscZIReDBwtCdhbErC1JGBpScBcOgFMLQsZMQs5Whayd+UQsLYsZGlZyNyykKllISNmIUfAwifw8NXvTojAjGFrdYi11SGWVoeYWx1i6lmQCiEjFkKOVgjZ+xxIhZCtFULWHkCqxCw9gNQKmP9vNHzipdEPrRcxtVbAeDkAvve0iM2QozVD9hfjhp4YP/UrkJYDbD2AtBxgfSkAvvHEeNcDSAsilgtAWxIy91J8AXgZAJ5e33+4tuACcAG4AFwALgBXRXQB6AFcB5MXAuA6nl9/0Vx/011/1V5/1/dfTPJvRtdnu/zL6beeFO/7r+fXBYbrEkt/j+i6ytXfpuvvE/ZXOnsA/a3a/l5xf7O6v1t+Xe/vOyz6HpO8yyboM8o7rfJes77bru83THk48p7TvOs27zvOO6/73vO++z7l4cgnMPQzKPopHC0N9noSSz6LJp/Gk88jyicy5TOp6qlc+VyyfDJbPpuuns6XzyfMJzTmMyrrKZ35nNJ8Ums+q7af1tvPK+4nNodEnPKp3fnc8npyez67/qVP7+/fL8hfcMjfsOhf8cjfMclfcnn9+BkOnLECP8Q58OYeyJ40eoyF6Ee/En/JHlP6mIlRVXprF4BxtAvArV0AxtEuALd2ARhHuwDc2gVgHPX/hFv9fMBddjIGeKg/WCxlCsI46u+Ga5mCcJd+sIG9UkGAW32ZbApFAHhod4Bb3eo04h3god0BbiUHYApVCNjbHeBW+QDAXT4a7qg7r7e214057vg0QhkEHkoSwq0kIdydXw4/Q3H8hjYJ3vL0WConBJhCHQaOToeBrU0BljYFmEoVgHGUKgAPnREAt84IgLuqFgAYSUEOAHszDwuAtSkHAZhLGYIpdCLgKGUIHtocZG1zkLmUIRhxDnJU1RDA1uYga5uDzKUOwhTnIEfnxcDe5iBrcyQAYGlzkKkUYhhxDrKXQgxbSwLWUohhbknA1JKAEZOAvSUBW0sC1pYEzC0JmFoSMMJyCDhaFrK3JGDtyiFgaVnI3LKQqWUhI2YhR8tC9paFrC0LWVoWMrcsZGpZyIhZyNGykL2rSIGtlQHWVgZYWhlgbmWAqZUBRiwDHK0MsLcywNbKAGsOoNUhllaHmFsdYmp1iBHrEEerQ+w5gFYI2VodYm11iKXVIeYcQCuETK0QMmIh5MgBtELI3gohWyuErDmAVolZWiFkzgG0SszUKjGjfj6gVmKOVonZcwCtFbB9HQC+ozWDbz1bvGu9iKW1AuYcQOtFTLEX1GbIaFegN0OOHEBrhuw5gNYM2XIArRuz5gDacoB3bTnAEktxXQ4wfw0AvveM8b4tiJjSJOwLIsbXsAKeNeKCiOO3D+AVbUl0AfjGs8ZPbUnIdgFoa1LWC0BblfMuB9AeC1j6gqQE0J9LmC8AOYD2ZMb7i4bt2ZTpWoHfPoB7Tj2fXzT8N1X41vkq/QHOAAAAAElFTkSuQmCC';
+                                    jsonResp.project[i-1].img_src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAQAAAD9CzEMAAAAuUlEQVR4Ae2XP8rCUBAHp5F4gPxBsA45mpUgXkt4Se4Rkc97fIQkhVZrK+JbxGwhujN9Bh77K8IPsWTPkSsXOnYkGLPmjNx5YoUhCX/Igx0LzNgiT9zwBhU1AxLxQEpGQCJOtFT653tEMQUgRxR7LVEjqhkABaLaEGVAVAM5BQ2iOhJFjPSAXeBVPKADfqa+Aw/4Dr53Bx6wD/iZfkZgQgwcidIiBgb0H5CZ/lOClmgYZzxOoMRxjLkBL3E6cltSSnYAAAAASUVORK5CYII=';
                                 }
                         }
                         loadproject(jsonResp);
@@ -28,6 +28,124 @@ function getProjectData(){
         	        }
                 }
 	});
+}
+
+function date(format, timestamp){ 
+ var a, jsdate=((timestamp) ? new Date(timestamp*1000) : new Date()); 
+ var pad = function(n, c){ 
+  if((n = n + "").length < c){ 
+   return new Array(++c - n.length).join("0") + n; 
+  } else { 
+   return n; 
+  } 
+ }; 
+ var txt_weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]; 
+ var txt_ordin = {1:"st", 2:"nd", 3:"rd", 21:"st", 22:"nd", 23:"rd", 31:"st"}; 
+ var txt_months = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]; 
+ var f = { 
+  // Day 
+  d: function(){return pad(f.j(), 2)}, 
+  D: function(){return f.l().substr(0,3)}, 
+  j: function(){return jsdate.getDate()}, 
+  l: function(){return txt_weekdays[f.w()]}, 
+  N: function(){return f.w() + 1}, 
+  S: function(){return txt_ordin[f.j()] ? txt_ordin[f.j()] : 'th'}, 
+  w: function(){return jsdate.getDay()}, 
+  z: function(){return (jsdate - new Date(jsdate.getFullYear() + "/1/1")) / 864e5 >> 0}, 
+   
+  // Week 
+  W: function(){ 
+   var a = f.z(), b = 364 + f.L() - a; 
+   var nd2, nd = (new Date(jsdate.getFullYear() + "/1/1").getDay() || 7) - 1; 
+   if(b <= 2 && ((jsdate.getDay() || 7) - 1) <= 2 - b){ 
+    return 1; 
+   } else{ 
+    if(a <= 2 && nd >= 4 && a >= (6 - nd)){ 
+     nd2 = new Date(jsdate.getFullYear() - 1 + "/12/31"); 
+     return date("W", Math.round(nd2.getTime()/1000)); 
+    } else{ 
+     return (1 + (nd <= 3 ? ((a + nd) / 7) : (a - (7 - nd)) / 7) >> 0); 
+    } 
+   } 
+  }, 
+   
+  // Month 
+  F: function(){return txt_months[f.n()]}, 
+  m: function(){return pad(f.n(), 2)}, 
+  M: function(){return f.F().substr(0,3)}, 
+  n: function(){return jsdate.getMonth() + 1}, 
+  t: function(){ 
+   var n; 
+   if( (n = jsdate.getMonth() + 1) == 2 ){ 
+    return 28 + f.L(); 
+   } else{ 
+    if( n & 1 && n < 8 || !(n & 1) && n > 7 ){ 
+     return 31; 
+    } else{ 
+     return 30; 
+    } 
+   } 
+  }, 
+   
+  // Year 
+  L: function(){var y = f.Y();return (!(y & 3) && (y % 1e2 || !(y % 4e2))) ? 1 : 0}, 
+  //o not supported yet 
+  Y: function(){return jsdate.getFullYear()}, 
+  y: function(){return (jsdate.getFullYear() + "").slice(2)}, 
+   
+  // Time 
+  a: function(){return jsdate.getHours() > 11 ? "pm" : "am"}, 
+  A: function(){return f.a().toUpperCase()}, 
+  B: function(){ 
+   // peter paul koch: 
+   var off = (jsdate.getTimezoneOffset() + 60)*60; 
+   var theSeconds = (jsdate.getHours() * 3600) + (jsdate.getMinutes() * 60) + jsdate.getSeconds() + off; 
+   var beat = Math.floor(theSeconds/86.4); 
+   if (beat > 1000) beat -= 1000; 
+   if (beat < 0) beat += 1000; 
+   if ((String(beat)).length == 1) beat = "00"+beat; 
+   if ((String(beat)).length == 2) beat = "0"+beat; 
+   return beat; 
+  }, 
+  g: function(){return jsdate.getHours() % 12 || 12}, 
+  G: function(){return jsdate.getHours()}, 
+  h: function(){return pad(f.g(), 2)}, 
+  H: function(){return pad(jsdate.getHours(), 2)}, 
+  i: function(){return pad(jsdate.getMinutes(), 2)}, 
+  s: function(){return pad(jsdate.getSeconds(), 2)}, 
+  //u not supported yet 
+   
+  // Timezone 
+  //e not supported yet 
+  //I not supported yet 
+  O: function(){ 
+   var t = pad(Math.abs(jsdate.getTimezoneOffset()/60*100), 4); 
+   if (jsdate.getTimezoneOffset() > 0) t = "-" + t; else t = "+" + t; 
+   return t; 
+  }, 
+  P: function(){var O = f.O();return (O.substr(0, 3) + ":" + O.substr(3, 2))}, 
+  //T not supported yet 
+  //Z not supported yet 
+   
+  // Full Date/Time 
+  c: function(){return f.Y() + "-" + f.m() + "-" + f.d() + "T" + f.h() + ":" + f.i() + ":" + f.s() + f.P()}, 
+  //r not supported yet 
+  U: function(){return Math.round(jsdate.getTime()/1000)} 
+ }; 
+   
+ return format.replace(/[\]?([a-zA-Z])/g, function(t, s){ 
+  if( t!=s ){ 
+   // escaped 
+   ret = s; 
+  } else if( f[s] ){ 
+   // a date function exists 
+   ret = f[s](); 
+  } else{ 
+   // nothing special 
+   ret = s; 
+  } 
+  return ret; 
+ }); 
 }
 
 function get_user_info_by_id(id) {
@@ -105,7 +223,6 @@ function sendCreateRequest(){
    return function(){
         var user=document.getElementById("this_is_a_user_name").innerHTML;
         var name=document.getElementById("add_project_name").value;
-        var remark=document.getElementById("add_project_remark").value;
         var privacy=null;
         if(document.getElementById("add_private_state_private").checked=true){
                 privacy=false;
@@ -113,11 +230,11 @@ function sendCreateRequest(){
         if(document.getElementById("add_private_state_public").checked=true){
                 privacy=true;
         }
-        if(name==null||remark==null||privacy==null||name.length==0||remark.length==0){
+        if(name==null||remark==null||privacy==null||name.length==0){
                 alert("Please complete the information!");
                 return;
         }
-        var dictPost={"plugin":"pano","action":"new","title":name,"img":null,"public":privacy,"data":'{"nodes":[],"edges":[],"remark":'+remark+'}'};
+        var dictPost={"plugin":"pano","action":"new","title":name,"img":null,"public":privacy,"data":'{"nodes":[],"edges":[]}'};
         console.log(dictPost);
         var jsonResp=[];
         $.ajax({

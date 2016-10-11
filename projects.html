@@ -250,7 +250,7 @@
                       content.style.paddingTop="25px";
                       var textNode=document.createElement("span");
                       textNode.style.fontSize="16px";
-                      textNode.innerHTML="Author: "+String(obj.project[i-1].user_id)+"<br/>State: "+obj.project[i-1].private+"<br/>Last Update: "+String(obj.project[i-1].last_update_time);
+                      textNode.innerHTML="Author: "+String(obj.project[i-1].user_id)+"<br/>State: "+obj.project[i-1].private+"<br/>Last Update: "+date("Y-m-d H:i:s",String(obj.project[i-1].last_update_time));
                       componentHandler.upgradeElement(textNode);
                       content.appendChild(textNode);
                       componentHandler.upgradeElement(content);
@@ -260,13 +260,6 @@
 
                       var actions=document.createElement("div");
                       actions.className="demo-icon_text-align mdl-card__actions mdl-card--border";
-                      var view=document.createElement("a");
-                      view.href="#";
-                      view.className="show-dialog-view-project mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect";
-                      var textNode=document.createTextNode("View");
-                      view.appendChild(textNode);
-                      componentHandler.upgradeElement(view);
-                      actions.appendChild(view);
                       var edit=document.createElement("a");
                       edit.href="pano.html#"+String(obj.project[i-1].project_id);
                       edit.className="mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect";
@@ -305,18 +298,13 @@
             <div class="mdl-dialog__content mdl-grid mdl-grid--no-spacing" style="margin-left: 10px; margin-right: 10px;">
                 <div class="mdl-cell mdl-cell--12-col mdl-grid mdl-grid--no-spacing">
                     <div class="mdl-cell mdl-cell--12-col" style="padding-top: 25px;">
-                        <span>Select your preferences...</span>
+                        <span style="padding-left: 10px;">Select your preferences...</span>
                     </div>
                     <div class="demo-icon_text-align mdl-cell mdl-cell--12-col mdl-grid mdl-grid--no-spacing" style="margin-left: 10px; margin-right: 10px; padding-bottom: 25px;">
                         <span class="mdl-cell mdl-cell--3-col" style="text-align: left;">Name</span>
                         <div class="mdl-textfield mdl-textfield--floating-label mdl-js-textfield mdl-cell mdl-cell--9-col" style="text-align: right;">
                             <input id="add_project_name" class="mdl-textfield__input" type="text" />
                             <label for="add_project_name" class="mdl-textfield__label">Name</label>
-                        </div>
-                        <span class="mdl-cell mdl-cell--3-col" style="text-align: left;">Remark</span>
-                        <div class="mdl-textfield mdl-textfield--floating-label mdl-js-textfield mdl-cell mdl-cell--9-col" style="text-align: right;">
-                            <input id="add_project_remark" class="mdl-textfield__input" type="text" />
-                            <label for="add_project_remark" class="mdl-textfield__label">Remark</label>
                         </div>
                         <div class="demo-inputbox mdl-cell mdl-cell--12-col mdl-grid mdl-grid--no-spacing">
                             <span class="mdl-cell mdl-cell--3-col" style="text-align: left;">State</span>
@@ -351,33 +339,6 @@
             });
             var addpr=document.getElementById("add_project_control");
             addpr.addEventListener("click",sendCreateRequest());
-        </script>
-        <dialog class="demo-view-project mdl-dialog">
-            <h4 class="mdl-dialog__title" style="text-align: center;">View Project</h4>
-            <div class="mdl-dialog__content mdl-grid mdl-grid--no-spacing" style="margin-left:10px; margin-right: 10px;">
-                <div class="mdl-cell mdl-cell--12-col">
-                    <p class="mdl-cell mdl-cell--12-col" style="padding-top: 25px; padding-bottom:25px; text-align: left;font-size: 16px;"><span id="project_name" style="color: black;">Project_Name</span><br/><span id="project_remark">Project_Remark</span><br/><br/>Created By <span id="create_user_id" style="color: green;">User_Id</span> on <span id="create_user_date" style="color: green;">2000-0-0</span> <br/>State: <span id="project_state" style="color: green;">Private/Public</span> <br/>Recent Update By <span id="update_user_id" style="color: green;">User_Id</span> on <span id="update_user_date" style="color: green;">2000-0-0</span> </p>
-                </div>
-            </div>
-            <div class="mdl-dialog__actions">
-                <button type="button" class="close-dialog-view-project mdl-button">Close</button>
-            </div>
-        </dialog>
-        <script>
-            var dialog_view_project = document.querySelector('.demo-view-project');
-            var show_dialogButtons_view_project = document.querySelectorAll('.show-dialog-view-project');
-            if (! dialog_view_project.showModal) {
-                dialogPolyfill.registerDialog(dialog_view_project);
-            }
-            for (var i=1;i<=(show_dialogButtons_view_project.length);i++) {
-              show_dialogButtons_view_project[i-1].addEventListener('click',prepareViewData(i,obj));
-              show_dialogButtons_view_project[i-1].addEventListener('click', function() {
-                dialog_view_project.showModal();
-            });
-            }
-            dialog_view_project.querySelector('.close-dialog-view-project').addEventListener('click', function() {
-                dialog_view_project.close();
-            });
         </script>
         <dialog class="demo-remove-project mdl-dialog">
             <h4 class="mdl-dialog__title" style="text-align: center;">Notice</h4>
