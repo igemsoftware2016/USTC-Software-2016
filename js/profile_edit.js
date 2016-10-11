@@ -82,25 +82,29 @@ function get_user_info_for_update() {
 
                 if(Jr.education!=null){
                     if(Jr.education.length>0){
-                        document.getElementById('edu').value=Jr["education"]
+                        document.getElementById('edu').value=Jr["education"];
+                        document.getElementById('edu').parentNode.className += "is-dirty";
                     }
                 }
 
                 if(Jr.username!=null){
                     if(Jr.username.length>0){
                         document.getElementById('user_name').value=Jr['username']
+                        document.getElementById('user_name').parentNode.className += "is-dirty";
                     }
                 }
 
                 if(Jr.describe!=null){
                     if(Jr.describe.length>0){
                         document.getElementById('describe').value=Jr['describe']
+                        document.getElementById('describe').parentNode.className += "is-dirty";
                     }
                 }
 
                 if(Jr.major!=null){
                     if(Jr.major.length>0){
                         document.getElementById('major').value=Jr['major']
+                        document.getElementById('major').parentNode.className += "is-dirty";
                     }
                 }
 
