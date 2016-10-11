@@ -821,11 +821,13 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
 
     var nodes = [], edges = [];
     var svg, graph, sidebar;
+    var panoTitle, dataImg;
 
     function start() {
         svg = d3.selectAll("#main_window");
         graph = new GraphCreator(svg, nodes, edges);
         sidebar = new SideBar();
+        $('title').text('pano - ' + panoTitle);
 
         if (graph.state.selectedNode) {
             sidebar.update(graph.state.selectedNode.id);
@@ -864,6 +866,8 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 var json = JSON.parse(JSON.parse(res).data);
                 nodes = json['nodes'];
                 edges = json['edges'];
+                panoTitle = json['title'] || '';
+                dataImg = json['img'] || '';
                 start();
             } else {
                 invalidProjectId();
