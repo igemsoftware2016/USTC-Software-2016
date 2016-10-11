@@ -250,7 +250,7 @@
                       content.style.paddingTop="25px";
                       var textNode=document.createElement("span");
                       textNode.style.fontSize="16px";
-                      textNode.innerHTML="Author: "+String(obj.project[i-1].user_id)+"<br/>State: "+obj.project[i-1].private+"<br/>Last Update: "+String(date("Y-m-d H:i:s",obj.project[i-1].last_update_time));
+                      textNode.innerHTML="Author: "+String(obj.project[i-1].user_id)+"<br/>State: "+obj.project[i-1].private+"<br/>Last Update: "+date(obj.project[i-1].last_update_time);
                       componentHandler.upgradeElement(textNode);
                       content.appendChild(textNode);
                       componentHandler.upgradeElement(content);
