@@ -160,6 +160,10 @@ class Simulation(Plugin):
         try:
             end_t = float(request['end_t'])
             step_l = float(request['step_l'])
+            if end_t <= 0:
+                end_t = 100
+            if step_l == 0.1:
+                step_l = 0.1
         except KeyError:
             sim = bio_simulation(str_eqs, str_init)
         else:
