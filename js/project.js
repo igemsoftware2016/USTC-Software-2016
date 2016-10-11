@@ -31,7 +31,7 @@ function getProjectData(){
 }
 
 function add0(m){return m<10?'0'+m:m }
-function format(shijianchuo)
+function date(shijianchuo)
 {
 //shijianchuo是整数，否则要parseInt转换
 var time = new Date(shijianchuo);
