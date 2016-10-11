@@ -52,7 +52,6 @@ class bio_simulation:
         self.end_t = end_t
         self.step_l = step_l
 
-
     def func(self, y, t, eqs_arr):
         # Make a deep copy of eqs_arr
         eqs = list(eqs_arr)
@@ -64,7 +63,6 @@ class bio_simulation:
         dydt = list(map(eval, eqs))
 
         return dydt
-
 
     def run_sim(self, ratio=0.995):
         self.t_range = linspace(self.start_t, self.end_t, int((self.end_t - self.start_t) / self.step_l))
@@ -96,7 +94,7 @@ class bio_simulation:
             row = res[i, :]
             fc = 0
             for j in row:
-                if j == False:
+                if j is False:
                     fc += 1
             # print(row, isUnstable)
             if fc <= 1:
@@ -170,8 +168,8 @@ class Simulation(Plugin):
         sim.run_sim()
 
         # May be you should modify this line below to satify your interface
-        return dict(result=repr(list(map(list, sim.data_all))), unstable=str(self.unstable),
-                    lyapunov=repr(self.lyapunov))
+        return dict(result=repr(list(map(list, sim.data_all))), unstable=str(sim.unstable),
+                    lyapunov=repr(sim.lyapunov))
 
 
 __plugin__ = Simulation()
