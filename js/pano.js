@@ -863,11 +863,12 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
     } else {
         $.post("/plugin/", {plugin: "pano", action: "load", id: projectId}).done(function (res) {
             if (JSON.parse(res).success) {
-                var json = JSON.parse(JSON.parse(res).data);
+                var jsonWrapper = JSON.parse(res);
+                var json = JSON.parse(jsonWrapper.data);
                 nodes = json['nodes'];
                 edges = json['edges'];
-                panoTitle = json['title'] || '';
-                dataImg = json['img'] || '';
+                panoTitle = jsonWrapper['title'] || '';
+                dataImg = jsonWrapper['img'] || '';
                 start();
             } else {
                 invalidProjectId();
