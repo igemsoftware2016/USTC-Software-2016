@@ -813,7 +813,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         });
     };
 
-    var projectId = location.hash != "" ? Number(location.hash.substring(1)) : NaN;
+    var projectId = Number(location.href.match(/id=(\d*)/)[1]);
 
     $('#body').append($('<svg id="main_window"></svg>')
         .attr("width", $(document.body).width())
