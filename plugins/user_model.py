@@ -53,6 +53,23 @@ class user_model(Plugin):
                 d['education'] = current_user.education
                 d['major'] = current_user.major
                 return d
+        elif request['action'] == 'get_user_data_by_id':
+            if not current_user.is_authenticated:
+                return {'success': False, 'error': 'Not logged in'}
+            else:
+                u=User.get_user_by_id(int(request['user_id']))
+                if u:
+                    d = {'success': True}
+                    d['id'] = u.id
+                    d['user_email'] = u.email
+                    d['user_name'] = u.username
+                    d['avt_src'] = u.avatar
+                    d['description'] = u.description
+                    d['education'] = u.education
+                    d['major'] = u.major
+                    return d
+                else:
+                    return {'success': False, 'error': 'No such user'}
         elif request['action'] == 'head_change':
             if not current_user.is_authenticated:
                 return {'success': False, 'error': 'Not logged in'}

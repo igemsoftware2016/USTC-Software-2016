@@ -33,7 +33,7 @@ class ParameterMissedError(Exception):
 
 
 class bio_simulation:
-    def __init__(self, str_eqs, str_init, start_t=0., end_t=20., step_l=0.005):
+    def __init__(self, str_eqs, str_init, start_t=0., end_t=100., step_l=0.1):
         # Clean all white space in input strings
         str_eqs = str_eqs.replace(' ', '')
         str_eqs = str_eqs.replace('\t', '')
@@ -94,7 +94,7 @@ class bio_simulation:
             row = res[i, :]
             fc = 0
             for j in row:
-                if j == False:
+                if j is False:
                     fc += 1
             # print(row, isUnstable)
             if fc <= 1:
@@ -112,6 +112,7 @@ class bio_simulation:
                         self.data_all.shape[1]
         # print(self.lyapunov)
         return 0
+
 
     def parse_data(self):
         return self.data_all
@@ -155,14 +156,20 @@ class Simulation(Plugin):
     def process(self, request):
         str_eqs = request['eqs']
         str_init = request['init']
-        end_t = float(request['end_t'])
-        step_l = float(request['step_l'])
-        sim = bio_simulation(str_eqs, str_init, 0, end_t, step_l)
+
+        try:
+            end_t = float(request['end_t'])
+            step_l = float(request['step_l'])
+        except KeyError:
+            sim = bio_simulation(str_eqs, str_init)
+        else:
+            sim = bio_simulation(str_eqs, str_init, 0, end_t, step_l)
+        
         sim.run_sim()
 
         # May be you should modify this line below to satify your interface
-        return dict(result=repr(list(map(list, sim.data_all))), unstable=self.unstable,
-                    lyapunov=repr(self.lyapunov))
+        return dict(result=repr(list(map(list, sim.data_all))), unstable=str(sim.unstable),
+                    lyapunov=repr(sim.lyapunov))
 
 
 __plugin__ = Simulation()
