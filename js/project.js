@@ -45,7 +45,7 @@ return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
 }
 
 function get_user_info_by_id(i,obj) {
-    var  dictPost  =  {"plugin":"user_model","action":"get_user_data_by_id","id":obj.project[i-1].user_id};
+    var  dictPost  =  {"plugin":"user_model","action":"get_user_data_by_id","user_id":obj.project[i-1].user_id};
     console.log(dictPost);
     var jsonResp=[];
     $.ajax({
@@ -56,7 +56,7 @@ function get_user_info_by_id(i,obj) {
             console.log(response);
             jsonResp = JSON.parse(response);
             if(jsonResp['success']==true) {
-                 obj.project[i-1].user_name="username";
+                 obj.project[i-1].user_name=jsonResp.user_name;
             }
             else {
                 Materialize.toast(jsonResp['error'], 2500, 'rounded');
