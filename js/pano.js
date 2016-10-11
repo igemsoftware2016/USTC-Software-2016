@@ -75,7 +75,6 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 d.x += d3.event.dx;
                 d.y += d3.event.dy;
                 self.updateGraph();
-                sidebar.update(d.id, self);
             }
         }).on("dragend", function () {
             self.trySave();
@@ -118,17 +117,17 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 thisGraph.delSelectedEdge();
                 thisGraph.delSelectedNode();
                 if (oldNode) {
-                    if (graph.nodes.length >= 0) {
+                    if (graph.nodes.length > 0) {
                         var index = oldNode.id;
                         do {
                             index = (index + 1) % graph.nodes.length;
                         } while (index != oldNode.id && graph.nodes[index] == undefined);
                         graph.setSelectedNode(graph.nodes[index]);
                         graph.centerSelectedNode();
-                        sidebar.update(index, graph);
+                        sidebar.update(index);
                     } else {
                         graph.setSelectedNode(graph.nodes[graph.nodes.length]);
-                        sidebar.update(graph.nodes.length, thisGraph);
+                        sidebar.update(graph.nodes.length);
                     }
                 }
             }
@@ -406,19 +405,13 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
 
     // mousedown on node
     GraphCreator.prototype.circleMouseDown = function (d3node, d) {
-        var thisGraph = this,
-            state = thisGraph.state;
+        var thisGraph = this, state = thisGraph.state;
         d3.event.stopPropagation();
-
-
         state.mouseDownNode = d;
         if (d3.event.shiftKey) {
             state.shiftNodeDrag = d3.event.shiftKey;
             // reposition dragged directed edge
-            thisGraph.dragLine.classed('hidden', false)
-                .attr('d', 'M' + d.x + ',' + d.y + 'L' + d.x + ',' + d.y);
-        } else {
-            sidebar.update(d.id, thisGraph);
+            thisGraph.dragLine.classed('hidden', false).attr('d', 'M' + d.x + ',' + d.y + 'L' + d.x + ',' + d.y);
         }
     };
 
@@ -458,7 +451,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 d.title = this.textContent;
                 thisGraph.insertTitleLinebreaks(d3node, d.title);
                 d3.select(this.parentElement).remove();
-                sidebar.update(d.id, thisGraph);
+                sidebar.update(d.id);
             });
         return d3txt;
     };
@@ -492,7 +485,9 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 return d.source === newEdge.source && d.target === newEdge.target;
             });
             if (!filtRes[0].length) {
+                sidebar.update(mouseDownNode.id);
                 thisGraph.edges.push(newEdge);
+                thisGraph.setSelectedNode(graph.nodes[mouseDownNode.id]);
                 thisGraph.updateGraph();
                 thisGraph.trySave();
             }
@@ -510,7 +505,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                     thisGraph.selectElementContents(txtNode);
                     txtNode.focus();
                 } else {
-                    sidebar.update(d.id, thisGraph);
+                    sidebar.update(d.id);
                     if (state.selectedEdge) {
                         thisGraph.setSelectedEdge(null);
                     }
@@ -647,7 +642,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                                 var toNode = graph.nodes[edge.target];
                                 graph.setSelectedNode(toNode);
                                 graph.centerSelectedNode();
-                                sidebar.update(edge.target, graph);
+                                sidebar.update(edge.target);
                             })
                             .hover(function () {
                                 graph.setSelectedEdge(edge);
@@ -681,7 +676,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                                 var toNode = graph.nodes[edge.source];
                                 graph.setSelectedNode(toNode);
                                 graph.centerSelectedNode();
-                                sidebar.update(edge.source, graph);
+                                sidebar.update(edge.source);
                             })
                             .hover(function () {
                                 graph.setSelectedEdge(edge);
@@ -725,7 +720,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         });
 
         $('#side-head-top-button-n').click(function () {
-            if (graph.nodes.length >= 0) {
+            if (graph.nodes.length > 0) {
                 var index = self.currentDotIndex;
                 do {
                     index = (index + 1) % graph.nodes.length;
@@ -742,7 +737,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         });
 
         $('#side-head-top-button-p').click(function () {
-            if (graph.nodes.length >= 0) {
+            if (graph.nodes.length > 0) {
                 var index = self.currentDotIndex;
                 do {
                     index = (index + graph.nodes.length - 1) % graph.nodes.length;
@@ -756,6 +751,16 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             } else {
                 graph.setSelectedNode(graph.nodes[graph.nodes.length]);
             }
+        });
+
+        $('#side-head-top-button-i').dropdown({
+            inDuration: 30000,
+            outDuration: 225,
+            constrain_width: false,
+            hover: true,
+            gutter: 0,
+            belowOrigin: true,
+            alignment: 'right'
         });
 
         $('#side-info-add').click(function () {
@@ -780,7 +785,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         $('#side-info-remove').click(function () {
             var id = graph.state.selectedNode.id;
             graph.delSelectedNode();
-            if (graph.nodes.length >= 0) {
+            if (graph.nodes.length > 0) {
                 var index = id;
                 do {
                     index = (index + 1) % graph.nodes.length;
@@ -831,7 +836,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         sidebar = new SideBar();
 
         if (graph.state.selectedNode) {
-            sidebar.update(graph.state.selectedNode.id, graph);
+            sidebar.update(graph.state.selectedNode.id);
             graph.centerSelectedNode(1); // 1 millisecond
         }
     }
