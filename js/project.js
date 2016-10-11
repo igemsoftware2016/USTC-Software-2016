@@ -118,15 +118,14 @@ function get_user_info_by_id(i,obj) {
 
 function prepareRemoveData(i){
     return function(){
-        var id="fdrg";
-        document.getElementById("remove_project_id").innerHTML=id;
+        var name=document.getElementsByClassName("demo-titles")[i-1].innerHTML;
+        document.getElementById("remove_project_id").innerHTML=name;
     }
 }
 
 function sendRemoveRequest(i){
    return function(){
-        var user=document.getElementById("this_is_a_user_name").innerHTML;
-        var id=obj.project[i-1].id;
+        var id=parseInt(document.getElementsByClassName("demo-projids")[i-1].innerHTML);
         var dictPost={"plugin":"pano","action":"delete","id":id};
         console.log(dictPost);
         var jsonResp=[];
@@ -139,6 +138,7 @@ function sendRemoveRequest(i){
                         jsonResp=JSON.parse(response);
                         if(jsonResp['success']==true){
                                 alert('Successfully removed!');
+                                window.location.reload();
                         }
                         else{
                                 Materialize.toast(jsonResp['error'],2500,'rounded');

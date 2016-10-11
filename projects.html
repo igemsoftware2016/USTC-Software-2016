@@ -235,6 +235,7 @@
                       supporting_text.className="mdl-card__supporting-text";
                       supporting_text.style.minHeight="120px";
                       var title=document.createElement("span");
+                      title.className="demo-titles";
                       title.style.color="black";
                       title.style.fontSize="24px";
                       var textNode=document.createTextNode(obj.project_name);
@@ -283,6 +284,11 @@
                       divider.className="demo-spacer";
                       componentHandler.upgradeElement(divider);
                       document.getElementById("project").appendChild(divider);
+
+                      var span=document.createElement("span");
+                      span.innerHTML=String(obj.project_id);
+                      span.className="demo-projids";
+                      span.style.display="none";
                     }
                 getProjectData();
                 </script>
@@ -346,27 +352,6 @@
                 <button id="remove_project" type="button" class="close-dialog-remove-project mdl-button">Yes</button>
             </div>
         </dialog>
-        <script>
-            var dialog_remove_project=document.querySelector('.demo-remove-project');
-            var show_dialogButtons_remove_project = document.querySelectorAll('.show-dialog-remove-project');
-            if (! dialog_remove_project.showModal) {
-                dialogPolyfill.registerDialog(dialog_remove_project);
-            }
-            for (var i=1;i<=(show_dialogButtons_remove_project.length);i++) {
-              show_dialogButtons_remove_project[i-1].addEventListener('click', prepareRemoveData(i));
-              show_dialogButtons_remove_project[i-1].addEventListener('click', function() {
-                dialog_remove_project.showModal();
-            });
-            }
-            var remove_projectButtons=dialog_remove_project.querySelectorAll('.close-dialog-remove-project');
-            for (var i=1;i<=(remove_projectButtons.length);i++) {
-              remove_projectButtons[i-1].addEventListener('click', function() {
-                dialog_remove_project.close();
-            });
-            }
-            var remove_project_control=document.getElementById("remove_project");
-            remove_project_control.addEventListener("click",sendRemoveRequest(i));
-        </script>
         <footer class="mdl-mini-footer">
             <div class="mdl-mini-footer__left-section">
                 <div class="mdl-logo">BioHub</div>
