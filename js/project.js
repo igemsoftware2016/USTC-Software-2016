@@ -47,14 +47,14 @@ function get_user_info_by_id(i,obj) {
             i++;
             if(jsonResp['success']==true) {
                  obj.project[i-1].user_name=jsonResp.user_name;
-                 if (jsonResp.project[i-1].public==true){
-                                    jsonResp.project[i-1].private="Public";
+                 if (obj.project[i-1].public==true){
+                                    obj.project[i-1].private="Public";
                                 }
                                 else {
-                                    jsonResp.project[i-1].private="Private";
+                                    obj.project[i-1].private="Private";
                                 }
-                                if (jsonResp.project[i-1].img_src==""){
-                                    jsonResp.project[i-1].img_src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAQAAAD9CzEMAAAAuUlEQVR4Ae2XP8rCUBAHp5F4gPxBsA45mpUgXkt4Se4Rkc97fIQkhVZrK+JbxGwhujN9Bh77K8IPsWTPkSsXOnYkGLPmjNx5YoUhCX/Igx0LzNgiT9zwBhU1AxLxQEpGQCJOtFT653tEMQUgRxR7LVEjqhkABaLaEGVAVAM5BQ2iOhJFjPSAXeBVPKADfqa+Aw/4Dr53Bx6wD/iZfkZgQgwcidIiBgb0H5CZ/lOClmgYZzxOoMRxjLkBL3E6cltSSnYAAAAASUVORK5CYII=';
+                                if (obj.project[i-1].img_src==""){
+                                    obj.project[i-1].img_src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAQAAAD9CzEMAAAAuUlEQVR4Ae2XP8rCUBAHp5F4gPxBsA45mpUgXkt4Se4Rkc97fIQkhVZrK+JbxGwhujN9Bh77K8IPsWTPkSsXOnYkGLPmjNx5YoUhCX/Igx0LzNgiT9zwBhU1AxLxQEpGQCJOtFT653tEMQUgRxR7LVEjqhkABaLaEGVAVAM5BQ2iOhJFjPSAXeBVPKADfqa+Aw/4Dr53Bx6wD/iZfkZgQgwcidIiBgb0H5CZ/lOClmgYZzxOoMRxjLkBL3E6cltSSnYAAAAASUVORK5CYII=';
                                 }
 
                 loadproject(obj.project[i-1]);
