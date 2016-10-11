@@ -837,19 +837,22 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
 
     function save(graph, callback) {
         callback = callback || function () {};
-        $.post("/plugin/", {
-            plugin: "pano",
-            action: "save",
-            id: projectId,
-            title: panoTitle,
-            img: dataImg, // TODO generate img
-            data: JSON.stringify({nodes: graph.nodes.filter(function (d) {
-                return d != undefined;
-            }), edges: graph.edges})
-        }).done(function () {
-            callback(true);
-        }).fail(function () {
-            callback(false);
+        kickAss(function (png) {
+            dataImg = png;
+            $.post("/plugin/", {
+                plugin: "pano",
+                action: "save",
+                id: projectId,
+                title: panoTitle,
+                img: dataImg, // TODO generate img
+                data: JSON.stringify({nodes: graph.nodes.filter(function (d) {
+                    return d != undefined;
+                }), edges: graph.edges})
+            }).done(function () {
+                callback(true);
+            }).fail(function () {
+                callback(false);
+            });
         });
     }
 
@@ -905,9 +908,8 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
     ];
     */
 
-//generate png
-    //TODO:  需要把图片平移缩放之后再生成png
-    kick_ass = function () {
+    window.kickAss = function (callback) {
+        callback = callback || function () {};
         var canvas = document.getElementById("canvas");
         var png = '';
         var svgString = new XMLSerializer().serializeToString(document.querySelector('svg'));
@@ -916,13 +918,13 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         var img = new Image();
         var svg = new Blob([svgString], {type: "image/svg+xml;charset=utf-8"});
         var url = DOMURL.createObjectURL(svg);
+        var bbox = document.body.getBoundingClientRect();
+        var factor = Math.max(bbox.width / 300, bbox.height / 225);
+        var offset = {x: (300 - bbox.width / factor) / 2, y: (225 - bbox.height / factor) / 2};
         img.onload = function () {
-            ctx.drawImage(img, 0, 0);
-            png = canvas.toDataURL("image/png");
-            document.querySelector('#png-container').innerHTML = '<img src="' + png + '"/>';
-            DOMURL.revokeObjectURL(png);
-            // console.log(png);
-
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, offset.x, offset.y, bbox.width / factor, bbox.height / factor);
+            callback(canvas.toDataURL("image/png"));
         };
         img.src = url;
     };
