@@ -159,9 +159,14 @@ class Simulation(Plugin):
         str_eqs = request['eqs']
         str_init = request['init']
 
-        end_t = float(request['end_t'])
-        step_l = float(request['step_l'])
-        sim = bio_simulation(str_eqs, str_init, 0, end_t, step_l)
+        try:
+            end_t = float(request['end_t'])
+            step_l = float(request['step_l'])
+        except KeyError:
+            sim = bio_simulation(str_eqs, str_init)
+        else:
+            sim = bio_simulation(str_eqs, str_init, 0, end_t, step_l)
+        
         sim.run_sim()
 
         # May be you should modify this line below to satify your interface
