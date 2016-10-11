@@ -66,7 +66,6 @@ function get_user_info_by_id(i,obj) {
         }
     });
 }
-}
 
 function prepareRemoveData(i){
     return function(){
