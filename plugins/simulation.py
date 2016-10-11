@@ -33,7 +33,7 @@ class ParameterMissedError(Exception):
 
 
 class bio_simulation:
-    def __init__(self, str_eqs, str_init, start_t=0., end_t=20., step_l=0.005):
+    def __init__(self, str_eqs, str_init, start_t=0., end_t=100., step_l=0.1):
         # Clean all white space in input strings
         str_eqs = str_eqs.replace(' ', '')
         str_eqs = str_eqs.replace('\t', '')
@@ -52,6 +52,7 @@ class bio_simulation:
         self.end_t = end_t
         self.step_l = step_l
 
+
     def func(self, y, t, eqs_arr):
         # Make a deep copy of eqs_arr
         eqs = list(eqs_arr)
@@ -63,6 +64,7 @@ class bio_simulation:
         dydt = list(map(eval, eqs))
 
         return dydt
+
 
     def run_sim(self, ratio=0.995):
         self.t_range = linspace(self.start_t, self.end_t, int((self.end_t - self.start_t) / self.step_l))
@@ -113,6 +115,7 @@ class bio_simulation:
         # print(self.lyapunov)
         return 0
 
+
     def parse_data(self):
         return self.data_all
 
@@ -155,13 +158,19 @@ class Simulation(Plugin):
     def process(self, request):
         str_eqs = request['eqs']
         str_init = request['init']
-        end_t = float(request['end_t'])
-        step_l = float(request['step_l'])
-        sim = bio_simulation(str_eqs, str_init, 0, end_t, step_l)
+
+        try:
+            end_t = float(request['end_t'])
+            step_l = float(request['step_l'])
+        except KeyError:
+            sim = bio_simulation(str_eqs, str_init)
+        else:
+            sim = bio_simulation(str_eqs, str_init, 0, end_t, step_l)
+        
         sim.run_sim()
 
         # May be you should modify this line below to satify your interface
-        return dict(result=repr(list(map(list, sim.data_all))), unstable=self.unstable,
+        return dict(result=repr(list(map(list, sim.data_all))), unstable=str(self.unstable),
                     lyapunov=repr(self.lyapunov))
 
 
