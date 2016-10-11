@@ -23,11 +23,7 @@ function getProjectData(){
                         }
         	        }
         	        else{
-                        var data={
-                            message: jsonResp['error'],
-                            timeout: 2500
-                        }
-        		        snackbarContainer.MaterialSnackbar.showSnackbar(data);
+                        alert("Error!");
         	        }
                 }
 	});
