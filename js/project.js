@@ -65,7 +65,7 @@ function get_user_pro(){
             });
             }
             var remove_project_control=document.getElementById("remove_project");
-            remove_project_control.addEventListener("click",sendRemoveRequest(i));
+            remove_project_control.addEventListener("click",sendRemoveRequest());
 }
 
 function add0(m){return m<10?'0'+m:m }
@@ -122,12 +122,13 @@ function prepareRemoveData(i){
     return function(){
         var name=document.getElementsByClassName("demo-titles")[i-1].innerHTML;
         document.getElementById("remove_project_id").innerHTML=name;
+        document.getElementById("demo-projid").innerHTML=document.getElementsByClassName("demo-projids")[i-1].innerHTML;
     }
 }
 
-function sendRemoveRequest(i){
+function sendRemoveRequest(){
    return function(){
-        var id=parseInt(document.getElementsByClassName("demo-projids")[i-1].innerHTML);
+        var id=parseInt(document.getElementById("demo-projid").innerHTML);
         var dictPost={"plugin":"pano","action":"delete","id":id};
         console.log(dictPost);
         var jsonResp=[];
