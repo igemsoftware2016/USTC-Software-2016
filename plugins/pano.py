@@ -70,7 +70,7 @@ class Pano(Plugin):
         doc = self.documents.get(id)
         if not (doc and (doc.owner == self.user.id or doc.public)):
             raise ValueError('Document %d does not exists.' % id)
-        return dict(data=doc.text, title=doc.title, owner=doc.owner.id, ctime=doc.created, mtime=doc.last_modified,
+        return dict(data=doc.text, title=doc.title, owner=doc.owner, ctime=doc.created, mtime=doc.last_modified,
                 public=doc.public, comments=eval(doc.comments), praises=len(eval(doc.praises)), img=doc.description)
 
     def delete(self, id, **kwargs):
