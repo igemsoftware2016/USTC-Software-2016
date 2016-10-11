@@ -33,7 +33,7 @@ class ParameterMissedError(Exception):
 
 
 class bio_simulation:
-    def __init__(self, str_eqs, str_init, start_t=0., end_t=20., step_l=0.005):
+    def __init__(self, str_eqs, str_init, start_t=0., end_t=100., step_l=0.1):
         # Clean all white space in input strings
         str_eqs = str_eqs.replace(' ', '')
         str_eqs = str_eqs.replace('\t', '')
@@ -165,7 +165,7 @@ class Simulation(Plugin):
         sim.run_sim()
 
         # May be you should modify this line below to satify your interface
-        return dict(result=repr(list(map(list, sim.data_all))), unstable=self.unstable,
+        return dict(result=repr(list(map(list, sim.data_all))), unstable=str(self.unstable),
                     lyapunov=repr(self.lyapunov))
 
 
