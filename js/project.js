@@ -11,6 +11,7 @@ function getProjectData(){
         	        jsonResp=JSON.parse(response);
         	        if(jsonResp['success']==true){
                                 for (var i=1;i<=jsonResp.project.length;i++){
+                                get_user_info_by_id(i,jsonResp);
                                 if (jsonResp.project[i-1].public==true){
                                     jsonResp.project[i-1].private="Public";
                                 }
@@ -33,7 +34,6 @@ function getProjectData(){
 function add0(m){return m<10?'0'+m:m }
 function date(shijianchuo)
 {
-//shijianchuo是整数，否则要parseInt转换
 var time = new Date(1000*shijianchuo);
 var y = time.getFullYear();
 var m = time.getMonth()+1;
@@ -44,8 +44,8 @@ var s = time.getSeconds();
 return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
 }
 
-function get_user_info_by_id(id) {
-    var  dictPost  =  {"plugin":"user_model","action":"get_user_data_by_id","user_id":id};
+function get_user_info_by_id(i,obj) {
+    var  dictPost  =  {"plugin":"user_model","action":"get_user_data_by_id","id":obj.project[i-1].user_id};
     console.log(dictPost);
     var jsonResp=[];
     $.ajax({
@@ -56,41 +56,23 @@ function get_user_info_by_id(id) {
             console.log(response);
             jsonResp = JSON.parse(response);
             if(jsonResp['success']==true) {
+                 obj.project[i-1].user_name="username";
             }
             else {
                 Materialize.toast(jsonResp['error'], 2500, 'rounded');
             }
         }
     });
-    return jsonResp;
 }
 
-function prepareViewData(i,obj){
+function prepareRemoveData(i){
     return function(){
-        var id=obj.project[i-1].project_name;
-        var remark=obj.project[i-1].project_remark;
-        var user_id=document.getElementById("this_is_a_user_name").innerHTML;
-        var create=obj.project[i-1].create_time;
-        var privacy=obj.project[i-1].private;
-        var last_update=obj.project[i-1].last_update_time;
-        document.getElementById("project_name").innerHTML=id;
-        document.getElementById("project_remark").innerHTML=remark;
-        document.getElementById("create_user_id").innerHTML=user_id;
-        document.getElementById("create_user_date").innerHTML=create;
-        document.getElementById("project_state").innerHTML=privacy;
-        document.getElementById("update_user_id").innerHTML=id;
-        document.getElementById("update_user_date").innerHTML=last_update;
-   }
-}
-
-function prepareRemoveData(i,obj){
-    return function(){
-        var id=obj.project[i-1].project_name;
+        var id="fdrg";
         document.getElementById("remove_project_id").innerHTML=id;
     }
 }
 
-function sendRemoveRequest(i,obj){
+function sendRemoveRequest(i){
    return function(){
         var user=document.getElementById("this_is_a_user_name").innerHTML;
         var id=obj.project[i-1].id;

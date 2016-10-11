@@ -250,7 +250,7 @@
                       content.style.paddingTop="25px";
                       var textNode=document.createElement("span");
                       textNode.style.fontSize="16px";
-                      textNode.innerHTML="Author: "+String(obj.project[i-1].user_id)+"<br/>State: "+obj.project[i-1].private+"<br/>Last Update: "+date(obj.project[i-1].last_update_time);
+                      textNode.innerHTML="Author: "+obj.project[i-1].user_name+"<br/>State: "+obj.project[i-1].private+"<br/>Last Update: "+date(obj.project[i-1].last_update_time);
                       componentHandler.upgradeElement(textNode);
                       content.appendChild(textNode);
                       componentHandler.upgradeElement(content);
@@ -261,14 +261,13 @@
                       var actions=document.createElement("div");
                       actions.className="demo-icon_text-align mdl-card__actions mdl-card--border";
                       var edit=document.createElement("a");
-                      edit.href="pano.html?id="+String(obj.project[i-1].project_id);
+                      edit.href="pano.html#"+String(obj.project[i-1].project_id);
                       edit.className="mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect";
                       var textNode=document.createTextNode("Edit");
                       edit.appendChild(textNode);
                       componentHandler.upgradeElement(edit);
                       actions.appendChild(edit);
-                      var _delete_=document.createElement("a");
-                      _delete_.href="#";
+                      var _delete_=document.createElement("button");
                       _delete_.className="show-dialog-remove-project mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect";
                       var textNode=document.createTextNode("Delete");
                       _delete_.appendChild(textNode);
@@ -357,7 +356,7 @@
                 dialogPolyfill.registerDialog(dialog_remove_project);
             }
             for (var i=1;i<=(show_dialogButtons_remove_project.length);i++) {
-              show_dialogButtons_remove_project[i-1].addEventListener('click', prepareRemoveData(i,obj));
+              show_dialogButtons_remove_project[i-1].addEventListener('click', prepareRemoveData(i));
               show_dialogButtons_remove_project[i-1].addEventListener('click', function() {
                 dialog_remove_project.showModal();
             });
@@ -369,7 +368,7 @@
             });
             }
             var remove_project_control=document.getElementById("remove_project");
-            remove_project_control.addEventListener("click",sendRemoveRequest());
+            remove_project_control.addEventListener("click",sendRemoveRequest(i));
         </script>
         <footer class="mdl-mini-footer">
             <div class="mdl-mini-footer__left-section">
