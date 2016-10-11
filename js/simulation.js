@@ -1,5 +1,5 @@
 /**
- * Created by Pjer1 on 8/19/2016.
+ * Created by Pjer on 8/19/2016.
 .
  */
 
@@ -114,9 +114,13 @@ function  run_sim(n,data_graph) {
             str_init += "\n";
         }
     }
+
+    str_end_t = document.getElementById("input_func_t").value;
+    str_step_l = document.getElementById("input_func_l").value;
+
     console.log(str_func);
     console.log(str_init);
-    var str_post={"plugin":"simulation","eqs":str_func,"init":str_init};
+    var str_post={"plugin":"simulation","eqs":str_func,"init":str_init,"end_t":str_end_t,"step_l":str_step_l};
     $.ajax({
         type: "POST",
         url: "/plugin/",
@@ -179,7 +183,7 @@ $(function () {
             .attr("src",function (d,i) {
                 src_str = "http://latex.codecogs.com/gif.latex?\\frac{dy_{"
                     +   d.id
-                    + "}}{dx} \\quad=";
+                    + "}}{dt} \\quad=";
                 return src_str
             });
 
@@ -195,7 +199,7 @@ $(function () {
 
         inp.append("label")
             .attr("for",function (d) {
-            fnstr = "input_label_func_"+d.id;
+            fnstr = "input_func_"+d.id;
             return fnstr;
         }).text(function (d) {
             return "Control Function of index "+d.id;
@@ -226,7 +230,7 @@ $(function () {
             }).attr("type" ,"text");
 
         inp_1.append("label").attr("for",function (d) {
-            fnstr = "input_label_init_"+d.id;
+            fnstr = "input_init_"+d.id;
             return fnstr;
         }).html(function (d) {
             return "Initial Value of index "+d.id;
