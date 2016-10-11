@@ -813,14 +813,6 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         });
     };
 
-
-    /**** MAIN ****/
-
-    // warn the user when leaving
-    window.onbeforeunload = function () {
-        return "Make sure to save your graph locally before leaving :-)";
-    };
-
     var projectId = location.hash != "" ? Number(location.hash.substring(1)) : NaN;
 
     $('#body').append($('<svg id="main_window"></svg>')
@@ -829,11 +821,13 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
 
     var nodes = [], edges = [];
     var svg, graph, sidebar;
+    var panoTitle, dataImg;
 
     function start() {
         svg = d3.selectAll("#main_window");
         graph = new GraphCreator(svg, nodes, edges);
         sidebar = new SideBar();
+        $('title').text('pano - ' + panoTitle);
 
         if (graph.state.selectedNode) {
             sidebar.update(graph.state.selectedNode.id);
@@ -842,25 +836,13 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
     }
 
     function save(graph, callback) {
-        if (isNaN(projectId)) {
-            $.post("/plugin/", {plugin: "pano", action: "new"}).done(function (res) {
-                projectId = Number(JSON.parse(res)['id']);
-                location.hash = isNaN(projectId) ? '' : '#' + projectId;
-                if (JSON.parse(res).success) {
-                    save(graph, callback);
-                } else {
-                    callback(false);
-                }
-            }).fail(function () {
-                callback(false);
-            });
-            return;
-        }
         callback = callback || function () {};
         $.post("/plugin/", {
             plugin: "pano",
             action: "save",
             id: projectId,
+            title: panoTitle,
+            img: dataImg, // TODO generate img
             data: JSON.stringify({nodes: graph.nodes.filter(function (d) {
                 return d != undefined;
             }), edges: graph.edges})
@@ -873,25 +855,27 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
 
     window.save = save;
 
+    function invalidProjectId() {
+        alert('Invalid Project ID! ');
+        location.href = 'project.html';
+    }
+
     if (isNaN(projectId)) {
-        start();
+        invalidProjectId();
     } else {
         $.post("/plugin/", {plugin: "pano", action: "load", id: projectId}).done(function (res) {
             if (JSON.parse(res).success) {
-                var json = JSON.parse(JSON.parse(res).data);
+                var jsonWrapper = JSON.parse(res);
+                var json = JSON.parse(jsonWrapper.data);
                 nodes = json['nodes'];
                 edges = json['edges'];
+                panoTitle = jsonWrapper['title'] || '';
+                dataImg = jsonWrapper['img'] || '';
                 start();
             } else {
-                projectId = NaN;
-                location.hash = "";
-                start();
+                invalidProjectId();
             }
-        }).fail(function () {
-            projectId = NaN;
-            location.hash = "";
-            start();
-        });
+        }).fail(invalidProjectId);
     }
 
     // initial node data
