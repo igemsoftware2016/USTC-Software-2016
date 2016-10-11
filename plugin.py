@@ -3,7 +3,7 @@
 import importlib
 
 import app
-from database import session
+from database import session, engine
 from models import Document, PluginDocument
 
 
@@ -74,6 +74,10 @@ class Documents:
 
     def set_document_table(self, table):
         self.document_table = table
+        try:
+            table.__table__.create(engine)
+        except:
+            pass
 
     def get(self, pid):
         return session.query(self.document_table).get(pid)
