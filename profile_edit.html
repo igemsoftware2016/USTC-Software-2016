@@ -564,6 +564,8 @@
             url: "/plugin/",
             data: dictPost,
             success: function(response){
+                get_user_info();
+                get_user_info_for_update();
                 console.log(response);
                 if(response['error'] == 'err_code'){
                     Materialize.toast('conditions', 3000, 'rounded');
