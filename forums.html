@@ -297,7 +297,7 @@
                       var project_title=document.createElement("span");
                       project_title.style.color="black";
                       project_title.style.fontSize="24px";
-                      project_title.innerHTML="Project: "+obj.project_id;
+                      project_title.innerHTML="Project: "+obj.project_name;
                       componentHandler.upgradeElement(project_title);
                       project_text.appendChild(project_title);
                       var divider=document.createElement("br");
@@ -307,7 +307,7 @@
                       project_content.style.paddingTop="25px";
                       var content_span=document.createElement("span");
                       content_span.style.fontSize="16px";
-                      content_span.innerHTML="Author: "+obj.user_name+"<br/>Last Update: "+obj.last_update_time;
+                      content_span.innerHTML="Author: "+obj.user_name+"<br/>Last Update: "+date(parseInt(obj.last_update_time));
                       componentHandler.upgradeElement(content_span);
                       project_content.appendChild(content_span);
                       componentHandler.upgradeElement(project_content);
@@ -325,7 +325,7 @@
                       project_actions.className="demo-icon_text-align_2 mdl-card__actions mdl-card--border";
                       project_actions.style.textAlign="center";
                       var actions_view=document.createElement("a");
-                      actions_view.href="pano.html?project_id="+obj.project_id;
+                      actions_view.href="pano.html#"+obj.project_id;
                       actions_view.className="show-dialog-view-timeline mdl-button mdl-color-text--green-A700 mdl-js-button mdl-js-ripple-effect";
                       var textNode=document.createTextNode("View Project...");
                       actions_view.appendChild(textNode);
