@@ -28,12 +28,10 @@ class ABACUS(Plugin):
             try:
                 tag = request["tag"]
             except KeyError:
-                execvp('python3',
-                       ['python3', request['design'], request["inpath"], request['filename'],
+                Popen(['python3', request['design'], request["inpath"], request['filename'],
                         request['amount'], request['abacuspath']])
             else:
-                execvp('python3',
-                       ['python3', request['design'], request["inpath"], request['filename'],
+                Popen(['python3', request['design'], request["inpath"], request['filename'],
                         request['amount'], request['abacuspath'], request['tag']])
             return {"status": "running"}
 
@@ -42,14 +40,12 @@ class ABACUS(Plugin):
             try:
                 size = request["size"]
             except KeyError:
-                execvp(execvp('python3',
-                   ['python3', request['mutationScan'], request["inpath"], request['filename'],
-                    request['output'], request['abacuspath']]))
+                Popen(['python3', request['mutationScan'], request["inpath"], request['filename'],
+                    request['output'], request['abacuspath']])
 
             else:
-                execvp(execvp('python3',
-                              ['python3', request['mutationScan'], request["inpath"], request['filename'],
-                               request['output'], request['abacuspath'], size]))
+                Popen(['python3', request['mutationScan'], request["inpath"], request['filename'],
+                               request['output'], request['abacuspath'], size])
             return {"status": "running"}
 
         else:
