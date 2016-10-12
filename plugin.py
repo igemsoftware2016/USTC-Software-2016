@@ -98,8 +98,6 @@ class Documents:
         session.commit()
 
     def delete(self, pdoc: PluginDocument):
-        doc = session.query(Document).filter(Document.plugin_name == self.plugin.name,
-                                             Document.plugin_document_id == pdoc.id).one()
-        session.delete(doc)
+        # XXX: This can not be fixed. --Hypercube
         session.delete(pdoc)
         session.commit()
