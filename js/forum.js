@@ -76,7 +76,7 @@ function get_user_forum(){
         var sbmbutton=document.getElementsByClassName("demo-commentsbm");
             var txtfld=document.getElementsByClassName("demo-comment-input");
             for (var i=1;i<=sbmbutton.length;i++) {
-              sbmbutton[i-1].addEventListener("click",submitComment(i,obj));
+              sbmbutton[i-1].addEventListener("click",submitComment(i));
             }
 }
 
@@ -127,7 +127,7 @@ function get_user_info_by_id(i,obj) {
 }
 
 
-function submitComment(i,obj){
+function submitComment(i){
 	return function() {
 		var textfield=document.getElementsByClassName("demo-comment-input");
 		var comment=textfield[i-1].value;
@@ -135,31 +135,10 @@ function submitComment(i,obj){
 			alert("Empty comment!");
 			return;
 		}
-        var id1=obj.event[i-1].event_id;
-        var id2=document.getElementById("this_is_a_user_name").innerHTML;
+        var id1=parseInt(document.getElementsByClassName("demo-event-id")[i-1].innerHTML);
 		var dictPost={"plugin":"pano","action":"submit_comment","comment":comment,"event_id":id1};
 		console.log(dictPost);
 		var jsonResp=[];
-		var user_area=document.getElementsByClassName("demo-comment-other")[i-1];
-		var user_item=document.createElement("div");
-		user_item.className="demo-icon_text-align_1";
-		var user_id=document.createElement("a");
-		user_id.href="profile.html";
-		user_id.innerHTML=id2;
-		user_id.style.color="#00C853";
-		user_id.style.textDecoration="none";
-		user_id.style.fontSize="16px";
-		user_id.style.paddingRight="4px";
-        componentHandler.upgradeElement(user_id);
-        user_item.appendChild(user_id);
-        var user_comment=document.createElement("span");
-        user_comment.innerHTML=comment;
-        user_comment.style.fontSize="16px";
-        user_comment.style.paddingLeft="4px";
-        componentHandler.upgradeElement(user_comment);
-        user_item.appendChild(user_comment);
-        componentHandler.upgradeElement(user_item);
-        user_area.appendChild(user_item);
 		$.ajax({
 			type:"POST",
 			url:"/plugin/",

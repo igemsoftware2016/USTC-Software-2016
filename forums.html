@@ -236,6 +236,13 @@
                   function loadforum(obj) {
                       var time_user=document.createElement("div");
                       time_user.className="demo-icon_text-align_1 mdl-cell mdl-cell--12-col";
+
+                      var span=document.createElement("span");
+                      span.className="demo-event-id";
+                      span.style.display="none";
+                      span.innerHTML=obj.event_id;
+                      componentHandler.upgradeElement(span);
+                      document.getElementById("forum").appendChild(span);
                       
                       var user=document.createElement("div");
                       var user_chip=document.createElement("a");
