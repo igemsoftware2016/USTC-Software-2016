@@ -174,7 +174,7 @@ class Simulation(Plugin):
 
         # May be you should modify this line below to satify your interface
         return dict(result=repr(list(map(list, sim.data_all))), unstable=str(sim.unstable),
-                    lyapunov=repr(sim.lyapunov))
+                    lyapunov=repr(sim.lyapunov), t_seq=repr(list(sim.t_range)))
 
 
 __plugin__ = Simulation()
