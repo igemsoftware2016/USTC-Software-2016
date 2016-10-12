@@ -95,8 +95,8 @@ return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
 
 
 function get_user_info_by_id(i,obj) {
-    var num=obj.event.length;
-    var  dictPost  =  {"plugin":"user_model","action":"get_user_data_by_id","user_id":obj.event[i-1].user_id};
+    var num=obj.events.length;
+    var  dictPost  =  {"plugin":"user_model","action":"get_user_data_by_id","user_id":obj.events[i-1].user_id};
     console.log(dictPost);
     var jsonResp=[];
     $.ajax({
@@ -107,13 +107,13 @@ function get_user_info_by_id(i,obj) {
             console.log(response);
             jsonResp = JSON.parse(response);
             if(jsonResp['success']==true) {
-                 obj.event[i-1].user_name=jsonResp.user_name;
-                 obj.event[i-1].avt_src=jsonResp
-                                if (obj.project[i-1].img_src==""){
-                                    obj.project[i-1].img_src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAQAAAD9CzEMAAAAuUlEQVR4Ae2XP8rCUBAHp5F4gPxBsA45mpUgXkt4Se4Rkc97fIQkhVZrK+JbxGwhujN9Bh77K8IPsWTPkSsXOnYkGLPmjNx5YoUhCX/Igx0LzNgiT9zwBhU1AxLxQEpGQCJOtFT653tEMQUgRxR7LVEjqhkABaLaEGVAVAM5BQ2iOhJFjPSAXeBVPKADfqa+Aw/4Dr53Bx6wD/iZfkZgQgwcidIiBgb0H5CZ/lOClmgYZzxOoMRxjLkBL3E6cltSSnYAAAAASUVORK5CYII=';
+                 obj.events[i-1].user_name=jsonResp.user_name;
+                 obj.events[i-1].avt_src=jsonResp
+                                if (obj.events[i-1].img_src==""){
+                                    obj.events[i-1].img_src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAQAAAD9CzEMAAAAuUlEQVR4Ae2XP8rCUBAHp5F4gPxBsA45mpUgXkt4Se4Rkc97fIQkhVZrK+JbxGwhujN9Bh77K8IPsWTPkSsXOnYkGLPmjNx5YoUhCX/Igx0LzNgiT9zwBhU1AxLxQEpGQCJOtFT653tEMQUgRxR7LVEjqhkABaLaEGVAVAM5BQ2iOhJFjPSAXeBVPKADfqa+Aw/4Dr53Bx6wD/iZfkZgQgwcidIiBgb0H5CZ/lOClmgYZzxOoMRxjLkBL3E6cltSSnYAAAAASUVORK5CYII=';
                                 }
 
-                loadproject(obj.project[i-1]);
+                loadproject(obj.events[i-1]);
                 i++;
                 if(i<=num){
                 get_user_info_by_id(i,obj);

@@ -402,32 +402,6 @@
                       componentHandler.upgradeElement(comment_tag);
                       document.getElementById("forum").appendChild(comment_tag);
 
-                      var q=obj.event[i-1].comment.length;
-                      for (var j=1;j<=q;j++) {
-                        var comment_other=document.createElement("div");
-                        comment_other.className="demo-icon_text-align_1";
-                        var user=document.createElement("a");
-                        user.href="profile.html#"+obj.comment[j-1].user_id;
-                        user.className="demo-comment-user";
-                        user.style.textDecoration="none";
-                        user.style.color="#00C853";
-                        user.style.fontSize="16px";
-                        user.style.paddingRight="4px";
-                        var textNode=document.createTextNode(obj.comment[j-1].user_name);
-                        user.appendChild(textNode);
-                        componentHandler.upgradeElement(user);
-                        comment_other.appendChild(user);
-                        var comment=document.createElement("span");
-                        comment.style.fontSize="16px";
-                        comment.style.paddingLeft="4px";
-                        comment.innerHTML=obj.event[i-1].comment[j-1].content+"<br/>";
-                        componentHandler.upgradeElement(comment);
-                        comment_other.appendChild(comment);
-
-                        componentHandler.upgradeElement(comment_other);
-                        document.getElementById("forum").appendChild(comment_other);
-                      }
-
                       componentHandler.upgradeElement(com_area);
                       document.getElementById("forum").appendChild(com_area);
 
@@ -437,7 +411,6 @@
                       document.getElementById("forum").appendChild(divider);
                   }
                   getEventData();
-                  loadforum(obj);
                 </script>
               </div>
             </div>
