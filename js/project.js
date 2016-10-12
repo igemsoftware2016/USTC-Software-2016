@@ -143,7 +143,8 @@ function prepareRemoveData(i){
     return function(){
         var name=document.getElementsByClassName("demo-titles")[i-1].innerHTML;
         document.getElementById("remove_project_id").innerHTML=name;
-        document.getElementById("demo-projid").innerHTML=document.getElementsByClassName("demo-projids")[i-1].innerHTML;
+        var id=document.getElementsByClassName("demo-projids")[i-1].innerHTML;
+        document.getElementById("demo-projid").innerHTML=id;
     }
 }
 
