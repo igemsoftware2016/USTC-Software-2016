@@ -28,7 +28,7 @@ function postForm(){
         success: function(response){
             var Jr = JSON.parse(response);
             if(Jr['success']==true) {
-                window.location="home.html"
+                window.location="profile.html"
             }
             else {
                 Materialize.toast(Jr['error'], 3000, 'rounded');
