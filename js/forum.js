@@ -50,7 +50,7 @@ function get_user_forum(){
     var comment_buttons=document.getElementsByClassName("demo-actions-comment");
             var comment_areas=document.getElementsByClassName("demo-comment");
             var commentspc_1=document.getElementsByClassName("demo-commentspc_1");
-            for (var i=1;i<=(praise_buttons.length);i++) {
+            for (var i=1;i<=(comment_buttons.length);i++) {
               if (comment_areas[i-1].style.display=="none") {
                 comment_buttons[i-1].addEventListener("click",changedisplay_1(i));
               }
@@ -174,30 +174,6 @@ function submitComment(i,obj){
 					Materialize.toast(jsonResp['error'],2500,"rounded");
 				}
 			}
-		});
-	}
-}
-
-function submitPraise(i,obj,bool){
-	return function(){
-		var id1=obj.event[i-1].event_id;
-    	var id2=document.getElementById("this_is_a_user_name").innerHTML;
-		var dictPost={"plugin":"pano","action":"submit_praise","modify":bool,"event_id":id1};
-		console.log(dictPost);
-		var jsonResp=[];
-		$.ajax({
-			type:"POST",
-    	    url:"/plugin/",
-        	data:dictPost,
-        	success:function(response){
-        		console.log(response);
-        		jsonResp=JSON.parse(response);
-        		if(jsonResp['success']==true){
-        		}
-        		else{
-        			Materialize.toast(jsonResp['error'],2500,'rounded');
-        		}
-        	}
 		});
 	}
 }
