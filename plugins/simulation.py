@@ -94,13 +94,14 @@ class bio_simulation:
             row = res[i, :]
             fc = 0
             for j in row:
-                if j is False:
+                # print('j:', j)
+                if not j:
                     fc += 1
-            # print(row, isUnstable)
+            # print(row, self.unstable, fc, counter)
             if fc <= 1:
                 if counter == 2:
                     self.unstable = self.start_t + (i - 10) * self.step_l
-                    # print(self.unstable)
+                    print("Exiting", self.unstable)
                     break
                 else:
                     counter += 1
