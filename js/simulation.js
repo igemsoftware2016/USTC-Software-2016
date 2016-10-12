@@ -31,6 +31,7 @@ var color = d3.scale.linear()
 var data_raw;
 var vis;
 var status=0;
+var lines;
 function vis_data(data,x_max,x_min,y_max,y_min){
     if(status==1){
         vis.remove();}
@@ -38,8 +39,11 @@ function vis_data(data,x_max,x_min,y_max,y_min){
     vis=vis_root.append("svg")
         .attr("width",600)
         .attr("height",500);
+
     var    WIDTH = 600,
+        width = 530,
         HEIGHT = 500,
+        height = 480,
         MARGINS = {
             top: 20,
             right: 20,
@@ -55,6 +59,11 @@ function vis_data(data,x_max,x_min,y_max,y_min){
             .scale(yScale)
             .orient("left");
 
+    var x = d3.time.scale()
+        .range([0, width]);
+
+    var y = d3.scale.linear()
+        .range([height, 0]);
 
 
     vis.append("svg:g")
@@ -86,14 +95,78 @@ function vis_data(data,x_max,x_min,y_max,y_min){
 
 
         vis.append('svg:path')
+            .attr('class','line')
             .attr('d', lineGen_1(data))
             .attr('stroke', color(i*0.1))
             .attr('stroke-width', 2)
             .attr('fill', 'none');
     }
 
+    lines = document.getElementsByClassName('line');
 
 
+    var mouseG = vis.append("g")
+        .attr("class", "mouse-over-effects");
+
+    mouseG.append("path") // this is the black vertical line to follow mouse
+        .attr("class", "mouse-line")
+        .style("stroke", "black")
+        .style("stroke-width", "1px")
+        .style("opacity", "0");
+
+    var mousePerLine = mouseG.selectAll('.mouse-per-line')
+        .data(data)
+        .enter()
+        .append("g")
+        .attr("class", "mouse-per-line");
+
+    mousePerLine.append("circle")
+        .attr("r", 7)
+        .style("stroke", function(d) {
+            return color(d.name);
+        })
+        .style("fill", "none")
+        .style("stroke-width", "1px")
+        .style("opacity", "0");
+
+    mousePerLine.append("text")
+        .attr("transform", "translate(10,3)");
+
+    mouseG.append('svg:rect') // append a rect to catch mouse movements on canvas
+        .attr('width', width)
+        .attr('x',50)// can't catch mouse events on a g element
+        .attr('height', height)
+        .attr('fill', 'none')
+        .attr('pointer-events', 'all')
+        .on('mouseout', function() { // on mouse out hide line, circles and text
+            d3.select(".mouse-line")
+                .style("opacity", "0");
+            d3.selectAll(".mouse-per-line circle")
+                .style("opacity", "0");
+            d3.selectAll(".mouse-per-line text")
+                .style("opacity", "0");
+        })
+        .on('mouseover', function() { // on mouse in show line, circles and text
+            d3.select(".mouse-line")
+                .style("opacity", "1");
+            d3.selectAll(".mouse-per-line circle")
+                .style("opacity", "1");
+            d3.selectAll(".mouse-per-line text")
+                .style("opacity", "1");
+        })
+        .on('mousemove', function() { // mouse moving over canvas
+            var mouse = d3.mouse(this);
+            d3.select(".mouse-line")
+                .attr("d", function() {
+                    var d = "M" + mouse[0] + "," + height;
+                    d += " " + mouse[0] + "," + 0;
+                    return d;
+                });
+
+
+
+
+        });
 
 
 

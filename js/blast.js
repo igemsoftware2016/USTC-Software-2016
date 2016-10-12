@@ -360,7 +360,7 @@ function loader(config) {
             .datum({endAngle: 0.33*tau})
             .style("fill", "#4a9c47")
             .attr("d", arc)
-            .call(spin, 1500)
+            .call(spin, 1500);
 
         function spin(selection, duration) {
             selection.transition()
@@ -391,7 +391,7 @@ var myLoader = loader({width: 500, height: 500, container: "#result_blast", id: 
 
 window.onload=(function () {
 
-        console.log(raw_data)
+        console.log(raw_data);
 
         var res_width = 500;
         var res_height = 500;
