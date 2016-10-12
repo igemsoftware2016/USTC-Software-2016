@@ -394,17 +394,6 @@
                       componentHandler.upgradeElement(comment_area);
                       document.getElementById("forum").appendChild(comment_area);
 
-                      var comment_tag=document.createElement("div");
-                      comment_tag.style.fontSize="16px";
-                      comment_tag.style.color="#00C853";
-                      var textNode=document.createTextNode("Comments");
-                      comment_tag.appendChild(textNode);
-                      componentHandler.upgradeElement(comment_tag);
-                      document.getElementById("forum").appendChild(comment_tag);
-
-                      componentHandler.upgradeElement(com_area);
-                      document.getElementById("forum").appendChild(com_area);
-
                       var divider=document.createElement("div");
                       divider.className="mdl-cell mdl-cell--12-col demo-spacer_2";
                       componentHandler.upgradeElement(divider);
