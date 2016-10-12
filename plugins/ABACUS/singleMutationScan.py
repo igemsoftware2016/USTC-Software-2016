@@ -2,10 +2,11 @@ from subprocess import Popen
 from callabacus import ABACUS_design, ABACUS_prepare, ABACUS_S1S2, ABACUS_singleMutationScan, ABACUS_vdwEtable
 from callabacus import InternalError, FileFormatError
 import sys
+from os import chdir
 
-
-def singleMutationScan(path, file, output, size=None):
+def singleMutationScan(path, file, abacuspath, output, size=None):
     try:
+        chdir(abacuspath)
         f = open(path + 'status.log', 'a')
     except:
         return -1;
@@ -20,18 +21,24 @@ def singleMutationScan(path, file, output, size=None):
 
     try:
         f.write("[Info]Preparing\n")
-        ABACUS_prepare(path, file)
+        f.close()
+        ABACUS_prepare(path, file, abacuspath)
+        f = open(path + 'status.log', 'a')
         f.write("[Info]Prepared\n")
 
         f.write("[Info]Processing...\n")
-        ABACUS_S1S2(path, file)
+        f.close()
+        ABACUS_S1S2(path, file, abacuspath)
+        f = open(path + 'status.log', 'a')
         f.write("[Info]Processed...\n")
 
         f.write("[Info]Single mutation scaning\n")
+        f.close()
         if size is None:
-            ABACUS_design(path, file, output)
+            ABACUS_design(path, file, abacuspath, output)
         else:
-            ABACUS_design(path, file, output, size)
+            ABACUS_design(path, file, abacuspath, output, size)
+            f = open(path + 'status.log', 'a')
         f.write("[Info]Done!\n")
 
 
@@ -40,12 +47,13 @@ def singleMutationScan(path, file, output, size=None):
     except FileFormatError:
         f.write("[Error]File format error!\n")
 
+    f.close()
     return "0"
 
 if __name__ == '__main__':
-    if len(sys.argv) == 4:
-        singleMutationScan(sys.argv[1], sys.argv[2], sys.argv[3])
-    elif len(sys.argv) == 5:
+    if len(sys.argv) == 5:
         singleMutationScan(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
+    elif len(sys.argv) == 6:
+        singleMutationScan(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
     else:
-        exit -1
+        print("Parameter error\n")

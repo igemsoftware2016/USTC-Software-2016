@@ -6,4 +6,6 @@
     'path_finder',
     'simulation',
     'BLAST',
+    'ABACUS',
+    'version',
 ]
