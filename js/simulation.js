@@ -215,8 +215,9 @@ function  run_sim(n,data_graph) {
                             data_temp.push(meta_data[j][i]);
                             data_all.push(meta_data[j][i]);
                         }
-                        data_res.push({"value": data_temp, "time": i / 200.});
-                        data_t_all.push(i/200.);
+                        var step_l = document.getElementById("input_func_l").value;
+                        data_res.push({"value": data_temp, "time": i /step_l});
+                        data_t_all.push(i/step_l);
                     }
                 }
                 var glo_max = (data_all).max();
