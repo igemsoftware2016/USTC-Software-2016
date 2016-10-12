@@ -1,5 +1,5 @@
 from subprocess import Popen
-from os import chdir, getcwd
+from os import getcwd
 
 
 class InternalError(Exception):
@@ -11,7 +11,7 @@ class FileFormatError(Exception):
 
 
 def ABACUS_prepare(path, file, abacuspath):
-    chdir(abacuspath)
+
     print(getcwd())
     print(path+file)
     p = Popen(["ABACUS_prepare", path+file])
@@ -29,7 +29,7 @@ def ABACUS_prepare(path, file, abacuspath):
 
 
 def ABACUS_S1S2(path, file, abacuspath):
-    chdir(abacuspath)
+
     print(getcwd())
     print(path+file)
     p = Popen(["ABACUS_S1S2", path+file])
@@ -42,8 +42,7 @@ def ABACUS_S1S2(path, file, abacuspath):
 
 
 def ABACUS_vdwEtable(path, file, abacuspath):
-    chdir(abacuspath)
-    chdir('.')
+
     p = Popen(["ABACUS_vdwEtable", path+file])
     while p.poll() is None:
         pass
@@ -54,8 +53,7 @@ def ABACUS_vdwEtable(path, file, abacuspath):
 
 
 def ABACUS_design(path, file, abacuspath, num, tag=None):
-    chdir(abacuspath)
-    chdir('.')
+
     if tag is None:
         p = Popen(["ABACUS_design", path + file, str(num)])
     else:
@@ -70,8 +68,7 @@ def ABACUS_design(path, file, abacuspath, num, tag=None):
 
 
 def ABACUS_singleMutationScan(path, file, abacuspath, output, size=None):
-    chdir(abacuspath)
-    chdir('.')
+
     if size is None:
         p = Popen(["ABACUS_singleMutationScan", path+file, output])
     else:
