@@ -13,7 +13,7 @@ function getProjectData(){
                                 get_user_info_by_id(1,jsonResp);
         	        }
         	        else{
-                        alert("Error!");
+                        alert(jsonResp.error);
         	        }
                 }
 	});
@@ -110,9 +110,30 @@ function get_user_info_by_id(i,obj) {
                 if(i<=num){
                 get_user_info_by_id(i,obj);
             }
+            else{
+                var dialog_remove_project=document.querySelector('.demo-remove-project');
+            var show_dialogButtons_remove_project = document.querySelectorAll('.show-dialog-remove-project');
+            if (! dialog_remove_project.showModal) {
+                dialogPolyfill.registerDialog(dialog_remove_project);
+            }
+            for (var j=1;j<=(show_dialogButtons_remove_project.length);j++) {
+              show_dialogButtons_remove_project[j-1].addEventListener('click', prepareRemoveData(j));
+              show_dialogButtons_remove_project[j-1].addEventListener('click', function() {
+                dialog_remove_project.showModal();
+            });
+            }
+            var remove_projectButtons=dialog_remove_project.querySelectorAll('.close-dialog-remove-project');
+            for (var j=1;j<=(remove_projectButtons.length);j++) {
+              remove_projectButtons[j-1].addEventListener('click', function() {
+                dialog_remove_project.close();
+            });
+            }
+            var remove_project_control=document.getElementById("remove_project");
+            remove_project_control.addEventListener("click",sendRemoveRequest());
+            }
             }
             else {
-                Materialize.toast(jsonResp['error'], 2500, 'rounded');
+                alert(jsonResp['error']);
             }
         }
     });
@@ -122,7 +143,8 @@ function prepareRemoveData(i){
     return function(){
         var name=document.getElementsByClassName("demo-titles")[i-1].innerHTML;
         document.getElementById("remove_project_id").innerHTML=name;
-        document.getElementById("demo-projid").innerHTML=document.getElementsByClassName("demo-projids")[i-1].innerHTML;
+        var id=document.getElementsByClassName("demo-projids")[i-1].innerHTML;
+        document.getElementById("demo-projid").innerHTML=id;
     }
 }
 
@@ -162,7 +184,7 @@ function sendCreateRequest(){
         if(document.getElementById("add_private_state_public").checked=true){
                 privacy=true;
         }
-        if(name==null||remark==null||privacy==null||name.length==0){
+        if(name==null||privacy==null||name.length==0){
                 alert("Please complete the information!");
                 return;
         }
