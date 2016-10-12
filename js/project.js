@@ -162,7 +162,7 @@ function sendCreateRequest(){
         if(document.getElementById("add_private_state_public").checked=true){
                 privacy=true;
         }
-        if(name==null||remark==null||privacy==null||name.length==0){
+        if(name==null||privacy==null||name.length==0){
                 alert("Please complete the information!");
                 return;
         }
