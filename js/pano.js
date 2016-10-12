@@ -101,7 +101,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         });
 
         // listen for key events
-        d3.select(window).on("keydown", function () {
+        d3.select('#body').on("keydown", function () {
             var thisGraph = self, state = thisGraph.state, consts = thisGraph.consts;
             // make sure repeated key presses don't register for each keydown
             if (self.state.lastKeyDown !== -1) return;
@@ -144,7 +144,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             if (state.graphMouseDown && d3.event.shiftKey) {
                 // clicked not dragged from svg
                 var xycoords = d3.mouse(thisGraph.svgGraph.node());
-                thisGraph.createNodeAndSelect({u_name: "", title: "new concept", x: xycoords[0], y: xycoords[1]});
+                thisGraph.createNodeAndSelect({tax_id: "", gene_id: "", title: "new concept", x: xycoords[0], y: xycoords[1]});
                 var d = thisGraph.state.selectedNode;
                 // make title of text immediently editable
                 var circles = thisGraph.circles.filter(function (dval) {
@@ -304,7 +304,8 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         this.nodes[this.nextId] = {
             "id": this.nextId,
             "type": nodeData.type,
-            "u_name": nodeData.u_name,
+            "tax_id": nodeData.tax_id,
+            "gene_id": nodeData.gene_id,
             "title": nodeData.title,
             "x": nodeData.x,
             "y": nodeData.y
@@ -710,6 +711,78 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             self.currentDotIndex = index;
         };
 
+        this.currentTaxId = "";
+        this.currentGeneId = "";
+
+        this.lookup = function (str, callback) {
+            callback = callback || function () {};
+            var names = [
+                {tax_id: "1024", gene_id: "512", name: "aaaa",
+                    info: "Information of aaaa: blablablablablablablablablablablablablablablabla" +
+                    "blablablablablablablablablablablablablablablabla"},
+                {tax_id: "1034", gene_id: "522", name: "aaab",
+                    info: "Information of aaab: blablablablablablablablablablablablablablablabla" +
+                    "blablablablablablablablablablablablablablablabla"},
+                {tax_id: "1044", gene_id: "532", name: "aabb",
+                    info: "Information of aabb: blablablablablablablablablablablablablablablabla" +
+                    "blablablablablablablablablablablablablablablabla"},
+                {tax_id: "1054", gene_id: "542", name: "abbc",
+                    info: "Information of abbc: blablablablablablablablablablablablablablablabla" +
+                    "blablablablablablablablablablablablablablablabla"},
+                {tax_id: "1064", gene_id: "552", name: "bbcc",
+                    info: "Information of bbcc: blablablablablablablablablablablablablablablabla" +
+                    "blablablablablablablablablablablablablablablabla"},
+                {tax_id: "1074", gene_id: "562", name: "bccc",
+                    info: "Information of bccc: blablablablablablablablablablablablablablablabla" +
+                    "blablablablablablablablablablablablablablablabla"},
+                {tax_id: "1084", gene_id: "572", name: "cccc",
+                    info: "Information of cccc: blablablablablablablablablablablablablablablabla" +
+                    "blablablablablablablablablablablablablablablabla"}
+            ]; // TODO
+            setTimeout(function () {
+                var match = new RegExp(str);
+                var matches = names.filter(function (name) {
+                    return name['name'].match(match);
+                });
+                callback(matches);
+            }, 250);
+        }
+
+        $('#add-node-name').on('input', function () {
+            var nameInput = $(this);
+            self.lookup(nameInput.val(), function callback(names) {
+                var collections = $('#add-node-matches').empty().hide();
+                if (nameInput.val() == '') {
+                    names = [];
+                }
+                names.forEach(function (i) {
+                    var nodeName = i['name'];
+                    collections.append($('<a class="collection-item truncate"></a>')
+                        .append($('<span></span>').text('Tax ID: ' + i['tax_id'] + '\t' + 'Gene ID: ' + i['gene_id']))
+                        .append($('<br>'))
+                        .append($('<span></span>').text(nodeName + ' '))
+                        .append($('<span class="grey-text"></span>').text(i['info']))
+                        .click(function () {
+                            var self = $(this), html = self.html();
+                            nameInput.val(nodeName);
+                            self.currentTaxId = i['tax_id'];
+                            self.currentGeneId = i['gene_id'];
+                            collections.children('a').each(function () {
+                                var node = $(this);
+                                if (node.html() == html) {
+                                    node.addClass('active');
+                                    node.children('.grey-text').addClass('white-text');
+                                } else {
+                                    node.removeClass('active');
+                                    node.children('.grey-text').removeClass('white-text');
+                                }
+                            })
+                        })
+                    ).show();
+                })
+            });
+        });
+
         $('#side-head-top-button-h').click(function () {
             $('#side-wrapper > div').animate({left: 0}, 100, "easeOutQuad");
         });
@@ -765,10 +838,11 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
 
         $('#side-info-add').click(function () {
             var d = graph.state.selectedNode;
+            var nodeTitle = 'new node';
             if (!d) {
-                graph.createNodeAndSelect({u_name: "", title: "new concept", x: 0, y: 0});
+                graph.createNodeAndSelect({tax_id: "", gene_id: "", title: "", x: 0, y: 0});
             } else {
-                graph.createNodeAndSelect({u_name: "", title: "new concept", x: d.x + 125, y: d.y});
+                graph.createNodeAndSelect({tax_id: "", gene_id: "", title: "", x: d.x + 125, y: d.y});
             }
             d = graph.state.selectedNode;
             // make title of text immediently editable
@@ -776,9 +850,22 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 return dval.id === d.id;
             });
             graph.centerSelectedNode(250, function () {
-                var txtNode = graph.changeTextOfNode(circles, d).node();
-                graph.selectElementContents(txtNode);
-                txtNode.focus();
+                $('#modal-add-node input').val('');
+                self.currentTaxId = '';
+                self.currentGeneId = '';
+                $('#modal-add-node').openModal({
+                    dismissible: true,
+                    in_duration: 0,
+                    out_duration: 0,
+                    complete: function () {
+                        var node = graph.nodes[d.id];
+                        node['tax_id'] = self.currentTaxId;
+                        node['gene_id'] = self.currentGeneId;
+                        var newTitle = $('#add-node-title').val();
+                        graph.insertTitleLinebreaks(circles, node['title'] = newTitle == '' ? nodeTitle : newTitle);
+                        sidebar.update(d.id);
+                    }
+                });
             });
         });
 
@@ -860,11 +947,12 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
 
     function invalidProjectId() {
         alert('Invalid Project ID! ');
-        location.href = 'projects.html';
+        // location.href = 'projects.html';
     }
 
     if (isNaN(projectId)) {
         invalidProjectId();
+        start();
     } else {
         $.post("/plugin/", {plugin: "pano", action: "load", id: projectId}).done(function (res) {
             if (JSON.parse(res).success) {
@@ -880,33 +968,6 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             }
         }).fail(invalidProjectId);
     }
-
-    // initial node data
-    /*
-    nodes = [
-        {"id": 1,  "type": 3, "u_name": "gene1", "title": "gene1", "x": 1400, "y": 500},
-        {"id": 2,  "type": 2, "u_name": "gRNA2", "title": "gRNA2", "x": 200,  "y": 100},
-        {"id": 3,  "type": 2, "u_name": "gRNA1", "title": "gRNA1", "x": 800,  "y": 300},
-        {"id": 5,  "type": 3, "u_name": "gene3", "title": "gene3", "x": 800,  "y": 100},
-        {"id": 6,  "type": 3, "u_name": "gene2", "title": "gene2", "x": 1300, "y": 200},
-        {"id": 7,  "type": 3, "u_name": "gRNA3", "title": "gRNA3", "x": 1100, "y": 400},
-        {"id": 8,  "type": 2, "u_name": "DNA2",  "title": "DNA2",  "x": 900,  "y": 600},
-        {"id": 9,  "type": 3, "u_name": "DNA1",  "title": "DNA1",  "x": 700,  "y": 800},
-        {"id": 10, "type": 1, "u_name": "DNA3",  "title": "DNA3",  "x": 1000, "y": 900},
-        {"id": 11, "type": 1, "u_name": "DNA4",  "title": "DNA4",  "x": 1600, "y": 1000},
-        {"id": 12, "type": 4, "u_name": "DNA5",  "title": "DNA5",  "x": 1600, "y": 100},
-        {"id": 15, "type": 4, "u_name": "DNA6",  "title": "DNA6",  "x": 2000, "y": 1000}
-    ];
-
-    edges = [
-        {"source": 1, "target": 8,  "weight": 1},
-        {"source": 3, "target": 8,  "weight": 1},
-        {"source": 9, "target": 8,  "weight": 1},
-        {"source": 1, "target": 9,  "weight": 1},
-        {"source": 3, "target": 9,  "weight": 1},
-        {"source": 1, "target": 10, "weight": 1}
-    ];
-    */
 
     window.kickAss = function (callback) {
         callback = callback || function () {};
