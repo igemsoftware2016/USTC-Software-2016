@@ -3,8 +3,9 @@
 from queue import Queue, PriorityQueue
 from datetime import *
 from database import session
-from models import Node, Link
+# from models import Node, Link
 from plugin import Plugin
+from .dbupload.dbprofile import BioSys
 
 inf = 20
 Graph = {}
@@ -37,6 +38,10 @@ def calcu_dis(dst, n, maxlen):
     while not queue.empty():
         u = queue.get()
         # visited[u] = False
+        u_node = session.query(BioSys).filter(BioSys.id == u)
+        print(u_node)
+        for node in session.query(BioSys).filter(BioSys.bsid == u_node.bsid):
+            Graph[u].append(node.id)
         for v in Graph[u]:
             if (v not in visited or dis[v] > dis[u] + 1) and dis[u] + 1 <= maxlen:
                 dis[v] = dis[u] + 1
@@ -70,19 +75,6 @@ def a_star(src, dst, pathnum):
             return
 
 
-def reload():  # reload data from database
-    global node_count, Graph
-
-    # construct the graph
-    for node in session.query(Node).all():
-        Graph[node.node_id] = []  # Graph[v] is a list containing the adjacent vertexes of v
-    for link in session.query(Link).all():
-        if link.node_b_id not in Graph[link.node_a_id]:
-            Graph[link.node_a_id].append(link.node_b_id)  # add link.node_b_id as a adjvex of node_a_id
-        if link.node_a_id not in Graph[link.node_b_id]:
-            Graph[link.node_b_id].append(link.node_a_id)  # and vice versa
-
-
 def path_finder(s, t, k, maxlen):  # s:starting point, t:terminal point, k:number of paths required
     calcu_dis(t, node_count, maxlen)
     path_list = []  # contain the found paths
@@ -94,23 +86,20 @@ def path_finder(s, t, k, maxlen):  # s:starting point, t:terminal point, k:numbe
     return path_list
 
 
-# print(path_finder("ECK120011235", "ECK120000311", 5, 5))
-
-
 class Path_Finder(Plugin):
     def __init__(self):
         super().__init__()
         self.name = 'path_finder'
-        reload()
+    #    reload()
 
     def process(self, request):
         print(request)
         if request['action'] == 'path_finder':
             result = path_finder(request['s'], request['t'], int(request['k']), int(request['maxlen']))
             return {'paths': result}
-        if request['action'] == 'reload':
-            reload()
-            return {}
+    #    if request['action'] == 'reload':
+    #        reload()
+    #        return {}
         else:
             return {'success': False, 'reason': 'unknown action: ' + request['action']}
 
