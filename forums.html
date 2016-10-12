@@ -267,7 +267,7 @@
                       time.style.margin="0px 16px 0px 16px";
                       var time_span=document.createElement("span");
                       time_span.style.fontSize="16px";
-                      time_span.innerHTML=obj.time;
+                      time_span.innerHTML=date(parseInt(obj.time));
                       componentHandler.upgradeElement(time_span);
                       time.appendChild(time_span);
                       componentHandler.upgradeElement(time);
