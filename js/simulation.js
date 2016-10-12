@@ -22,6 +22,10 @@ function getUrlVars() {
     return vars;
 }
 
+var color = d3.scale.linear()
+    .range(["hsl(-180,60%,50%)", "hsl(180,60%,50%)"])
+    .interpolate(function(a, b) { var i = d3.interpolateString(a, b); return function(t) { return d3.hsl(i(t)); }; });
+
 
 
 var data_raw;
@@ -63,35 +67,34 @@ function vis_data(data,x_max,x_min,y_max,y_min){
         .attr("transform", "translate(" + (MARGINS.left) + ",0)")
         .call(yAxis);
 
-    var lineGen_1 = d3.svg.line()
-        .x(function(d) {
-            return xScale(d.time);
-        })
-        .y(function(d) {
-            return yScale(d.value[0]);
-        })
-        .interpolate("basis");
 
-    var lineGen_2 = d3.svg.line()
-        .x(function(d) {
-            return xScale(d.time);
-        })
-        .y(function(d) {
-            return yScale(d.value[1]);
-        })
-        .interpolate("basis");
 
-    vis.append('svg:path')
-        .attr('d', lineGen_1(data))
-        .attr('stroke', 'green')
-        .attr('stroke-width', 2)
-        .attr('fill', 'none');
 
-    vis.append('svg:path')
-        .attr('d', lineGen_2(data))
-        .attr('stroke', 'blue')
-        .attr('stroke-width', 2)
-        .attr('fill', 'none');
+
+    var data_length = data[0]["value"].length;
+    for (var i=0;i<data_length;i++){
+        var lineGen_1 = d3.svg.line()
+            .x(function(d) {
+                return xScale(d.time);
+            })
+            .y(function(d) {
+                return yScale(d.value[i]);
+            })
+            .interpolate("basis");
+
+
+
+
+        vis.append('svg:path')
+            .attr('d', lineGen_1(data))
+            .attr('stroke', color(i*0.1))
+            .attr('stroke-width', 2)
+            .attr('fill', 'none');
+    }
+
+
+
+
 
 
     status=1;
