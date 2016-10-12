@@ -13,7 +13,7 @@ function getProjectData(){
                                 get_user_info_by_id(1,jsonResp);
         	        }
         	        else{
-                        alert("Error!");
+                        alert(jsonResp.error);
         	        }
                 }
 	});
@@ -112,7 +112,7 @@ function get_user_info_by_id(i,obj) {
             }
             }
             else {
-                Materialize.toast(jsonResp['error'], 2500, 'rounded');
+                alert(jsonResp['error']);
             }
         }
     });
