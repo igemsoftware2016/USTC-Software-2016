@@ -33,7 +33,7 @@ var data_raw;
 var vis;
 var status=0;
 var lines;
-function vis_data(data,x_max,x_min,y_max,y_min){
+function vis_data(data,x_max,x_min,y_max,y_min,unstable,lya){
     if(status==1){
         vis.remove();}
     var vis_root = d3.select("#visualisation");
@@ -170,6 +170,33 @@ function vis_data(data,x_max,x_min,y_max,y_min){
         });
 
 
+    if(unstable!=undefined){
+        var data_unstable=[{
+            "value": y_max,
+            "time": unstable
+        }, {
+            "value": y_min,
+            "time": unstable
+        }];
+        var lineGen = d3.svg.line()
+            .x(function(d) {
+                return xScale(d.time);
+            })
+            .y(function(d) {
+                return yScale(d.value[0]);
+            })
+            .interpolate("basis");
+
+
+
+
+        vis.append('svg:path')
+            .attr('class','line')
+            .attr('d', lineGen(data_unstable))
+            .attr('stroke', color(0.99))
+            .attr('stroke-width', 3)
+            .attr('fill', 'none');
+    }
 
     status=1;
 }
@@ -228,7 +255,9 @@ function  run_sim(n,data_graph) {
 
                 console.log(data_res);
 
-                vis_data(data_res,glo_t_max,glo_t_min,glo_max,glo_min);
+                var unstable = Jr['unstable'];
+                var lya = JSON.parse(Jr['lyapunov'])
+                vis_data(data_res,glo_t_max,glo_t_min,glo_max,glo_min,unstable,lya);
             }
             else {
                 Materialize.toast(Jr['error']+"error", 3000, 'rounded');
