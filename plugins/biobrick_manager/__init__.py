@@ -2,7 +2,7 @@ from plugin import Plugin
 from database import session
 
 from .BiobrickOfficial import BiobrickOfficial
-from .FeatureOfficial import FeatureOfficial
+#from .FeatureOfficial import FeatureOfficial
 
 
 class BiobrickManager(Plugin):
@@ -17,7 +17,7 @@ class BiobrickManager(Plugin):
 
     def search(self, key, **kwargs):
         filter_str = 'concat(part_name, short_desc, description, notes) like "%%%s%%"' % key
-        q = session.query(BiobrickOfficial).filter(filter_str)
+        q = session.query(BiobrickOfficial).filter(filter_str).limit(100)
         return dict(list=repr(list(map(BiobrickOfficial.__get_info__, q))))
     '''
         doc = Biobrick()
