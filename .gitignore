@@ -93,3 +93,5 @@ ENV/
 
 # Config File
 config.py
+#ABACUS
+plugins/ABACUS/ABACUS/

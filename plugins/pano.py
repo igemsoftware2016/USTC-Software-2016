@@ -4,6 +4,7 @@ from plugin import Plugin, PluginDocument
 
 from database import TableBase, Column, Text, Integer, Boolean
 from database import engine, session
+from .dbupload.dbprofile import Gene
 
 
 class PanoDocument(TableBase, PluginDocument):
@@ -127,5 +128,20 @@ class Pano(Plugin):
                 project_name=i.title, last_update_time=i.last_modified, praise=self.user.id in eval(i.praises),
                 comment=eval(i.comments)))
         return dict(project=events)
+
+    def match_node(self, s, **kwargs):
+        if len(s) < 3:
+            return None
+
+        suggest = {'nodes':[]}
+        for res in session.query(Gene).filter(Gene.Symbol.like('%'+s+'%')).limit(100):
+            temp = {'name': res.Symbol, 'gene_id': res.gene_id, 'info': res.description,
+                    'tax_id': res.tax_id, 'equal': res.Symbol == s}
+            suggest['nodes'].append(temp)
+
+        sorted(suggest['nodes'], key=lambda x: x['equal'], reverse=True)
+
+        return suggest
+
 
 __plugin__ = Pano()
