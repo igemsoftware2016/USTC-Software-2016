@@ -77,8 +77,8 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 self.updateGraph();
             }
         }).on("dragend", function () {
+            sidebar.update(self.state.selectedNode.id);
             self.trySave();
-            // todo check if edge-mode is selected
         });
 
         self.zoomHandler = d3.behavior.zoom().on("zoom", function () {
@@ -144,7 +144,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             if (state.graphMouseDown && d3.event.shiftKey) {
                 // clicked not dragged from svg
                 var xycoords = d3.mouse(thisGraph.svgGraph.node());
-                thisGraph.createNodeAndSelect({tax_id: "", gene_id: "", name: "", info: "", title: "new node", x: xycoords[0], y: xycoords[1]});
+                thisGraph.createNodeAndSelect({tax_id: "", gene_id: "", name: "", info: "", title: "", x: xycoords[0], y: xycoords[1]});
                 var d = thisGraph.state.selectedNode;
                 // make title of text immediently editable
                 var circles = thisGraph.circles.filter(function (dval) {
@@ -693,21 +693,22 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                     }
                 });
                 $('#side-link-wrap').show();
-                $('#status-posx').html(Math.round(d.x));
-                $('#status-posy').html(Math.round(d.y));
-                $('#status-uid').html(Math.round(d.id));
-                $('#status-main-uid').html(d.title);
-                $('#status-type').html(Math.round(d.type));
+                $('#status-posx').text(Math.round(d.x));
+                $('#status-posy').text(Math.round(d.y));
+                $('#status-uid').text(Math.round(d.id));
+                $('#status-main-uid').text(d.title);
+                $('#side-info-node-info').text(d.info);
+                $('#side-info-tax-id').text(d.tax_id);
+                $('#side-info-gene-id').text(d.gene_id);
                 $('#side-info-node').show();
                 $('#side-info-link').show();
                 $('#side-info-remove').show();
             } else {
                 $('#side-link-wrap').hide();
-                $('#status-posx').html('-');
-                $('#status-posy').html('-');
-                $('#status-uid').html('-');
-                $('#status-main-uid').html('-');
-                $('#status-type').html('-');
+                $('#status-posx').text('-');
+                $('#status-posy').text('-');
+                $('#status-uid').text('-');
+                $('#status-main-uid').text('-');
                 $('#side-info-node').hide();
                 $('#side-info-link').hide();
                 $('#side-info-remove').hide();
@@ -737,9 +738,9 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             }
         }
 
-        this.currentTaxId = "";
-        this.currentGeneId = "";
-        this.currentInfo = "";
+        self.currentTaxId = "";
+        self.currentGeneId = "";
+        self.currentInfo = "";
 
         this.editNodeInfo = function (node, callback) {
             callback = callback || function () {};
@@ -754,8 +755,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 in_duration: 0,
                 out_duration: 0,
                 ready: function () {
-                    $('#add-node-progress').show();
-                    $('#add-node-matches').empty().hide();
+                    $('#modal-add-node input#add-node-name').trigger('input');
                 },
                 complete: function () {
                     node['tax_id'] = self.currentTaxId;
@@ -778,9 +778,6 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             var collections = $('#add-node-matches').empty().hide();
             $('#add-node-progress').show();
             self.lookup(nameInput.val(), function callback(names) {
-                if (nameInput.val() == '') {
-                    names = [];
-                }
                 names.forEach(function (i) {
                     var nodeName = i['name'];
                     collections.append($('<a class="collection-item truncate"></a>')
@@ -789,7 +786,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                         .append($('<span></span>').text(nodeName + ' '))
                         .append($('<span class="grey-text"></span>').text(i['info']))
                         .click(function () {
-                            var self = $(this), html = self.html();
+                            var html = $(this).html();
                             nameInput.val(nodeName);
                             self.currentTaxId = i['tax_id'];
                             self.currentGeneId = i['gene_id'];
@@ -873,11 +870,10 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
 
         $('#side-info-add').click(function () {
             var d = graph.state.selectedNode;
-            var nodeTitle = 'new node';
             if (!d) {
-                graph.createNodeAndSelect({tax_id: "", gene_id: "", name: "", info: "", title: "new node", x: 0, y: 0});
+                graph.createNodeAndSelect({tax_id: "", gene_id: "", name: "", info: "", title: "", x: 0, y: 0});
             } else {
-                graph.createNodeAndSelect({tax_id: "", gene_id: "", name: "", info: "", title: "new node", x: d.x + 125, y: d.y});
+                graph.createNodeAndSelect({tax_id: "", gene_id: "", name: "", info: "", title: "", x: d.x + 125, y: d.y});
             }
             d = graph.state.selectedNode;
             // make title of text immediently editable
