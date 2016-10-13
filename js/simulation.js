@@ -449,27 +449,33 @@ function draw_functions_simu(data_graph) {
 
     window.onload = (function () {
     var id_from_pano = getUrlVars()["id"];
-    
-    var dictData = {"plugin":"pano","action":"load","id":id_from_pano}
-    $.ajax({
-        type:"POST",
-        url:"/plugin/",
-        data:dictData,
-        success:function (response) {
-                draw_functions_simu(response["nodes"])
-        },
-        statusCode: {
-            404: function() {
-                console.log("connection error(404)");
-                alert("can not connect to server");
-                no_connection_status();
-            },
-            400: function() {
-                console.log("connection error(400)");
-                alert("can not connect to server");
+
+            if(id_from_pano!=undefined && id_from_pano!=-1){
+                var dictData = {"plugin":"pano","action":"load","id":id_from_pano}
+                $.ajax({
+                    type:"POST",
+                    url:"/plugin/",
+                    data:dictData,
+                    success:function (response) {
+                        draw_functions_simu(response["nodes"])
+                    },
+                    statusCode: {
+                        404: function() {
+                            console.log("connection error(404)");
+                            alert("can not connect to server");
+                            no_connection_status();
+                        },
+                        400: function() {
+                            console.log("connection error(400)");
+                            alert("can not connect to server");
+                            no_connection_status();
+                        }
+                    }
+                });
+            }
+            else {
                 no_connection_status();
             }
-        }
-    });
+
 }
 );
