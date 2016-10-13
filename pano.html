@@ -132,8 +132,8 @@
             <div id="side-head" class="green darken-2">
                 <div id="side-head-top-buttons" class="row">
                     <a id="side-head-close-button" class="col s2 white-text left-align waves-effect"><i class="material-icons">close</i></a>
-                    <a id="side-head-top-button-p" href="javascript:void(0);"  class="col s4 white-text center-align waves-effect">PREVIOUS</a>
-                    <a id="side-head-top-button-n" href="javascript:void(0);" onclick="kick_ass()" class="col s4 white-text center-align waves-effect">NEXT</a>
+                    <a id="side-head-top-button-p" href="javascript:void(0);" class="col s4 white-text center-align waves-effect">PREVIOUS</a>
+                    <a id="side-head-top-button-n" href="javascript:void(0);" class="col s4 white-text center-align waves-effect">NEXT</a>
                     <a id="side-head-top-button-i" class="dropdown-button col s2 white-text right-align waves-effect" data-activates='side-head-dropdown'><i class="material-icons">perm_identity</i></a>
                     <ul id="side-head-dropdown" class="dropdown-content" style="position: relative;z-index: 9999">
                         <li><a href="#!">one</a></li>
@@ -146,14 +146,19 @@
                     <h2 class="white-text center-align"><span id="status-main-uid" class="truncate">-</span></h2>
                 </div>
                 <div id="side-head-node-position" class="row">
-                    <div class="col s4 white-text">POSITION X</div>
-                    <div class="col s2 white-text"><span id="status-posx">-</span></div>
-                    <div class="col s4 white-text">POSITION Y</div>
-                    <div class="col s2 white-text"><span id="status-posy">-</span></div>
-                    <div class="col s4 white-text">UID</div>
-                    <div class="col s2 white-text"><span id="status-uid">-</span></div>
-                    <div class="col s4 white-text">TYPE</div>
-                    <div class="col s2 white-text"><span id="status-type">-</span></div>
+                    <div class="col s3 white-text">POS X</div>
+                    <div class="col s3 white-text"><span id="status-posx">-</span></div>
+                    <div class="col s3 white-text">POS Y</div>
+                    <div class="col s3 white-text"><span id="status-posy">-</span></div>
+                    <div class="col s3 white-text">UID</div>
+                    <div class="col s3 white-text"><span id="status-uid">-</span></div>
+                    <div class="col s3 white-text">TAX ID</div>
+                    <div class="col s3 white-text"><span id="side-info-tax-id">-</span></div>
+                    <div class="col s12"><br></div>
+                    <div class="col s4 white-text">GENE ID</div>
+                    <div class="col s8 white-text"><span id="side-info-gene-id">-</span></div>
+                    <div class="col s4 white-text">GENE NAME</div>
+                    <div class="col s8 white-text"><span id="side-info-gene-name">-</span></div>
                 </div>
                 <div class="container row" style="margin-bottom:0"></div>
             </div>
@@ -163,16 +168,7 @@
                 </a>
                 <div class="collection-item" id="side-info-node">
                     <h5 class="valign-wrapper"><i class="material-icons valign">info</i>&nbsp;Element Info</h5>
-                    <div>
-                        bla bla bla bla bla bla bla bla
-                        bla bla bla bla bla bla bla bla
-                        bla bla bla bla bla bla bla bla
-                        bla bla bla bla bla bla bla bla
-                        bla bla bla bla bla bla bla bla
-                        bla bla bla bla bla bla bla bla
-                        bla bla bla bla bla bla bla bla
-                        bla bla bla bla bla bla bla bla
-                    </div>
+                    <h6><br><span id="side-info-node-info"></span></h6>
                 </div>
                 <div class="collection-item" id="side-info-link">
                     <h5 class="valign-wrapper"><i class="material-icons valign">link</i>&nbsp;Links</h5>
