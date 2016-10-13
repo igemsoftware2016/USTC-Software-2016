@@ -1,5 +1,5 @@
 /**
- * Created by Pjer1 on 8/19/2016.
+ * Created by Pjer on 8/19/2016.
 .
  */
 
@@ -22,12 +22,17 @@ function getUrlVars() {
     return vars;
 }
 
+var color = d3.scale.linear()
+    .range(["hsl(-180,60%,50%)", "hsl(180,60%,50%)"])
+    .interpolate(function(a, b) { var i = d3.interpolateString(a, b); return function(t) { return d3.hsl(i(t)); }; });
+
 
 console.log(getUrlVars()["id"]);
 
 var data_raw;
 var vis;
 var status=0;
+var lines;
 function vis_data(data,x_max,x_min,y_max,y_min){
     if(status==1){
         vis.remove();}
@@ -35,8 +40,11 @@ function vis_data(data,x_max,x_min,y_max,y_min){
     vis=vis_root.append("svg")
         .attr("width",600)
         .attr("height",500);
+
     var    WIDTH = 600,
+        width = 530,
         HEIGHT = 500,
+        height = 480,
         MARGINS = {
             top: 20,
             right: 20,
@@ -52,6 +60,11 @@ function vis_data(data,x_max,x_min,y_max,y_min){
             .scale(yScale)
             .orient("left");
 
+    var x = d3.time.scale()
+        .range([0, width]);
+
+    var y = d3.scale.linear()
+        .range([height, 0]);
 
 
     vis.append("svg:g")
@@ -64,35 +77,98 @@ function vis_data(data,x_max,x_min,y_max,y_min){
         .attr("transform", "translate(" + (MARGINS.left) + ",0)")
         .call(yAxis);
 
-    var lineGen_1 = d3.svg.line()
-        .x(function(d) {
-            return xScale(d.time);
-        })
-        .y(function(d) {
-            return yScale(d.value[0]);
-        })
-        .interpolate("basis");
 
-    var lineGen_2 = d3.svg.line()
-        .x(function(d) {
-            return xScale(d.time);
-        })
-        .y(function(d) {
-            return yScale(d.value[1]);
-        })
-        .interpolate("basis");
 
-    vis.append('svg:path')
-        .attr('d', lineGen_1(data))
-        .attr('stroke', 'green')
-        .attr('stroke-width', 2)
-        .attr('fill', 'none');
 
-    vis.append('svg:path')
-        .attr('d', lineGen_2(data))
-        .attr('stroke', 'blue')
-        .attr('stroke-width', 2)
-        .attr('fill', 'none');
+
+    var data_length = data[0]["value"].length;
+    for (var i=0;i<data_length;i++){
+        var lineGen_1 = d3.svg.line()
+            .x(function(d) {
+                return xScale(d.time);
+            })
+            .y(function(d) {
+                return yScale(d.value[i]);
+            })
+            .interpolate("basis");
+
+
+
+
+        vis.append('svg:path')
+            .attr('class','line')
+            .attr('d', lineGen_1(data))
+            .attr('stroke', color(i*0.1))
+            .attr('stroke-width', 2)
+            .attr('fill', 'none');
+    }
+
+    lines = document.getElementsByClassName('line');
+
+
+    var mouseG = vis.append("g")
+        .attr("class", "mouse-over-effects");
+
+    mouseG.append("path") // this is the black vertical line to follow mouse
+        .attr("class", "mouse-line")
+        .style("stroke", "black")
+        .style("stroke-width", "1px")
+        .style("opacity", "0");
+
+    var mousePerLine = mouseG.selectAll('.mouse-per-line')
+        .data(data)
+        .enter()
+        .append("g")
+        .attr("class", "mouse-per-line");
+
+    mousePerLine.append("circle")
+        .attr("r", 7)
+        .style("stroke", function(d) {
+            return color(d.name);
+        })
+        .style("fill", "none")
+        .style("stroke-width", "1px")
+        .style("opacity", "0");
+
+    mousePerLine.append("text")
+        .attr("transform", "translate(10,3)");
+
+    mouseG.append('svg:rect') // append a rect to catch mouse movements on canvas
+        .attr('width', width)
+        .attr('x',50)// can't catch mouse events on a g element
+        .attr('height', height)
+        .attr('fill', 'none')
+        .attr('pointer-events', 'all')
+        .on('mouseout', function() { // on mouse out hide line, circles and text
+            d3.select(".mouse-line")
+                .style("opacity", "0");
+            d3.selectAll(".mouse-per-line circle")
+                .style("opacity", "0");
+            d3.selectAll(".mouse-per-line text")
+                .style("opacity", "0");
+        })
+        .on('mouseover', function() { // on mouse in show line, circles and text
+            d3.select(".mouse-line")
+                .style("opacity", "1");
+            d3.selectAll(".mouse-per-line circle")
+                .style("opacity", "1");
+            d3.selectAll(".mouse-per-line text")
+                .style("opacity", "1");
+        })
+        .on('mousemove', function() { // mouse moving over canvas
+            var mouse = d3.mouse(this);
+            d3.select(".mouse-line")
+                .attr("d", function() {
+                    var d = "M" + mouse[0] + "," + height;
+                    d += " " + mouse[0] + "," + 0;
+                    return d;
+                });
+
+
+
+
+        });
+
 
 
     status=1;
@@ -115,9 +191,13 @@ function  run_sim(n,data_graph) {
             str_init += "\n";
         }
     }
+
+    str_end_t = document.getElementById("input_func_t").value;
+    str_step_l = document.getElementById("input_func_l").value;
+
     console.log(str_func);
     console.log(str_init);
-    var str_post={"plugin":"simulation","eqs":str_func,"init":str_init};
+    var str_post={"plugin":"simulation","eqs":str_func,"init":str_init,"end_t":str_end_t,"step_l":str_step_l};
     $.ajax({
         type: "POST",
         url: "/plugin/",
@@ -136,8 +216,9 @@ function  run_sim(n,data_graph) {
                             data_temp.push(meta_data[j][i]);
                             data_all.push(meta_data[j][i]);
                         }
-                        data_res.push({"value": data_temp, "time": i / 200.});
-                        data_t_all.push(i/200.);
+                        var step_l = document.getElementById("input_func_l").value;
+                        data_res.push({"value": data_temp, "time": i /step_l});
+                        data_t_all.push(i/step_l);
                     }
                 }
                 var glo_max = (data_all).max();
@@ -179,7 +260,7 @@ function  no_connection_status() {
             .attr("src",function (d,i) {
                 src_str = "http://latex.codecogs.com/gif.latex?\\frac{dy_{"
                     +   d.id
-                    + "}}{dx} \\quad=";
+                    + "}}{dt} \\quad=";
                 return src_str
             });
 
@@ -195,7 +276,7 @@ function  no_connection_status() {
 
         inp.append("label")
             .attr("for",function (d) {
-            fnstr = "input_label_func_"+d.id;
+            fnstr = "input_func_"+d.id;
             return fnstr;
         }).text(function (d) {
             return "Control Function of index "+d.id;
@@ -226,7 +307,7 @@ function  no_connection_status() {
             }).attr("type" ,"text");
 
         inp_1.append("label").attr("for",function (d) {
-            fnstr = "input_label_init_"+d.id;
+            fnstr = "input_init_"+d.id;
             return fnstr;
         }).html(function (d) {
             return "Initial Value of index "+d.id;
