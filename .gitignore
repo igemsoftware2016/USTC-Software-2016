@@ -95,3 +95,4 @@ ENV/
 config.py
 #ABACUS
 plugins/ABACUS/ABACUS/
+app/static/downloads/

@@ -1,11 +1,16 @@
 from callabacus import ABACUS_design, ABACUS_prepare, ABACUS_S1S2, ABACUS_singleMutationScan, ABACUS_vdwEtable
 from callabacus import InternalError, FileFormatError
 import sys
-from os import chdir
+from os import chdir, rename
 
-def design(path, file, amount, abacuspath, tag=None):
+
+def design(path, file, amount, abacuspath, tag=None, demo=False):
+    if demo == 'True':
+        demo = True
+    else:
+        demo = False
+
     try:
-        chdir(abacuspath)
         f = open(path + 'status.log', 'a')
     except:
         return -1;
@@ -20,31 +25,40 @@ def design(path, file, amount, abacuspath, tag=None):
     try:
         f.write("[Info]Preparing\n")
         f.close()
-        ABACUS_prepare(path, file, abacuspath)
+        if demo:
+            ABACUS_prepare(path, file, abacuspath)
         f = open(path + 'status.log', 'a')
         f.write("[Info]Prepared\n")
 
         f.write("[Info]Processing...\n")
         f.close()
-        ABACUS_S1S2(path, file, abacuspath)
+        if demo:
+            ABACUS_S1S2(path, file, abacuspath)
         f = open(path + 'status.log', 'a')
         f.write("[Info]Processed...\n")
 
         f.write("[Info]Generating energy table\n")
         f.close()
-        ABACUS_vdwEtable(path, file, abacuspath)
+        if demo:
+            ABACUS_vdwEtable(path, file, abacuspath)
         f = open(path + 'status.log', 'a')
         f.write("[Info]Generate energy table\n")
 
         f.write("[Info]Designing\n")
         f.close()
-        if tag is None:
-            ABACUS_design(path, file, abacuspath, amount)
+        if demo:
+            if tag is None:
+                ABACUS_design(path, file, abacuspath, amount)
+            else:
+                ABACUS_design(path, file, abacuspath, amount, tag)
         else:
-            ABACUS_design(path, file, abacuspath, amount, tag)
+            fp = open(path + 'demo_design_demo.fasta', 'w')
+            fp.close()
+            fp = open(path + 'demo_design_demo.pdb', 'w')
+            fp.close()
+
         f = open(path + 'status.log', 'a')
         f.write("[Info]Done!\n")
-
 
     except InternalError:
         f.write("[Error]Some internal error occured, we are sorry\n")
@@ -54,9 +68,9 @@ def design(path, file, amount, abacuspath, tag=None):
     return "0"
 
 if __name__ == '__main__':
-    if len(sys.argv) == 5:
-        design(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
-    elif len(sys.argv) == 6:
+    if len(sys.argv) == 6:
         design(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
+    elif len(sys.argv) == 7:
+        design(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6])
     else:
         print("Parameter error\n")

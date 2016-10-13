@@ -2,9 +2,10 @@ from subprocess import Popen
 from callabacus import ABACUS_design, ABACUS_prepare, ABACUS_S1S2, ABACUS_singleMutationScan, ABACUS_vdwEtable
 from callabacus import InternalError, FileFormatError
 import sys
-from os import chdir
+from os import chdir, rename
+from shutil import copyfile
 
-def singleMutationScan(path, file, abacuspath, output, size=None):
+def singleMutationScan(path, file, abacuspath, output, size=None, demo=False):
     try:
         chdir(abacuspath)
         f = open(path + 'status.log', 'a')
@@ -22,23 +23,26 @@ def singleMutationScan(path, file, abacuspath, output, size=None):
     try:
         f.write("[Info]Preparing\n")
         f.close()
-        ABACUS_prepare(path, file, abacuspath)
+        if not demo:
+            ABACUS_prepare(path, file, abacuspath)
         f = open(path + 'status.log', 'a')
         f.write("[Info]Prepared\n")
 
         f.write("[Info]Processing...\n")
         f.close()
-        ABACUS_S1S2(path, file, abacuspath)
+        if not demo:
+            ABACUS_S1S2(path, file, abacuspath)
         f = open(path + 'status.log', 'a')
         f.write("[Info]Processed...\n")
 
         f.write("[Info]Single mutation scaning\n")
         f.close()
-        if size is None:
-            ABACUS_design(path, file, abacuspath, output)
-        else:
-            ABACUS_design(path, file, abacuspath, output, size)
-            f = open(path + 'status.log', 'a')
+        if not demo:
+            if size is None:
+                ABACUS_design(path, file, abacuspath, output)
+            else:
+                ABACUS_design(path, file, abacuspath, output, size)
+                f = open(path + 'status.log', 'a')
         f.write("[Info]Done!\n")
 
 
@@ -51,9 +55,9 @@ def singleMutationScan(path, file, abacuspath, output, size=None):
     return "0"
 
 if __name__ == '__main__':
-    if len(sys.argv) == 5:
-        singleMutationScan(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
-    elif len(sys.argv) == 6:
+    if len(sys.argv) == 6:
         singleMutationScan(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
+    elif len(sys.argv) == 7:
+        singleMutationScan(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6])
     else:
         print("Parameter error\n")
