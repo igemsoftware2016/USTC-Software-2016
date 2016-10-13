@@ -1,5 +1,3 @@
-var kick_ass;
-
 document.onload = (function ($, d3, saveAs, Blob, undefined) {
     "use strict";
 
@@ -370,6 +368,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         if (!mouseDownNode) return;
 
         thisGraph.dragLine.classed("hidden", true);
+        $('#side-link-to').removeClass('active');
 
         if (mouseDownNode !== d) {
             // we're in a different node: create new edge for mousedown edge and add to graph
@@ -473,9 +472,18 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 if (state.shiftNodeDrag) {
                     d3.select(this).classed(consts.connectClass, true);
                 }
+                if (state.currentLinkSource) {
+                    thisGraph.dragLine.classed('hidden', false).attr('d', 'M' +
+                        state.currentLinkSource.x + ',' +
+                        state.currentLinkSource.y + 'L' +
+                        d.x + ',' + d.y);
+                }
             })
             .on("mouseout", function (d) {
                 d3.select(this).classed(consts.connectClass, false);
+                if (state.currentLinkSource) {
+                    thisGraph.dragLine.classed('hidden', true);
+                }
             })
             .on("mousedown", function (d) {
                 thisGraph.circleMouseDown.call(thisGraph, d3.select(this), d);
@@ -853,7 +861,13 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         });
 
         $('#side-link-to').click(function () {
-            graph.state.currentLinkSource = graph.state.selectedNode;
+            if (!graph.state.currentLinkSource) {
+                graph.state.currentLinkSource = graph.state.selectedNode;
+                $(this).addClass('active');
+            } else {
+                graph.state.currentLinkSource = null;
+                $(this).removeClass('active');
+            }
         });
 
         $(document).keyup(function (event) {
@@ -960,5 +974,5 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         img.src = url;
     };
 
-    window.kickAss = kickAss
+    window.kickAss = kickAss;
 })(jQuery, window.d3, window.saveAs, window.Blob);

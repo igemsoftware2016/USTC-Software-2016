@@ -108,6 +108,10 @@
         stroke: rgb(94, 196, 204);
     }
 
+    path.link.dragline {
+        stroke: #999;
+    }
+
     g.connect-node circle {
         fill: #BEFFFF;
     }
@@ -172,19 +176,19 @@
                     </a>
                 </div>
                 <div class="collection-item" id="side-info-node">
-                    <h5 class="valign-wrapper"><i class="material-icons valign">info</i>&nbsp;ELEMENT INFO</h5>
-                    <h6><br><span id="side-info-node-info"></span></h6>
+                    <h5 class="valign-wrapper"><i class="material-icons valign">info</i>&nbsp;ELEMENT INFO</h5><br>
+                    <h6><span id="side-info-node-info"></span></h6>
                 </div>
                 <div class="collection-item" id="side-info-link">
-                    <h5 class="valign-wrapper"><i class="material-icons valign">link</i>&nbsp;LINKS</h5>
-                </div>
-                <div class="collection-item" id="side-link-wrap" style="display: none">
-                    <div class="collection" id="side-link-list"></div>
-                    <div class="collection">
-                        <a href="#!" id="side-link-to" class="collection-item valign-wrapper" style="padding: 10px 20px; font-weight: normal;">
-                            <i class="material-icons tiny left valign" style="padding-top: 6px;">add</i>
-                            <span class="valign" style="padding-top: 3px;">NEW LINK TO ...</span>
-                        </a>
+                    <h5 class="valign-wrapper"><i class="material-icons valign">link</i>&nbsp;LINKS</h5><br>
+                    <div id="side-link-wrap" style="display: none">
+                        <div class="collection" id="side-link-list"></div>
+                        <div class="collection">
+                            <a href="#!" id="side-link-to" class="collection-item valign-wrapper" style="padding: 10px 20px; font-weight: normal;">
+                                <i class="material-icons tiny left valign" style="padding-top: 6px;">add</i>
+                                <span class="valign" style="padding-top: 3px;">NEW LINK TO ...</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
