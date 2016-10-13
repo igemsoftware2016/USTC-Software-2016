@@ -40,7 +40,7 @@ function vis_data(data,x_max,x_min,y_max,y_min,unstable,lya){
     var vis_root = d3.select("#visualisation");
     vis=vis_root.append("svg")
         .attr("width",600)
-        .attr("height",500);
+        .attr("height",500+50);
 
     var    WIDTH = 600,
         width = 530,
@@ -175,28 +175,19 @@ function vis_data(data,x_max,x_min,y_max,y_min,unstable,lya){
             "time": unstable
         }, {
             "value": y_min,
-            "time": unstable
+            "time": unstable+0.000000001
         }];
 
-        console.log(data_unstable);
 
-        var lineGen = d3.svg.line()
-            .x(function(d) {
-                return xScale(d.time);
-            })
-            .y(function(d) {
-                return yScale(d.value[0]);
-            })
-            .interpolate("basis");
-
-
-
-        vis.append('svg:path')
-            .attr('class','line')
-            .attr('d', lineGen(data_unstable))
-            .attr('stroke', 'red')
-            .attr('stroke-width', 3)
-            .attr('fill', 'none');
+        vis.append("text")
+            .attr("dy", "3.35em")
+            .attr("dx", ".75em")
+            .attr('x',0)
+            .attr('y',450)
+            .style("text-anchor", "start")
+            .text( "Maybe unstable after "+String(unstable) +" !!!!")
+            .attr("style","font-size:24px;font-family:consolas")
+            .attr("fill","black");
     }
 
     status=1;
@@ -360,7 +351,7 @@ function  no_connection_status() {
 
         
         
-/*
+
         data_raw = [{
             "value": ["202","177"],
             "time": "2000"
@@ -380,7 +371,7 @@ function  no_connection_status() {
             "value": ["176","157"],
             "time": "2010"
         }];
-*/ 
+
         //debug data
         //vis_data(data_raw)
 
