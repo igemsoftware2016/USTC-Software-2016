@@ -447,7 +447,7 @@ function draw_functions_simu(data_graph) {
 
 
 
-    window.onload(function () {
+    window.onload = (function () {
     var id_from_pano = getUrlVars()["id"];
     
     var dictData = {"plugin":"pano","action":"load","id":id_from_pano}
