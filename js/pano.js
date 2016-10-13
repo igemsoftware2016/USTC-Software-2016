@@ -700,6 +700,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 $('#side-info-node-info').text(d.info);
                 $('#side-info-tax-id').text(d.tax_id);
                 $('#side-info-gene-id').text(d.gene_id);
+                $('#side-info-gene-name').text(d.name);
                 $('#side-info-node').show();
                 $('#side-info-link').show();
                 $('#side-info-remove').show();
@@ -709,6 +710,9 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 $('#status-posy').text('-');
                 $('#status-uid').text('-');
                 $('#status-main-uid').text('-');
+                $('#side-info-tax-id').text('-');
+                $('#side-info-gene-id').text('-');
+                $('#side-info-gene-name').text('-');
                 $('#side-info-node').hide();
                 $('#side-info-link').hide();
                 $('#side-info-remove').hide();
@@ -746,7 +750,6 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             callback = callback || function () {};
             $('#modal-add-node input#add-node-title').val(node['title']);
             $('#modal-add-node input#add-node-name').val(node['name']).trigger('input');
-            $('#add-node-ok').addClass('disabled').attr('disabled', 'disabled');
             self.currentTaxId = node['tax_id'];
             self.currentGeneId = node['gene_id'];
             self.currentInfo = node['info'];
@@ -756,6 +759,9 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 out_duration: 0,
                 ready: function () {
                     $('#modal-add-node input#add-node-name').trigger('input');
+                    if (node['name'] != '') {
+                        $('#add-node-ok').removeAttr('disabled').removeClass('disabled');
+                    }
                 },
                 complete: function () {
                     node['tax_id'] = self.currentTaxId;
@@ -776,6 +782,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         $('#add-node-name').on('input', function () {
             var nameInput = $(this);
             var collections = $('#add-node-matches').empty().hide();
+            $('#add-node-ok').addClass('disabled').attr('disabled', 'disabled');
             $('#add-node-progress').show();
             self.lookup(nameInput.val(), function callback(names) {
                 names.forEach(function (i) {
