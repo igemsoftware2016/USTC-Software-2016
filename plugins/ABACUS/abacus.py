@@ -34,14 +34,16 @@ class ABACUS(Plugin):
         print("ABACUS plugin got a request:" + str(request))
 
         filepath = abacuspath + 'pdbs/' + str(self.user.id) + '/'
-        try:
-            rmtree(filepath) # Alert! Clean directory even it is existed
-        except:
-            pass
-        mkdir(filepath)
 
-        if not request['getstatus']:
+        print('Gonna save file')
+        if not request['action'] == 'getstatus':
+            try:
+                rmtree(filepath)  # Alert! Clean directory even it is existed
+            except:
+                pass
+            mkdir(filepath)
             request['file'].save(filepath + str(self.user.id) + '.pdb')
+            print("File saved")
 
         if request["action"] == "design":
             try:
