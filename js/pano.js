@@ -150,7 +150,12 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 var circles = thisGraph.circles.filter(function (dval) {
                     return dval.id === d.id;
                 });
-                sidebar.editNodeInfo(thisGraph.nodes[d.id]);
+                sidebar.editNodeInfo(thisGraph.nodes[d.id], function (node) {
+                    circles.select('text').remove();
+                    graph.insertTitleLinebreaks(circles, node.title);
+                    sidebar.update(d.id);
+                    graph.trySave();
+                });
             } else if (state.shiftNodeDrag) {
                 // dragged from node
                 state.shiftNodeDrag = false;
@@ -508,6 +513,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                         circles.select('text').remove();
                         graph.insertTitleLinebreaks(circles, node.title);
                         sidebar.update(d.id);
+                        graph.trySave();
                     });
                 } else {
                     sidebar.update(d.id);
@@ -892,6 +898,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                     circles.select('text').remove();
                     graph.insertTitleLinebreaks(circles, node.title);
                     sidebar.update(d.id);
+                    graph.trySave();
                 });
             });
         });
