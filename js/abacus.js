@@ -8,21 +8,27 @@
 
      var L=jQuery('#loading');
     L.removeClass("hide");
-
+    var f_upload = new FormData();
+    f_upload.append('file', $('#pdb-file')[0].files[0]);
+    console.log(f_upload);
      $.ajax({
          type: "POST",
-         url: "http://code.appendto.com/plugins/jquery-mockjax",
+         url: "/plugin/",
          responseTime: 2000,
+         data:f_upload,
+         processData: false,
+         contentType: false,
          success: function(response){
              var Jr = JSON.parse(response);
              if(Jr['success']==true) {
                  window.location="home.html"
              }
              else {
-                 Materialize.toast(Jr['error'], 3000, 'rounded');
+                 Materialize.toast('Error : '+Jr['error'], 3000, 'rounded');
              }
          }
-     })//.done(L.addClass("hide"));
+     });
+    //.done(L.addClass("hide"));
     console.log("haha")
 }
 
