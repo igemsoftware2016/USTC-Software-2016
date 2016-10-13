@@ -177,11 +177,6 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             resizeOld.apply(this, arguments);
         };
 
-        // handle delete graph
-        d3.select("#delete-graph").on("click", function () {
-            self.deleteGraph(false);
-        });
-
         // update
         self.updateGraph();
 
@@ -205,18 +200,12 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         nodeRadius: 50
     };
 
-    GraphCreator.prototype.deleteGraph = function (skipPrompt) {
-        var thisGraph = this,
-            doDelete = true;
-        if (!skipPrompt) {
-            doDelete = window.confirm("Press OK to delete this graph");
-        }
-        if (doDelete) {
-            thisGraph.nodes = [];
-            thisGraph.edges = [];
-            thisGraph.updateGraph();
-            thisGraph.trySave();
-        }
+    GraphCreator.prototype.deleteGraph = function () {
+        this.nodes = [];
+        this.edges = [];
+        sidebar.update(0);
+        this.updateGraph();
+        this.trySave();
     };
 
     /* insert svg line breaks: taken from http://stackoverflow.com/questions/13241475/how-do-i-include-newlines-in-labels-in-d3-charts */
@@ -225,7 +214,9 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         var el = gEl.append("text").attr("text-anchor", "middle");
         el.attr("dx", 0).attr("dy", "5");
         for (var i in words) {
-            el.append('tspan').text(words[i]).attr('x', 0).attr('dy', '15');
+            el.append('tspan').text(words[i]).attr('x', 0).attr('dy', function () {
+                return $(el.node()).height() / 2;
+            });
         }
     };
 
@@ -738,7 +729,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             if ($(this).attr('disabled') == 'disabled') {
                 e.stopImmediatePropagation();
             }
-        })
+        });
 
         $('#side-head-top-button-h').click(function () {
             $('#side-wrapper > div').animate({left: 0}, 100, "easeOutQuad");
@@ -783,14 +774,55 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             }
         });
 
-        $('#side-head-top-button-i').dropdown({
-            inDuration: 30000,
-            outDuration: 225,
-            constrain_width: false,
-            hover: true,
-            gutter: 0,
-            belowOrigin: true,
-            alignment: 'right'
+        $('#side-head-top-button-i').click(function () {
+            graph.state.lockKeyEvent = true;
+            var countNodes = graph.nodes.filter(function (i) {
+                return i != undefined;
+            }).length, countEdges = graph.edges.length;
+            $('#modal-pano-info').openModal({
+                dismissible: true,
+                in_duration: 0,
+                out_duration: 0,
+                ready: function () {
+                    $('#pano-info-ctime').text(new Date(ctime * 1000).toLocaleString());
+                    $('#pano-info-mtime').text(new Date(mtime * 1000).toLocaleString());
+                    $('#pano-info-nodes').text(countNodes);
+                    $('#pano-info-edges').text(countEdges);
+                    $('#pano-info-title').val(panoTitle).on('input', function () {
+                        if ($(this).val() == '') {
+                            $('#pano-info-ok').attr('disabled', 'disabled').addClass('disabled');
+                        } else {
+                            $('#pano-info-ok').removeAttr('disabled').removeClass('disabled');
+                        }
+                    });
+                },
+                complete: function () {
+                    graph.state.lockKeyEvent = false;
+                    panoTitle = $('#pano-info-title').val();
+                    graph.trySave();
+                }
+            });
+        });
+
+        $('#pano-info-back').click(function () {
+            location.href = 'projects.html';
+        });
+
+        $('#pano-info-simulate').click(function () {
+            location.href = 'simulation_form.html?id=' + projectId;
+        });
+
+        $('#pano-info-clear').click(function () {
+            if (confirm('I am sure that ALL the nodes and links will be REMOVED. ')) {
+                graph.deleteGraph();
+                $('#modal-pano-info').closeModal();
+            }
+        });
+
+        $('#pano-info-ok').click(function (e) {
+            if ($(this).attr('disabled') == 'disabled') {
+                e.stopImmediatePropagation();
+            }
         });
 
         $('#side-info-add').click(function () {
@@ -890,7 +922,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
 
     var nodes = [], edges = [];
     var svg, graph, sidebar;
-    var panoTitle, dataImg;
+    var panoTitle, dataImg, ctime, mtime;
 
     function start() {
         svg = d3.selectAll("#main_window");
@@ -920,6 +952,8 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                     return d != undefined;
                 }), edges: graph.edges})
             }).done(function () {
+                $('title').text('pano - ' + panoTitle);
+                mtime = Math.ceil(Date.now() / 1000);
                 callback(true);
             }).fail(function () {
                 callback(false);
@@ -946,6 +980,8 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 edges = json['edges'];
                 panoTitle = jsonWrapper['title'] || '';
                 dataImg = jsonWrapper['img'] || '';
+                ctime = jsonWrapper['ctime'];
+                mtime = jsonWrapper['mtime'];
                 start();
             } else {
                 invalidProjectId();

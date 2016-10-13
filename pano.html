@@ -16,7 +16,7 @@
     <div id="side-wrapper" class="row">
         <a id="side-head-top-button-h" class="black-text left-align waves-effect"><i class="material-icons">menu</i></a>
         <div id="scroll-wrapper" class="side-nav fixed">
-            <div id="side-head" class="green darken-2">
+            <div id="side-head" class="green">
                 <div id="side-head-top-buttons" class="row">
                     <a id="side-head-close-button" class="col s2 white-text left-align waves-effect"><i class="material-icons">close</i></a>
                     <a id="side-head-top-button-p" href="javascript:void(0);" class="col s4 white-text center-align waves-effect">PREVIOUS</a>
@@ -67,7 +67,7 @@
                     <div id="side-link-wrap" style="display: none">
                         <div class="collection" id="side-link-list"></div>
                         <div class="collection">
-                            <a href="#!" id="side-link-to" class="collection-item valign-wrapper" style="padding: 10px 20px; font-weight: normal;">
+                            <a id="side-link-to" class="collection-item valign-wrapper" style="padding: 10px 20px; font-weight: normal;">
                                 <i class="material-icons tiny left valign" style="padding-top: 6px;">add</i>
                                 <span class="valign" style="padding-top: 3px;">NEW LINK TO ...</span>
                             </a>
@@ -86,7 +86,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="input-field col s12 m12">
+                <div class="input-field col s12">
                     <input placeholder="Node Title" id="add-node-title" type="text" class="validate">
                     <label for="add-node-title">Title</label>
                 </div>
@@ -101,8 +101,46 @@
             </div>
         </div>
         <div class="modal-footer">
-            <div class="collection" id="add-node-selected" style="display: none"></div>
             <a class="modal-action modal-close waves-effect waves-green btn-flat" id="add-node-ok">OK</a>
+        </div>
+    </div>
+    <div id="modal-pano-info" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <div class="section row">
+                <div class="col s12">
+                    <h4>About this project</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input placeholder="Project title" id="pano-info-title" type="text" class="validate">
+                    <label for="add-node-title">Title</label>
+                </div>
+                <div class="input-field col s4">Created at: </div>
+                <div class="input-field col s8"><span id="pano-info-ctime"></span></div>
+                <div class="input-field col s4">Last modified at: </div>
+                <div class="input-field col s8"><span id="pano-info-mtime"></span></div>
+                <div class="input-field col s12">
+                    This project has <span id="pano-info-nodes"></span> node(s), <span id="pano-info-edges"></span> edge(s)
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <a class="waves-effect waves-green btn" id="pano-info-back">BACK TO PROJECT LIST</a>
+                    <a class="waves-effect waves-green btn" id="pano-info-simulate">START SIMULATION</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    Danger zone:
+                </div>
+                <div class="input-field col s12">
+                    <a class="waves-effect waves-red red btn" id="pano-info-clear">REMOVE ALL THE NODES AND LINKS</a>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect waves-green btn-flat" id="pano-info-ok">OK</a>
         </div>
     </div>
     <canvas id="canvas" width="300px" height="225px"></canvas>
