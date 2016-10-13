@@ -144,6 +144,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             if (state.graphMouseDown && d3.event.shiftKey) {
                 // clicked not dragged from svg
                 var xycoords = d3.mouse(thisGraph.svgGraph.node());
+                var pre = thisGraph.state.selectedNode;
                 thisGraph.createNodeAndSelect({tax_id: "", gene_id: "", name: "", info: "", title: "", x: xycoords[0], y: xycoords[1]});
                 var d = thisGraph.state.selectedNode;
                 // make title of text immediently editable
@@ -151,10 +152,16 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                     return dval.id === d.id;
                 });
                 sidebar.editNodeInfo(thisGraph.nodes[d.id], function (node) {
-                    circles.select('text').remove();
-                    graph.insertTitleLinebreaks(circles, node.title);
-                    sidebar.update(d.id);
-                    graph.trySave();
+                    if (!node) {
+                        graph.delSelectedNode();
+                        graph.setSelectedNode(pre);
+                        sidebar.update(pre.id);
+                    } else {
+                        circles.select('text').remove();
+                        graph.insertTitleLinebreaks(circles, node.title);
+                        sidebar.update(d.id);
+                        graph.trySave();
+                    }
                 });
             } else if (state.shiftNodeDrag) {
                 // dragged from node
@@ -510,10 +517,15 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                         return dval.id === d.id;
                     });
                     sidebar.editNodeInfo(graph.nodes[d.id], function (node) {
-                        circles.select('text').remove();
-                        graph.insertTitleLinebreaks(circles, node.title);
-                        sidebar.update(d.id);
-                        graph.trySave();
+                        if (!node) {
+                            graph.setSelectedNode(d);
+                            sidebar.update(d.id);
+                        } else {
+                            circles.select('text').remove();
+                            graph.insertTitleLinebreaks(circles, node.title);
+                            sidebar.update(d.id);
+                            graph.trySave();
+                        }
                     });
                 } else {
                     sidebar.update(d.id);
@@ -770,17 +782,21 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                     }
                 },
                 complete: function () {
-                    node['tax_id'] = self.currentTaxId;
-                    node['gene_id'] = self.currentGeneId;
-                    node['info'] = self.currentInfo;
-                    node['name'] = $('#add-node-name').val();
-                    var newTitle = $('#add-node-title').val();
-                    if (newTitle != '') {
-                        node['title'] = newTitle;
+                    if ($('#add-node-ok').attr('disabled') == 'disabled') {
+                        callback(null);
                     } else {
-                        node['title'] = node['name'];
+                        node['tax_id'] = self.currentTaxId;
+                        node['gene_id'] = self.currentGeneId;
+                        node['info'] = self.currentInfo;
+                        node['name'] = $('#add-node-name').val();
+                        var newTitle = $('#add-node-title').val();
+                        if (newTitle != '') {
+                            node['title'] = newTitle;
+                        } else {
+                            node['title'] = node['name'];
+                        }
+                        callback(node);
                     }
-                    callback(node);
                 }
             });
         };
@@ -882,7 +898,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         });
 
         $('#side-info-add').click(function () {
-            var d = graph.state.selectedNode;
+            var d = graph.state.selectedNode, pre = d;
             if (!d) {
                 graph.createNodeAndSelect({tax_id: "", gene_id: "", name: "", info: "", title: "", x: 0, y: 0});
             } else {
@@ -895,10 +911,16 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             });
             graph.centerSelectedNode(250, function () {
                 self.editNodeInfo(graph.nodes[d.id], function (node) {
-                    circles.select('text').remove();
-                    graph.insertTitleLinebreaks(circles, node.title);
-                    sidebar.update(d.id);
-                    graph.trySave();
+                    if (!node) {
+                        graph.delSelectedNode();
+                        graph.setSelectedNode(pre);
+                        sidebar.update(pre.id);
+                    } else {
+                        circles.select('text').remove();
+                        graph.insertTitleLinebreaks(circles, node.title);
+                        sidebar.update(d.id);
+                        graph.trySave();
+                    }
                 });
             });
         });
