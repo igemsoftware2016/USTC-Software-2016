@@ -10,12 +10,16 @@ var demo="True";
     L.removeClass("hide");
     var f_upload = new FormData();
     f_upload.append('file', $('#pdb-file')[0].files[0]);
-    console.log(f_upload);
+    f_upload.append('plugin','ABACUS');
+    f_upload.append('demo',demo);
+     f_upload.append('amount',1);
+     f_upload.append('action','design');
+     console.log(f_upload);
      $.ajax({
          type: "POST",
          url: "/plugin/",
          responseTime: 2000,
-         data:{"demo":demo,"plugin":"ABACUS","action":"design","amount":2,"file":f_upload},
+         data:f_upload,
          processData: false,
          contentType: false,
          success: function(response){
