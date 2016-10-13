@@ -171,7 +171,7 @@ function vis_data(data,x_max,x_min,y_max,y_min,unstable,lya){
         });
 
 
-    if(unstable!=undefined){
+    if(unstable!="None"){
         var data_unstable=[{
             "value": y_max,
             "time": unstable
