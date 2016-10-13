@@ -6,20 +6,19 @@
     <meta name="description" content="A platform for biological use">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>BioHub</title>
-
     <meta name="mobile-web-app-capable" content="yes">
     <link rel="icon" href="images/logo.ico">
-
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="BioHub">
     <link rel="apple-touch-icon-precomposed" href="images/logo.ico">
-
     <link rel="shortcut icon" href="images/logo.ico">
     <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="css/material.min.css">
-    <link rel="stylesheet" href="css/material-lite.css">
+    <link rel="stylesheet" href="css/material-1.2.0.min.css">
+    <script src="js/jquery-2.1.1.min.js"></script>
+    <script src="js/material-1.2.0.js"></script>
+    <script src="js/profile_edit.js"></script>
     <style type="text/css">
         .demo-content {
     min-height: 437px;
@@ -215,11 +214,9 @@ hr.gap {
     </div>
     <main class="mdl-layout__content mdl-color--grey-100">
         <div class="mdl-grid demo-content">
-
             <div class="demo-graphs mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--12-col">
                 <div align="center">
                     <img id="user_head" class="demo-avatar-big" src="img/user-a.png" >◀click to customize
-
                     <dialog class="mdl-dialog" id="upload_img" style="width: 500px">
                         <div class="mdl-dialog__content" style="width: 400px">
                             <div class="container">
@@ -228,19 +225,15 @@ hr.gap {
                                     <div class="spinner" style="display: none">Loading...</div>
                                 </div>
                                 <div class="action">
-
                                     <label class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"style="width:80px">
                                         <i class="material-icons">file_upload</i>  Upload Image
                                         <input type="file" id="file" class="none" style="width:30px;visibility: hidden">
                                     </label>
-
                                     <input type="button" class="mdl-button mdl-js-button  mdl-js-ripple-effect mdl-button--accent" id="btnCrop" value="Submit" style="margin-left:4px;float: right">
-
                                     <input type="button" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored" id="btnZoomIn" value="+" style="margin-left:4px;float: right">
                                     <input type="button" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored" id="btnZoomOut" value="-" style="margin-left:4px;float: right">
                                 </div>
                                 <div class="cropped">
-
                                 </div>
                             </div>
                         </div>
@@ -248,12 +241,8 @@ hr.gap {
                             <button id="close_btn" type="button" class="mdl-button">Close</button>
                         </div>
                     </dialog>
-
-
-
                     <hr class="style14">
                     <form id="user_profile_edit">
-
                         <div class="mgtp txtSize mdl-cell--9-col" align="left">
                             <div class="txtSize mdl-cell--3-col mdl-color-text--teal-A700" style="align-items: center">Name</div>
                             <div class="mdl-cell--8-col mdl-textfield mdl-js-textfield">
@@ -261,9 +250,7 @@ hr.gap {
                                 <label class="mdl-textfield__label" for="user_name">Peter</label>
                             </div>
                         </div>
-
                         <hr class="gap mdl-cell--9-col">
-
                         <div class="mgtp txtSize mdl-cell--9-col" align="left">
                             <div class="txtSize mdl-cell--3-col mdl-color-text--teal-A700" style="align-items: center">Education</div>
                             <div class=" mdl-cell--8-col mdl-textfield mdl-js-textfield">
@@ -288,25 +275,19 @@ hr.gap {
                             </div>
                         </div>
                     </form>
-
                     <div class="mdl-cell--9-col" align="right" style="margin-top: 40px">
-
                         <button onclick="postForm_edit_profile()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
                             submit
                         </button>
                     </div>
                 </div>
             </div>
-
         </div>
     </main>
 </div>
-
 <script src="js/jquery-2.1.1.min.js"></script>
 <script src="js/material.min.js"></script>
 <script src="js/materialize.min.js"></script>
-
-
 <script>
     (function() {
         var dialog = document.querySelector('#upload_img');
@@ -324,9 +305,6 @@ hr.gap {
         showButton.addEventListener('click', showClickHandler);
         closeButton.addEventListener('click', closeClickHandler);
     }());
-
-
-
     var cropbox = function(options){
         var el = document.querySelector(options.imageBox),
                 obj =
@@ -351,7 +329,6 @@ hr.gap {
                                 dh = parseInt(size[1]),
                                 sh = parseInt(this.image.height),
                                 sw = parseInt(this.image.width);
-
                         canvas.width = width;
                         canvas.height = height;
                         var context = canvas.getContext("2d");
@@ -405,10 +382,8 @@ hr.gap {
                 {
                     var w =  parseInt(obj.image.width)*obj.ratio;
                     var h =  parseInt(obj.image.height)*obj.ratio;
-
                     var pw = (el.clientWidth - w) / 2;
                     var ph = (el.clientHeight - h) / 2;
-
                     el.setAttribute('style',
                             'background-image: url(' + obj.image.src + '); ' +
                             'background-size: ' + w +'px ' + h + 'px; ' +
@@ -418,7 +393,6 @@ hr.gap {
                 imgMouseDown = function(e)
                 {
                     stopEvent(e);
-
                     obj.state.dragable = true;
                     obj.state.mouseX = e.clientX;
                     obj.state.mouseY = e.clientY;
@@ -426,19 +400,14 @@ hr.gap {
                 imgMouseMove = function(e)
                 {
                     stopEvent(e);
-
                     if (obj.state.dragable)
                     {
                         var x = e.clientX - obj.state.mouseX;
                         var y = e.clientY - obj.state.mouseY;
-
                         var bg = el.style.backgroundPosition.split(' ');
-
                         var bgX = x + parseInt(bg[0]);
                         var bgY = y + parseInt(bg[1]);
-
                         el.style.backgroundPosition = bgX +'px ' + bgY + 'px';
-
                         obj.state.mouseX = e.clientX;
                         obj.state.mouseY = e.clientY;
                     }
@@ -455,12 +424,10 @@ hr.gap {
                     delta > -120 ? obj.ratio*=1.1 : obj.ratio*=0.9;
                     setBackground();
                 }
-
         obj.spinner.style.display = 'block';
         obj.image.onload = function() {
             obj.spinner.style.display = 'none';
             setBackground();
-
             attachEvent(el, 'mousedown', imgMouseDown);
             attachEvent(el, 'mousemove', imgMouseMove);
             attachEvent(document.body, 'mouseup', imgMouseUp);
@@ -469,13 +436,9 @@ hr.gap {
         };
         obj.image.src = options.imgSrc;
         attachEvent(el, 'DOMNodeRemoved', function(){detachEvent(document.body, 'DOMNodeRemoved', imgMouseUp)});
-
         return obj;
     };
-
-
     var image_head;
-
     window.onload = function() {
         var options =
         {
@@ -506,18 +469,10 @@ hr.gap {
         document.querySelector('#btnZoomOut').addEventListener('click', function(){
             cropper.zoomOut();
         });
-
         get_user_info();
         get_user_info_for_update();
     };
-
-
-
-
-
     //post data and image to server
-
-
     $.fn.serializeObject = function()
     {
         var o = {};
@@ -534,7 +489,6 @@ hr.gap {
         });
         return o;
     };
-
     function postForm_edit_profile(){
         var formData = ($('#user_profile_edit').serializeObject());
         var  dictPost  =  {"plugin":"user_model","action":"edit_profile","username":formData.user_name,"education":formData.edu,"major":formData.major,"description":formData.desc};
@@ -556,8 +510,6 @@ hr.gap {
             }
         });
     }
-
-
     function postForm_head(data){
         var  dictPost  =  {"plugin":"user_model","action":"head_change","data":data};
         console.log(dictPost);
@@ -579,7 +531,6 @@ hr.gap {
                 else{
                     alert(Jr['error']);
                 }
-
                 // TODO: if success change head of the page
             },
             error: function(xhr, error){
@@ -595,12 +546,6 @@ hr.gap {
             }
         })
     }
-
-
-
-
-
 </script>
-
 </body>
 </html>
