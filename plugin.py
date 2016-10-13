@@ -10,7 +10,10 @@ from models import Document, PluginDocument
 class Plugin:
     def __init__(self):
         self.documents = Documents(self)
-        self.name = self.__class__.__name__.lower()
+        try: self.name
+        except: self.name = self.__class__.__name__.lower()
+        try: self.description
+        except: self.description = 'This plugin has no description.'
         if self.__class__ is Plugin:
             raise NotImplementedError
 
@@ -98,8 +101,6 @@ class Documents:
         session.commit()
 
     def delete(self, pdoc: PluginDocument):
-        doc = session.query(Document).filter(Document.plugin_name == self.plugin.name,
-                                             Document.plugin_document_id == pdoc.id).one()
-        session.delete(doc)
+        # XXX: This can not be fixed. --Hypercube
         session.delete(pdoc)
         session.commit()

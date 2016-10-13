@@ -109,11 +109,14 @@ class bio_simulation:
                 counter = 0
 
         self.data_all = self.data_all.transpose()
+        if self.data_all.shape[1] > 5000:
+            pick = (int)(self.data_all.shape[1] / 3000) + 1
+            self.data_all = self.data_all[:, ::pick]
+
         self.lyapunov = log(abs((self.data_all[:, -1] - test_res.transpose()[:, -1]) / (array(y0) * (1 - ratio)))) / \
                         self.data_all.shape[1]
-        # print(self.lyapunov)
+        print(self.data_all.shape)
         return 0
-
 
     def parse_data(self):
         return self.data_all
@@ -174,7 +177,7 @@ class Simulation(Plugin):
 
         # May be you should modify this line below to satify your interface
         return dict(result=repr(list(map(list, sim.data_all))), unstable=str(sim.unstable),
-                    lyapunov=repr(sim.lyapunov))
+                    lyapunov=repr(list(sim.lyapunov)), t_seq=repr(list(sim.t_range)))
 
 
 __plugin__ = Simulation()

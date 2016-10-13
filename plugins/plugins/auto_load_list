@@ -3,7 +3,7 @@
     'user_model',
     #'biobrick_manager',
     'pano',
-    #'path_finder',
+    'path_finder',
     'simulation',
     'BLAST',
     'ABACUS',
