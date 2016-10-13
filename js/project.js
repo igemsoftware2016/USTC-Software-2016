@@ -200,7 +200,7 @@ function sendCreateRequest(){
                         jsonResp=JSON.parse(response);
                         if(jsonResp['success']==true){
                                 alert('Successfully created!');
-                                window.location="pano.html#"+jsonResp['id'];
+                                window.location="pano.html?id="+jsonResp['id'];
                         }
                         else{
                                 Materialize.toast(jsonResp['error'],2500,'rounded');
