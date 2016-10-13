@@ -2,7 +2,7 @@
  * Created by Pjer1 on 10/5/2016.
  */
 
-
+var demo="True";
 
  function upload_file(){
 
@@ -15,7 +15,7 @@
          type: "POST",
          url: "/plugin/",
          responseTime: 2000,
-         data:{"plugin":"ABACUS","action":"design","amount":2,"file":f_upload},
+         data:{"demo":demo,"plugin":"ABACUS","action":"design","amount":2,"file":f_upload},
          processData: false,
          contentType: false,
          success: function(response){
