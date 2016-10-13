@@ -91,14 +91,15 @@
             <div   id="functions"  class="card-panel teal lighten-3">
 
 
-                <form action="#">
+                <form action="#" id="upload-form">
                     <div class="file-field input-field">
                         <div class="btn">
                             <span>UPLOAD .PDB file</span>
-                            <input type="file">
+                            <input id="pdb-file" type="file">
                         </div>
                         <div class="file-path-wrapper">
-                            <input class="file-path validate" type="text">
+                            <input id="file-pool" class="file-path validate" type="text">
+                            <label for="file-pool">Upload File</label>
                         </div>
                     </div>
                     <div id="loading" class="hide center right preloader-wrapper  active">
