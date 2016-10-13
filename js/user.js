@@ -15,7 +15,7 @@ function logout_form(){
                 window.location="login-1.html";
             }
             else {
-                Materialize.toast(Jr['error'], 3000, 'rounded');
+                alert(Jr['error']);
             }
         }
     });
@@ -44,7 +44,7 @@ function get_user_info(){
                 document.getElementById('user-email').innerHTML=Jr.email;
             }
             else {
-                Materialize.toast(Jr['error'], 3000, 'rounded');
+                alert(Jr['error']);
             }
             document.getElementById('this_is_a_user_name').innerHTML=String(Jr.id);
         }
