@@ -37,9 +37,8 @@ function get_user_info(){
 }
 
 function get_others_info() {
-    var url = window.location.search;
-    var loc = url.substring(url.lastIndexOf('=')+1, url.length);
-    var  dictPost  =  {"plugin":"user_model","action":"get_user_data_by_id","user_id":loc};
+    var url = window.location.hash;
+    var  dictPost  =  {"plugin":"user_model","action":"get_user_data_by_id","user_id":parseInt(url)};
     console.log(dictPost);
     var Jr=[];
     $.ajax({
@@ -76,29 +75,4 @@ function get_others_info() {
 function get_all(){
     get_user_info();
     get_others_info();
-}
-
-function applyFriend(){
-    return function(){
-    var url = window.location.search;
-    var loc = url.substring(url.lastIndexOf('=')+1, url.length);
-    var dictPost={"plugin":"user_model","action":"apply_friend","user_id":loc};
-        console.log(dictPost);
-        var jsonResp=[];
-        $.ajax({
-                type:"POST",
-                url:"/plugin/",
-                data:dictPost,
-                success:function(response){
-                        console.log(response);
-                        jsonResp=JSON.parse(response);
-                        if(jsonResp['success']==true){
-                                alert("Successfully submitted!");
-                        }
-                        else{
-                                Materialize.toast(jsonResp['error'],2500,'rounded');
-                        }
-                }
-        });
-    }
 }
