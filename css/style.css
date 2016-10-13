@@ -176,6 +176,10 @@ div#image {
     border-right: 0;
 }
 
+#side-info .row .col {
+    padding: 0;
+}
+
 a.collection-item.waves-effect {
     height: auto;
     padding: 10px 20px;

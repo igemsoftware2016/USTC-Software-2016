@@ -155,7 +155,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                     if (!node) {
                         graph.delSelectedNode();
                         graph.setSelectedNode(pre);
-                        sidebar.update(pre.id);
+                        sidebar.update(!pre ? graph.nodes.length : pre.id);
                     } else {
                         circles.select('text').remove();
                         graph.insertTitleLinebreaks(circles, node.title);
@@ -721,6 +721,9 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 $('#side-info-gene-name').text(d.name);
                 $('#side-info-node').show();
                 $('#side-info-link').show();
+                $('#side-info-add-none').hide();
+                $('#side-info-add').show();
+                $('#side-info-edit').show();
                 $('#side-info-remove').show();
             } else {
                 $('#side-link-wrap').hide();
@@ -733,6 +736,9 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 $('#side-info-gene-name').text('-');
                 $('#side-info-node').hide();
                 $('#side-info-link').hide();
+                $('#side-info-add-none').show();
+                $('#side-info-add').hide();
+                $('#side-info-edit').hide();
                 $('#side-info-remove').hide();
             }
             self.currentDotIndex = index;
@@ -914,7 +920,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                     if (!node) {
                         graph.delSelectedNode();
                         graph.setSelectedNode(pre);
-                        sidebar.update(pre.id);
+                        sidebar.update(!pre ? graph.nodes.length : pre.id);
                     } else {
                         circles.select('text').remove();
                         graph.insertTitleLinebreaks(circles, node.title);
@@ -922,6 +928,24 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                         graph.trySave();
                     }
                 });
+            });
+        });
+
+        $('#side-info-edit').click(function () {
+            var d = graph.state.selectedNode;
+            var circles = graph.circles.filter(function (dval) {
+                return dval.id === d.id;
+            });
+            self.editNodeInfo(graph.nodes[d.id], function (node) {
+                if (!node) {
+                    graph.setSelectedNode(d);
+                    sidebar.update(d.id);
+                } else {
+                    circles.select('text').remove();
+                    graph.insertTitleLinebreaks(circles, node.title);
+                    sidebar.update(d.id);
+                    graph.trySave();
+                }
             });
         });
 
@@ -940,6 +964,10 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 graph.setSelectedNode(graph.nodes[graph.nodes.length]);
                 self.update(graph.nodes.length, graph);
             }
+        });
+
+        $('#side-info-add-none').click(function () {
+            $('#side-info-add').click();
         });
 
         $('#side-link-to').click(function () {
@@ -975,6 +1003,8 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         if (graph.state.selectedNode) {
             sidebar.update(graph.state.selectedNode.id);
             graph.centerSelectedNode(1); // 1 millisecond
+        } else {
+            sidebar.update(graph.nodes.length);
         }
     }
 

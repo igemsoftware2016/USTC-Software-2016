@@ -134,13 +134,7 @@
                     <a id="side-head-close-button" class="col s2 white-text left-align waves-effect"><i class="material-icons">close</i></a>
                     <a id="side-head-top-button-p" href="javascript:void(0);" class="col s4 white-text center-align waves-effect">PREVIOUS</a>
                     <a id="side-head-top-button-n" href="javascript:void(0);" class="col s4 white-text center-align waves-effect">NEXT</a>
-                    <a id="side-head-top-button-i" class="dropdown-button col s2 white-text right-align waves-effect" data-activates='side-head-dropdown'><i class="material-icons">perm_identity</i></a>
-                    <ul id="side-head-dropdown" class="dropdown-content" style="position: relative;z-index: 9999">
-                        <li><a href="#!">one</a></li>
-                        <li><a href="#!">two</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#!">three</a></li>
-                    </ul>
+                    <a id="side-head-top-button-i" class="col s2 white-text right-align waves-effect"><i class="material-icons">perm_identity</i></a>
                 </div>
                 <div id="side-head-node-name" class="container">
                     <h2 class="white-text center-align"><span id="status-main-uid" class="truncate">-</span></h2>
@@ -163,28 +157,36 @@
                 <div class="container row" style="margin-bottom:0"></div>
             </div>
             <div id="side-info" class="collection">
-                <a class="collection-item waves-effect" id="side-info-add">
-                    <h5 class="valign-wrapper"><i class="material-icons valign">add</i>&nbsp;<span>Add a New Node</span></h5>
-                </a>
+                <div class="collection-item row">
+                    <a class="col waves-effect s12" id="side-info-add-none">
+                        <h5 class="valign-wrapper"><i class="material-icons valign">add</i>&nbsp;ADD A NEW NODE</h5>
+                    </a>
+                    <a class="col s4 waves-effect" id="side-info-add">
+                        <h5 class="valign-wrapper"><i class="material-icons valign">add</i>&nbsp;ADD</h5>
+                    </a>
+                    <a class="col s4 waves-effect" id="side-info-edit">
+                        <h5 class="valign-wrapper"><i class="material-icons valign">edit</i>&nbsp;EDIT</h5>
+                    </a>
+                    <a class="col s4 waves-effect red-text" id="side-info-remove">
+                        <h5 class="valign-wrapper"><i class="material-icons valign">remove</i>&nbsp;DEL</h5>
+                    </a>
+                </div>
                 <div class="collection-item" id="side-info-node">
-                    <h5 class="valign-wrapper"><i class="material-icons valign">info</i>&nbsp;Element Info</h5>
+                    <h5 class="valign-wrapper"><i class="material-icons valign">info</i>&nbsp;ELEMENT INFO</h5>
                     <h6><br><span id="side-info-node-info"></span></h6>
                 </div>
                 <div class="collection-item" id="side-info-link">
-                    <h5 class="valign-wrapper"><i class="material-icons valign">link</i>&nbsp;Links</h5>
+                    <h5 class="valign-wrapper"><i class="material-icons valign">link</i>&nbsp;LINKS</h5>
                 </div>
                 <div class="collection-item" id="side-link-wrap" style="display: none">
                     <div class="collection" id="side-link-list"></div>
                     <div class="collection">
                         <a href="#!" id="side-link-to" class="collection-item valign-wrapper" style="padding: 10px 20px; font-weight: normal;">
                             <i class="material-icons tiny left valign" style="padding-top: 6px;">add</i>
-                            <span class="valign" style="padding-top: 3px;">New link to ...</span>
+                            <span class="valign" style="padding-top: 3px;">NEW LINK TO ...</span>
                         </a>
                     </div>
                 </div>
-                <a class="collection-item waves-effect" id="side-info-remove">
-                    <h5 class="valign-wrapper red-text"><i class="material-icons valign">remove</i>&nbsp;<span>Remove the Node</span></h5>
-                </a>
             </div>
         </div>
     </div>
