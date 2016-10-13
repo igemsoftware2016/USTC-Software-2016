@@ -13,6 +13,7 @@ Array.prototype.min = function() {
 };
 
 
+
 function getUrlVars() {
     var vars = {};
     var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,
@@ -233,19 +234,20 @@ function  run_sim(n,data_graph) {
             var Jr = JSON.parse(response);
             if(Jr['success']==true) {
                 var meta_data = JSON.parse(Jr['result']);
+                var meta_time = JSON.parse(Jr['t_seq']);
                 var data_res = [];
                 var data_all = [];
                 var data_t_all = [];
                 for (var i = 0;i< meta_data[0].length;i++) {
-                    if (i % 20 == 0) {
+                    if (1==1){//i % 20 == 0) {
                         var data_temp = [];
                         for (var j = 0; j < meta_data.length; j++) {
                             data_temp.push(meta_data[j][i]);
                             data_all.push(meta_data[j][i]);
                         }
-                        var step_l = document.getElementById("input_func_l").value;
-                        data_res.push({"value": data_temp, "time": i * step_l});
-                        data_t_all.push(i * step_l);
+                        //var step_l = document.getElementById("input_func_l").value;
+                        data_res.push({"value": data_temp, "time": meta_time[i]});
+                        data_t_all.push(meta_time[i]);
                     }
                 }
                 var glo_max = (data_all).max();
@@ -256,6 +258,7 @@ function  run_sim(n,data_graph) {
                 console.log(data_res);
 
                 var unstable = Jr['unstable'];
+                console.log(unstable);
                 var lya = JSON.parse(Jr['lyapunov'])
                 vis_data(data_res,glo_t_max,glo_t_min,glo_max,glo_min,unstable,lya);
             }
