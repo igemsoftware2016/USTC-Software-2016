@@ -55,6 +55,21 @@
                 </div>
             </div>
 
+            <h5><span class="text-lighten-5">Input and hit ENTER to search</span></h5>
+
+            <div class="container-full" style="margin-bottom: 30px">
+                <nav >
+                    <div class="nav-wrapper">
+                            <div class="teal lighten-2 input-field">
+                                <input id="search" type="search" required>
+                                <label for="search"><i class="material-icons">search</i></label>
+                                <!-- I've put "red-text" class to emphasize -->
+                                <i class="material-icons red-text" onclick="clearout()">close</i>
+                            </div>
+                    </div>
+                </nav>
+            </div>
+
 
             <div id="bricks">
 
@@ -68,13 +83,50 @@
         </div>
     </div>
 
-</div>
 
 
 
 </body>
 </html>
 
+<script>
+    function clearout() {
+        console.log("...");
+        $("#search")[0].value = "";
+    }
+    
+
+    $("#search").keyup(function (event) {
+        if(event.keyCode == 13){
+            submit_func()
+        }
+    });
+    
+    function submit_func() {
+        var f_search = $("#search")[0].value;
+        $.ajax(
+                {
+                    type:"POST",
+                    url:"/plugin/",
+                    data:{"plugin":"biobrick_manager","action":"search","key": f_search},
+                    success:function (response) {
+                        var Jr = JSON.parse(response);
+                        console.log(Jr);
+                        layout_draw(Jr)
+
+                    }
+                }
+        )
+
+    }
+
+
+    function layout_draw(data) {
+        if(data.success == true){
+            var data_raw = data.list;
+        }
+    }
+</script>
 
 
 <script type="text/javascript" src="http://latex.codecogs.com/latexit.js"></script>

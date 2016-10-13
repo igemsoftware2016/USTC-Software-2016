@@ -1,0 +1,29 @@
+{
+  "auto": ["user_model", "pano", "path_finder", "simulation", "BLAST", "ABACUS", "version"],
+  "description":
+  {
+    "user_model": "This plugin has no description.",
+    "path_finder": "This plugin has no description.",
+    "version": "This plugin has no description.",
+    "plugins": "This plugin has no description.",
+    "ABACUS":"This plugin has no description.",
+    "BLAST": "This plugin has no description.",
+    "pano": "This plugin has no description.",
+    "simulation": "This plugin has no description."
+  },
+  "success": true,
+  "list":
+  {
+    "user_model": true,
+    "path_finder": true,
+    "version": true,
+    "plugins": true,
+    "BLAST": true,
+    "example_plugin": false,
+    "pano": true,
+    "test": false,
+    "googlescholar": false,
+    "simulation": true,
+    "relationship": false
+  }
+}
