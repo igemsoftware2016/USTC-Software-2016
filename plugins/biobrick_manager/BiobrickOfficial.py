@@ -2,6 +2,8 @@ from database import TableBase, Column, \
     INTEGER, TINYINT, VARCHAR, LONGTEXT, DATE, DATETIME, TEXT, BINARY, DOUBLE
 from database import session
 
+#from .FeatureOfficial import FeatureOfficial
+
 
 class BiobrickOfficial(TableBase):
     __tablename__ = 'parts'
@@ -66,13 +68,15 @@ class BiobrickOfficial(TableBase):
         for k in dir(self):
             if k.startswith('_'):
                 continue
+            if not k in ('part_id', 'part_name', 'short_desc', 'description', 'sequence'):
+                continue
             values[k] = getattr(self, k)
-        features = []
-        for feature in session.query(BioBrickFeature).filter(BioBrickFeature.part_id == self):
-            features.append({})
-            for k in dir(feature):
-                if k.startswith('_'):
-                    continue
-                features[-1][k] = getattr(feature, k)
-        values['features'] = features
+        #features = []
+        #for feature in session.query(BioBrickFeature).filter(BioBrickFeature.part_id == self):
+        #    features.append({})
+        #    for k in dir(feature):
+        #        if k.startswith('_'):
+        #            continue
+        #        features[-1][k] = getattr(feature, k)
+        #values['features'] = features
         return values
