@@ -166,8 +166,6 @@ function vis_data(data,x_max,x_min,y_max,y_min,unstable,lya){
                 });
 
 
-
-
         });
 
 
@@ -179,6 +177,9 @@ function vis_data(data,x_max,x_min,y_max,y_min,unstable,lya){
             "value": y_min,
             "time": unstable
         }];
+
+        console.log(data_unstable);
+
         var lineGen = d3.svg.line()
             .x(function(d) {
                 return xScale(d.time);
@@ -190,11 +191,10 @@ function vis_data(data,x_max,x_min,y_max,y_min,unstable,lya){
 
 
 
-
         vis.append('svg:path')
             .attr('class','line')
             .attr('d', lineGen(data_unstable))
-            .attr('stroke', color(0.99))
+            .attr('stroke', 'red')
             .attr('stroke-width', 3)
             .attr('fill', 'none');
     }
