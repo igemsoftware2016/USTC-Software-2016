@@ -15,7 +15,7 @@
          type: "POST",
          url: "/plugin/",
          responseTime: 2000,
-         data:f_upload,
+         data:{"plugin":"ABACUS","action":"design","amount":2,"file":f_upload},
          processData: false,
          contentType: false,
          success: function(response){
