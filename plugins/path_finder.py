@@ -38,10 +38,9 @@ def calcu_dis(dst, n, maxlen):
     while not queue.empty():
         u = queue.get()
         # visited[u] = False
-        u_node = session.query(BioSys).filter(BioSys.id == u)
-        print(u_node)
-        for node in session.query(BioSys).filter(BioSys.bsid == u_node.bsid):
-            Graph[u].append(node.id)
+        for u_node in session.query(BioSys).filter(BioSys.id == u):
+            for node in session.query(BioSys).filter(BioSys.bsid == u_node.bsid):
+                Graph[u].append(node.id)
         for v in Graph[u]:
             if (v not in visited or dis[v] > dis[u] + 1) and dis[u] + 1 <= maxlen:
                 dis[v] = dis[u] + 1
