@@ -140,7 +140,7 @@ function get_user_info_for_display() {
                 }
                 document.getElementById('user_edu').innerHTML=Jr.education;
                 document.getElementById('user_name').innerHTML=Jr.username;
-                document.getElementById('description').innerHTML=Jr.describe;
+                document.getElementById('description').innerHTML=Jr.description;
                 document.getElementById('major').innerHTML=Jr.major;
                 document.getElementById('user_email_drawer').innerHTML=Jr.email;
             }
