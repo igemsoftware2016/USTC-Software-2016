@@ -24,6 +24,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             shiftNodeDrag: false,
             selectedText: null,
             tryReconnect: false,
+            lockKeyEvent: false,
             currentLinkSource: null
         };
 
@@ -83,7 +84,6 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
 
         self.zoomHandler = d3.behavior.zoom().on("zoom", function () {
             if (d3.event.sourceEvent.shiftKey) {
-                // TODO  the internal d3 state is still changing
                 return false;
             } else {
                 d3.select("." + self.consts.graphClass)
@@ -101,21 +101,18 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         });
 
         // listen for key events
-        d3.select('#body').on("keydown", function () {
-            var thisGraph = self, state = thisGraph.state, consts = thisGraph.consts;
-            // make sure repeated key presses don't register for each keydown
-            if (self.state.lastKeyDown !== -1) return;
+        d3.select(document).on("keydown", function () {
+            if (self.state.lockKeyEvent || self.state.lastKeyDown !== -1) return;
 
             self.state.lastKeyDown = d3.event.keyCode;
 
             switch (d3.event.keyCode) {
-            case consts.BACKSPACE_KEY:
-            case consts.DELETE_KEY:
+            case self.consts.BACKSPACE_KEY:
+            case self.consts.DELETE_KEY:
                 d3.event.preventDefault();
-                var oldNode = thisGraph.state.selectedNode;
-
-                thisGraph.delSelectedEdge();
-                thisGraph.delSelectedNode();
+                var oldNode = self.state.selectedNode;
+                self.delSelectedEdge();
+                self.delSelectedNode();
                 if (oldNode) {
                     if (graph.nodes.length > 0) {
                         var index = oldNode.id;
@@ -139,108 +136,48 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         svg.on("mousedown", function (d) {
             self.state.graphMouseDown = true;
         }).on("mouseup", function (d) {
-            var thisGraph = self,
-                state = thisGraph.state;
-            if (state.graphMouseDown && d3.event.shiftKey) {
+            if (self.state.graphMouseDown && d3.event.shiftKey) {
                 // clicked not dragged from svg
-                var xycoords = d3.mouse(thisGraph.svgGraph.node());
-                var pre = thisGraph.state.selectedNode;
-                thisGraph.createNodeAndSelect({tax_id: "", gene_id: "", name: "", info: "", title: "", x: xycoords[0], y: xycoords[1]});
-                var d = thisGraph.state.selectedNode;
+                var xycoords = d3.mouse(self.svgGraph.node());
+                var pre = self.state.selectedNode;
+                self.createNodeAndSelect({tax_id: "", gene_id: "", name: "", info: "", title: "", x: xycoords[0], y: xycoords[1]});
+                var d = self.state.selectedNode;
                 // make title of text immediently editable
-                var circles = thisGraph.circles.filter(function (dval) {
+                var circles = self.circles.filter(function (dval) {
                     return dval.id === d.id;
                 });
-                sidebar.editNodeInfo(thisGraph.nodes[d.id], function (node) {
+                sidebar.editNodeInfo(self.nodes[d.id], function (node) {
                     if (!node) {
                         graph.delSelectedNode();
                         graph.setSelectedNode(pre);
                         sidebar.update(!pre ? graph.nodes.length : pre.id);
                     } else {
                         circles.select('text').remove();
-                        graph.insertTitleLinebreaks(circles, node.title);
+                        graph.setCircleTitle(circles, node.title);
                         sidebar.update(d.id);
                         graph.trySave();
                     }
                 });
-            } else if (state.shiftNodeDrag) {
+            } else if (self.state.shiftNodeDrag) {
                 // dragged from node
-                state.shiftNodeDrag = false;
-                thisGraph.dragLine.classed("hidden", true);
+                self.state.shiftNodeDrag = false;
+                self.dragLine.classed("hidden", true);
             }
-            state.graphMouseDown = false;
+            self.state.graphMouseDown = false;
         });
 
         // listen for dragging
         svg.call(self.zoomHandler).on("dblclick.zoom", null);
 
         // listen for resize
-        var resizeOld = window.onresize;
+        var resizeOld = window.onresize || function () {};
         window.onresize = function () {
             var docEl = document.documentElement, bodyEl = document.body;
             var x = window.innerWidth || docEl.clientWidth || bodyEl.clientWidth;
             var y = window.innerHeight || docEl.clientHeight || bodyEl.clientHeight;
             svg.attr("width", x).attr("height", y);
-            if (resizeOld) {
-                resizeOld.apply(this, arguments);
-            }
+            resizeOld.apply(this, arguments);
         };
-
-        // handle download data
-        d3.select("#download-input").on("click", function () {
-            var saveEdges = self.edges.map(function (val) {
-                return {source: val.source, target: val.target};
-            });
-            var blob = new Blob([window.JSON.stringify({
-                "nodes": self.nodes,
-                "edges": saveEdges
-            })], {type: "text/plain;charset=utf-8"});
-            saveAs(blob, "mydag.json");
-        });
-
-
-        // handle uploaded data
-        d3.select("#upload-input").on("click", function () {
-            document.getElementById("hidden-file-upload").click();
-        });
-        d3.select("#hidden-file-upload").on("change", function () {
-            if (window.File && window.FileReader && window.FileList && window.Blob) {
-                var uploadFile = this.files[0];
-                var filereader = new window.FileReader();
-
-                filereader.onload = function () {
-                    var txtRes = filereader.result;
-                    // TODO better error handling
-                    try {
-                        var jsonObj = JSON.parse(txtRes);
-                        self.deleteGraph(true);
-                        self.nodes = jsonObj.nodes;
-                        self.setnextId(jsonObj.nodes.length + 1);
-                        var newEdges = jsonObj.edges.map(function (e) {
-                            return {
-                                source: self.nodes.filter(function (n) {
-                                    return n.id == e.source;
-                                })[0].id,
-                                target: self.nodes.filter(function (n) {
-                                    return n.id == e.target;
-                                })[0].id
-                            };
-                        });
-                        self.edges = newEdges;
-                        self.updateGraph();
-                        self.trySave();
-                    } catch (err) {
-                        window.alert("Error parsing uploaded file\nerror message: " + err.message);
-                        return;
-                    }
-                };
-                filereader.readAsText(uploadFile);
-
-            } else {
-                alert("Your browser won't let you save this graph -- try upgrading your browser to IE 10+ or Chrome or Firefox.");
-            }
-
-        });
 
         // handle delete graph
         d3.select("#delete-graph").on("click", function () {
@@ -284,27 +221,13 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         }
     };
 
-    /* select all text in element: taken from http://stackoverflow.com/questions/6139107/programatically-select-text-in-a-contenteditable-html-element */
-    GraphCreator.prototype.selectElementContents = function (el) {
-        var range = document.createRange();
-        range.selectNodeContents(el);
-        var sel = window.getSelection();
-        sel.removeAllRanges();
-        sel.addRange(range);
-    };
-
     /* insert svg line breaks: taken from http://stackoverflow.com/questions/13241475/how-do-i-include-newlines-in-labels-in-d3-charts */
-    GraphCreator.prototype.insertTitleLinebreaks = function (gEl, title) {
-        var words = title.split(/\s+/g),
-            nwords = words.length;
-        var el = gEl.append("text")
-            .attr("text-anchor", "middle");
+    GraphCreator.prototype.setCircleTitle = function (gEl, title) {
+        var words = title.split(/\s+/g);
+        var el = gEl.append("text").attr("text-anchor", "middle");
         el.attr("dx", 0).attr("dy", "5");
-
-        for (var i = 0; i < words.length; i++) {
-            var tspan = el.append('tspan').text(words[i]);
-            if (i > 0)
-                tspan.attr('x', 0).attr('dy', '15');
+        for (var i in words) {
+            el.append('tspan').text(words[i]).attr('x', 0).attr('dy', '15');
         }
     };
 
@@ -429,47 +352,6 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         }
     };
 
-    /* place editable text on node in place of svg text */
-    GraphCreator.prototype.changeTextOfNode = function (d3node, d) {
-        var thisGraph = this,
-            consts = thisGraph.consts,
-            htmlEl = d3node.node();
-        d3node.selectAll("text").remove();
-        var nodeBCR = htmlEl.getBoundingClientRect(),
-            curScaleWidth = nodeBCR.width / consts.nodeRadius,
-            curScaleHeight = nodeBCR.height / consts.nodeRadius,
-            useHW = curScaleWidth > 1 && curScaleHeight > 1 ? nodeBCR.width * 0.75 : consts.nodeRadius * 1.5;
-        // replace with editableconent text
-        var d3txt = thisGraph.svg.selectAll("foreignObject")
-            .data([d])
-            .enter()
-            .append("foreignObject")
-            .attr("x", nodeBCR.left + nodeBCR.width / 2 - useHW / 2)
-            .attr("y", nodeBCR.top + nodeBCR.height / 2 - useHW / 4)
-            .attr("height", 2 * useHW)
-            .attr("width", useHW)
-            .append("xhtml:p")
-            .attr("id", consts.activeEditId)
-            .attr("contentEditable", "true")
-            .text(d.title)
-            .on("mousedown", function (d) {
-                d3.event.stopPropagation();
-            })
-            .on("keydown", function (d) {
-                d3.event.stopPropagation();
-                if (d3.event.keyCode == consts.ENTER_KEY && !d3.event.shiftKey) {
-                    this.blur();
-                }
-            })
-            .on("blur", function (d) {
-                d.title = this.textContent;
-                thisGraph.insertTitleLinebreaks(d3node, d.title);
-                d3.select(this.parentElement).remove();
-                sidebar.update(d.id);
-            });
-        return d3txt;
-    };
-
     // mouseup on nodes
     GraphCreator.prototype.circleMouseUp = function (d3node, d) {
         var thisGraph = this,
@@ -522,7 +404,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                             sidebar.update(d.id);
                         } else {
                             circles.select('text').remove();
-                            graph.insertTitleLinebreaks(circles, node.title);
+                            graph.setCircleTitle(circles, node.title);
                             sidebar.update(d.id);
                             graph.trySave();
                         }
@@ -538,9 +420,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             }
         }
         state.mouseDownNode = null;
-        return;
-
-    }; // end of circles mouseup
+    }
 
     // call to propagate changes to graph
     GraphCreator.prototype.updateGraph = function () {
@@ -606,7 +486,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             .call(thisGraph.dragHandler)
             .each(function (d) {
                 d3.select(this).append("circle").attr("r", String(consts.nodeRadius));
-                thisGraph.insertTitleLinebreaks(d3.select(this), d.title);
+                thisGraph.setCircleTitle(d3.select(this), d.title);
             });
 
         circles.exit().remove();
@@ -777,6 +657,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             self.currentTaxId = node['tax_id'];
             self.currentGeneId = node['gene_id'];
             self.currentInfo = node['info'];
+            graph.state.lockKeyEvent = true;
             $('#modal-add-node').openModal({
                 dismissible: true,
                 in_duration: 0,
@@ -788,6 +669,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                     }
                 },
                 complete: function () {
+                    graph.state.lockKeyEvent = false;
                     if ($('#add-node-ok').attr('disabled') == 'disabled') {
                         callback(null);
                     } else {
@@ -923,7 +805,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                         sidebar.update(!pre ? graph.nodes.length : pre.id);
                     } else {
                         circles.select('text').remove();
-                        graph.insertTitleLinebreaks(circles, node.title);
+                        graph.setCircleTitle(circles, node.title);
                         sidebar.update(d.id);
                         graph.trySave();
                     }
@@ -942,7 +824,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                     sidebar.update(d.id);
                 } else {
                     circles.select('text').remove();
-                    graph.insertTitleLinebreaks(circles, node.title);
+                    graph.setCircleTitle(circles, node.title);
                     sidebar.update(d.id);
                     graph.trySave();
                 }
@@ -975,11 +857,13 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         });
 
         $(document).keyup(function (event) {
-            if (event.which == 37) {
-                $('#side-head-top-button-p').click();
-            }
-            if (event.which == 39) {
-                $('#side-head-top-button-n').click();
+            if (!graph.state.lockKeyEvent) {
+                if (event.which == 37) {
+                    $('#side-head-top-button-p').click();
+                }
+                if (event.which == 39) {
+                    $('#side-head-top-button-n').click();
+                }
             }
         });
     };
@@ -1055,7 +939,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         }).fail(invalidProjectId);
     }
 
-    window.kickAss = function (callback) {
+    function kickAss(callback) {
         callback = callback || function () {};
         var canvas = document.getElementById("canvas");
         var png = '';
@@ -1075,4 +959,6 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         };
         img.src = url;
     };
+
+    window.kickAss = kickAss
 })(jQuery, window.d3, window.saveAs, window.Blob);
