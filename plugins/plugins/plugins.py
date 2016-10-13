@@ -28,6 +28,7 @@ class Plugins(Plugin):
 
     def list(self, **_):
         result = {}
+        ds = {}
         loaded = plugin_manager.get_plugins()
         for f in listdir(plugin_manager.plugin_directory):
             if path.isdir(f):
@@ -39,8 +40,10 @@ class Plugins(Plugin):
             if name.startswith('_'):
                 continue
             state = name in loaded
+            if state:
+                ds[name] = plugin_manager.get_plugins()[name].description
             result[name] = state
-        return {'list': repr(result), 'auto': repr(self.auto_load_list)}
+        return {'list': result, 'description': ds, 'auto': self.auto_load_list}
 
     @staticmethod
     def enable(name, **_):
