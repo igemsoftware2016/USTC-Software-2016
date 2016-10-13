@@ -144,14 +144,13 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             if (state.graphMouseDown && d3.event.shiftKey) {
                 // clicked not dragged from svg
                 var xycoords = d3.mouse(thisGraph.svgGraph.node());
-                thisGraph.createNodeAndSelect({tax_id: "", gene_id: "", title: "new concept", x: xycoords[0], y: xycoords[1]});
+                thisGraph.createNodeAndSelect({tax_id: "", gene_id: "", name: "", info: "", title: "new node", x: xycoords[0], y: xycoords[1]});
                 var d = thisGraph.state.selectedNode;
                 // make title of text immediently editable
                 var circles = thisGraph.circles.filter(function (dval) {
                     return dval.id === d.id;
                 });
-                var txtNode = thisGraph.changeTextOfNode(circles, d).node();
-                thisGraph.selectElementContents(txtNode.focus());
+                sidebar.editNodeInfo(thisGraph.nodes[d.id]);
             } else if (state.shiftNodeDrag) {
                 // dragged from node
                 state.shiftNodeDrag = false;
@@ -306,6 +305,8 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             "type": nodeData.type,
             "tax_id": nodeData.tax_id,
             "gene_id": nodeData.gene_id,
+            "name": nodeData.name,
+            "info": nodeData.info,
             "title": nodeData.title,
             "x": nodeData.x,
             "y": nodeData.y
@@ -500,11 +501,14 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             } else {
                 // clicked, not dragged
                 if (d3.event.shiftKey) {
-                    // shift-clicked node: edit text content
-                    var d3txt = thisGraph.changeTextOfNode(d3node, d);
-                    var txtNode = d3txt.node();
-                    thisGraph.selectElementContents(txtNode);
-                    txtNode.focus();
+                    var circles = thisGraph.circles.filter(function (dval) {
+                        return dval.id === d.id;
+                    });
+                    sidebar.editNodeInfo(graph.nodes[d.id], function (node) {
+                        circles.select('text').remove();
+                        graph.insertTitleLinebreaks(circles, node.title);
+                        sidebar.update(d.id);
+                    });
                 } else {
                     sidebar.update(d.id);
                     if (state.selectedEdge) {
@@ -711,47 +715,69 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             self.currentDotIndex = index;
         };
 
-        this.currentTaxId = "";
-        this.currentGeneId = "";
-
         this.lookup = function (str, callback) {
             callback = callback || function () {};
-            var names = [
-                {tax_id: "1024", gene_id: "512", name: "aaaa",
-                    info: "Information of aaaa: blablablablablablablablablablablablablablablabla" +
-                    "blablablablablablablablablablablablablablablabla"},
-                {tax_id: "1034", gene_id: "522", name: "aaab",
-                    info: "Information of aaab: blablablablablablablablablablablablablablablabla" +
-                    "blablablablablablablablablablablablablablablabla"},
-                {tax_id: "1044", gene_id: "532", name: "aabb",
-                    info: "Information of aabb: blablablablablablablablablablablablablablablabla" +
-                    "blablablablablablablablablablablablablablablabla"},
-                {tax_id: "1054", gene_id: "542", name: "abbc",
-                    info: "Information of abbc: blablablablablablablablablablablablablablablabla" +
-                    "blablablablablablablablablablablablablablablabla"},
-                {tax_id: "1064", gene_id: "552", name: "bbcc",
-                    info: "Information of bbcc: blablablablablablablablablablablablablablablabla" +
-                    "blablablablablablablablablablablablablablablabla"},
-                {tax_id: "1074", gene_id: "562", name: "bccc",
-                    info: "Information of bccc: blablablablablablablablablablablablablablablabla" +
-                    "blablablablablablablablablablablablablablablabla"},
-                {tax_id: "1084", gene_id: "572", name: "cccc",
-                    info: "Information of cccc: blablablablablablablablablablablablablablablabla" +
-                    "blablablablablablablablablablablablablablablabla"}
-            ]; // TODO
-            setTimeout(function () {
-                var match = new RegExp(str);
-                var matches = names.filter(function (name) {
-                    return name['name'].match(match);
+            if (str == '') {
+                callback([]);
+            } else {
+                $.post("/plugin/", {
+                    plugin: "pano",
+                    action: "match_node",
+                    s: str
+                }).done(function (matches) {
+                    var json = JSON.parse(matches);
+                    if (json.success) {
+                        callback(json.nodes);
+                    } else {
+                        callback([]);
+                    }
+                }).fail(function () {
+                    callback([]);
                 });
-                callback(matches);
-            }, 250);
+            }
         }
+
+        this.currentTaxId = "";
+        this.currentGeneId = "";
+        this.currentInfo = "";
+
+        this.editNodeInfo = function (node, callback) {
+            callback = callback || function () {};
+            $('#modal-add-node input#add-node-title').val(node['title']);
+            $('#modal-add-node input#add-node-name').val(node['name']).trigger('input');
+            $('#add-node-ok').addClass('disabled').attr('disabled', 'disabled');
+            self.currentTaxId = node['tax_id'];
+            self.currentGeneId = node['gene_id'];
+            self.currentInfo = node['info'];
+            $('#modal-add-node').openModal({
+                dismissible: true,
+                in_duration: 0,
+                out_duration: 0,
+                ready: function () {
+                    $('#add-node-progress').show();
+                    $('#add-node-matches').empty().hide();
+                },
+                complete: function () {
+                    node['tax_id'] = self.currentTaxId;
+                    node['gene_id'] = self.currentGeneId;
+                    node['info'] = self.currentInfo;
+                    node['name'] = $('#add-node-name').val();
+                    var newTitle = $('#add-node-title').val();
+                    if (newTitle != '') {
+                        node['title'] = newTitle;
+                    } else {
+                        node['title'] = node['name'];
+                    }
+                    callback(node);
+                }
+            });
+        };
 
         $('#add-node-name').on('input', function () {
             var nameInput = $(this);
+            var collections = $('#add-node-matches').empty().hide();
+            $('#add-node-progress').show();
             self.lookup(nameInput.val(), function callback(names) {
-                var collections = $('#add-node-matches').empty().hide();
                 if (nameInput.val() == '') {
                     names = [];
                 }
@@ -767,6 +793,8 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                             nameInput.val(nodeName);
                             self.currentTaxId = i['tax_id'];
                             self.currentGeneId = i['gene_id'];
+                            self.currentInfo = i['info'];
+                            $('#add-node-ok').removeAttr('disabled').removeClass('disabled');
                             collections.children('a').each(function () {
                                 var node = $(this);
                                 if (node.html() == html) {
@@ -779,9 +807,16 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                             })
                         })
                     ).show();
-                })
+                });
+                $('#add-node-progress').hide();
             });
         });
+
+        $('#add-node-ok').click(function (e) {
+            if ($(this).attr('disabled') == 'disabled') {
+                e.stopImmediatePropagation();
+            }
+        })
 
         $('#side-head-top-button-h').click(function () {
             $('#side-wrapper > div').animate({left: 0}, 100, "easeOutQuad");
@@ -840,9 +875,9 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             var d = graph.state.selectedNode;
             var nodeTitle = 'new node';
             if (!d) {
-                graph.createNodeAndSelect({tax_id: "", gene_id: "", title: "", x: 0, y: 0});
+                graph.createNodeAndSelect({tax_id: "", gene_id: "", name: "", info: "", title: "new node", x: 0, y: 0});
             } else {
-                graph.createNodeAndSelect({tax_id: "", gene_id: "", title: "", x: d.x + 125, y: d.y});
+                graph.createNodeAndSelect({tax_id: "", gene_id: "", name: "", info: "", title: "new node", x: d.x + 125, y: d.y});
             }
             d = graph.state.selectedNode;
             // make title of text immediently editable
@@ -850,21 +885,10 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 return dval.id === d.id;
             });
             graph.centerSelectedNode(250, function () {
-                $('#modal-add-node input').val('');
-                self.currentTaxId = '';
-                self.currentGeneId = '';
-                $('#modal-add-node').openModal({
-                    dismissible: true,
-                    in_duration: 0,
-                    out_duration: 0,
-                    complete: function () {
-                        var node = graph.nodes[d.id];
-                        node['tax_id'] = self.currentTaxId;
-                        node['gene_id'] = self.currentGeneId;
-                        var newTitle = $('#add-node-title').val();
-                        graph.insertTitleLinebreaks(circles, node['title'] = newTitle == '' ? nodeTitle : newTitle);
-                        sidebar.update(d.id);
-                    }
+                self.editNodeInfo(graph.nodes[d.id], function (node) {
+                    circles.select('text').remove();
+                    graph.insertTitleLinebreaks(circles, node.title);
+                    sidebar.update(d.id);
                 });
             });
         });
@@ -931,7 +955,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 action: "save",
                 id: projectId,
                 title: panoTitle,
-                img: dataImg, // TODO generate img
+                img: '', // dataImg, // TODO
                 data: JSON.stringify({nodes: graph.nodes.filter(function (d) {
                     return d != undefined;
                 }), edges: graph.edges})
