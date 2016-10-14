@@ -410,7 +410,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                                             return i + ' -> ' + j;
                                         })))
                                     .append($('<i class="material-icons tiny right">clear</i>').click(function () {
-                                        $(this).parent().remove();
+                                        $(this).parent().parent().remove();
                                         paths.splice(i, 1);
                                     })))
                                     .append($('<div class="collapsible-body"></div>').append(nodeList)))
