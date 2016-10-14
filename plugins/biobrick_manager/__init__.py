@@ -18,7 +18,7 @@ class BiobrickManager(Plugin):
     def search(self, key, **kwargs):
         filter_str = 'concat(part_name, short_desc, description, notes) like "%%%s%%"' % key
         q = session.query(BiobrickOfficial).filter(filter_str).limit(100)
-        return dict(list=repr(list(map(BiobrickOfficial.__get_info__, q))))
+        return dict(list=list(map(BiobrickOfficial.__get_info__, q)))
     '''
         doc = Biobrick()
         doc.__set_by_kwargs__(**values)
