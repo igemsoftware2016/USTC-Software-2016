@@ -239,7 +239,16 @@
 
         card_ct.append("span").attr("class","card-title")
                 .append("h4")
-                .html(function(d,i){return d.u_name});
+                .html(function(d,i){return d.u_name})..append("img")
+                .attr("style","width:35px")
+                .attr("src",function (d) {
+                    var ret = "img/emoj.ico";
+                    var label_of = labeling(d);
+                    if (label_of!="null"){
+                        ret = "SBOL/"+label_of+".png"
+                    }
+                    return ret
+                });
 
 
         var len_dis = 150;
@@ -250,16 +259,7 @@
                 .html(function(d,i){
                     var data = d.data1;
                     return Object.keys(data)[0];
-                }).append("img")
-                        .attr("style","width:35px")
-                        .attr("src",function (d) {
-                            var ret = "img/emoj.ico";
-                            var label_of = labeling(d);
-                            if (label_of!="null"){
-                                ret = "SBOL/"+label_of+".png"
-                            }
-                            return ret
-                        });
+                });
 
         card_ct
                 .append("div")
