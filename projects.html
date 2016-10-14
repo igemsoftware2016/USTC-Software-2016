@@ -194,7 +194,6 @@
         </header>
         <script type="text/javascript">
         document.getElementById("logout_btn").addEventListener("click",logout_form());
-        document.getElementsByClassName("demo-content")[0].minHeight=$(window).height;
     </script>
         <nav class="demo-navigation mdl-navigation mdl-color--white" >
             <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="profile.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">home</i>Profile</a>
@@ -206,6 +205,7 @@
     <main class="mdl-layout__content mdl-color--white">
     <span id="this_is_a_user_name" style="visibility: hidden;">sth</span>
         <div class="demo-content">
+        <script type="text/javascript">document.getElementsByClassName("demo-content")[0].minHeight=$(window).height;</script>
             <div class="mdl-grid mdl-grid--no-spacing" style="min-height: 64px;">
                 <div class="mdl-cell mdl-cell--12-col">
                     <h3 class="mdl-color-text--green-A700" style="text-align: center;">YOUR PROJECTS</h3>
@@ -334,6 +334,18 @@
                 <button id="add_project_control" type="button" class="close-dialog-add-project mdl-button">Add Project</button>
             </div>
         </dialog>
+        <dialog class="demo-comment-box mdl-dialog">
+            <h4 class="mdl-dialog__title" style="text-align: center;">Comments</h4>
+            <div class="mdl-dialog__content mdl-grid mdl-grid--no-spacing" style="margin-left: 10px; margin-right: 10px;">
+                <div class="mdl-cell mdl-cell--12-col mdl-grid mdl-grid--no-spacing">
+                    <div id="comments" class="mdl-cell mdl-cell--12-col" style="padding-top: 25px;">
+                    </div>
+                </div>
+            </div>
+            <div class="mdl-dialog__actions">  
+                <button type="button" class="close-dialog-comment-box mdl-button">Close</button>
+            </div>
+        </dialog>
         <script>
             var dialog_add_project = document.querySelector('.demo-add-project');
             var show_dialogButton_add_project = document.querySelector('.show-dialog-add-project');
@@ -348,6 +360,17 @@
             });
             var addpr=document.getElementById("add_project_control");
             addpr.addEventListener("click",sendCreateRequest());
+            var dialog_comment_box = document.querySelector('.demo-comment-box');
+            var show_dialogButton_comment_box = document.querySelector('.show-dialog-comment-box');
+            if (! dialog_comment_box.showModal) {
+                dialogPolyfill.registerDialog(dialog_comment_box);
+            }
+            show_dialogButton_comment_box.addEventListener('click', function() {
+                dialog_comment_box.showModal();
+            });
+            dialog_comment_box.querySelector('.close-dialog-comment-box').addEventListener('click', function() {
+                dialog_comment_box.close();
+            });
         </script>
         <dialog class="demo-remove-project mdl-dialog">
             <h4 class="mdl-dialog__title" style="text-align: center;">Notice</h4>

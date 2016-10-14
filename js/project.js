@@ -105,7 +105,7 @@ function get_user_info_by_id(i,obj) {
                                     obj.project[i-1].img_src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAQAAAD9CzEMAAAAuUlEQVR4Ae2XP8rCUBAHp5F4gPxBsA45mpUgXkt4Se4Rkc97fIQkhVZrK+JbxGwhujN9Bh77K8IPsWTPkSsXOnYkGLPmjNx5YoUhCX/Igx0LzNgiT9zwBhU1AxLxQEpGQCJOtFT653tEMQUgRxR7LVEjqhkABaLaEGVAVAM5BQ2iOhJFjPSAXeBVPKADfqa+Aw/4Dr53Bx6wD/iZfkZgQgwcidIiBgb0H5CZ/lOClmgYZzxOoMRxjLkBL3E6cltSSnYAAAAASUVORK5CYII=';
                                 }
 
-                loadcomment(obj.project[i-1]);
+                get_user_info_by_id_comment(1,obj.project[i-1]);
                 loadproject(obj.project[i-1]);
                 i++;
                 if(i<=num){
@@ -209,4 +209,51 @@ function sendCreateRequest(){
                 }
         });
    }
+}
+
+function get_user_info_by_id_comment(i,obj){
+    var num=obj.comment.length;
+    var  dictPost  =  {"plugin":"user_model","action":"get_user_data_by_id","user_id":obj.comment[i-1].user_id};
+    console.log(dictPost);
+    var jsonResp=[];
+    $.ajax({
+        type: "POST",
+        url: "/plugin/",
+        data: dictPost,
+        success: function(response){
+            console.log(response);
+            jsonResp = JSON.parse(response);
+            if(jsonResp['success']==true) {
+                 obj.comment[i-1].user_name=jsonResp.user_name;
+                 obj.comment[i-1].src="user_data.html#"+String(jsonResp.user_id);
+                loadcomment(obj.comment[i-1]);
+                i++;
+                if(i<=num){
+                    get_user_info_by_id_comment(i,obj);
+                }
+            }
+            else{
+                alert(jsonResp["error"]);
+            }
+}
+
+function loadcomment(obj){
+    var commentdiv=document.createElement("div");
+    commentdiv.className="mdl-cell--12-col demo-icon_text-align";
+    var userlink=document.createElement("a");
+    userlink.className="mdl-cell--3-col";
+    userlink.style.textDecoration="none";
+    userlink.style.fontSize="16px";
+    userlink.style.color="#00C853";
+    userlink.innerHTML=obj.src;
+    componentHandler.upgradeElement(userlink);
+    commentdiv.appendChild(userlink);
+    var comment=document.createElement("span");
+    comment.className="mdl-cell--12-col";
+    comment.style.fontSize="16px";
+    comment.innerHTML=obj.content;
+    componentHandler.upgradeElement(comment);
+    commentdiv.appendChild(comment);
+    componentHandler.upgradeElement(commentdiv);
+    document.getElementById("comments").appendChild(commentdiv);
 }
