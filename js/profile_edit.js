@@ -15,7 +15,7 @@ function logout_form(){
                     window.location="login-1.html";
                 }
                 else {
-                    Materialize.toast(Jr['error'], 3000, 'rounded');
+                    alert(Jr['error']);
                 }
             }
         });
@@ -44,7 +44,7 @@ function get_user_info(){
                 document.getElementById('user_email_drawer').innerHTML=Jr.email;
             }
             else {
-                Materialize.toast(Jr['error'], 3000, 'rounded');
+                alert(Jr['error']);
             }
 
             if(Jr.username=null){
@@ -111,7 +111,7 @@ function get_user_info_for_update() {
 
             }
             else {
-                Materialize.toast(Jr['error'], 3000, 'rounded');
+                alert(Jr['error']);
             }
         }
 
@@ -145,7 +145,7 @@ function get_user_info_for_display() {
                 document.getElementById('user_email_drawer').innerHTML=Jr.email;
             }
             else {
-                Materialize.toast(Jr['error'], 3000, 'rounded');
+                alert(Jr['error']);
             }
         }
 

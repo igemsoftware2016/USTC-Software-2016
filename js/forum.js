@@ -41,7 +41,7 @@ else {
 document.getElementById('user-email').innerHTML=Jr.email;
 }
 else {
-    Materialize.toast(Jr['error'], 3000, 'rounded');
+    alert(Jr['error']);
 }
 document.getElementById('this_is_a_user_name').innerHTML=String(Jr.id);
 }
@@ -148,7 +148,7 @@ function submitComment(i){
                     alert("Successfully submitted!");
                 }
                 else{
-                    Materialize.toast(jsonResp['error'],2500,"rounded");
+                    alert(jsonResp['error']);
                 }
             }
         });

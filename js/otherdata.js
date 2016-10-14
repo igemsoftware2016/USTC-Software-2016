@@ -20,7 +20,7 @@ function get_user_info(){
                 document.getElementById('user-email').innerHTML=Jr.email
             }
             else {
-                Materialize.toast(Jr['error'], 3000, 'rounded');
+                alert(Jr['error']);
             }
             if(Jr.username=null){
                 if(Jr.username.length>0){
@@ -62,7 +62,7 @@ function get_others_info() {
                         document.getElementById('user_email').innerHTML=Jr.user_email;
             }
             else {
-                Materialize.toast(Jr['error'], 3000, 'rounded');
+                alert(Jr['error']);
             }
         }
     });

@@ -17,7 +17,7 @@ function getMessageData(){
                            }
         	        }
         	        else{
-        		        Materialize.toast(jsonResp['error'],2500,'rounded');
+        		        alert(jsonResp['error']);
         	        }
                 }
 	});
@@ -38,7 +38,7 @@ function get_user_info_by_id(id) {
             if(jsonResp['success']==true) {
             }
             else {
-                Materialize.toast(jsonResp['error'], 2500, 'rounded');
+                alert(jsonResp['error']);
             }
         }
     });
@@ -65,7 +65,7 @@ function getFriendData(){
                            }
                         }
                         else{
-                                Materialize.toast(jsonResp['error'],2500,'rounded');
+                                alert(jsonResp['error']);
                         }
                 }
         });
@@ -101,7 +101,7 @@ function sendAgree(i,obj,bool){
                                 window.location.reload();
                         }
                         else{
-                                Materialize.toast(jsonResp['error'],2500,'rounded');
+                                alert(jsonResp['error']);
                         }
                 }
         });
@@ -131,13 +131,9 @@ function sendResponse(i,obj){
                                 alert("Successfully submitted!");
                         }
                         else{
-                                Materialize.toast(jsonResp['error'],2500,'rounded');
+                                alert(jsonResp['error']);
                         }
                 }
         });
     }
-}
-
-function relocate(i,obj){
-        window.location("user_data.html?user_id="+obj.friend[i-1].user_id);
 }
