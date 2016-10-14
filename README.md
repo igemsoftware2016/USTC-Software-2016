@@ -193,3 +193,9 @@ response :
 
 
 
+http://localhost:5000/plugin/?plugin=biobrick_manager&action=search&key=abc
+
+
+
+
+
