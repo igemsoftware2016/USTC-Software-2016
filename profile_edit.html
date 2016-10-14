@@ -6,31 +6,24 @@
     <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Edit Profile</title>
-
     <!-- Add to homescreen for Chrome on Android -->
     <meta name="mobile-web-app-capable" content="yes">
     <link rel="icon" sizes="192x192" href="images/logo.ico">
-
     <!-- Add to homescreen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="Material Design Lite">
     <link rel="apple-touch-icon-precomposed" href="images/logo.ico">
-
     <!-- Tile icon for Win8 (144x144 + tile color) -->
     <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
     <meta name="msapplication-TileColor" content="#3372DF">
-
     <link rel="shortcut icon" href="images/logo.ico">
     <script src="js/jquery-2.1.1.min.js"></script>
     <script src="js/profile_edit.js"></script>
-
-
     <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
     <!--
     <link rel="canonical" href="http://www.example.com/">
     -->
-
     <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="css/material.min.css">
@@ -45,19 +38,15 @@
             margin-bottom: 40px;
             z-index: 900;
         }
-
         .demo-avatar-big {
             width: 120px;
             height: 120px;
             border-radius: 60px;
             margin: 30px;
         }
-
         .mgtp{
             margin-top: 25px;
         }
-
-
         hr.style14 {
             border: 0;
             height: 1px;
@@ -66,11 +55,9 @@
             background-image: -ms-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
             background-image: -o-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
         }
-
         .txtSize{
             font-size: large;
         }
-
         hr.gap {
             border: 0;
             height: 0;
@@ -78,13 +65,6 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             visibility: hidden;
         }
-
-
-
-
-
-
-
         .action
         {
             width: 400px;
@@ -95,7 +75,6 @@
         {
             margin-right: 10px;
         }
-
         .imageBox
         {
             position: relative;
@@ -107,7 +86,6 @@
             background-repeat: no-repeat;
             cursor:move;
         }
-
         .imageBox .thumbBox
         {
             position: absolute;
@@ -122,7 +100,6 @@
             box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.5);
             background: none repeat scroll 0% 0% transparent;
         }
-
         .imageBox .spinner
         {
             position: absolute;
@@ -134,17 +111,9 @@
             line-height: 400px;
             background: rgba(0,0,0,0.7);
         }
-
-
-
-
-
-
-
         .mdl-dialog {
             border: none;
             box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);  }
-
         .mdl-dialog__actions {
             padding: 8px 8px 8px 24px;
             display: -webkit-flex;
@@ -174,7 +143,6 @@
         .mdl-dialog__content {
             padding: 20px 24px 24px 24px;
             color: rgba(0,0,0, 0.54); }
-
     </style>
 </head>
 <body onload="get_user_info_all()">
@@ -233,13 +201,10 @@
     </div>
     <main class="mdl-layout__content mdl-color--grey-100">
         <div class="mdl-grid demo-content">
-
             <div class="demo-graphs mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--12-col">
                 <div align="center">
                     <img id="user_head" class="demo-avatar-big" src="img/user-a.png" >◀click to customize
                     <!--div class="mdl-tooltip mdl-tooltip--large" for="user_head">Customize avatar</div-->
-
-
                     <dialog class="mdl-dialog" id="upload_img" style="width: 500px">
                         <div class="mdl-dialog__content" style="width: 400px">
                             <div class="container">
@@ -248,19 +213,15 @@
                                     <div class="spinner" style="display: none">Loading...</div>
                                 </div>
                                 <div class="action">
-
                                     <label class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"style="width:80px">
                                         <i class="material-icons">file_upload</i>  Upload Image
                                         <input type="file" id="file" class="none" style="width:30px;visibility: hidden">
                                     </label>
-
                                     <input type="button" class="mdl-button mdl-js-button  mdl-js-ripple-effect mdl-button--accent" id="btnCrop" value="Submit" style="margin-left:4px;float: right">
-
                                     <input type="button" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored" id="btnZoomIn" value="+" style="margin-left:4px;float: right">
                                     <input type="button" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored" id="btnZoomOut" value="-" style="margin-left:4px;float: right">
                                 </div>
                                 <div class="cropped">
-
                                 </div>
                             </div>
                         </div>
@@ -268,12 +229,8 @@
                             <button id="close_btn" type="button" class="mdl-button">Close</button>
                         </div>
                     </dialog>
-
-
-
                     <hr class="style14">
                     <form id="user_profile_edit">
-
                         <div class="mgtp txtSize mdl-cell--9-col" align="left">
                             <div class="txtSize mdl-cell--3-col mdl-color-text--teal-A700" style="align-items: center">Name</div>
                             <div class="mdl-cell--8-col mdl-textfield mdl-js-textfield">
@@ -281,9 +238,7 @@
                                 <label class="mdl-textfield__label" for="user_name">Peter</label>
                             </div>
                         </div>
-
                         <hr class="gap mdl-cell--9-col">
-
                         <div class="mgtp txtSize mdl-cell--9-col" align="left">
                             <div class="txtSize mdl-cell--3-col mdl-color-text--teal-A700" style="align-items: center">Education</div>
                             <div class=" mdl-cell--8-col mdl-textfield mdl-js-textfield">
@@ -308,25 +263,19 @@
                             </div>
                         </div>
                     </form>
-
                     <div class="mdl-cell--9-col" align="right" style="margin-top: 40px">
-
                         <button onclick="postForm_edit_profile()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
                             submit
                         </button>
                     </div>
                 </div>
             </div>
-
         </div>
     </main>
 </div>
-
 <script src="js/jquery-2.1.1.min.js"></script>
 <script src="js/material.min.js"></script>
 <script src="js/materialize.min.js"></script>
-
-
 <script>
     (function() {
         var dialog = document.querySelector('#upload_img');
@@ -344,9 +293,6 @@
         showButton.addEventListener('click', showClickHandler);
         closeButton.addEventListener('click', closeClickHandler);
     }());
-
-
-
     var cropbox = function(options){
         var el = document.querySelector(options.imageBox),
                 obj =
@@ -371,7 +317,6 @@
                                 dh = parseInt(size[1]),
                                 sh = parseInt(this.image.height),
                                 sw = parseInt(this.image.width);
-
                         canvas.width = width;
                         canvas.height = height;
                         var context = canvas.getContext("2d");
@@ -425,10 +370,8 @@
                 {
                     var w =  parseInt(obj.image.width)*obj.ratio;
                     var h =  parseInt(obj.image.height)*obj.ratio;
-
                     var pw = (el.clientWidth - w) / 2;
                     var ph = (el.clientHeight - h) / 2;
-
                     el.setAttribute('style',
                             'background-image: url(' + obj.image.src + '); ' +
                             'background-size: ' + w +'px ' + h + 'px; ' +
@@ -438,7 +381,6 @@
                 imgMouseDown = function(e)
                 {
                     stopEvent(e);
-
                     obj.state.dragable = true;
                     obj.state.mouseX = e.clientX;
                     obj.state.mouseY = e.clientY;
@@ -446,19 +388,14 @@
                 imgMouseMove = function(e)
                 {
                     stopEvent(e);
-
                     if (obj.state.dragable)
                     {
                         var x = e.clientX - obj.state.mouseX;
                         var y = e.clientY - obj.state.mouseY;
-
                         var bg = el.style.backgroundPosition.split(' ');
-
                         var bgX = x + parseInt(bg[0]);
                         var bgY = y + parseInt(bg[1]);
-
                         el.style.backgroundPosition = bgX +'px ' + bgY + 'px';
-
                         obj.state.mouseX = e.clientX;
                         obj.state.mouseY = e.clientY;
                     }
@@ -475,12 +412,10 @@
                     delta > -120 ? obj.ratio*=1.1 : obj.ratio*=0.9;
                     setBackground();
                 }
-
         obj.spinner.style.display = 'block';
         obj.image.onload = function() {
             obj.spinner.style.display = 'none';
             setBackground();
-
             attachEvent(el, 'mousedown', imgMouseDown);
             attachEvent(el, 'mousemove', imgMouseMove);
             attachEvent(document.body, 'mouseup', imgMouseUp);
@@ -489,13 +424,9 @@
         };
         obj.image.src = options.imgSrc;
         attachEvent(el, 'DOMNodeRemoved', function(){detachEvent(document.body, 'DOMNodeRemoved', imgMouseUp)});
-
         return obj;
     };
-
-
     var image_head;
-
     window.onload = function() {
         var options =
         {
@@ -526,18 +457,10 @@
         document.querySelector('#btnZoomOut').addEventListener('click', function(){
             cropper.zoomOut();
         });
-
         get_user_info();
         get_user_info_for_update();
     };
-
-
-
-
-
     //post data and image to server
-
-
     $.fn.serializeObject = function()
     {
         var o = {};
@@ -554,7 +477,6 @@
         });
         return o;
     };
-
     function postForm_edit_profile(){
         var formData = ($('#user_profile_edit').serializeObject());
         var  dictPost  =  {"plugin":"user_model","action":"edit_profile","username":formData.user_name,"education":formData.edu,"major":formData.major,"description":formData.desc};
@@ -573,8 +495,6 @@
             }
         });
     }
-
-
     function postForm_head(data){
         var  dictPost  =  {"plugin":"user_model","action":"head_change","data":data};
         console.log(dictPost);
@@ -596,7 +516,6 @@
                 else{
                     alert(Jr['error']+'[something is wrong]');
                 }
-
                 // TODO: if success change head of the page
             },
             error: function(xhr, error){
@@ -612,12 +531,6 @@
             }
         })
     }
-
-
-
-
-
 </script>
-
 </body>
 </html>

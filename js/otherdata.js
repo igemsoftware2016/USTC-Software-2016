@@ -22,22 +22,18 @@ function get_user_info(){
             else {
                 Materialize.toast(Jr['error'], 3000, 'rounded');
             }
-
             if(Jr.username=null){
                 if(Jr.username.length>0){
                     document.getElementById('this_is_a_user_name').innerHTML=Jr.username
                 }
             }
             //this is for the current user name
-
-
         }
-
     });
 }
-
 function get_others_info() {
     var url = window.location.hash;
+    console.log(url);
     var  dictPost  =  {"plugin":"user_model","action":"get_user_data_by_id","user_id":parseInt(url)};
     console.log(dictPost);
     var Jr=[];
@@ -61,9 +57,6 @@ function get_others_info() {
                         document.getElementById('description').innerHTML=Jr.description;
                         document.getElementById('major').innerHTML=Jr.major;
                         document.getElementById('user_email').innerHTML=Jr.user_email;
-             if(Jr.is_friend==true){
-                document.getElementById("apply_div").style.display="none";
-             }
             }
             else {
                 Materialize.toast(Jr['error'], 3000, 'rounded');
@@ -71,7 +64,6 @@ function get_others_info() {
         }
     });
 }
-
 function get_all(){
     get_user_info();
     get_others_info();
