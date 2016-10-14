@@ -223,9 +223,9 @@
                 .append("h5")
                 .text(function(d,i){
                     var data = d.data3;
-                    return Object.keys(data)[0];
+                    return Object.keys(data)[0]+':'+data[Object.keys(data)[0]];
                 });
-
+/*
         card_ct
                 .append("div")
                 .attr("style","width:270px")
@@ -238,13 +238,14 @@
                     }
                     return ret
                 });
-
+*/
         card_ac.append("button").attr("class","hoverable btn waves-effect waves-light blue-grey")
                 .attr("style","margin:2px")
-                .append("i")
+                .append("a")
                 .attr("href",function (d) {
                     return "http://parts.igem.org/Part:"+d.u_name;
                 })
+                .append("i")
                 .attr("class","material-icons")
                 .html("link");
 
