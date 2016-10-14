@@ -179,6 +179,7 @@
                 .html(function(d,i){return d.u_name});
 
 
+        var len_dis = 150;
 
         card_ct.append("span").attr("class","card-title")
                 .append("h5")
@@ -194,8 +195,8 @@
                     var data = d.data1;
                     var data_ret =  data[Object.keys(data)[0]];
                     var ret = data_ret;
-                    if(data_ret.length>400){
-                        ret = data_ret.substr(0,401)+"..."
+                    if(data_ret.length>len_dis){
+                        ret = data_ret.substr(0,len_dis)+"..."
                     }
                     return ret
                 });
@@ -213,8 +214,8 @@
                     var data = d.data2;
                     var data_ret =  data[Object.keys(data)[0]];
                     var ret = data_ret;
-                    if(data_ret.length>400){
-                        ret = data_ret.substr(0,401)+"..."
+                    if(data_ret.length>len_dis){
+                        ret = data_ret.substr(0,len_dis)+"..."
                     }
                     return ret
                 });
@@ -222,9 +223,9 @@
                 .append("h5")
                 .text(function(d,i){
                     var data = d.data3;
-                    return Object.keys(data)[0];
+                    return Object.keys(data)[0]+':'+data[Object.keys(data)[0]];
                 });
-
+/*
         card_ct
                 .append("div")
                 .attr("style","width:270px")
@@ -232,19 +233,23 @@
                     var data = d.data3;
                     var data_ret =  data[Object.keys(data)[0]];
                     var ret = data_ret;
-                    if(data_ret.length>400){
-                        ret = data_ret.substr(0,401)+"..."
+                    if(data_ret.length>len_dis){
+                        ret = data_ret.substr(0,len_dis)+"..."
                     }
                     return ret
                 });
-
+*/
         card_ac.append("button").attr("class","hoverable btn waves-effect waves-light blue-grey")
                 .attr("style","margin:2px")
+                .append("a")
+                .attr("href",function (d) {
+                    return "http://parts.igem.org/Part:"+d.u_name;
+                })
                 .append("i")
                 .attr("class","material-icons")
-                .html("edit");
+                .html("link");
 
-        card_ac.append("button").attr("class","hoverable btn waves-effect waves-light blue-grey")
+ /*       card_ac.append("button").attr("class","hoverable btn waves-effect waves-light blue-grey")
                 .attr("style","margin:2px")
                 .append("i")
                 .attr("class","material-icons")
@@ -254,7 +259,7 @@
                 .attr("style","margin:2px")
                 .append("i")
                 .attr("class","material-icons")
-                .html("share")
+                .html("share")  */
 
     }
 </script>
