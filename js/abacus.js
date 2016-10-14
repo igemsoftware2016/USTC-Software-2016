@@ -29,7 +29,8 @@ var demo="True";
              if(Jr['success']==Jr['success']){//true) {
                  alert('The file has been accepted by server and being processed,it may take some time,we will email to inform you when finished', 3000, 'rounded');
                 waiting.addClass(" hide");
-                 btn.addClass(" disable");
+                 btn.addClass(" disabled");
+                 btn.onclick=function () {}
              }
              else {
                  Materialize.toast('Error : '+Jr['error'], 3000, 'rounded');
