@@ -3,150 +3,51 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="A platform for biological use">
+    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>BioHub</title>
+    <title>Edit Profile</title>
+    <!-- Add to homescreen for Chrome on Android -->
     <meta name="mobile-web-app-capable" content="yes">
-    <link rel="icon" href="images/logo.ico">
+    <link rel="icon" sizes="192x192" href="images/logo.ico">
+    <!-- Add to homescreen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="BioHub">
+    <meta name="apple-mobile-web-app-title" content="Material Design Lite">
     <link rel="apple-touch-icon-precomposed" href="images/logo.ico">
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
+    <meta name="msapplication-TileColor" content="#3372DF">
     <link rel="shortcut icon" href="images/logo.ico">
+    <script src="js/jquery-2.1.1.min.js"></script>
+    <script src="js/profile_edit.js"></script>
+    <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
+    <!--
+    <link rel="canonical" href="http://www.example.com/">
+    -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="css/material-1.2.0.min.css">
-    <script src="js/jquery-2.1.1.min.js"></script>
-    <script src="js/material-1.2.0.js"></script>
-    <script src="js/profile_edit.js"></script>
-    <style type="text/css">
-        .demo-content {
-    min-height: 437px;
-    padding: 0px 8px 0px 8px;
-}
-.mdl-list__item-avatar { 
-    color: black !important;
-    background-color: white !important;
-}
-html, body {
-    font-family: 'Roboto', 'Helvetica';
-}
-a {
-    text-decoration: none;
-    color: black;
-}
-.demo-avatar {
-    width: 64px;
-    height: 64px;
-    border-radius: 32px;
-}
-.mdl-layout__drawer .avatar {
-    margin-bottom: 16px;
-}
-.demo-drawer {
-    border: none;
-}
-.demo-drawer .mdl-menu__container {
-    z-index: -1;
-}
-.demo-drawer .demo-navigation {
-    z-index: -2;
-}
-.demo-drawer .mdl-menu .mdl-menu__item {
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
-}
-.demo-drawer-header {
-    box-sizing: border-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: end;
-    -ms-flex-pack: end;
-    -webkit-justify-content: flex-end;
-    justify-content: flex-end;
-    -webkit-box-orient: vertical;
-    -webkit-flex-direction: column;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    padding: 16px;
-    height: 160px;
-}
-.demo-avatar-dropdown {
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    position: relative;
-    -webkit-box-orient: horizontal;
-    -webkit-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
-    width: 100%;
-}
-.demo-navigation {
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
-    -ms-flex-positive: 1;
-    flex-grow: 1;
-}
-.demo-layout .demo-navigation .mdl-navigation__link {
-    display: -webkit-flex !important;
-    display: -ms-flexbox !important;
-    display: flex !important;
-    -webkit-box-orient: horizontal;
-    -webkit-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
-    color: rgba(255, 255, 255, 0.56);
-    font-weight: 500;
-}
-.demo-layout .demo-navigation .mdl-navigation__link:hover {
-    background-color: #00C853;
-}
-.demo-navigation .mdl-navigation__link .material-icons {
-    font-size: 24px;
-    color: rgba(255, 255, 255, 0.56);
-    margin-right: 24px;
-}
-.mdl-mini-footer {
-    padding-left: 32px;
-    padding-right: 32px;
-}
-.mdl-mini-footer {
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
-    -ms-flex-positive: 1;
-    flex-grow: 1;
-}
-.demo-icon_text-align {
-            display: -webkit-flex !important;
-            display: -ms-flexbox !important;
-            display: flex !important;
-            -webkit-box-orient: horizontal;
-            -webkit-flex-direction: row;
-            -ms-flex-direction: row;
-            flex-direction: row;
-            -webkit-align-items: center;
-            -ms-flex-align: center;
-            align-items: center;
+    <link rel="stylesheet" href="css/material.min.css">
+    <link rel="stylesheet" href="css/material-lite.css">
+    <style>
+        #view-source {
+            position: fixed;
+            display: block;
+            right: 0;
+            bottom: 0;
+            margin-right: 40px;
+            margin-bottom: 40px;
+            z-index: 900;
         }
-.demo-spacer {
-    height: 18px;
-}
-.demo-spacerr {
-    height: 32px;
-}
-hr.style14 {
+        .demo-avatar-big {
+            width: 120px;
+            height: 120px;
+            border-radius: 60px;
+            margin: 30px;
+        }
+        .mgtp{
+            margin-top: 25px;
+        }
+        hr.style14 {
             border: 0;
             height: 1px;
             background-image: -webkit-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
@@ -154,73 +55,156 @@ hr.style14 {
             background-image: -ms-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
             background-image: -o-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
         }
-hr.gap {
+        .txtSize{
+            font-size: large;
+        }
+        hr.gap {
             border: 0;
             height: 0;
             border-top: 1px solid rgba(0, 0, 0, 0.1);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            visibility: hidden;
         }
-.demo-avatar-big {
-            width: 120px;
-            height: 120px;
-            border-radius: 60px;
+        .action
+        {
+            width: 400px;
+            height: 30px;
+            margin: 10px 0;
         }
-        .mgtp{
-            margin-top: 18px;
+        .cropped>img
+        {
+            margin-right: 10px;
         }
-        body {
-            font-size: 24px;
+        .imageBox
+        {
+            position: relative;
+            height: 400px;
+            width: 400px;
+            border:1px solid #aaa;
+            background: #fff;
+            overflow: hidden;
+            background-repeat: no-repeat;
+            cursor:move;
         }
+        .imageBox .thumbBox
+        {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200px;
+            height: 200px;
+            margin-top: -100px;
+            margin-left: -100px;
+            box-sizing: border-box;
+            border: 1px solid rgb(102, 102, 102);
+            box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.5);
+            background: none repeat scroll 0% 0% transparent;
+        }
+        .imageBox .spinner
+        {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            text-align: center;
+            line-height: 400px;
+            background: rgba(0,0,0,0.7);
+        }
+        .mdl-dialog {
+            border: none;
+            box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);  }
+        .mdl-dialog__actions {
+            padding: 8px 8px 8px 24px;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-flex-direction: row-reverse;
+            -ms-flex-direction: row-reverse;
+            flex-direction: row-reverse;
+            -webkit-flex-wrap: wrap;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap; }
+        .mdl-dialog__actions > * {
+            margin-right: 8px;
+            height: 36px; }
+        .mdl-dialog__actions > *:first-child {
+            margin-right: 0; }
+        .mdl-dialog__actions--full-width {
+            padding: 0 0 8px 0; }
+        .mdl-dialog__actions--full-width > * {
+            height: 48px;
+            -webkit-flex: 0 0 100%;
+            -ms-flex: 0 0 100%;
+            flex: 0 0 100%;
+            padding-right: 16px;
+            margin-right: 0;
+            text-align: right; }
+        .mdl-dialog__content {
+            padding: 20px 24px 24px 24px;
+            color: rgba(0,0,0, 0.54); }
     </style>
 </head>
 <body onload="get_user_info_all()">
 <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
-    <header class="demo-header mdl-layout__header mdl-color--green-A700 mdl-color-text--white">
-        <div class="mdl-layout__header-row">
-            <span class="mdl-layout-title">Projects</span>
+    <header class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
+        <div class="mdl-layout__header-row" >
+            <span class="mdl-layout-title">Profile manage</span>
             <div class="mdl-layout-spacer"></div>
-            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="contact_dropdown">
-                <i class="material-icons">more_horiz</i>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+                <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
+                    <i class="material-icons">search</i>
+                </label>
+                <div class="mdl-textfield__expandable-holder">
+                    <input class="mdl-textfield__input" type="text" id="search">
+                    <label class="mdl-textfield__label" for="search">Enter your query...</label>
+                </div>
+            </div>
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
+                <i class="material-icons">more_vert</i>
             </button>
-            <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="contact_dropdown">
-                <li class="mdl-menu__item">About BioHub</li>
-                <li class="mdl-menu__item"><a href="developers.html">About us</a></li>
+            <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
+                <li class="mdl-menu__item">About</li>
+                <li class="mdl-menu__item">Contact</li>
+                <li class="mdl-menu__item">Legal information</li>
             </ul>
         </div>
     </header>
-    <div class="demo-drawer mdl-layout__drawer mdl-color--green-A700 mdl-color-text--white">
+    <div class="demo-drawer mdl-layout__drawer mdl-color--teal-A700 mdl-color-text--white">
         <header class="demo-drawer-header">
             <img id="side-head" src="img/user-a.png" class="demo-avatar">
             <div class="demo-avatar-dropdown">
-                <span  id="user-email" style="font-size: 15px">user@mail.com</span>
+                <span id="user_email_drawer" style="font-size: 15px">User Email</span>
                 <div class="mdl-layout-spacer"></div>
                 <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
                     <i class="material-icons" role="presentation">arrow_drop_down</i>
                     <span class="visuallyhidden">Accounts</span>
                 </button>
                 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
-                    <li class="mdl-menu__item"><a href="profile_edit.html">Edit my profile</a></li>
-                    <li class="mdl-menu__item"><a href="profile.html">View my information</a></li>
-                    <li class="mdl-menu__item demo-flex-align"><a href="#" id="logout_btn"><i class="material-icons">compare_arrows</i>Login as another user</a></li>
+                    <li class="mdl-menu__item"><a class="mdl-navigation__link" href="profile_edit.html">edit my information</a></li>
+                    <li class="mdl-menu__item"><a class="mdl-navigation__link" href="profile.html">view my profile</a></li>
+                    <li class="mdl-menu__item"><i class="material-icons">compare_arrows</i>switch user</li>
                 </ul>
             </div>
         </header>
-        <script type="text/javascript">
-        document.getElementById("logout_btn").addEventListener("click",logout_form());
-        document.getElementsByClassName("demo-content")[0].minHeight=$(window).height;
-    </script>
-        <nav class="demo-navigation mdl-navigation mdl-color--white" >
-            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="profile.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">home</i>Profile</a>
-            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="projects.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">inbox</i>Project</a>
-            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="forums.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">question_answer</i>Forum</a>
-            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="developers.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">account_circle</i>Developer</a>
+        <nav class="demo-navigation mdl-navigation mdl-color--teal-A400" >
+            <a class="mdl-navigation__link mdl-color-text--white" style="font-size: 18px" href=""><i class="mdl-color-text--white material-icons" role="presentation" style="font-size: 30px">home</i>Home</a>
+            <a class="mdl-navigation__link mdl-color-text--white" style="font-size: 18px" href=""><i class="mdl-color-text--white material-icons" role="presentation" style="font-size: 30px">inbox</i>Projects</a>
+            <a class="mdl-navigation__link mdl-color-text--white" style="font-size: 18px" href=""><i class="mdl-color-text--white material-icons" role="presentation" style="font-size: 30px">delete</i>Trash</a>
+            <a class="mdl-navigation__link mdl-color-text--white" style="font-size: 18px" href=""><i class="mdl-color-text--white material-icons" role="presentation" style="font-size: 30px">forum</i>Forums</a>
+            <a class="mdl-navigation__link mdl-color-text--white" style="font-size: 18px" href=""><i class="mdl-color-text--white material-icons" role="presentation" style="font-size: 30px">flag</i>Updates</a>
+            <a class="mdl-navigation__link mdl-color-text--white" style="font-size: 18px" href=""><i class="mdl-color-text--white material-icons" role="presentation" style="font-size: 30px">local_offer</i>Promos</a>
+            <a class="mdl-navigation__link mdl-color-text--white" style="font-size: 18px" href=""><i class="mdl-color-text--white material-icons" role="presentation" style="font-size: 30px">people</i>Social</a>
+            <div class="mdl-layout-spacer"></div>
+            <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Help</span></a>
         </nav>
     </div>
     <main class="mdl-layout__content mdl-color--grey-100">
         <div class="mdl-grid demo-content">
             <div class="demo-graphs mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--12-col">
                 <div align="center">
-                    <img id="user_head" class="demo-avatar-big" src="img/user-a.png" style="margin-right: 8px; margin-top: 24px;margin-bottom: 24px;">◀click to customize
+                    <img id="user_head" class="demo-avatar-big" src="img/user-a.png" >◀click to customize
+                    <!--div class="mdl-tooltip mdl-tooltip--large" for="user_head">Customize avatar</div-->
                     <dialog class="mdl-dialog" id="upload_img" style="width: 500px">
                         <div class="mdl-dialog__content" style="width: 400px">
                             <div class="container">
@@ -249,34 +233,37 @@ hr.gap {
                     <form id="user_profile_edit">
                         <div class="mgtp txtSize mdl-cell--9-col" align="left">
                             <div class="txtSize mdl-cell--3-col mdl-color-text--teal-A700" style="align-items: center">Name</div>
-                            <div class="mdl-cell--9-col mdl-textfield mdl-js-textfield">
-                                <input class="mdl-textfield__input mdl-cell--12-col" type="text" id="user_name" name="user_name">
-                                <label class="mdl-textfield__label" for="user_name">XXX</label>
+                            <div class="mdl-cell--8-col mdl-textfield mdl-js-textfield">
+                                <input class="mdl-textfield__input" type="text" id="user_name" name="user_name">
+                                <label class="mdl-textfield__label" for="user_name">Peter</label>
                             </div>
                         </div>
+                        <hr class="gap mdl-cell--9-col">
                         <div class="mgtp txtSize mdl-cell--9-col" align="left">
                             <div class="txtSize mdl-cell--3-col mdl-color-text--teal-A700" style="align-items: center">Education</div>
-                            <div class=" mdl-cell--9-col mdl-textfield mdl-js-textfield">
-                                <textarea class="mdl-textfield__input mdl-cell--12-col" type="text" rows= "2" id="edu" name="edu"></textarea>
-                                <label class="mdl-textfield__label" for="edu">Study in University of XXX</label>
+                            <div class=" mdl-cell--8-col mdl-textfield mdl-js-textfield">
+                                <textarea class="mdl-textfield__input" type="text" rows= "3" id="edu" name="edu"></textarea>
+                                <label class="mdl-textfield__label" for="edu">study in university of XXX during xxx-xxx and study in xxx during</label>
                             </div>
                         </div>
+                        <hr class="gap mdl-cell--9-col">
                         <div class="mgtp txtSize mdl-cell--9-col" align="left">
                             <div class="txtSize mdl-cell--3-col mdl-color-text--teal-A700" style="align-items: center">Major in</div>
-                            <div class=" mdl-cell--9-col mdl-textfield mdl-js-textfield">
-                                <textarea class="mdl-textfield__input mdl-cell--12-col" type="text" rows= "2" id="major" name="major"></textarea>
-                                <label class="mdl-textfield__label" for="major">XXX</label>
+                            <div class=" mdl-cell--8-col mdl-textfield mdl-js-textfield">
+                                <textarea class="mdl-textfield__input" type="text" rows= "3" id="major" name="major"></textarea>
+                                <label class="mdl-textfield__label" for="major">space and planetary physics</label>
                             </div>
                         </div>
+                        <hr class="gap mdl-cell--9-col">
                         <div class="mgtp txtSize mdl-cell--9-col" align="left">
                             <div class="txtSize mdl-cell--3-col mdl-color-text--teal-A700" style="align-items: center">Description</div>
-                            <div class=" mdl-cell--9-col mdl-textfield mdl-js-textfield">
-                                <textarea class="mdl-textfield__input mdl-cell--12-col" type="text" rows= "2" id="describe" name="desc"></textarea>
-                                <label class="mdl-textfield__label" for="describe">XXX</label>
+                            <div class=" mdl-cell--8-col mdl-textfield mdl-js-textfield">
+                                <textarea class="mdl-textfield__input" type="text" rows= "3" id="describe" name="desc"></textarea>
+                                <label class="mdl-textfield__label" for="describe">publish on Nature and involve in iGEM</label>
                             </div>
                         </div>
                     </form>
-                    <div class="mdl-cell--9-col" align="right" style="margin-top: 36px;margin-bottom: 36px;">
+                    <div class="mdl-cell--9-col" align="right" style="margin-top: 40px">
                         <button onclick="postForm_edit_profile()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
                             submit
                         </button>
@@ -502,9 +489,6 @@ hr.gap {
                 get_user_info();
                 get_user_info_for_update();
                 console.log(response);
-                if(response.success==true){
-                    alert("Successfully edited!");
-                }
                 if(response['error'] == 'err_code'){
                     Materialize.toast('conditions', 3000, 'rounded');
                 }
@@ -530,7 +514,7 @@ hr.gap {
                     dialog.close();
                 }
                 else{
-                    alert(Jr['error']);
+                    alert(Jr['error']+'[something is wrong]');
                 }
                 // TODO: if success change head of the page
             },
@@ -549,4 +533,3 @@ hr.gap {
     }
 </script>
 </body>
-</html>
