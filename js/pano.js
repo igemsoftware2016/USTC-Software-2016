@@ -359,7 +359,122 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         if (!mouseDownNode) return;
 
         thisGraph.dragLine.classed("hidden", true);
+
         $('#side-link-to').removeClass('active');
+
+        if ($('#side-path-finder').hasClass('active')) {
+            $('#side-path-finder').removeClass('active');
+            graph.state.lockKeyEvent = true;
+            var nodeDict, paths;
+            $('#modal-path-finder').openModal({
+                dismissible: true,
+                in_duration: 0,
+                out_duration: 0,
+                ready: function () {
+                    nodeDict = [], paths = [];
+                    $('#path-finder-main').hide();
+                    $('#path-finder-result').empty().hide();
+                    $('#path-finder-progress').show();
+                    $('#path-finder-k').val('5');
+                    $('#path-finder-maxlen').val('10');
+                    $('#path-finder-start').click(function () {
+                        var k = Number($('#path-finder-k').val());
+                        var maxlen = Number($('#path-finder-maxlen').val());
+                        $('#path-finder-main').show();
+                        sidebar.pathFinder({
+                            s: mouseDownNode['gene_id'],
+                            t: d['gene_id'],
+                            k: isNaN(k) ? 5 : k,
+                            maxlen: isNaN(maxlen)? 10 : maxlen
+                        }, function (nodes, p) {
+                            paths = p;
+                            nodes.forEach(function (i) {
+                                nodeDict[i['gene_id']] = i;
+                            });
+                            var root = $('#path-finder-result').empty().hide();
+                            for (var i in paths) {
+                                var path = paths[i];
+                                var nodeList = $('<div class="collection"></div>');
+                                path.forEach(function (id) {
+                                    var i = nodeDict[id];
+                                    nodeList.append($('<div class="collection-item grey lighten-5 truncate"></div>')
+                                        .append($('<span></span>').text('Tax ID: ' + i['tax_id'] + '\t' + 'Gene ID: ' + i['gene_id']))
+                                        .append($('<br>'))
+                                        .append($('<span></span>').text(i['name'] + ' '))
+                                        .append($('<span class="grey-text"></span>').text(i['info'])));
+                                });
+                                root.append($('<li></li>').append($('<div class="collapsible-header truncate"></div>')
+                                    .append($('<span></span>').text('Path ' + i + ' ' + path.map(function (i) {
+                                            return nodeDict[i].name;
+                                        }).reduce(function (i, j) {
+                                            return i + ' -> ' + j;
+                                        })))
+                                    .append($('<i class="material-icons tiny right">clear</i>').click(function () {
+                                        $(this).parent().remove();
+                                        paths.splice(i, 1);
+                                    })))
+                                    .append($('<div class="collapsible-body"></div>').append(nodeList)))
+                                    .show();
+                            }
+                            $('#path-finder-progress').hide();
+                        });
+                    });
+                },
+                complete: function () {
+                    graph.state.lockKeyEvent = false;
+                    paths.forEach(function (path) {
+                        var newNodes = [];
+                        for (var i in path) {
+                            var already = graph.nodes.filter(function (node) {
+                                return node && node.gene_id == path[i];
+                            })[0];
+                            if (already) {
+                                newNodes[i] = {id: already.id, x: already.x, y: already.y};
+                            } else {
+                                newNodes[i] = {
+                                    gene_id: path[i],
+                                    x: newNodes[i - 1].x + 100 * Math.random() + 100,
+                                    y: newNodes[i - 1].y + 100 * Math.random() + 100
+                                };
+                            }
+                        }
+                        for (var i = 1; i < newNodes.length; ++i) {
+                            if (!newNodes[i].id) {
+                                var node = nodeDict[newNodes[i].gene_id];
+                                graph.createNodeAndSelect({
+                                    tax_id: node.tax_id,
+                                    gene_id: node.gene_id,
+                                    name: node.name,
+                                    info: node.info,
+                                    title: node.name,
+                                    x: newNodes[i].x,
+                                    y: newNodes[i].y
+                                });
+                                newNodes[i].id = graph.state.selectedNode.id;
+                            } else {
+                                graph.setSelectedNode(graph.nodes[newNodes[i].id]);
+                            }
+                            var newEdge = {source: newNodes[i - 1].id, target: newNodes[i].id};
+                            var filtRes = thisGraph.paths.filter(function (d) {
+                                if (d.source === newEdge.target && d.target === newEdge.source) {
+                                    thisGraph.edges.splice(thisGraph.edges.indexOf(d), 1);
+                                }
+                                return d.source === newEdge.source && d.target === newEdge.target;
+                            });
+                            if (!filtRes[0].length) {
+                                thisGraph.edges.push(newEdge);
+                                thisGraph.updateGraph();
+                            }
+                        }
+                    });
+                    sidebar.update(mouseDownNode.id);
+                    thisGraph.setSelectedNode(graph.nodes[mouseDownNode.id]);
+                    thisGraph.trySave();
+                }
+            });
+            return;
+        }
+
 
         if (mouseDownNode !== d) {
             // we're in a different node: create new edge for mousedown edge and add to graph
@@ -623,6 +738,46 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             self.currentDotIndex = index;
         };
 
+        this.pathFinder = function (req, callback) {
+            callback = callback || function () {};
+            var source = req['s'], target = req['t'];
+            callback([
+                {
+                    tax_id: '10001', // 节点的Tax id
+                    gene_id: source, // 节点的Gene id
+                    name: 'ZGDX', // 节点的名称
+                    info: 'Infomation of ZGDX: blablablablablablablablablablablablablablablabla'
+                },
+                {
+                    tax_id: '10010', // 节点的Tax id
+                    gene_id: '10010', // 节点的Gene id
+                    name: 'ZGLT', // 节点的名称
+                    info: 'Infomation of ZGLT: blablablablablablablablablablablablablablablabla'
+                },
+                {
+                    tax_id: '10010',
+                    gene_id: '1001010',
+                    name: 'ZGLTZGLT',
+                    info: 'Infomation of ZGLTZGLT: blablablablablablablablablablablablablablablabla'
+                },
+                {
+                    tax_id: '10010',
+                    gene_id: '100101010',
+                    name: 'ZGLTZGLTZGLT',
+                    info: 'Infomation of ZGLTZGLTZGLT: blablablablablablablablablablablablablablablabla'
+                },
+                {
+                    tax_id: '10086',
+                    gene_id: target,
+                    name: 'ZGYD',
+                    info: 'Infomation of ZGYD: blablablablablablablablablablablablablablablabla'
+                }
+            ], [
+                [source, '10010', '1001010', target],
+                [source, '10010', '100101010', target]
+            ]); // TODO
+        }
+
         this.lookup = function (str, callback) {
             callback = callback || function () {};
             if (str == '') {
@@ -689,39 +844,41 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         };
 
         $('#add-node-name').on('input', function () {
-            var nameInput = $(this);
+            var nameInput = $(this), lookup = nameInput.val();
             var collections = $('#add-node-matches').empty().hide();
             $('#add-node-ok').addClass('disabled').attr('disabled', 'disabled');
             $('#add-node-progress').show();
             self.lookup(nameInput.val(), function callback(names) {
-                names.forEach(function (i) {
-                    var nodeName = i['name'];
-                    collections.append($('<a class="collection-item truncate"></a>')
-                        .append($('<span></span>').text('Tax ID: ' + i['tax_id'] + '\t' + 'Gene ID: ' + i['gene_id']))
-                        .append($('<br>'))
-                        .append($('<span></span>').text(nodeName + ' '))
-                        .append($('<span class="grey-text"></span>').text(i['info']))
-                        .click(function () {
-                            var html = $(this).html();
-                            nameInput.val(nodeName);
-                            self.currentTaxId = i['tax_id'];
-                            self.currentGeneId = i['gene_id'];
-                            self.currentInfo = i['info'];
-                            $('#add-node-ok').removeAttr('disabled').removeClass('disabled');
-                            collections.children('a').each(function () {
-                                var node = $(this);
-                                if (node.html() == html) {
-                                    node.addClass('active');
-                                    node.children('.grey-text').addClass('white-text');
-                                } else {
-                                    node.removeClass('active');
-                                    node.children('.grey-text').removeClass('white-text');
-                                }
+                if (lookup == nameInput.val()) {
+                    names.forEach(function (i) {
+                        var nodeName = i['name'];
+                        collections.append($('<a class="collection-item truncate"></a>')
+                            .append($('<span></span>').text('Tax ID: ' + i['tax_id'] + '\t' + 'Gene ID: ' + i['gene_id']))
+                            .append($('<br>'))
+                            .append($('<span></span>').text(nodeName + ' '))
+                            .append($('<span class="grey-text"></span>').text(i['info']))
+                            .click(function () {
+                                var html = $(this).html();
+                                nameInput.val(nodeName);
+                                self.currentTaxId = i['tax_id'];
+                                self.currentGeneId = i['gene_id'];
+                                self.currentInfo = i['info'];
+                                $('#add-node-ok').removeAttr('disabled').removeClass('disabled');
+                                collections.children('a').each(function () {
+                                    var node = $(this);
+                                    if (node.html() == html) {
+                                        node.addClass('active');
+                                        node.children('.grey-text').addClass('white-text');
+                                    } else {
+                                        node.removeClass('active');
+                                        node.children('.grey-text').removeClass('white-text');
+                                    }
+                                })
                             })
-                        })
-                    ).show();
-                });
-                $('#add-node-progress').hide();
+                        ).show();
+                    });
+                    $('#add-node-progress').hide();
+                }
             });
         });
 
@@ -893,7 +1050,19 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         });
 
         $('#side-link-to').click(function () {
-            if (!graph.state.currentLinkSource) {
+            $('#side-path-finder').removeClass('active');
+            if (!$(this).hasClass('active')) {
+                graph.state.currentLinkSource = graph.state.selectedNode;
+                $(this).addClass('active');
+            } else {
+                graph.state.currentLinkSource = null;
+                $(this).removeClass('active');
+            }
+        });
+
+        $('#side-path-finder').click(function () {
+            $('#side-link-to').removeClass('active');
+            if (!$(this).hasClass('active')) {
                 graph.state.currentLinkSource = graph.state.selectedNode;
                 $(this).addClass('active');
             } else {
@@ -965,7 +1134,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
 
     function invalidProjectId() {
         alert('Invalid Project ID! ');
-        // location.href = 'projects.html';
+        location.href = 'projects.html';
     }
 
     if (isNaN(projectId)) {
