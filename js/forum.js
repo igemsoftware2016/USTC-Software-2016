@@ -75,7 +75,12 @@ function get_user_info_by_id(i,obj) {
             console.log(response);
             jsonResp = JSON.parse(response);
             if(jsonResp['success']==true) {
-                obj.events[i-1].user_name=jsonResp.user_name;
+                if(jsonResp.user_name!=null){
+                    obj.events[i-1].user_name=jsonResp.user_name;
+                }
+                else{
+                    obj.events[i-1].user_name="";
+                }
                 obj.events[i-1].avt_src=jsonResp.avt_src;
                 if (obj.events[i-1].img_src==""){
                     obj.events[i-1].img_src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAQAAAD9CzEMAAAAuUlEQVR4Ae2XP8rCUBAHp5F4gPxBsA45mpUgXkt4Se4Rkc97fIQkhVZrK+JbxGwhujN9Bh77K8IPsWTPkSsXOnYkGLPmjNx5YoUhCX/Igx0LzNgiT9zwBhU1AxLxQEpGQCJOtFT653tEMQUgRxR7LVEjqhkABaLaEGVAVAM5BQ2iOhJFjPSAXeBVPKADfqa+Aw/4Dr53Bx6wD/iZfkZgQgwcidIiBgb0H5CZ/lOClmgYZzxOoMRxjLkBL3E6cltSSnYAAAAASUVORK5CYII=';
