@@ -214,7 +214,6 @@
         </header>
         <script type="text/javascript">
         document.getElementById("logout_btn").addEventListener("click",logout_form());
-        document.getElementsByClassName("demo-content")[0].minHeight=$(window).height;
     </script>
         <nav class="demo-navigation mdl-navigation mdl-color--white" >
             <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="profile.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">home</i>Profile</a>
@@ -226,6 +225,7 @@
     <main class="mdl-layout__content mdl-color--white">
         <span id="this_is_a_user_name" style="visibility: hidden;">sth</span>
         <div class="demo-content">
+        <script type="text/javascript">document.getElementsByClassName("demo-content")[0].minHeight=$(window).height;</script>
             <div class="mdl-grid mdl-grid--no-spacing">
                 <div class="mdl-cell mdl-cell--12-col">
                     <h3 class="mdl-color-text--green-A700" style="text-align: center;">FORUM</h3>

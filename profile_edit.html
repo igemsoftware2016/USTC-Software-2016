@@ -3,20 +3,18 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="description" content="A platform for biological use">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Edit Profile</title>
-    <!-- Add to homescreen for Chrome on Android -->
+    <title>BioHub</title>
+
     <meta name="mobile-web-app-capable" content="yes">
-    <link rel="icon" sizes="192x192" href="images/logo.ico">
-    <!-- Add to homescreen for Safari on iOS -->
+    <link rel="icon" href="images/logo.ico">
+
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="Material Design Lite">
+    <meta name="apple-mobile-web-app-title" content="BioHub">
     <link rel="apple-touch-icon-precomposed" href="images/logo.ico">
-    <!-- Tile icon for Win8 (144x144 + tile color) -->
-    <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
-    <meta name="msapplication-TileColor" content="#3372DF">
+
     <link rel="shortcut icon" href="images/logo.ico">
     <script src="js/jquery-2.1.1.min.js"></script>
     <script src="js/profile_edit.js"></script>
@@ -147,60 +145,49 @@
 </head>
 <body onload="get_user_info_all()">
 <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
-    <header class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
-        <div class="mdl-layout__header-row" >
-            <span class="mdl-layout-title">Profile manage</span>
+    <header class="demo-header mdl-layout__header mdl-color--green-A700 mdl-color-text--white">
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title">Profile Manage</span>
             <div class="mdl-layout-spacer"></div>
-            <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
-                <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
-                    <i class="material-icons">search</i>
-                </label>
-                <div class="mdl-textfield__expandable-holder">
-                    <input class="mdl-textfield__input" type="text" id="search">
-                    <label class="mdl-textfield__label" for="search">Enter your query...</label>
-                </div>
-            </div>
-            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
-                <i class="material-icons">more_vert</i>
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="contact_dropdown">
+                <i class="material-icons">more_horiz</i>
             </button>
-            <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
-                <li class="mdl-menu__item">About</li>
-                <li class="mdl-menu__item">Contact</li>
-                <li class="mdl-menu__item">Legal information</li>
+            <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="contact_dropdown">
+                <li class="mdl-menu__item">About BioHub</li>
+                <li class="mdl-menu__item"><a href="developers.html">About us</a></li>
             </ul>
         </div>
     </header>
-    <div class="demo-drawer mdl-layout__drawer mdl-color--teal-A700 mdl-color-text--white">
+    <div class="demo-drawer mdl-layout__drawer mdl-color--green-A700 mdl-color-text--white">
         <header class="demo-drawer-header">
             <img id="side-head" src="img/user-a.png" class="demo-avatar">
             <div class="demo-avatar-dropdown">
-                <span id="user_email_drawer" style="font-size: 15px">User Email</span>
+                <span  id="user_email_drawer" style="font-size: 15px">user@mail.com</span>
                 <div class="mdl-layout-spacer"></div>
                 <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
                     <i class="material-icons" role="presentation">arrow_drop_down</i>
                     <span class="visuallyhidden">Accounts</span>
                 </button>
                 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
-                    <li class="mdl-menu__item"><a class="mdl-navigation__link" href="profile_edit.html">edit my information</a></li>
-                    <li class="mdl-menu__item"><a class="mdl-navigation__link" href="profile.html">view my profile</a></li>
-                    <li class="mdl-menu__item"><i class="material-icons">compare_arrows</i>switch user</li>
+                    <li class="mdl-menu__item"><a href="profile_edit.html">Edit my profile</a></li>
+                    <li class="mdl-menu__item"><a href="profile.html">View my information</a></li>
+                    <li class="mdl-menu__item demo-flex-align"><a href="#" id="logout_btn"><i class="material-icons">compare_arrows</i>Login as another user</a></li>
                 </ul>
             </div>
         </header>
-        <nav class="demo-navigation mdl-navigation mdl-color--teal-A400" >
-            <a class="mdl-navigation__link mdl-color-text--white" style="font-size: 18px" href=""><i class="mdl-color-text--white material-icons" role="presentation" style="font-size: 30px">home</i>Home</a>
-            <a class="mdl-navigation__link mdl-color-text--white" style="font-size: 18px" href=""><i class="mdl-color-text--white material-icons" role="presentation" style="font-size: 30px">inbox</i>Projects</a>
-            <a class="mdl-navigation__link mdl-color-text--white" style="font-size: 18px" href=""><i class="mdl-color-text--white material-icons" role="presentation" style="font-size: 30px">delete</i>Trash</a>
-            <a class="mdl-navigation__link mdl-color-text--white" style="font-size: 18px" href=""><i class="mdl-color-text--white material-icons" role="presentation" style="font-size: 30px">forum</i>Forums</a>
-            <a class="mdl-navigation__link mdl-color-text--white" style="font-size: 18px" href=""><i class="mdl-color-text--white material-icons" role="presentation" style="font-size: 30px">flag</i>Updates</a>
-            <a class="mdl-navigation__link mdl-color-text--white" style="font-size: 18px" href=""><i class="mdl-color-text--white material-icons" role="presentation" style="font-size: 30px">local_offer</i>Promos</a>
-            <a class="mdl-navigation__link mdl-color-text--white" style="font-size: 18px" href=""><i class="mdl-color-text--white material-icons" role="presentation" style="font-size: 30px">people</i>Social</a>
-            <div class="mdl-layout-spacer"></div>
-            <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Help</span></a>
+        <script type="text/javascript">
+        document.getElementById("logout_btn").addEventListener("click",logout_form());
+    </script>
+        <nav class="demo-navigation mdl-navigation mdl-color--white" >
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="profile.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">home</i>Profile</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="projects.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">inbox</i>Project</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="forums.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">question_answer</i>Forum</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="developers.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">account_circle</i>Developer</a>
         </nav>
     </div>
     <main class="mdl-layout__content mdl-color--grey-100">
         <div class="mdl-grid demo-content">
+        <script type="text/javascript">document.getElementsByClassName("demo-content")[0].minHeight=$(window).height;</script>
             <div class="demo-graphs mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--12-col">
                 <div align="center">
                     <img id="user_head" class="demo-avatar-big" src="img/user-a.png" >◀click to customize
@@ -213,13 +200,13 @@
                                     <div class="spinner" style="display: none">Loading...</div>
                                 </div>
                                 <div class="action">
-                                    <label class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"style="width:80px">
+                                    <label class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--blue mdl-color-text--white"style="width:80px">
                                         <i class="material-icons">file_upload</i>  Upload Image
                                         <input type="file" id="file" class="none" style="width:30px;visibility: hidden">
                                     </label>
-                                    <input type="button" class="mdl-button mdl-js-button  mdl-js-ripple-effect mdl-button--accent" id="btnCrop" value="Submit" style="margin-left:4px;float: right">
-                                    <input type="button" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored" id="btnZoomIn" value="+" style="margin-left:4px;float: right">
-                                    <input type="button" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored" id="btnZoomOut" value="-" style="margin-left:4px;float: right">
+                                    <input type="button" class="mdl-button mdl-js-button  mdl-js-ripple-effect mdl-color--blue mdl-color-text--white" id="btnCrop" value="Submit" style="margin-left:4px;float: right">
+                                    <input type="button" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-color--blue mdl-color-text--white" id="btnZoomIn" value="+" style="margin-left:4px;float: right">
+                                    <input type="button" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-color--blue mdl-color-text--white" id="btnZoomOut" value="-" style="margin-left:4px;float: right">
                                 </div>
                                 <div class="cropped">
                                 </div>
@@ -235,36 +222,36 @@
                             <div class="txtSize mdl-cell--3-col mdl-color-text--teal-A700" style="align-items: center">Name</div>
                             <div class="mdl-cell--8-col mdl-textfield mdl-js-textfield">
                                 <input class="mdl-textfield__input" type="text" id="user_name" name="user_name">
-                                <label class="mdl-textfield__label" for="user_name">Peter</label>
+                                <label class="mdl-textfield__label" for="user_name">XXX</label>
                             </div>
                         </div>
                         <hr class="gap mdl-cell--9-col">
                         <div class="mgtp txtSize mdl-cell--9-col" align="left">
                             <div class="txtSize mdl-cell--3-col mdl-color-text--teal-A700" style="align-items: center">Education</div>
                             <div class=" mdl-cell--8-col mdl-textfield mdl-js-textfield">
-                                <textarea class="mdl-textfield__input" type="text" rows= "3" id="edu" name="edu"></textarea>
-                                <label class="mdl-textfield__label" for="edu">study in university of XXX during xxx-xxx and study in xxx during</label>
+                                <textarea class="mdl-textfield__input" type="text" rows= "2" id="edu" name="edu"></textarea>
+                                <label class="mdl-textfield__label" for="edu">Study in University of XXX</label>
                             </div>
                         </div>
                         <hr class="gap mdl-cell--9-col">
                         <div class="mgtp txtSize mdl-cell--9-col" align="left">
                             <div class="txtSize mdl-cell--3-col mdl-color-text--teal-A700" style="align-items: center">Major in</div>
                             <div class=" mdl-cell--8-col mdl-textfield mdl-js-textfield">
-                                <textarea class="mdl-textfield__input" type="text" rows= "3" id="major" name="major"></textarea>
-                                <label class="mdl-textfield__label" for="major">space and planetary physics</label>
+                                <textarea class="mdl-textfield__input" type="text" rows= "2" id="major" name="major"></textarea>
+                                <label class="mdl-textfield__label" for="major">XXX</label>
                             </div>
                         </div>
                         <hr class="gap mdl-cell--9-col">
                         <div class="mgtp txtSize mdl-cell--9-col" align="left">
                             <div class="txtSize mdl-cell--3-col mdl-color-text--teal-A700" style="align-items: center">Description</div>
                             <div class=" mdl-cell--8-col mdl-textfield mdl-js-textfield">
-                                <textarea class="mdl-textfield__input" type="text" rows= "3" id="describe" name="desc"></textarea>
-                                <label class="mdl-textfield__label" for="describe">publish on Nature and involve in iGEM</label>
+                                <textarea class="mdl-textfield__input" type="text" rows= "2" id="describe" name="desc"></textarea>
+                                <label class="mdl-textfield__label" for="describe">XXX</label>
                             </div>
                         </div>
                     </form>
                     <div class="mdl-cell--9-col" align="right" style="margin-top: 40px">
-                        <button onclick="postForm_edit_profile()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                        <button onclick="postForm_edit_profile()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--blue mdl-color-text--white">
                             submit
                         </button>
                     </div>

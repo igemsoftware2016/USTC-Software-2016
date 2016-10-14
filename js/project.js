@@ -41,7 +41,7 @@ function get_user_pro(){
                 document.getElementById('user-email').innerHTML=Jr.email;
             }
             else {
-                Materialize.toast(Jr['error'], 3000, 'rounded');
+                alert(Jr['error']);
             }
             document.getElementById('this_is_a_user_name').innerHTML=String(Jr.id);
         }
@@ -105,7 +105,7 @@ function get_user_info_by_id(i,obj) {
                                     obj.project[i-1].img_src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAQAAAD9CzEMAAAAuUlEQVR4Ae2XP8rCUBAHp5F4gPxBsA45mpUgXkt4Se4Rkc97fIQkhVZrK+JbxGwhujN9Bh77K8IPsWTPkSsXOnYkGLPmjNx5YoUhCX/Igx0LzNgiT9zwBhU1AxLxQEpGQCJOtFT653tEMQUgRxR7LVEjqhkABaLaEGVAVAM5BQ2iOhJFjPSAXeBVPKADfqa+Aw/4Dr53Bx6wD/iZfkZgQgwcidIiBgb0H5CZ/lOClmgYZzxOoMRxjLkBL3E6cltSSnYAAAAASUVORK5CYII=';
                                 }
 
-                loadcomment(obj.project[i-1]);
+                get_user_info_by_id_comment(1,obj.project[i-1]);
                 loadproject(obj.project[i-1]);
                 i++;
                 if(i<=num){
@@ -167,7 +167,7 @@ function sendRemoveRequest(){
                                 window.location.reload();
                         }
                         else{
-                                Materialize.toast(jsonResp['error'],2500,'rounded');
+                                alert(jsonResp['error']);
                         }
                 }
         });
@@ -204,9 +204,61 @@ function sendCreateRequest(){
                                 window.location="pano.html?id="+jsonResp['id'];
                         }
                         else{
-                                Materialize.toast(jsonResp['error'],2500,'rounded');
+                                alert(jsonResp['error']);
                         }
                 }
         });
    }
+}
+
+function get_user_info_by_id_comment(i,obj){
+    var num=obj.comment.length;
+    if(num!=0){
+    var  dictPost  =  {"plugin":"user_model","action":"get_user_data_by_id","user_id":obj.comment[i-1].user_id};
+    console.log(dictPost);
+    var jsonResp=[];
+    $.ajax({
+        type: "POST",
+        url: "/plugin/",
+        data: dictPost,
+        success: function(response){
+            console.log(response);
+            jsonResp = JSON.parse(response);
+            if(jsonResp['success']==true) {
+                 obj.comment[i-1].user_name=jsonResp.user_name;
+                 obj.comment[i-1].src="user_data.html#"+String(jsonResp.id);
+                loadcomment(obj.comment[i-1]);
+                i++;
+                if(i<=num){
+                    get_user_info_by_id_comment(i,obj);
+                }
+            }
+            else{
+                alert(jsonResp["error"]);
+            }
+        }
+    });
+}
+}
+
+function loadcomment(obj){
+    var commentdiv=document.createElement("div");
+    commentdiv.className="mdl-cell--12-col demo-icon_text-align";
+    var userlink=document.createElement("a");
+    userlink.style.textDecoration="none";
+    userlink.style.fontSize="16px";
+    userlink.style.paddingRight="4px";
+    userlink.style.color="#00C853";
+    userlink.innerHTML=obj.user_name;
+    userlink.href=obj.src;
+    componentHandler.upgradeElement(userlink);
+    commentdiv.appendChild(userlink);
+    var comment=document.createElement("span");
+    comment.style.fontSize="16px";
+    comment.style.paddingLeft="4px";
+    comment.innerHTML=obj.content;
+    componentHandler.upgradeElement(comment);
+    commentdiv.appendChild(comment);
+    componentHandler.upgradeElement(commentdiv);
+    document.getElementById("comments").appendChild(commentdiv);
 }
