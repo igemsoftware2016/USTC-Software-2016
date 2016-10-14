@@ -249,7 +249,8 @@ function loadcomment(obj){
     userlink.style.textDecoration="none";
     userlink.style.fontSize="16px";
     userlink.style.color="#00C853";
-    userlink.innerHTML=obj.src;
+    userlink.innerHTML=obj.user_name;
+    userlink.href=obj.src;
     componentHandler.upgradeElement(userlink);
     commentdiv.appendChild(userlink);
     var comment=document.createElement("span");
