@@ -94,7 +94,7 @@ function get_user_info_for_update() {
                     }
                 }
 
-                if(Jr.describe!=null){
+                if(Jr.description!=null){
                     if(Jr.describe.length>0){
                         document.getElementById('describe').value=Jr['description'];
                         document.getElementById('describe').parentNode.className += " is-dirty";

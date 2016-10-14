@@ -483,6 +483,10 @@
                 if(response['error'] == 'err_code'){
                     Materialize.toast('conditions', 3000, 'rounded');
                 }
+                else {
+                    alert("profile successfully changed");
+                    window.location="profile.html";
+                }
             }
         });
     }
