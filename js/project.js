@@ -213,6 +213,7 @@ function sendCreateRequest(){
 
 function get_user_info_by_id_comment(i,obj){
     var num=obj.comment.length;
+    if(num!=0){
     var  dictPost  =  {"plugin":"user_model","action":"get_user_data_by_id","user_id":obj.comment[i-1].user_id};
     console.log(dictPost);
     var jsonResp=[];
@@ -237,6 +238,7 @@ function get_user_info_by_id_comment(i,obj){
             }
         }
     });
+}
 }
 
 function loadcomment(obj){
