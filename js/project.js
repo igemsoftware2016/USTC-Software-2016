@@ -244,6 +244,7 @@ function get_user_info_by_id_comment(i,obj){
 function loadcomment(obj){
     var commentdiv=document.createElement("div");
     commentdiv.className="mdl-cell--12-col demo-icon_text-align";
+    commentdiv.style.marginBottom="8px";
     var userlink=document.createElement("a");
     userlink.style.textDecoration="none";
     userlink.style.fontSize="16px";
