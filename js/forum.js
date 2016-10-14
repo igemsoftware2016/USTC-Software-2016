@@ -97,22 +97,7 @@ function get_user_info_by_id(i,obj) {
                             comment_buttons[j-1].addEventListener("click",changedisplay_2(j));
                         }
                     }
-                    
-                    var sbmbutton=document.getElementsByClassName("demo-commentsbm");
-                    var txtfld=document.getElementsByClassName("demo-comment-input");
-                    for (var j=1;j<=sbmbutton.length;j++) {
-                        sbmbutton[j-1].addEventListener("click",submitComment(j));
-                    }
-                }
-            }
-            else {
-                alert(jsonResp['error']);
-            }
-        }
-});
-}
-
-function changedisplay_1(i) {
+                    function changedisplay_1(i) {
                         return function() {
                             comment_areas[i-1].setAttribute("style","display: flex;");
                             commentspc_1[i-1].setAttribute("style","display: none;");
@@ -126,8 +111,19 @@ function changedisplay_1(i) {
                             comment_buttons[i-1].addEventListener("click",changedisplay_1(i));
                         }  
                     }
-
-
+                    var sbmbutton=document.getElementsByClassName("demo-commentsbm");
+                    var txtfld=document.getElementsByClassName("demo-comment-input");
+                    for (var j=1;j<=sbmbutton.length;j++) {
+                        sbmbutton[j-1].addEventListener("click",submitComment(j));
+                    }
+                }
+            }
+            else {
+                alert(jsonResp['error']);
+            }
+        }
+});
+}
 
 function submitComment(i){
     return function() {
