@@ -27,8 +27,6 @@ var demo="True";
          success: function(response){
              var Jr = JSON.parse(response);
              if(Jr['success']==Jr['success']){//true) {
-
-                 L.removeClass("hide");
                  alert('The file has been accepted by server and being processed,it may take some time,we will email to inform you when finished', 3000, 'rounded');
                 waiting.addClass(" hide");
                  btn.addClass(" disable");
