@@ -71,6 +71,10 @@
                                 <i class="material-icons tiny left valign" style="padding-top: 6px;">add</i>
                                 <span class="valign" style="padding-top: 3px;">NEW LINK TO ...</span>
                             </a>
+                            <a id="side-path-finder" class="collection-item valign-wrapper" style="padding: 10px 20px; font-weight: normal;">
+                                <i class="material-icons tiny left valign" style="padding-top: 6px;">add</i>
+                                <span class="valign" style="padding-top: 3px;">PATH FINDER ...</span>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -141,6 +145,37 @@
         </div>
         <div class="modal-footer">
             <a class="modal-action modal-close waves-effect waves-green btn-flat" id="pano-info-ok">OK</a>
+        </div>
+    </div>
+    <div id="modal-path-finder" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <div class="section row">
+                <div class="col s12">
+                    <h4>Path finder</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    <input placeholder="Amount" id="path-finder-k" type="text" class="validate">
+                    <label for="add-node-title">Amount</label>
+                </div>
+                <div class="input-field col s6">
+                    <input placeholder="Maximum depth" id="path-finder-maxlen" type="text" class="validate">
+                    <label for="add-node-title">Maximum depth</label>
+                </div>
+                <div class="input-field col s12">
+                    <a class="waves-effect waves-green btn" id="path-finder-start">GO<i class="material-icons right">send</i></a>
+                </div>
+            </div>
+            <div class="row" id="path-finder-main">
+                <div class="input-field col s12">
+                    <div class="progress" id="path-finder-progress"><div class="indeterminate"></div></div>
+                    <ul class="collapsible" id="path-finder-result" data-collapsible="accordion"></ul>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect waves-green btn-flat" id="path-finder-ok">OK</a>
         </div>
     </div>
     <canvas id="canvas" width="300px" height="225px"></canvas>
