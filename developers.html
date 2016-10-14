@@ -3,30 +3,19 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="description" content="A platform for biological use">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Material Design Lite</title>
+    <title>BioHub</title>
 
-    <!-- Add to homescreen for Chrome on Android -->
     <meta name="mobile-web-app-capable" content="yes">
-    <link rel="icon" sizes="192x192" href="images/logo.ico">
+    <link rel="icon" href="images/logo.ico">
 
-    <!-- Add to homescreen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="Material Design Lite">
+    <meta name="apple-mobile-web-app-title" content="BioHub">
     <link rel="apple-touch-icon-precomposed" href="images/logo.ico">
 
-    <!-- Tile icon for Win8 (144x144 + tile color) -->
-    <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
-    <meta name="msapplication-TileColor" content="#3372DF">
-
     <link rel="shortcut icon" href="images/logo.ico">
-
-    <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
-    <!--
-    <link rel="canonical" href="http://www.example.com/">
-    -->
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -81,55 +70,44 @@
 </head>
 <body>
 <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
-    <header class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
+    <header class="demo-header mdl-layout__header mdl-color--green-A700 mdl-color-text--white">
         <div class="mdl-layout__header-row">
-            <span class="mdl-layout-title">Developers</span>
+            <span class="mdl-layout-title">Forum</span>
             <div class="mdl-layout-spacer"></div>
-            <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
-                <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
-                    <i class="material-icons">search</i>
-                </label>
-                <div class="mdl-textfield__expandable-holder">
-                    <input class="mdl-textfield__input" type="text" id="search">
-                    <label class="mdl-textfield__label" for="search">Enter your query...</label>
-                </div>
-            </div>
-            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
-                <i class="material-icons">more_vert</i>
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="contact_dropdown">
+                <i class="material-icons">more_horiz</i>
             </button>
-            <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
-                <li class="mdl-menu__item">About</li>
-                <li class="mdl-menu__item">Contact</li>
-                <li class="mdl-menu__item">Legal information</li>
+            <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="contact_dropdown">
+                <li class="mdl-menu__item">About BioHub</li>
+                <li class="mdl-menu__item"><a href="developers.html">About us</a></li>
             </ul>
         </div>
     </header>
     <div class="demo-drawer mdl-layout__drawer mdl-color--green-A700 mdl-color-text--white">
         <header class="demo-drawer-header">
-            <img src="img/logo.png" class="demo-avatar">
+            <img id="side-head" src="img/user-a.png" class="demo-avatar">
             <div class="demo-avatar-dropdown">
-                <span style="font-size: 15px">user@mail.com</span>
+                <span  id="user-email" style="font-size: 15px">user@mail.com</span>
                 <div class="mdl-layout-spacer"></div>
                 <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
                     <i class="material-icons" role="presentation">arrow_drop_down</i>
                     <span class="visuallyhidden">Accounts</span>
                 </button>
                 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
-                    <li class="mdl-menu__item"><a class="mdl-navigation__link" href="profile.html">my profile</a></li>
-                    <li class="mdl-menu__item"><i class="material-icons">compare_arrows</i>switch user</li>
+                    <li class="mdl-menu__item"><a href="profile_edit.html">Edit my profile</a></li>
+                    <li class="mdl-menu__item"><a href="profile.html">View my information</a></li>
+                    <li class="mdl-menu__item demo-flex-align"><a href="#" id="logout_btn"><i class="material-icons">compare_arrows</i>Login as another user</a></li>
                 </ul>
             </div>
         </header>
-        <nav class="demo-navigation mdl-navigation mdl-color--green-A400" >
-            <a class="mdl-navigation__link mdl-color-text--white" style="font-size: 15px" href="home.html"><i class="mdl-color-text--white material-icons" role="presentation" style="font-size: 30px">home</i>Home</a>
-            <a class="mdl-navigation__link mdl-color-text--white" style="font-size: 15px" href="plugins.html"><i class="mdl-color-text--white material-icons" role="presentation" style="font-size: 30px">perm_data_setting</i>plugins</a>
-            <a class="mdl-navigation__link mdl-color-text--white" style="font-size: 15px" href="projects.html"><i class="mdl-color-text--white material-icons" role="presentation" style="font-size: 30px">inbox</i>Projects</a>
-            <a class="mdl-navigation__link mdl-color-text--white" style="font-size: 15px" href="documents.html"><i class="mdl-color-text--white material-icons" role="presentation" style="font-size: 30px">library_books</i>Document</a>
-            <a class="mdl-navigation__link mdl-color-text--white" style="font-size: 15px" href="groups.html"><i class="mdl-color-text--white material-icons" role="presentation" style="font-size: 30px">people</i>Groups</a>
-            <a class="mdl-navigation__link mdl-color-text--white" style="font-size: 15px" href="forums.html"><i class="mdl-color-text--white material-icons" role="presentation" style="font-size: 30px">forum</i>Forums</a>
-            <a class="mdl-navigation__link mdl-color-text--white" style="font-size: 15px" href="developers.html"><img style="width: 30px;margin-right: 32px" src="img/developer.png">Developers</a>
-            <div class="mdl-layout-spacer"></div>
-            <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Help</span></a>
+        <script type="text/javascript">
+        document.getElementById("logout_btn").addEventListener("click",logout_form());
+    </script>
+        <nav class="demo-navigation mdl-navigation mdl-color--white" >
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="profile.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">home</i>Profile</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="projects.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">inbox</i>Project</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="forums.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">question_answer</i>Forum</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="developers.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">account_circle</i>Developer</a>
         </nav>
     </div>
     <main class="mdl-layout__content mdl-color--grey-100">
