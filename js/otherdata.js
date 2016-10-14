@@ -56,6 +56,7 @@ function get_others_info() {
                 }
                         document.getElementById('user_edu').innerHTML=Jr.education;
                         document.getElementById('user_name').innerHTML=Jr.user_name;
+                        document.getElementById("mdl-title").innerHTML=Jr.user_name;
                         document.getElementById('description').innerHTML=Jr.description;
                         document.getElementById('major').innerHTML=Jr.major;
                         document.getElementById('user_email').innerHTML=Jr.user_email;
