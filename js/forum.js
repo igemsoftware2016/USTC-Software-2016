@@ -75,12 +75,7 @@ function get_user_info_by_id(i,obj) {
             console.log(response);
             jsonResp = JSON.parse(response);
             if(jsonResp['success']==true) {
-                if(jsonResp.user_name!=null){
-                    obj.events[i-1].user_name=jsonResp.user_name;
-                }
-                else{
-                    obj.events[i-1].user_name="";
-                }
+                obj.events[i-1].user_name=jsonResp.user_name;
                 obj.events[i-1].avt_src=jsonResp.avt_src;
                 if (obj.events[i-1].img_src==""){
                     obj.events[i-1].img_src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAQAAAD9CzEMAAAAuUlEQVR4Ae2XP8rCUBAHp5F4gPxBsA45mpUgXkt4Se4Rkc97fIQkhVZrK+JbxGwhujN9Bh77K8IPsWTPkSsXOnYkGLPmjNx5YoUhCX/Igx0LzNgiT9zwBhU1AxLxQEpGQCJOtFT653tEMQUgRxR7LVEjqhkABaLaEGVAVAM5BQ2iOhJFjPSAXeBVPKADfqa+Aw/4Dr53Bx6wD/iZfkZgQgwcidIiBgb0H5CZ/lOClmgYZzxOoMRxjLkBL3E6cltSSnYAAAAASUVORK5CYII=';
@@ -94,15 +89,30 @@ function get_user_info_by_id(i,obj) {
                     var comment_buttons=document.getElementsByClassName("demo-actions-comment");
                     var comment_areas=document.getElementsByClassName("demo-comment");
                     var commentspc_1=document.getElementsByClassName("demo-commentspc_1");
-                    for (var i=1;i<=(comment_buttons.length);i++) {
-                        if (comment_areas[i-1].style.display=="none") {
-                            comment_buttons[i-1].addEventListener("click",changedisplay_1(i));
+                    for (var j=1;j<=(comment_buttons.length);j++) {
+                        if (comment_areas[j-1].style.display=="none") {
+                            comment_buttons[j-1].addEventListener("click",changedisplay_1(j));
                         }
-                        if (comment_areas[i-1].style.display=="flex") {
-                            comment_buttons[i-1].addEventListener("click",changedisplay_2(i));
+                        if (comment_areas[j-1].style.display=="flex") {
+                            comment_buttons[j-1].addEventListener("click",changedisplay_2(j));
                         }
                     }
-                    function changedisplay_1(i) {
+                    
+                    var sbmbutton=document.getElementsByClassName("demo-commentsbm");
+                    var txtfld=document.getElementsByClassName("demo-comment-input");
+                    for (var j=1;j<=sbmbutton.length;j++) {
+                        sbmbutton[j-1].addEventListener("click",submitComment(j));
+                    }
+                }
+            }
+            else {
+                alert(jsonResp['error']);
+            }
+        }
+});
+}
+
+function changedisplay_1(i) {
                         return function() {
                             comment_areas[i-1].setAttribute("style","display: flex;");
                             commentspc_1[i-1].setAttribute("style","display: none;");
@@ -117,19 +127,6 @@ function get_user_info_by_id(i,obj) {
                         }  
                     }
 
-                    var sbmbutton=document.getElementsByClassName("demo-commentsbm");
-                    var txtfld=document.getElementsByClassName("demo-comment-input");
-                    for (var i=1;i<=sbmbutton.length;i++) {
-                        sbmbutton[i-1].addEventListener("click",submitComment(i));
-                    }
-                }
-            }
-            else {
-                alert(jsonResp['error']);
-            }
-        }
-});
-}
 
 
 function submitComment(i){
