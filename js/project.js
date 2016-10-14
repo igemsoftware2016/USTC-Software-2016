@@ -226,7 +226,7 @@ function get_user_info_by_id_comment(i,obj){
             jsonResp = JSON.parse(response);
             if(jsonResp['success']==true) {
                  obj.comment[i-1].user_name=jsonResp.user_name;
-                 obj.comment[i-1].src="user_data.html#"+String(jsonResp.user_id);
+                 obj.comment[i-1].src="user_data.html#"+String(jsonResp.id);
                 loadcomment(obj.comment[i-1]);
                 i++;
                 if(i<=num){
@@ -245,17 +245,17 @@ function loadcomment(obj){
     var commentdiv=document.createElement("div");
     commentdiv.className="mdl-cell--12-col demo-icon_text-align";
     var userlink=document.createElement("a");
-    userlink.className="mdl-cell--3-col";
     userlink.style.textDecoration="none";
     userlink.style.fontSize="16px";
+    userlink.style.paddingRight="4px";
     userlink.style.color="#00C853";
     userlink.innerHTML=obj.user_name;
     userlink.href=obj.src;
     componentHandler.upgradeElement(userlink);
     commentdiv.appendChild(userlink);
     var comment=document.createElement("span");
-    comment.className="mdl-cell--12-col";
     comment.style.fontSize="16px";
+    comment.style.paddingLeft="4px";
     comment.innerHTML=obj.content;
     componentHandler.upgradeElement(comment);
     commentdiv.appendChild(comment);
