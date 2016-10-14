@@ -110,10 +110,11 @@
                     data:{"plugin":"biobrick_manager","action":"search","key": f_search},
                     success:function (response) {
                         var Jr = JSON.parse(response);
-                        var J_data = JSON.parse(Jr["list"]);
+                        var J_data =(Jr["list"]);
+                        console.log(J_data);
                         layout_draw(J_data);
 
-                        console.log(J_data)
+
 
                     }
                 }
