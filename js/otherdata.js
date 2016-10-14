@@ -32,8 +32,9 @@ function get_user_info(){
     });
 }
 function get_others_info() {
-    var url = parseInt(window.location.hash);
-    var  dictPost  =  {"plugin":"user_model","action":"get_user_data_by_id","user_id":url};
+    var url = window.location.hash;
+    console.log(url);
+    var  dictPost  =  {"plugin":"user_model","action":"get_user_data_by_id","user_id":parseInt(url)};
     console.log(dictPost);
     var Jr=[];
     $.ajax({
