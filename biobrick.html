@@ -36,7 +36,7 @@
 <div class="container">
     <div class="row">
         <div class="col m11 offset-m1 s12">
-            <h2 class="center-align">My biobrick Bank</h2>
+            <h2 class="center-align">Biobrick Bank</h2>
 
 
             <div class="row">
@@ -110,8 +110,10 @@
                     data:{"plugin":"biobrick_manager","action":"search","key": f_search},
                     success:function (response) {
                         var Jr = JSON.parse(response);
-                        console.log(Jr);
-                        layout_draw(Jr)
+                        var J_data = JSON.parse(Jr["list"]);
+                        layout_draw(J_data);
+
+                        console.log(J_data)
 
                     }
                 }
@@ -121,9 +123,32 @@
 
 
     function layout_draw(data) {
-        if(data.success == true){
+        if(data.length>0){
+            var data_len = data.length;
             //processing data for drawing
-            //layout_on_form()
+            var input_data=[];
+            for(var i=0;i<data_len;i++ ){
+                input_data.push(
+                        {
+                            "u_name":data[i].part_name,
+                            "data1":
+                                {
+                                    "brief":data[i].short_desc
+                                },
+                            "data2":
+                                {
+                                    "detail":data[i].description
+                                },
+                            "data3":
+                                {
+                                    "sequence":data[i].sequence
+                                }
+                        }
+                )
+            }
+
+            console.log(input_data);
+            layout_on_form(input_data);
         }
     }
 
@@ -139,7 +164,7 @@
                 .append("div")
                 .attr("id","brick_content")
                 .selectAll("div")
-                .data(data_all.brick_data)
+                .data(data_all)
                 .enter()
                 .append("div")
                 .attr("class","col s12 m6 l4");
