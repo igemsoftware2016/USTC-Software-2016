@@ -119,11 +119,11 @@ function get_user_info_by_id(i,obj) {
               sbmbutton[i-1].addEventListener("click",submitComment(i));
             }
             }
-            }
             else {
                 alert(jsonResp['error']);
             }
         }
+    }
     });
 }
 
