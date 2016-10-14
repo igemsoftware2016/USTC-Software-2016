@@ -235,7 +235,7 @@ function get_user_info_by_id_comment(i,obj){
             else{
                 alert(jsonResp["error"]);
             }
-        };
+        }
     });
 }
 
