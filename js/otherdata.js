@@ -34,7 +34,9 @@ function get_user_info(){
 function get_others_info() {
     var url = window.location.hash;
     console.log(url);
-    var  dictPost  =  {"plugin":"user_model","action":"get_user_data_by_id","user_id":parseInt(url)};
+    var loc=url.substring(url.lastIndexOf('#')+1, url.length);
+    console.log(loc);
+    var  dictPost  =  {"plugin":"user_model","action":"get_user_data_by_id","user_id":parseInt(loc)};
     console.log(dictPost);
     var Jr=[];
     $.ajax({
