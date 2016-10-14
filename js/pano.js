@@ -76,7 +76,9 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 self.updateGraph();
             }
         }).on("dragend", function () {
-            sidebar.update(self.state.selectedNode.id);
+            if (self.state.selectedNode) {
+                sidebar.update(self.state.selectedNode.id);
+            }
             self.trySave();
         });
 
@@ -97,6 +99,25 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         }).on("zoomend", function () {
             d3.select('body').style("cursor", "auto");
         });
+
+        self.forceNodes = [];
+        self.forceEdges = [];
+
+        self.forceHandler = d3.layout.force()
+            .size([self.svg.attr('width') * 2, self.svg.attr('height') * 2])
+            .linkDistance(100)
+            .charge(-10000)
+            .gravity(0.1)
+            .friction(0.1)
+            .on("tick", function () {
+                self.forceNodes.forEach(function (i) {
+                    self.nodes[i.id].x = i.x;
+                    self.nodes[i.id].y = i.y;
+                });
+                self.updateGraph();
+            }).on("end", function () {
+                self.trySave();
+            });
 
         // listen for key events
         d3.select(document).on("keydown", function () {
@@ -423,48 +444,26 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 complete: function () {
                     graph.state.lockKeyEvent = false;
                     paths.forEach(function (path) {
-                        var newNodes = [];
-                        for (var i in path) {
-                            var already = graph.nodes.filter(function (node) {
-                                return node && node.gene_id == path[i];
-                            })[0];
-                            if (already) {
-                                newNodes[i] = {id: already.id, x: already.x, y: already.y};
-                            } else {
-                                newNodes[i] = {
-                                    gene_id: path[i],
-                                    x: newNodes[i - 1].x + 100 * Math.random() + 100,
-                                    y: newNodes[i - 1].y + 100 * Math.random() + 100
-                                };
-                            }
-                        }
-                        for (var i = 1; i < newNodes.length; ++i) {
-                            if (!newNodes[i].id) {
-                                var node = nodeDict[newNodes[i].gene_id];
+                        var previous = mouseDownNode;
+                        for (var i = 1; i < path.length; ++i) {
+                            var node = nodeDict[path[i]];
+                            if (i + 1 < path.length) {
                                 graph.createNodeAndSelect({
                                     tax_id: node.tax_id,
                                     gene_id: node.gene_id,
                                     name: node.name,
                                     info: node.info,
                                     title: node.name,
-                                    x: newNodes[i].x,
-                                    y: newNodes[i].y
+                                    x: previous.x + 100 * Math.random() + 100,
+                                    y: previous.y + 100 * Math.random() + 100
                                 });
-                                newNodes[i].id = graph.state.selectedNode.id;
                             } else {
-                                graph.setSelectedNode(graph.nodes[newNodes[i].id]);
+                                graph.setSelectedNode(graph.nodes[d.id]);
                             }
-                            var newEdge = {source: newNodes[i - 1].id, target: newNodes[i].id};
-                            var filtRes = thisGraph.paths.filter(function (d) {
-                                if (d.source === newEdge.target && d.target === newEdge.source) {
-                                    thisGraph.edges.splice(thisGraph.edges.indexOf(d), 1);
-                                }
-                                return d.source === newEdge.source && d.target === newEdge.target;
-                            });
-                            if (!filtRes[0].length) {
-                                thisGraph.edges.push(newEdge);
-                                thisGraph.updateGraph();
-                            }
+                            var newEdge = {source: previous.id, target: graph.state.selectedNode.id};
+                            thisGraph.edges.push(newEdge);
+                            thisGraph.updateGraph();
+                            previous = graph.state.selectedNode;
                         }
                     });
                     sidebar.update(mouseDownNode.id);
@@ -534,6 +533,24 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         var paths = thisGraph.paths.data(thisGraph.edges, function (d) {
             return String(d.source) + "&" + String(d.target);
         });
+
+        function generateForceData(id) {
+            var i = thisGraph.nodes[id], node = thisGraph.state.selectedNode;
+            return {id: i.id, x: i.x, y: i.y, fixed: node && node.id == i.id};
+        }
+
+        thisGraph.forceNodes = thisGraph.nodes.filter(function (i) {
+            return i != undefined;
+        }).map(function (i) {
+            return generateForceData(i.id);
+        });
+
+        thisGraph.forceEdges = thisGraph.edges.map(function (i) {
+            return {source: generateForceData(i.source), target: generateForceData(i.target)};
+        });
+
+        thisGraph.forceHandler.nodes(thisGraph.forceNodes).links(thisGraph.forceEdges);
+        thisGraph.forceHandler.start();
 
         paths.style('marker-end', 'url(#end-arrow)')
             .classed(consts.selectedClass, function (d) {
@@ -808,6 +825,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             callback = callback || function () {};
             $('#modal-add-node input#add-node-title').val(node['title']);
             $('#modal-add-node input#add-node-name').val(node['name']).trigger('input');
+            graph.forceHandler.stop();
             self.currentTaxId = node['tax_id'];
             self.currentGeneId = node['gene_id'];
             self.currentInfo = node['info'];
@@ -824,6 +842,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 },
                 complete: function () {
                     graph.state.lockKeyEvent = false;
+                    graph.forceHandler.start();
                     if ($('#add-node-ok').attr('disabled') == 'disabled') {
                         callback(null);
                     } else {
@@ -952,6 +971,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                             $('#pano-info-ok').removeAttr('disabled').removeClass('disabled');
                         }
                     });
+                    graph.trySave();
                 },
                 complete: function () {
                     graph.state.lockKeyEvent = false;
