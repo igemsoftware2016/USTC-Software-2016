@@ -159,6 +159,37 @@
      */
 
 
+    function labeling(d) {
+        var lable="null";
+        if (d.data1[[Object.keys(data)[0]]].indexOf("Promoter")>0){
+            lable = "promoter"
+        }
+        else if (d.data1[[Object.keys(data)[0]]].indexOf("promoter")>0){
+            lable = "promoter"
+        }
+        else if (d.data1[[Object.keys(data)[0]]].indexOf("insulator")>0){
+            lable = "insulator"
+        }
+        else if (d.data1[[Object.keys(data)[0]]].indexOf("Insulator")>0){
+            lable = "insulator"
+        }
+        else if (d.data1[[Object.keys(data)[0]]].indexOf("operator")>0){
+            lable = "operator"
+        }
+        else if (d.data1[[Object.keys(data)[0]]].indexOf("Operator")>0){
+            lable = "operator"
+        }
+        else if (d.data1[[Object.keys(data)[0]]].indexOf("Terminator")>0){
+            lable = "terminator"
+        }
+        else if (d.data1[[Object.keys(data)[0]]].indexOf("terminator")>0){
+            lable = "terminator"
+        }
+
+
+        return lable
+    }
+
     function layout_on_form(data_all) {
         var func = d3.selectAll("#bricks")
                 .attr("class","row")
@@ -181,8 +212,19 @@
 
         var len_dis = 150;
 
-        card_ct.append("span").attr("class","card-title")
-                .append("h5")
+        var title_bar = card_ct.append("span").attr("class","card-title");
+
+                title_bar.append("img")
+                .attr("style","width:50px")
+                .attr("src",function (d) {
+                    var ret = "img/emoj.ico";
+                    var label_of = labeling(d);
+                    if (label_of!="null"){
+                            ret = "SBOL/"+label_of+".png"
+                    }
+                    return ret
+                });
+                title_bar.append("h5")
                 .html(function(d,i){
                     var data = d.data1;
                     return Object.keys(data)[0];
