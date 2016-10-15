@@ -480,7 +480,8 @@ function draw_functions_simu(data_graph) {
                     url:"/plugin/",
                     data:dictData,
                     success:function (response) {
-                        draw_functions_simu(response["nodes"])
+                        var data_g = JSON.parse(response["data"]);
+                        draw_functions_simu(data_g);
                     },
                     statusCode: {
                         404: function() {
