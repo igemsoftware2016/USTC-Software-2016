@@ -76,6 +76,8 @@ class ABACUS(Plugin):
                 if log.find('Done') != -1:
                     flag = True
                     break
+                elif log.find('Error') != -1:
+                    return dict(status='Failed', reason=log)
                 if not log:
                     break
             # Compress file
