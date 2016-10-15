@@ -290,6 +290,24 @@ function  no_connection_status() {
         var inp = func.append("div")
             .attr("class","input-field col m10 s12");
 
+        inp.append("div")
+            .append("span")
+            .attr("class",'row')
+            .text(function (d) {
+                var ret = '';
+                ret+="Node name : ";
+                ret+=d.name;
+                return ret
+            });
+        inp.append("div")
+            .append("span")
+            .attr("class",'row')
+            .text(function (d) {
+                var ret = '';
+                ret+="Node title : ";
+                ret+=d.title;
+                return ret
+            });
 
         inp.append("input")
             .attr("id",function (d) {
@@ -302,7 +320,7 @@ function  no_connection_status() {
             fnstr = "input_func_"+d.id;
             return fnstr;
         }).text(function (d) {
-            return "Control Function of index "+d.id;
+            return "Control Function of [ID:"+d.id+']';
         });
 
 
@@ -474,13 +492,14 @@ function draw_functions_simu(data_graph) {
     var id_from_pano = getUrlVars()["id"];
 
             if(id_from_pano!=undefined && id_from_pano!=-1){
-                var dictData = {"plugin":"pano","action":"load","id":id_from_pano}
+                var dictData = {"plugin":"pano","action":"load","id":id_from_pano};
                 $.ajax({
                     type:"POST",
                     url:"/plugin/",
                     data:dictData,
                     success:function (response) {
-                        var data_g = JSON.parse(response["data"]);
+                        var Jr = JSON.parse(response);
+                        var data_g = JSON.parse(Jr["data"]);
                         draw_functions_simu(data_g);
                     },
                     statusCode: {
