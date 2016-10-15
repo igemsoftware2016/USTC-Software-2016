@@ -267,14 +267,43 @@ function  no_connection_status() {
 
         data_graph_g=data_graph;
         var func_container = d3.selectAll("#functions");
-        var func  = func_container.append("div")
+        var func_0  = func_container.append("div")
             .selectAll("div")
             .data(data_graph.nodes)
-            .enter()
+            .enter();
+
+
+        var card_div = func_0.append("div")
+            .attr("class",'row');
+            
+            card_div
+                .append("div")
+                .attr("class","indigo-text")
+                .attr("style","margin-top:30px;margin-left:40px")
+                .append("span")
+                .text(function (d) {
+                var ret = '';
+                ret+="Node name : ";
+                ret+=d.name+"  ";
+                return ret
+            });
+        card_div
             .append("div")
+            .attr("class","indigo-text")
+            .attr("style","margin-left:40px")
+            .append("span")
+            .text(function (d) {
+                var ret = '';
+                ret+="  Node title : ";
+                ret+=d.title;
+                return ret
+            });
+
+
+        var func = card_div.append("div")
             .attr("class","card row")
             .attr("style","margin:25px");
-
+        
         func.append("div")
             .attr("class","col m2 s4")
             .attr("style","margin-top:15px")
@@ -290,24 +319,7 @@ function  no_connection_status() {
         var inp = func.append("div")
             .attr("class","input-field col m10 s12");
 
-        inp.append("div")
-            .append("span")
-            .attr("class",'row')
-            .text(function (d) {
-                var ret = '';
-                ret+="Node name : ";
-                ret+=d.name;
-                return ret
-            });
-        inp.append("div")
-            .append("span")
-            .attr("class",'row')
-            .text(function (d) {
-                var ret = '';
-                ret+="Node title : ";
-                ret+=d.title;
-                return ret
-            });
+ 
 
         inp.append("input")
             .attr("id",function (d) {
