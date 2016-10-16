@@ -13,8 +13,8 @@ var demo="True";
     f_upload.append('file', $('#pdb-file')[0].files[0]);
     f_upload.append('plugin','ABACUS');
     f_upload.append('demo',demo);
-     f_upload.append('amount',jQuery('#amount').value);
-     f_upload.append('tag',jQuery('#tag').value);
+     f_upload.append('amount',$('#amount')[0].value);
+     f_upload.append('tag',$('#tag')[0].value);
      f_upload.append('action','design');
      //console.log(f_upload);
      $.ajax({

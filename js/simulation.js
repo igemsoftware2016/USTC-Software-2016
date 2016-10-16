@@ -268,14 +268,43 @@ function  no_connection_status() {
 
         data_graph_g=data_graph;
         var func_container = d3.selectAll("#functions");
-        var func  = func_container.append("div")
+        var func_0  = func_container.append("div")
             .selectAll("div")
             .data(data_graph.nodes)
-            .enter()
+            .enter();
+
+
+        var card_div = func_0.append("div")
+            .attr("class",'row');
+            
+            card_div
+                .append("div")
+                .attr("class","indigo-text")
+                .attr("style","margin-top:30px;margin-left:40px")
+                .append("span")
+                .text(function (d) {
+                var ret = '';
+                ret+="Node name : ";
+                ret+=d.name+"  ";
+                return ret
+            });
+        card_div
             .append("div")
+            .attr("class","indigo-text")
+            .attr("style","margin-left:40px")
+            .append("span")
+            .text(function (d) {
+                var ret = '';
+                ret+="  Node title : ";
+                ret+=d.title;
+                return ret
+            });
+
+
+        var func = card_div.append("div")
             .attr("class","card row")
             .attr("style","margin:25px");
-
+        
         func.append("div")
             .attr("class","col m2 s4")
             .attr("style","margin-top:15px")
@@ -291,6 +320,7 @@ function  no_connection_status() {
         var inp = func.append("div")
             .attr("class","input-field col m10 s12");
 
+ 
 
         inp.append("input")
             .attr("id",function (d) {
@@ -303,7 +333,7 @@ function  no_connection_status() {
             fnstr = "input_func_"+d.id;
             return fnstr;
         }).text(function (d) {
-            return "Control Function of index "+d.id;
+            return "Control Function of [ID:"+d.id+']';
         });
 
 
@@ -384,88 +414,123 @@ function  no_connection_status() {
 
 function draw_functions_simu(data_graph) {
 
-
-    data_graph_g = data_graph;
+    data_graph_g=data_graph;
     var func_container = d3.selectAll("#functions");
-    var func = func_container.append("div")
+    var func_0  = func_container.append("div")
         .selectAll("div")
         .data(data_graph.nodes)
-        .enter()
+        .enter();
+
+
+    var card_div = func_0.append("div")
+        .attr("class",'row');
+
+    card_div
         .append("div")
-        .attr("class", "card row")
-        .attr("style", "margin:25px");
+        .attr("class","indigo-text")
+        .attr("style","margin-top:30px;margin-left:40px")
+        .append("span")
+        .text(function (d) {
+            var ret = '';
+            ret+="Node name : ";
+            ret+=d.name+"  ";
+            return ret
+        });
+    card_div
+        .append("div")
+        .attr("class","indigo-text")
+        .attr("style","margin-left:40px")
+        .append("span")
+        .text(function (d) {
+            var ret = '';
+            ret+="  Node title : ";
+            ret+=d.title;
+            return ret
+        });
+
+
+    var func = card_div.append("div")
+        .attr("class","card row")
+        .attr("style","margin:25px");
 
     func.append("div")
-        .attr("class", "col m2 s4")
-        .attr("style", "margin-top:15px")
-        .attr("lang", "latex")
+        .attr("class","col m2 s4")
+        .attr("style","margin-top:15px")
+        .attr("lang","latex")
         .append("img")
-        .attr("src", function (d, i) {
+        .attr("src",function (d,i) {
             src_str = "http://latex.codecogs.com/gif.latex?\\frac{dy_{"
-                + d.id
-                + "}}{dx} \\quad=";
+                +   d.id
+                + "}}{dt} \\quad=";
             return src_str
         });
 
     var inp = func.append("div")
-        .attr("class", "input-field col m10 s12");
+        .attr("class","input-field col m10 s12");
+
 
 
     inp.append("input")
-        .attr("id", function (d) {
-            fnstr = ("input_func_" + d.id);
+        .attr("id",function (d) {
+            fnstr = ("input_func_"+d.id);
             return fnstr;
-        }).attr("type", "text");
+        }).attr("type" ,"text");
 
     inp.append("label")
-        .attr("for", function (d) {
-            fnstr = "input_label_func_" + d.id;
+        .attr("for",function (d) {
+            fnstr = "input_func_"+d.id;
             return fnstr;
         }).text(function (d) {
-        return "Control Function of index " + d.id;
+        return "Control Function of [ID:"+d.id+']';
     });
 
 
+
     func.append("div")
-        .attr("class", "col m2 s4")
-        .attr("style", "margin-top:25px")
-        .attr("lang", "latex")
+        .attr("class","col m2 s4")
+        .attr("style","margin-top:25px")
+        .attr("lang","latex")
         .append("img")
-        .attr("src", function (d, i) {
+        .attr("src",function (d,i) {
             src_str = "http://latex.codecogs.com/gif.latex?y_{"
-                + d.id
+                +   d.id
                 + "} \\quad=";
             return src_str
         });
 
     var inp_1 = func.append("div")
-        .attr("class", "input-field col m10 s12");
+        .attr("class","input-field col m10 s12");
 
 
     inp_1.append("input")
-        .attr("id", function (d) {
-            fnstr = ("input_init_" + d.id);
+        .attr("id",function (d) {
+            fnstr = ("input_init_"+d.id);
             return fnstr;
-        }).attr("type", "text");
+        }).attr("type" ,"text");
 
-    inp_1.append("label").attr("for", function (d) {
-        fnstr = "input_label_init_" + d.id;
+    inp_1.append("label").attr("for",function (d) {
+        fnstr = "input_init_"+d.id;
         return fnstr;
     }).html(function (d) {
-        return "Initial Value of index " + d.id;
+        return "Initial Value of index "+d.id;
     });
 
     func_container
         .append("div")
-        .attr("class", "center")
+        .attr("class","center")
         .append("a")
-        .attr("class", "btn btn-large waves-effect ")
+        .attr("class","btn btn-large waves-effect ")
         .html("run!")
-        .attr("onclick", "run_sim(n_node,data_graph_g)");
+        .attr("onclick","run_sim(n_node,data_graph_g)");
+
 
 
     n_node = data_graph.nodes.length;
     //console.log(n_node);
+
+
+
+
 
 }
 
@@ -475,13 +540,15 @@ function draw_functions_simu(data_graph) {
     var id_from_pano = getUrlVars()["id"];
 
             if(id_from_pano!=undefined && id_from_pano!=-1){
-                var dictData = {"plugin":"pano","action":"load","id":id_from_pano}
+                var dictData = {"plugin":"pano","action":"load","id":id_from_pano};
                 $.ajax({
                     type:"POST",
                     url:"/plugin/",
                     data:dictData,
                     success:function (response) {
-                        draw_functions_simu(response["nodes"])
+                        var Jr = JSON.parse(response);
+                        var data_g = JSON.parse(Jr["data"]);
+                        draw_functions_simu(data_g);
                     },
                     statusCode: {
                         404: function() {
