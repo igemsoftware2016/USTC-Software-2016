@@ -25,28 +25,28 @@ def design(path, file, amount, abacuspath, tag=None, demo=False):
     try:
         f.write("[Info]Preparing\n")
         f.close()
-        if demo:
+        if not demo:
             ABACUS_prepare(path, file, abacuspath)
         f = open(path + 'status.log', 'a')
         f.write("[Info]Prepared\n")
 
         f.write("[Info]Processing...\n")
         f.close()
-        if demo:
+        if not demo:
             ABACUS_S1S2(path, file, abacuspath)
         f = open(path + 'status.log', 'a')
         f.write("[Info]Processed...\n")
 
         f.write("[Info]Generating energy table\n")
         f.close()
-        if demo:
+        if not demo:
             ABACUS_vdwEtable(path, file, abacuspath)
         f = open(path + 'status.log', 'a')
         f.write("[Info]Generate energy table\n")
 
         f.write("[Info]Designing\n")
         f.close()
-        if demo:
+        if not demo:
             if tag is None:
                 ABACUS_design(path, file, abacuspath, amount)
             else:

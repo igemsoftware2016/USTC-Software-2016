@@ -113,8 +113,12 @@ class bio_simulation:
             pick = (int)(self.data_all.shape[1] / 3000) + 1
             self.data_all = self.data_all[:, ::pick]
 
-        self.lyapunov = log(abs((self.data_all[:, -1] - test_res.transpose()[:, -1]) / (array(y0) * (1 - ratio)))) / \
+        if self.unstable is not None:
+            self.lyapunov = log(abs((self.data_all[:, -1] - test_res.transpose()[:, -1]) / (array(y0) * (1 - ratio)))) / \
                         self.data_all.shape[1]
+        else:
+            self.lyapunov = []
+
         print(self.data_all.shape)
         return 0
 

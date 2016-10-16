@@ -17,7 +17,7 @@ from os import mkdir, listdir, getcwd, chdir, path
 import os
 from shutil import rmtree
 from plugin import Plugin
-from zipfile import ZipFile, ZIP_DEFLATED
+from zipfile import ZipFile
 import re
 
 from .callabacus import InternalError, FileFormatError
@@ -68,9 +68,20 @@ class ABACUS(Plugin):
                 Popen(['python3', mutationpath, filepath, str(self.user.id) + '.pdb',
                        filepath + 'output.txt', abacuspath, size, request['demo']])
             return {"status": "running"}
+
         elif request["action"] == 'getstatus':
+            if not path.exists(filepath):
+                return dict(status='Clean')
+
+            ferr = open(filepath + 'err.log', 'r')
             f = open(filepath + 'status.log', 'r')
             flag = False
+
+            while 1:
+                log = ferr.read(9600)
+                if log.find('Exception') != -1:
+                    return dict(status='Failed', reason=log)
+
             while 1:
                 log = f.read(9600)
                 if log.find('Done') != -1:
@@ -94,7 +105,7 @@ class ABACUS(Plugin):
                         target.write(file)
                 target.close()
                 chdir(cur_path)
-                return dict(url='/static/downloads/' + str(self.user.id) + '.zip')
+                return dict(url='/static/downloads/' + str(self.user.id) + '.zip', status='success')
             else:
                 return dict(status='Running')
         else:
