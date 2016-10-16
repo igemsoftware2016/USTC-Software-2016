@@ -23,10 +23,45 @@
     <link rel="canonical" href="http://www.example.com/">
     -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="css/material.min.css">
     <link rel="stylesheet" href="css/material-lite.css">
     <style>
+        @font-face {
+            font-family: 'Material Icons';
+            font-style: normal;
+            font-weight: 400;
+            src: url(fonts/MaterialIcons-Regular.eot); /* For IE6-8 */
+            src: local('Material Icons'),
+            local('MaterialIcons-Regular'),
+            url(fonts/MaterialIcons-Regular.woff2) format('woff2'),
+            url(fonts/MaterialIcons-Regular.woff) format('woff'),
+            url(fonts/MaterialIcons-Regular.ttf) format('truetype');
+        }
+
+        .material-icons {
+            font-family: 'Material Icons';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px; /* Preferred icon size */
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            line-height: 1;
+            text-transform: none;
+
+            /* Support for all WebKit browsers. */
+            -webkit-font-smoothing: antialiased;
+            /* Support for Safari and Chrome. */
+            text-rendering: optimizeLegibility;
+
+            /* Support for Firefox. */
+            -moz-osx-font-smoothing: grayscale;
+
+            /* Support for IE. */
+            font-feature-settings: 'liga';
+        }
+
+
         #view-source {
             position: fixed;
             display: block;
