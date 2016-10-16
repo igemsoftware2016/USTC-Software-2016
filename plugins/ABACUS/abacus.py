@@ -105,7 +105,7 @@ class ABACUS(Plugin):
                         target.write(file)
                 target.close()
                 chdir(cur_path)
-                return dict(url='/static/downloads/' + str(self.user.id) + '.zip', status='success')
+                return dict(url='/static/downloads/' + str(self.user.id) + '.zip', status='Success')
             else:
                 return dict(status='Running')
         else:

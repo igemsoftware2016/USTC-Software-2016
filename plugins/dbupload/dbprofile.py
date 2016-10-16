@@ -13,7 +13,7 @@ class Gene(TableBase):
     __tablename__ = 'allgeneinfo'
     tax_id = Column(String(10))
     gene_id = Column(String(10), primary_key=True)
-    Symbol = Column(Text)
+    Symbol = Column(String(64))
     LocusTag = Column(Text)
     Synonyms = Column(Text)
     dbXrefs = Column(Text)
