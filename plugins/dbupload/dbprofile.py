@@ -10,7 +10,7 @@ class DataBaseSourceError(Exception):
 
 # define Gene
 class Gene(TableBase):
-    __tablename__ = 'allgeneinfo'
+    __tablename__ = 'allgeneinfo_all'
     tax_id = Column(String(10))
     gene_id = Column(String(10), primary_key=True)
     Symbol = Column(Text)
