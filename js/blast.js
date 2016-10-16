@@ -391,7 +391,7 @@ var myLoader = loader({width: 500, height: 500, container: "#result_blast", id: 
 
 window.onload=(function () {
 
-        console.log(raw_data);
+        //console.log(raw_data);
 
         var res_width = 500;
         var res_height = 500;

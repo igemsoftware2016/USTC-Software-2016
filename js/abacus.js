@@ -16,7 +16,7 @@ var demo="True";
      f_upload.append('amount',jQuery('#amount').value);
      f_upload.append('tag',jQuery('#tag').value);
      f_upload.append('action','design');
-     console.log(f_upload);
+     //console.log(f_upload);
      $.ajax({
          type: "POST",
          url: "/plugin/",
@@ -39,7 +39,7 @@ var demo="True";
          }
      });
     //.done(L.addClass("hide"));
-    console.log("haha")
+    //console.log("haha")
 }
 
 

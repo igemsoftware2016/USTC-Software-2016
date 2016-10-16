@@ -28,7 +28,7 @@ var color = d3.scale.linear()
     .interpolate(function(a, b) { var i = d3.interpolateString(a, b); return function(t) { return d3.hsl(i(t)); }; });
 
 
-console.log(getUrlVars()["id"]);
+//console.log(getUrlVars()["id"]);
 
 var data_raw;
 var vis;
@@ -214,8 +214,8 @@ function  run_sim(n,data_graph) {
     str_end_t = document.getElementById("input_func_t").value;
     str_step_l = document.getElementById("input_func_l").value;
 
-    console.log(str_func);
-    console.log(str_init);
+    //console.log(str_func);
+    //console.log(str_init);
     var str_post={"plugin":"simulation","eqs":str_func,"init":str_init,"end_t":str_end_t,"step_l":str_step_l};
     $.ajax({
         type: "POST",
@@ -246,10 +246,10 @@ function  run_sim(n,data_graph) {
                 var glo_t_max = (data_t_all).max();
                 var glo_t_min = (data_t_all).min();
 
-                console.log(data_res);
+                //console.log(data_res);
 
                 var unstable = Jr['unstable'];
-                console.log(unstable);
+                //console.log(unstable);
                 var lya = JSON.parse(Jr['lyapunov'])
                 vis_data(data_res,glo_t_max,glo_t_min,glo_max,glo_min,unstable,lya);
             }
@@ -261,6 +261,7 @@ function  run_sim(n,data_graph) {
 }
 
 function  no_connection_status() {
+
     console.log("no internet connection");
     d3.json("data/simu_data.json", function (error, data_graph) {
 
@@ -347,7 +348,7 @@ function  no_connection_status() {
 
 
         n_node = data_graph.nodes.length;
-        console.log(n_node);
+        //console.log(n_node);
 
         
         
@@ -464,7 +465,7 @@ function draw_functions_simu(data_graph) {
 
 
     n_node = data_graph.nodes.length;
-    console.log(n_node);
+    //console.log(n_node);
 
 }
 

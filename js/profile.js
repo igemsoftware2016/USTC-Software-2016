@@ -1,13 +1,13 @@
 function getMessageData(){
 	var dictPost={"plugin":"user_model","action":"get_message_data"};
-	console.log(dictPost);
+	//console.log(dictPost);
 	var jsonResp=[];
 	$.ajax({
 		type:"POST",
                 url:"/plugin/",
                 data:dictPost,
                 success:function(response){
-        	        console.log(response);
+        	        //console.log(response);
         	        jsonResp=JSON.parse(response);
         	        if(jsonResp['success']==true){
                                 for (var i=1;i<=jsonResp.message.length;i++){
@@ -26,14 +26,14 @@ function getMessageData(){
 
 function get_user_info_by_id(id) {
     var  dictPost  =  {"plugin":"user_model","action":"get_user_data_by_id","user_id":id};
-    console.log(dictPost);
+    //console.log(dictPost);
     var jsonResp=[];
     $.ajax({
         type: "POST",
         url: "/plugin/",
         data: dictPost,
         success: function(response){
-            console.log(response);
+            //console.log(response);
             jsonResp = JSON.parse(response);
             if(jsonResp['success']==true) {
             }
@@ -54,7 +54,7 @@ function getFriendData(){
                 url:"/plugin/",
                 data:dictPost,
                 success:function(response){
-                        console.log(response);
+                        //console.log(response);
                         jsonResp=JSON.parse(response);
                         if(jsonResp['success']==true){
                                 for (var i=1;i<=jsonResp.friend.length;i++){
@@ -87,14 +87,14 @@ function sendAgree(i,obj,bool){
    return function(){
         var friend_id=obj.message[i-1].user_id;
         var dictPost={"plugin":"user_model","action":"response_friend","user_id":friend_id,"modify":bool};
-        console.log(dictPost);
+        //console.log(dictPost);
         var jsonResp=[];
         $.ajax({
                 type:"POST",
                 url:"/plugin/",
                 data:dictPost,
                 success:function(response){
-                        console.log(response);
+                        //console.log(response);
                         jsonResp=JSON.parse(response);
                         if(jsonResp['success']==true){
                                 alert("Successfully submitted!");
@@ -118,7 +118,7 @@ function sendResponse(i,obj){
                 return;
         }
         var dictPost={"plugin":"user_model","action":"message","user_id":friend_id,"response":res_content};
-        console.log(dictPost);
+        //console.log(dictPost);
         var jsonResp=[];
         $.ajax({
                 type:"POST",
