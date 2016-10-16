@@ -13,6 +13,28 @@ Array.prototype.min = function() {
 };
 
 
+var status_jump = "local";
+
+function auto_input() {
+    if (status_jump =="local"){
+        var input_1 = $('#input_func_1')[0];
+        input_1.value = "-10*y[0] + 10*y[1]";
+        var input_2 = $('#input_func_2')[0];
+        input_2.value = "28*y[0] - y[1]-y[0]*y[2]";
+        var input_3 = $('#input_func_3')[0];
+        input_3.value = "-8/3 * y[2] + y[0] * y[1]";
+
+        var init_1 = $('#input_init_1')[0];
+        init_1.value = "10";
+        var init_2 = $('#input_init_2')[0];
+        init_2.value = "5";
+        var init_3 = $('#input_init_3')[0];
+        init_3.value = "1.01";
+        Materialize.updateTextFields();
+    }
+}
+
+
 
 function getUrlVars() {
     var vars = {};
