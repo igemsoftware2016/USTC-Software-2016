@@ -63,6 +63,8 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         self.paths = self.svgGraph.append("g").selectAll("g");
         self.circles = self.svgGraph.append("g").selectAll("g");
 
+        self.forceDragged = null;
+
         self.dragHandler = d3.behavior.drag().origin(function (d) {
             return {x: d.x, y: d.y};
         }).on("drag", function (d) {
@@ -73,12 +75,22 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             } else {
                 d.x += d3.event.dx;
                 d.y += d3.event.dy;
+                if (!self.forceDragged) {
+                    self.forceNodes.forEach(function (i) {
+                        if (i.id == d.id) {
+                            self.forceDragged = i;
+                        }
+                    });
+                }
+                self.forceDragged.x = d.x;
+                self.forceDragged.y = d.y;
                 self.updateGraph();
             }
         }).on("dragend", function () {
             if (self.state.selectedNode) {
                 sidebar.update(self.state.selectedNode.id);
             }
+            self.forceDragged = null;
             self.trySave();
         });
 
@@ -105,17 +117,20 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
 
         self.forceHandler = d3.layout.force()
             .size([self.svg.attr('width') * 2, self.svg.attr('height') * 2])
-            .linkDistance(100)
-            .charge(-10000)
-            .gravity(0.1)
-            .friction(0.1)
+            .charge(function (node) {
+                return -300;
+            })
+            .linkDistance(200)
+            .gravity(0.08)
+            .friction(0.8)
             .on("tick", function () {
                 self.forceNodes.forEach(function (i) {
                     self.nodes[i.id].x = i.x;
                     self.nodes[i.id].y = i.y;
                 });
                 self.updateGraph();
-            }).on("end", function () {
+            })
+            .on("end", function () {
                 self.trySave();
             });
 
@@ -534,22 +549,31 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             return String(d.source) + "&" + String(d.target);
         });
 
+        var forceNodeDict = {};
+
+        thisGraph.forceNodes.splice(0, thisGraph.forceNodes.length).forEach(function (i) {
+            forceNodeDict[i.id] = i;
+        });
+
         function generateForceData(id) {
             var i = thisGraph.nodes[id], node = thisGraph.state.selectedNode;
-            return {id: i.id, x: i.x, y: i.y, fixed: node && node.id == i.id};
+            var result = forceNodeDict[id] || {id: i.id, x: i.x, y: i.y};
+            result.fixed = node && node.id == i.id;
+            forceNodeDict[id] = result;
+            return result;
         }
 
-        thisGraph.forceNodes = thisGraph.nodes.filter(function (i) {
-            return i != undefined;
-        }).map(function (i) {
-            return generateForceData(i.id);
+        thisGraph.nodes.forEach(function (i) {
+            if (i != undefined) {
+                thisGraph.forceNodes.push(generateForceData(i.id));
+            }
         });
 
         thisGraph.forceEdges = thisGraph.edges.map(function (i) {
-            return {source: generateForceData(i.source), target: generateForceData(i.target)};
+            return {source: forceNodeDict[i.source], target: forceNodeDict[i.target]};
         });
 
-        thisGraph.forceHandler.nodes(thisGraph.forceNodes).links(thisGraph.forceEdges);
+        thisGraph.forceHandler.links(thisGraph.forceEdges);
         thisGraph.forceHandler.start();
 
         paths.style('marker-end', 'url(#end-arrow)')
