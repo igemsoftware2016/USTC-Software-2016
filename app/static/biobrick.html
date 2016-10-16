@@ -1,0 +1,349 @@
+<!doctype html>
+<html>
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My biobrick bank</title>
+    <link rel="stylesheet" href="css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style type="text/css">
+        body { width: 100%; font-family: 'Merriweather Sans', sans-serif; background-color: #f9f9f9; background-size: cover; background-repeat: no-repeat; background-position: center center; -webkit-font-smoothing: antialiased; }
+    </style>
+
+    <link rel="icon" href="favicon.ico" mce_href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.ico" mce_href="favicon.ico" type="image/x-icon">
+
+    <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script type="text/javascript" src="js/d3.v3.min.js"></script>
+</head>
+
+
+<style>
+
+    .axis path {
+        fill: none;
+        stroke: #777;
+        shape-rendering: crispEdges;
+    }
+    .axis text {
+        font-family: Lato;
+        font-size: 13px;
+    }
+
+</style>
+
+<body>
+<div class="container">
+    <div class="fixed-action-btn" style="top: 2%; right: 2%;">
+        <a class="btn-floating btn-large teal" href="profile.html">
+            <i class="large material-icons">home</i>
+        </a>
+    </div>
+    <div class="row">
+        <div class="col m11 offset-m1 s12">
+            <h2 class="center-align">Biobrick Bank</h2>
+
+
+            <div class="row">
+                <div class="col s12 m12">
+                    <h4>Description</h4>
+                    <div id="simulation_description" class="card-panel teal ">
+                        <p class="white-text">descriptions about simulation
+                        </p>
+                        <p class="white-text">about nodes</p>
+
+                        <div class="col s6 m9"></div><div><a class = " btn btn-large teal lighten-2 waves-effect" >tutorial</a>
+                    </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <h5><span class="text-lighten-5">Input and hit ENTER to search</span></h5>
+
+            <div class="container-full" style="margin-bottom: 30px">
+                <nav >
+                    <div class="nav-wrapper">
+                            <div class="teal lighten-2 input-field">
+                                <input id="search" type="search" required>
+                                <label for="search"><i class="material-icons">search</i></label>
+                                <!-- I've put "red-text" class to emphasize -->
+                                <i class="material-icons red-text" onclick="clearout()">close</i>
+                            </div>
+                    </div>
+                </nav>
+            </div>
+
+
+            <div id="bricks">
+
+                </div>
+
+                <div class="row">
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+</body>
+</html>
+
+<script>
+    function clearout() {
+        console.log("...");
+        $("#search")[0].value = "";
+    }
+    
+
+    $("#search").keyup(function (event) {
+        if(event.keyCode == 13){
+            submit_func()
+        }
+    });
+    
+    function submit_func() {
+        var f_search = $("#search")[0].value;
+        $.ajax(
+                {
+                    type:"POST",
+                    url:"/plugin/",
+                    data:{"plugin":"biobrick_manager","action":"search","key": f_search},
+                    success:function (response) {
+                        var Jr = JSON.parse(response);
+                        var J_data =(Jr["list"]);
+                        console.log(J_data);
+                        layout_draw(J_data);
+
+
+
+                    }
+                }
+        )
+
+    }
+
+
+    function layout_draw(data) {
+        if(data.length>0){
+            var data_len = data.length;
+            //processing data for drawing
+            var input_data=[];
+            for(var i=0;i<data_len;i++ ){
+                input_data.push(
+                        {
+                            "u_name":data[i].part_name,
+                            "data1":
+                                {
+                                    "brief":data[i].short_desc
+                                },
+                            "data2":
+                                {
+                                    "detail":data[i].description
+                                },
+                            "data3":
+                                {
+                                    "sequence length":data[i].sequence.length
+                                }
+                        }
+                )
+            }
+
+            console.log(input_data);
+            layout_on_form(input_data);
+        }
+    }
+
+
+    /**
+     * Created by Pjer1 on 9/30/2016.
+     */
+
+
+    function  labeling(d) {
+        var data = d.data2;
+        var lable="null";
+
+
+
+        if (d.data2[[Object.keys(data)[0]]].indexOf("Promoter")>0){
+            lable = "promoter"
+        }
+        else if (d.data2[[Object.keys(data)[0]]].indexOf("promoter")>0){
+            lable = "promoter"
+        }
+        else if (d.data2[[Object.keys(data)[0]]].indexOf("insulator")>0){
+            lable = "insulator"
+        }
+        else if (d.data2[[Object.keys(data)[0]]].indexOf("Insulator")>0){
+            lable = "insulator"
+        }
+        else if (d.data2[[Object.keys(data)[0]]].indexOf("operator")>0){
+            lable = "operator"
+        }
+        else if (d.data2[[Object.keys(data)[0]]].indexOf("Operator")>0){
+            lable = "operator"
+        }
+        else if (d.data2[[Object.keys(data)[0]]].indexOf("Terminator")>0){
+            lable = "terminator"
+        }
+        else if (d.data2[[Object.keys(data)[0]]].indexOf("terminator")>0){
+            lable = "terminator"
+        }
+
+        data = d.data1;
+
+
+        if (d.data1[[Object.keys(data)[0]]].indexOf("Promoter")>0){
+            lable = "promoter"
+        }
+        else if (d.data1[[Object.keys(data)[0]]].indexOf("promoter")>0){
+            lable = "promoter"
+        }
+        else if (d.data1[[Object.keys(data)[0]]].indexOf("insulator")>0){
+            lable = "insulator"
+        }
+        else if (d.data1[[Object.keys(data)[0]]].indexOf("Insulator")>0){
+            lable = "insulator"
+        }
+        else if (d.data1[[Object.keys(data)[0]]].indexOf("operator")>0){
+            lable = "operator"
+        }
+        else if (d.data1[[Object.keys(data)[0]]].indexOf("Operator")>0){
+            lable = "operator"
+        }
+        else if (d.data1[[Object.keys(data)[0]]].indexOf("Terminator")>0){
+            lable = "terminator"
+        }
+        else if (d.data1[[Object.keys(data)[0]]].indexOf("terminator")>0){
+            lable = "terminator"
+        }
+
+
+        return lable
+    }
+
+    function layout_on_form(data_all) {
+        var func = d3.selectAll("#bricks")
+                .attr("class","row")
+                .append("div")
+                .attr("id","brick_content")
+                .selectAll("div")
+                .data(data_all)
+                .enter()
+                .append("div")
+                .attr("class","col s12 m6 l4");
+
+        var card = func.append("div").attr("class","hoverable card blue-grey waves-effect lighten-4 medium");
+        var card_ct = card.append("div").attr("class","card-content");
+        var card_ac = card.append("div").attr("class","card-action");
+
+        card_ct.append("span").attr("class","card-title")
+                .append("h4")
+                .html(function(d,i){return d.u_name}).append("img")
+                .attr("style","width:35px")
+                .attr("src",function (d) {
+                    var ret = "img/emoj.ico";
+                    var label_of = labeling(d);
+                    if (label_of!="null"){
+                        ret = "SBOL/"+label_of+".png"
+                    }
+                    return ret
+                });
+
+
+        var len_dis = 150;
+
+        var title_bar = card_ct.append("span").attr("class","card-title");
+
+                title_bar.append("h5")
+                .html(function(d,i){
+                    var data = d.data1;
+                    return Object.keys(data)[0];
+                });
+
+        card_ct
+                .append("div")
+                .attr("style","width:270px")
+                .text(function(d,i){
+                    var data = d.data1;
+                    var data_ret =  data[Object.keys(data)[0]];
+                    var ret = data_ret;
+                    if(data_ret.length>len_dis){
+                        ret = data_ret.substr(0,len_dis)+"..."
+                    }
+                    return ret
+                });
+        card_ct.append("span").attr("class","card-title")
+                .append("h5")
+                .html(function(d,i){
+                    var data = d.data2;
+                    return Object.keys(data)[0];
+                });
+
+        card_ct
+                .append("div")
+                .attr("style","width:270px")
+                .text(function(d,i){
+                    var data = d.data2;
+                    var data_ret =  data[Object.keys(data)[0]];
+                    var ret = data_ret;
+                    if(data_ret.length>len_dis){
+                        ret = data_ret.substr(0,len_dis)+"..."
+                    }
+                    return ret
+                });
+        card_ct.append("span").attr("class","card-title")
+                .append("h5")
+                .text(function(d,i){
+                    var data = d.data3;
+                    return Object.keys(data)[0]+':'+data[Object.keys(data)[0]];
+                });
+/*
+        card_ct
+                .append("div")
+                .attr("style","width:270px")
+                .text(function(d,i){
+                    var data = d.data3;
+                    var data_ret =  data[Object.keys(data)[0]];
+                    var ret = data_ret;
+                    if(data_ret.length>len_dis){
+                        ret = data_ret.substr(0,len_dis)+"..."
+                    }
+                    return ret
+                });
+*/
+        card_ac.append("button").attr("class","hoverable btn waves-effect waves-light blue-grey")
+                .attr("style","margin:2px")
+                .append("a")
+                .attr("href",function (d) {
+                    return "http://parts.igem.org/Part:"+d.u_name;
+                })
+                .append("i")
+                .attr("class","material-icons")
+                .html("link");
+
+ /*       card_ac.append("button").attr("class","hoverable btn waves-effect waves-light blue-grey")
+                .attr("style","margin:2px")
+                .append("i")
+                .attr("class","material-icons")
+                .html("delete");
+
+        card_ac.append("button").attr("class","hoverable btn waves-effect waves-light blue-grey")
+                .attr("style","margin:2px")
+                .append("i")
+                .attr("class","material-icons")
+                .html("share")  */
+
+    }
+</script>
+
+
+<script type="text/javascript" src="http://latex.codecogs.com/latexit.js"></script>

@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A platform for biological use">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BioHub</title>
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" href="img/favicon.ico">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="BioHub">
+    <link rel="apple-touch-icon-precomposed" href="images/logo.ico">
+
+    <link rel="shortcut icon" href="img/favicon.ico">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/material-1.2.0.min.css">
+    <script src="js/jquery-2.1.1.min.js"></script>
+    <script src="js/material-1.2.0.js"></script>
+    <script src="js/user.js"></script>
+    <script src="js/profile.js"></script>
+    <style type="text/css">
+        .demo-content {
+    min-height: 437px;
+    padding: 0px 8px 0px 8px;
+}
+.mdl-list__item-avatar { 
+    color: black !important;
+    background-color: white !important;
+}
+html, body {
+    font-family: 'Roboto', 'Helvetica';
+}
+a {
+    text-decoration: none;
+    color: black;
+}
+.demo-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 32px;
+}
+.mdl-layout__drawer .avatar {
+    margin-bottom: 16px;
+}
+.demo-drawer {
+    border: none;
+}
+.demo-drawer .mdl-menu__container {
+    z-index: -1;
+}
+.demo-drawer .demo-navigation {
+    z-index: -2;
+}
+.demo-drawer .mdl-menu .mdl-menu__item {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.demo-drawer-header {
+    box-sizing: border-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    -webkit-justify-content: flex-end;
+    justify-content: flex-end;
+    -webkit-box-orient: vertical;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    padding: 16px;
+    height: 160px;
+}
+.demo-avatar-dropdown {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    position: relative;
+    -webkit-box-orient: horizontal;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    width: 100%;
+}
+.demo-navigation {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+}
+.demo-layout .demo-navigation .mdl-navigation__link {
+    display: -webkit-flex !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    -webkit-box-orient: horizontal;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.56);
+    font-weight: 500;
+}
+.demo-layout .demo-navigation .mdl-navigation__link:hover {
+    background-color: #00C853;
+}
+.demo-navigation .mdl-navigation__link .material-icons {
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.56);
+    margin-right: 24px;
+}
+.mdl-mini-footer {
+    padding-left: 32px;
+    padding-right: 32px;
+}
+.mdl-mini-footer {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+}
+.demo-icon_text-align {
+            display: -webkit-flex !important;
+            display: -ms-flexbox !important;
+            display: flex !important;
+            -webkit-box-orient: horizontal;
+            -webkit-flex-direction: row;
+            -ms-flex-direction: row;
+            flex-direction: row;
+            -webkit-align-items: center;
+            -ms-flex-align: center;
+            align-items: center;
+        }
+.demo-spacer {
+    height: 18px;
+}
+.demo-spacerr {
+    height: 32px;
+}
+hr.style14 {
+            border: 0;
+            height: 1px;
+            background-image: -webkit-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+            background-image: -moz-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+            background-image: -ms-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+            background-image: -o-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+        }
+hr.gap {
+            border: 0;
+            height: 0;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+.demo-avatar-big {
+            width: 120px;
+            height: 120px;
+            border-radius: 60px;
+        }
+        .mgtp{
+            margin-top: 18px;
+        }
+    </style>
+</head>
+<body onload="get_all()">
+<div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+    <header class="demo-header mdl-layout__header mdl-color--green-A700 mdl-color-text--white">
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title">Profile</span>
+            <div class="mdl-layout-spacer"></div>
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="contact_dropdown">
+                <i class="material-icons">more_horiz</i>
+            </button>
+            <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="contact_dropdown">
+                <li class="mdl-menu__item">About BioHub</li>
+                <li class="mdl-menu__item"><a href="developers.html">About us</a></li>
+            </ul>
+        </div>
+    </header>
+    <div class="demo-drawer mdl-layout__drawer mdl-color--green-A700 mdl-color-text--white">
+        <header class="demo-drawer-header">
+            <img id="side-head" src="img/user-a.png" class="demo-avatar">
+            <div class="demo-avatar-dropdown">
+                <span  id="user-email" style="font-size: 15px">user@mail.com</span>
+                <div class="mdl-layout-spacer"></div>
+                <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+                    <i class="material-icons" role="presentation">arrow_drop_down</i>
+                    <span class="visuallyhidden">Accounts</span>
+                </button>
+                <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
+                    <li class="mdl-menu__item"><a href="profile_edit.html">Edit my profile</a></li>
+                    <li class="mdl-menu__item"><a href="profile.html">View my information</a></li>
+                    <li class="mdl-menu__item demo-flex-align"><a href="#" id="logout_btn"><i class="material-icons">compare_arrows</i>Login as another user</a></li>
+                </ul>
+            </div>
+        </header>
+        <script type="text/javascript">
+        document.getElementById("logout_btn").addEventListener("click",logout_form());
+    </script>
+        <nav class="demo-navigation mdl-navigation mdl-color--white" >
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="profile.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">home</i>Profile</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="projects.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">inbox</i>Project</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="forums.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">question_answer</i>Forum</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="simulation_form.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">insert_chart</i>Simulation</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="blast_form.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">sort</i>Blast</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="abacus.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">gesture</i>ABACUS</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="biobrick.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">view_module</i>BioBrick</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="developers.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">account_circle</i>Developer</a>
+
+        </nav>
+    </div>
+    <main class="mdl-layout__content mdl-color--grey-100">
+    <span id="this_is_a_user_name" style="visibility: hidden;">sth</span>
+        <div class="mdl-grid demo-content">
+        <script type="text/javascript">document.getElementsByClassName("demo-content")[0].minHeight=$(window).height;</script>
+            <div class="demo-graphs mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--12-col">
+                <div align="center">
+                    <div id="user_profile_view">
+                        <img  id="user_head" class="demo-avatar-big" src="img/pjer.jpg" style="margin-top: 24px; margin-bottom: 24px;">
+                        <hr class="style14">
+                        <div class="mgtp txtSize mdl-cell--9-col mdl-card__title-text" align="left">
+                            <div class="txtSize mdl-cell--3-col mdl-card__title-text mdl-color-text--teal-A700" style="align-items: center">Name</div>
+                            <div id="user_name" class="txtSize mdl-cell--9-col mdl-card__title-text">XXX</div>
+                        </div>
+                        <hr class="gap mdl-cell--9-col">
+                        <div class="mgtp txtSize mdl-cell--9-col mdl-card__title-text" align="left">
+                            <div class="txtSize mdl-cell--3-col mdl-card__title-text mdl-color-text--teal-A700" style="align-items: center">Email</div>
+                            <div id="user_email" class="txtSize mdl-cell--9-col mdl-card__title-text">user@mail.com</div>
+                        </div>
+                        <hr class="gap mdl-cell--9-col">
+                        <div class="mgtp txtSize mdl-cell--9-col mdl-card__title-text" align="left">
+                            <div class="txtSize mdl-cell--3-col mdl-card__title-text mdl-color-text--teal-A700" style="align-items: center">Education</div>
+                            <div id="user_edu" class="txtSize mdl-cell--9-col mdl-card__title-text">Study in University of XXX</div>
+                        </div>
+                        <hr class="gap mdl-cell--9-col">
+                        <div class="mgtp txtSize mdl-cell--9-col mdl-card__title-text" align="left">
+                            <div class="txtSize mdl-cell--3-col mdl-card__title-text mdl-color-text--teal-A700" style="align-items: center">Major in</div>
+                            <div id="major" class="txtSize mdl-cell--9-col mdl-card__title-text">XXX</div>
+                        </div>
+                        <hr class="gap mdl-cell--9-col">
+                        <div class="mgtp txtSize mdl-cell--9-col mdl-card__title-text" align="left">
+                            <div class="txtSize mdl-cell--3-col mdl-card__title-text mdl-color-text--teal-A700" style="align-items: center">Description</div>
+                            <div id="description" class="txtSize mdl-cell--9-col mdl-card__title-text">XXX</div>
+                        </div>
+                    </div>
+                    <div class="mdl-cell--9-col" align="right" style="margin-top: 36px; margin-bottom: 36px;">
+                        <a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" href="profile_edit.html">
+                            Edit
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

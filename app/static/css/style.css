@@ -1,0 +1,390 @@
+/* Custom Stylesheet */
+
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
+
+/* material icons */
+
+@font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: url(../fonts/MaterialIcons-Regular.eot); /* For IE6-8 */
+    src: local('Material Icons'),
+    local('MaterialIcons-Regular'),
+    url(../fonts/MaterialIcons-Regular.woff2) format('woff2'),
+    url(../fonts/MaterialIcons-Regular.woff) format('woff'),
+    url(../fonts/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;  /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+}
+
+.icon-block {
+    padding: 0 5em;
+}
+
+.icon-block .material-icons {
+	font-size: inherit;
+}
+
+body, html {
+    height: 100%;
+    overflow: hidden; 
+}
+
+.dot circle {
+  /*fill: #81c784;
+  */stroke: #388e3c;
+    stroke-width: 1px;
+}
+
+.dot circle.selected {
+  /*fill: #e57373;
+  */stroke: #d32f2f;
+    stroke-width: 1px;
+}
+
+.x-axis line {
+    fill: none;
+    stroke: #1b5e20;
+    stroke-width: 2px;
+    shape-rendering: crispEdges;
+    vector-effect: non-scaling-stroke;
+}
+
+.y-axis line {
+    fill: none;
+    stroke: #1b5e20;
+    stroke-width: 2px;
+    shape-rendering: crispEdges;
+    vector-effect: non-scaling-stroke;
+}
+
+div#image {
+    overflow: hidden;
+}
+
+#main-wrapper {
+    margin: 0;
+    position: absolute;
+    z-index: 0;
+    right: 0em;
+    bottom: 0em;
+    top: 0em;
+    left: 0em;
+}
+
+#main-wrapper div {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+}
+
+.dot *, .txt * {
+    cursor: default;
+}
+
+#side-head-top-button-h {
+    position: fixed;
+    z-index: 2;
+    padding: 0.45em 0.75em;
+    font-size: 14px;
+    width: 48px;
+    height: 48px;
+    line-height: 48px;
+}
+
+#scroll-wrapper::-webkit-scrollbar {
+    width:13px;
+    height:13px;
+}
+
+#scroll-wrapper::-webkit-scrollbar-button {
+    background-color:#26a69a;
+}
+
+#scroll-wrapper::-webkit-scrollbar-track {
+    background:transparent;
+}
+
+#scroll-wrapper::-webkit-scrollbar-track-piece {
+    background:transparent;
+}
+
+#scroll-wrapper::-webkit-scrollbar-thumb {
+    background:green;
+    border-radius:4px;
+}
+
+#scroll-wrapper::-webkit-scrollbar-corner {
+    background:#82AFFF;
+}
+
+#scroll-wrapper {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    padding-bottom: 0;
+    height: 100%;
+}
+
+#side-head-top-button-h, #side-head-top-buttons a {
+    cursor: pointer;
+}
+
+#side-head-close-button, #side-head-top-button-i {
+    padding: 0.45em 0.75em;
+}
+
+#side-head-node-position div {
+    padding-right: 0;
+}
+
+#side-head-node-position span {
+    font-weight: bold;
+}
+
+#side-info {
+    margin: 0;
+    border-left: 0;
+    border-right: 0;
+}
+
+#side-info .row .col {
+    padding: 0;
+}
+
+a.collection-item.waves-effect {
+    height: auto;
+    padding: 10px 20px;
+}
+
+@media only screen and (max-width: 600px) {
+    #scroll-wrapper {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+        width: 100%;
+        height: 100%;
+    }
+}
+
+div.wrap {
+    height:100%;
+    overflow:hidden;
+}
+
+div.tooltip {
+    text-align: left;
+    pointer-events: none;
+}
+
+.custom-menu-gene {
+    display: none;
+    z-index: 1000;
+    position: absolute;
+    overflow: hidden;
+    border: 1px solid #CCC;
+    white-space: nowrap;
+    font-family: sans-serif;
+    background: #FFF;
+    color: #333;
+    border-radius: 5px;
+}
+
+.custom-menu-gene li {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.custom-menu-gene li:hover {
+    background-color: #DEF;
+}
+
+.custom-menu-pano {
+    display: none;
+    z-index: 1000;
+    position: absolute;
+    overflow: hidden;
+    border: 1px solid #CCC;
+    white-space: nowrap;
+    font-family: sans-serif;
+    background: #FFF;
+    color: #333;
+    border-radius: 5px;
+}
+
+.custom-menu-pano li {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.custom-menu-pano li:hover {
+    background-color: #DEF;
+}
+
+.demo-avatar-big {
+    width: 120px;
+    height: 120px;
+    border-radius: 60px;
+}
+
+.mgtp{
+    margin-top: 25px;
+}
+
+p {
+    text-align: center;
+    position: relative;
+}
+
+body {
+    width: 100%;
+    background-color: #f9f9f9;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    -webkit-font-smoothing: antialiased;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#toolbox {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin-bottom: 0.5em;
+    margin-left: 1em;
+    border: 2px solid #EEEEEE;
+    border-radius: 5px;
+    padding: 1em;
+    z-index: 5;
+}
+
+#side-wrapper {
+    max-height: 0;
+    margin: 0;
+}
+
+#toolbox input {
+    width: 30px;
+    opacity: 0.4;
+}
+
+#toolbox input:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+#hidden-file-upload {
+    display: none;
+}
+
+#download-input {
+    margin: 0 0.5em;
+}
+
+.conceptG text {
+    pointer-events: none;
+}
+
+marker {
+    fill: #333;
+}
+
+g.conceptG circle {
+    fill: #F6FBFF;
+    stroke: #333;
+    stroke-width: 2px;
+}
+
+g.conceptG:hover circle {
+    fill: rgb(200, 238, 241);
+}
+
+g.selected circle {
+    fill: rgb(250, 232, 255);
+}
+
+g.selected:hover circle {
+    fill: rgb(250, 232, 255);
+}
+
+path.link {
+    fill: none;
+    stroke: #333;
+    stroke-width: 6px;
+    cursor: default;
+}
+
+path.link:hover {
+    stroke: rgb(94, 196, 204);
+}
+
+path.link.dragline {
+    stroke: #999;
+}
+
+g.connect-node circle {
+    fill: #BEFFFF;
+}
+
+path.link.hidden {
+    stroke-width: 0;
+}
+
+path.link.selected {
+    stroke: rgb(229, 172, 247);
+}
+
+hr.style14 {
+    border: 0;
+    height: 1px;
+    background-image: -webkit-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+    background-image: -moz-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+    background-image: -ms-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+    background-image: -o-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+}
+
+.txtSize{
+    font-size: large;
+}
+
+hr.gap {
+    border: 0;
+    height: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}

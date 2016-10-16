@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A platform for biological use">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BioHub</title>
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" href="img/favicon.ico">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="BioHub">
+    <link rel="apple-touch-icon-precomposed" href="images/logo.ico">
+
+    <link rel="shortcut icon" href="img/favicon.ico">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/material.min.css">
+    <link rel="stylesheet" href="css/material-lite.css">
+    <link rel="stylesheet" href="css/home.css">
+
+    <link rel="icon" href="favicon.ico" mce_href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.ico" mce_href="favicon.ico" type="image/x-icon">
+    <script src="js/jquery-2.1.1.min.js"></script>
+    <script src="js/user.js"></script>
+    <style>
+        #view-source {
+            position: fixed;
+            display: block;
+            right: 0;
+            bottom: 0;
+            margin-right: 40px;
+            margin-bottom: 40px;
+            z-index: 900;
+        }
+
+        .demo-avatar-big {
+            width: 120px;
+            height: 120px;
+            border-radius: 60px;
+        }
+
+        .mgtp{
+            margin-top: 25px;
+        }
+
+
+        hr.style14 {
+            border: 0;
+            height: 1px;
+            background-image: -webkit-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+            background-image: -moz-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+            background-image: -ms-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+            background-image: -o-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+        }
+
+        .txtSize{
+            font-size: large;
+        }
+
+        hr.gap {
+            border: 0;
+            height: 0;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+
+    </style>
+</head>
+<body onload="get_user_info()">
+<div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+    <header class="demo-header mdl-layout__header mdl-color--green-A700 mdl-color-text--white">
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title">Developers</span>
+            <div class="mdl-layout-spacer"></div>
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="contact_dropdown">
+                <i class="material-icons">more_horiz</i>
+            </button>
+            <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="contact_dropdown">
+                <li class="mdl-menu__item">About BioHub</li>
+                <li class="mdl-menu__item"><a href="developers.html">About us</a></li>
+            </ul>
+        </div>
+    </header>
+    <div class="demo-drawer mdl-layout__drawer mdl-color--green-A700 mdl-color-text--white">
+        <header class="demo-drawer-header">
+            <img id="side-head" src="img/user-a.png" class="demo-avatar">
+            <div class="demo-avatar-dropdown">
+                <span  id="user-email" style="font-size: 15px">user@mail.com</span>
+                <div class="mdl-layout-spacer"></div>
+                <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+                    <i class="material-icons" role="presentation">arrow_drop_down</i>
+                    <span class="visuallyhidden">Accounts</span>
+                </button>
+                <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
+                    <li class="mdl-menu__item"><a href="profile_edit.html">Edit my profile</a></li>
+                    <li class="mdl-menu__item"><a href="profile.html">View my information</a></li>
+                    <li class="mdl-menu__item demo-flex-align"><a href="#" id="logout_btn"><i class="material-icons">compare_arrows</i>Login as another user</a></li>
+                </ul>
+            </div>
+        </header>
+        <script type="text/javascript">
+        document.getElementById("logout_btn").addEventListener("click",logout_form());
+    </script>
+        <nav class="demo-navigation mdl-navigation mdl-color--white" >
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="profile.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">home</i>Profile</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="projects.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">inbox</i>Project</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="forums.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">question_answer</i>Forum</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="simulation_form.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">insert_chart</i>Simulation</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="blast_form.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">sort</i>Blast</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="abacus.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">gesture</i>ABACUS</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="biobrick.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">view_module</i>BioBrick</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="developers.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">account_circle</i>Developer</a>
+        </nav>
+    </div>
+    <main class="mdl-layout__content mdl-color--grey-100">
+        <div class="mdl-grid demo-content">
+
+            <div class="demo-graphs mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--12-col">
+                <div style="height: 800px">
+
+                    <div class="dev mdl-grid">
+
+
+
+
+
+                        <div class="mdl-cell mdl-cell--3-col"> <img class="demo-avatar-big" src="images/background.jpeg"></div>
+                        <div class="mdl-cell mdl-cell--9-col  mdl-grid">
+                            <div style="width:30% ;margin-top: 20px">Name</div><div  style="margin-top: 20px ; width:70%"> developer name</div>
+                            <div style="width:30% ;margin-top: 20px">Contact</div><div style="margin-top: 20px ; width:70%"> sdfakj@mail.ustc.edu.cn      asdfafda@asdf.casdgdf</div>
+
+                            <div style="width:30% ;margin-top: 20px">Contribution</div><div style="margin-top: 20px ; width:70%"> build modules for front end and +1s</div>
+                            <div style="width:30% ;margin-top: 20px">My Github </div><div style="margin-top: 20px ; width:70%"><a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">pjzhang <img src="img/github.png" style="width: 40px"> </a></div>
+                        </div>
+                    </div>
+                    <hr class="gap">
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<script src="js/material.min.js"></script>
+</body>
+</html>

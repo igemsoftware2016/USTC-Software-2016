@@ -1,0 +1,58 @@
+﻿获得project数据：
+data:{
+		"plugin":"pano",
+		"action":"get_project_data"	
+}
+type:POST
+url:"/plugin/"
+
+返回值：
+{
+	"project":   ---包含当前用户的所有project
+	[
+		{
+			"project_id":string    相应的project的唯一标记值
+			"project_name":string     project的标题
+			"project_remark":string     project的备注
+			"user_id":string      project作者的user id
+            "private":string,"Public" or "Private"     仅有两个可能值，表示相应project的权限状态
+            "create_time":string     project创建时的服务器时间
+            "last_update_time":string     project最近一次被修改的服务器时间
+            "img_src":base64     project的缩略图的base64
+		}
+	]
+}
+
+创建project:
+data:{
+		"plugin":"pano",
+		"action":"new",
+		"project_name":string,
+		"project_remark":string,
+		"private":string,"Public" or "Private"
+}
+type:POST
+url:"/plugin/"
+
+返回值：
+{
+	"project_id":string
+	"success":boolean
+	"error":错误信息
+}
+
+删除project:
+data:
+	{
+		"plugin":"pano",
+		"action":"delete",
+		"project_id":string
+}
+type:POST
+url:"/plugin/"
+
+返回值：
+{
+	"success":boolean
+	"error":错误信息
+}

@@ -96,3 +96,35 @@ config.py
 #ABACUS
 plugins/ABACUS/ABACUS/
 app/static/downloads/
+
+# JetBrains Rider
+
+.idea/
+
+*.sln.iml
+
+# Python Tools for Visual Studio (PTVS)
+
+__pycache__/
+
+*.pyc
+
+# Visual Studio profiler
+
+*.psess
+
+*.vsp
+
+*.vspx
+
+*.sap
+
+# User-specific files
+
+*.suo
+
+*.user
+
+*.userosscache
+
+*.sln.docstates

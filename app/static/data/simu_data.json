@@ -1,0 +1,8 @@
+{
+  "nodes":[
+    {"id":1  ,"type":3, "u_name":"gene1", "name":"4.3","title":"GPA","x":540,  "y":350},
+    {"id":2  ,"type":2, "u_name":"gRNA2", "name":"4.3","title":"GPA","x":600,  "y":300},
+    {"id":3  ,"type":3, "u_name":"gRNA2", "name":"4.3","title":"GPA","x":600,  "y":300}
+  ]
+}
+

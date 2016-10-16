@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLAST</title>
+    <link rel="stylesheet" href="css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style type="text/css">
+        body { width: 100%; font-family: 'Merriweather Sans', sans-serif; background-color: #f9f9f9; background-size: cover; background-repeat: no-repeat; background-position: center center; -webkit-font-smoothing: antialiased; }
+    </style>
+
+    <link rel="icon" href="favicon.ico" mce_href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.ico" mce_href="favicon.ico" type="image/x-icon">
+
+    <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script type="text/javascript" src="js/d3.v3.min.js"></script>
+    <script type="text/javascript" src="js/blast.js"></script>
+</head>
+
+
+<style>
+
+    .axis path {
+        fill: none;
+        stroke: #777;
+        shape-rendering: crispEdges;
+    }
+    .axis text {
+        font-family: Lato;
+        font-size: 13px;
+    }
+
+    .demo-flex-align {
+        display: -webkit-flex !important;
+        display: -ms-flexbox !important;
+        display: flex !important;
+        -webkit-box-orient: horizontal;
+        -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        -webkit-align-items: center;
+        -ms-flex-align: center;
+        align-items: center;
+    }
+
+    .noselect {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+</style>
+
+<body>
+<div class="container">
+    <div class="fixed-action-btn" style="top: 2%; right: 2%;">
+        <a class="btn-floating btn-large teal" href="profile.html">
+            <i class="large material-icons">home</i>
+        </a>
+    </div>
+    <div class="row">
+        <div class="col m10 offset-m1 s12">
+            <h2 class="center-align">Blast !!!</h2>
+
+
+            <div class="row">
+                <div class="col s12 m12">
+                    <h4>Description</h4>
+                    <div id="simulation_description" class="card-panel teal ">
+                        <p class="white-text">descriptions about BLAST
+                        </p>
+                        <p class="white-text">about nodes</p>
+
+                        <div class="col s6 m9"></div><div><a class = "btn btn-large teal lighten-2 waves-effect" >tutorial</a>
+                    </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <h4>Blast</h4>
+            <div   id="blast_form" class="center-align card-panel teal lighten-5">
+                <div class="row">
+
+                    <form id="form_bl" class="form col s12">
+                        <h5 class="col s12 m3" style="margin-top: 20px">sequence:</h5>
+                        <div class="col s12 m9">
+                            <div class="input-field col s12">
+                                <textarea id="sequence" name="sequence" class="materialize-textarea"></textarea>
+                                <label for="sequence">input original sequence here</label>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+
+                <div class="row">
+                    <div><a class = "btn btn-large teal lighten-2 waves-effect" onclick="blast_req()" >Blast!!!</a>
+                    </div>
+                </div>
+            </div>
+            <h4>Result</h4>
+            <div  id="result_blast"  class="center-align card-panel teal lighten-5">
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+
+</body>
+</html>
+

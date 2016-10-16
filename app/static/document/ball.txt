@@ -1,0 +1,130 @@
+PANO 部分：
+  获取匹配的名称：
+  REQ（名称的一部分）:
+    POST /plugin
+    plugin: "pano"
+    action: "match_node"
+    s: String() // 不完整的节点名称字符串（希望支持通配符，不支持就算了）
+  RES（全名和简要信息）:
+    {
+      "success": true,
+      "nodes": [
+        { // 第一个推荐的节点，如果有完全匹配的名称，应该作为第一个
+          "u_name": String(), // 节点的正式的，被补全的名称
+          "info": String(), // 节点的简要信息
+        },
+        { // 第二个推荐的节点
+          "u_name": String(), // 节点的正式的，被补全的名称
+          "info": String(), // 节点的简要信息
+        },
+        { // 第三个推荐的节点
+          "u_name": String(), // 节点的正式的，被补全的名称
+          "info": String(), // 节点的简要信息
+        },
+        ...
+      ]
+    }
+
+  节点信息：
+  REQ（全部的名称）:
+    POST /plugin
+    plugin: "pano"
+    action: "node_info"
+    u_name: String() // 节点名称
+  RES（节点的简要和详细信息）:
+    {
+      success: true,
+      node: {
+        info: String(), // 简要信息
+        detailed_info: String() // 详细信息
+      }
+    }
+
+  寻路：
+  REQ（data包括所有的数据）:
+    POST /plugin
+    plugin: "path_finder"
+    action: "path_finder"
+    s: String() // 源节点名称
+    t: String() // 目标节点名称
+    k: Number() // 想要得到几条路
+    maxlen: Number() // 路长度的最大值
+  RES（返回所有**寻路**的节点和边的数据）:
+    {
+      "success": true,
+      "paths": [
+        [
+          String(), // 源节点名称
+          String(), // 第二个节点名称
+          String(), // 第三个节点名称
+          String(), // 第四个节点名称
+          String(), // 第五个节点名称
+          ...
+          String(), // 倒数第三个节点名称
+          String(), // 倒数第二个节点名称
+          String(), // 目标
+        ],
+        ...
+      ]
+    }
+
+@Deprecated
+{
+  获取ID：
+  REQ:
+    POST /plugin
+    plugin: "pano"
+    action: "find_project_id"
+  RES:
+    { project_id: Number() }
+
+  获取PANO：
+  REQ:
+    POST /plugin
+    plugin: "pano"
+    action: "load_pano"
+    project_id: Number()
+  RES（存在PANO）:
+    {
+      nodes: [
+        {"id": Number(), "type": Number(), "u_name": String(), "title": String(), "x": Number(), "y": Number()},
+        {"id": Number(), "type": Number(), "u_name": String(), "title": String(), "x": Number(), "y": Number()},
+        ...
+      ], edges: [
+        {"source": Number(), "target": Number(), "weight": Number()},
+        {"source": Number(), "target": Number(), "weight": Number()},
+        ...
+      ]
+    }
+  RES（不存在PANO返回空）:
+    {
+      nodes: [], edges: []
+    }
+
+  保存PANO:
+  REQ:
+    POST /plugin
+    plugin: "pano"
+    action: "save_pano"
+    project_id: Number()
+    data: "{
+        nodes: [
+          ...(同上)
+        ], edges: [
+          ...(同上)
+        ]
+      }"
+  RES（若存在PANO直接覆盖数据，若不存在PANO新建数据）:
+    {
+      nodes: [
+        {"id": Number(), "type": Number(), "u_name": String(), "title": String(), "x": Number(), "y": Number()},
+        {"id": Number(), "type": Number(), "u_name": String(), "title": String(), "x": Number(), "y": Number()},
+        ...
+      ], edges: [
+        {"source": Number(), "target": Number(), "weight": Number()},
+        {"source": Number(), "target": Number(), "weight": Number()},
+        ...
+      ]
+    }
+
+}

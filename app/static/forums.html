@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A platform for biological use">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BioHub</title>
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" href="img/favicon.ico">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="BioHub">
+    <link rel="apple-touch-icon-precomposed" href="images/logo.ico">
+
+    <link rel="shortcut icon" href="img/favicon.ico">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/material-1.2.0.min.css">
+    <script src="js/jquery-2.1.1.min.js"></script>
+    <script src="js/material-1.2.0.js"></script>
+    <script src="js/user.js"></script>
+    <script src="js/forum.js"></script>
+    <style>
+        html, body {
+            font-family: 'Roboto', 'Helvetica';
+        }
+        section {
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            -o-border-radius: 2px;
+            border-radius: 2px;
+        }
+        .demo-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 32px;
+        }
+        .demo-avatar-dropdown {
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            position: relative;
+            -webkit-box-orient: horizontal;
+            -webkit-flex-direction: row;
+            -ms-flex-direction: row;
+            flex-direction: row;
+            -webkit-align-items: center;
+            -ms-flex-align: center;
+            align-items: center;
+            width: 100%;
+        }
+        .demo-card-project:hover {
+            box-shadow: 0 4px 4px 1px rgba(0, 0, 0, .16), 0 4px 4px 1px rgba(0, 0, 0, .16), 0 4px 4px 1px rgba(0, 0, 0, .1);
+        }
+        .demo-content { 
+            min-height: 437px;
+            margin: 0;
+        }
+        .demo-drawer {
+            border: none;
+        }
+        .demo-drawer .demo-navigation {
+            z-index: -2;
+        }
+        .demo-drawer .mdl-menu__container {
+            z-index: -1;
+        }
+        .demo-drawer .mdl-menu__item {
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-align-items: center;
+            -ms-flex-align: center;
+            align-items: center;
+        }
+        .demo-drawer-header {
+            box-sizing: border-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: end;
+            -ms-flex-pack: end;
+            -webkit-justify-content: flex-end;
+            justify-content: flex-end;
+            -webkit-box-orient: vertical;
+            -webkit-flex-direction: column;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            padding: 16px;
+            height: 160px;
+        }
+        .demo-icon_text-align_1 {
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: horizontal;
+            -webkit-flex-direction: row;
+            -ms-flex-direction: row;
+            flex-direction: row;
+            -webkit-align-items: center;
+            -ms-flex-align: center;
+            align-items: center;
+            justify-content: left;
+        }
+        .demo-icon_text-align_2 {
+            display: -webkit-flex !important;
+            display: -ms-flexbox !important;
+            display: flex !important;
+            -webkit-box-orient: horizontal;
+            -webkit-flex-direction: row;
+            -ms-flex-direction: row;
+            flex-direction: row;
+            -webkit-align-items: center;
+            -ms-flex-align: center;
+            align-items: center;
+            justify-content: center;
+        }
+        .demo-inputbox {
+            padding: 23px 0px 0px 0px !important;
+        }
+        .demo-layout .demo-navigation .mdl-navigation__link:hover {
+            background-color: #00C853;
+        }
+        .demo-navigation {
+            -webkit-box-flex: 1;
+            -webkit-flex-grow: 1;
+            -ms-flex-positive: 1;
+            flex-grow: 1;
+        }
+        .demo-navigation .mdl-navigation__link .material-icons {
+            font-size: 24px;
+            color: rgba(255, 255, 255, 0.56);
+            margin-right: 24px;
+        }
+        .demo-spacer_1 {
+            height: 18px;
+        }
+        .demo-spacer_2 {
+            height: 32px;
+        }
+        .mdl-chip--contact {
+            background-color: #00C853;
+            color: white;
+        }
+        .mdl-list__item-avatar { 
+            color: black !important;
+            background-color: white !important;
+        }
+        .mdl-mini-footer {
+            padding-left: 32px;
+            padding-right: 32px; 
+            -webkit-box-flex: 1;
+            -webkit-flex-grow: 1;
+            -ms-flex-positive: 1;
+            flex-grow: 1;
+        }
+        .mdl-navigation__link {
+            display: -webkit-flex !important;
+            display: -ms-flexbox !important;
+            display: flex !important;
+            -webkit-box-orient: horizontal;
+            -webkit-flex-direction: row;
+            -ms-flex-direction: row;
+            flex-direction: row;
+            -webkit-align-items: center;
+            -ms-flex-align: center;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.56);
+            font-weight: 500;
+        }
+        .mdl-chip:active {
+            background-color: #00C853 !important;
+        }
+        .mdl-chip {
+            border-radius: 2px !important;
+        }
+    </style> 
+</head>
+<body onload="get_user_forum()">
+<div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+    <header class="demo-header mdl-layout__header mdl-color--green-A700 mdl-color-text--white">
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title">Forum</span>
+            <div class="mdl-layout-spacer"></div>
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="contact_dropdown">
+                <i class="material-icons">more_horiz</i>
+            </button>
+            <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="contact_dropdown">
+                <li class="mdl-menu__item">About BioHub</li>
+                <li class="mdl-menu__item"><a href="developers.html">About us</a></li>
+            </ul>
+        </div>
+    </header>
+    <div class="demo-drawer mdl-layout__drawer mdl-color--green-A700 mdl-color-text--white">
+        <header class="demo-drawer-header">
+            <img id="side-head" src="img/user-a.png" class="demo-avatar">
+            <div class="demo-avatar-dropdown">
+                <span  id="user-email" style="font-size: 15px">user@mail.com</span>
+                <div class="mdl-layout-spacer"></div>
+                <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+                    <i class="material-icons" role="presentation">arrow_drop_down</i>
+                    <span class="visuallyhidden">Accounts</span>
+                </button>
+                <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
+                    <li class="mdl-menu__item"><a href="profile_edit.html">Edit my profile</a></li>
+                    <li class="mdl-menu__item"><a href="profile.html">View my information</a></li>
+                    <li class="mdl-menu__item demo-flex-align"><a href="#" id="logout_btn"><i class="material-icons">compare_arrows</i>Login as another user</a></li>
+                </ul>
+            </div>
+        </header>
+        <script type="text/javascript">
+        document.getElementById("logout_btn").addEventListener("click",logout_form());
+    </script>
+        <nav class="demo-navigation mdl-navigation mdl-color--white" >
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="profile.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">home</i>Profile</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="projects.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">inbox</i>Project</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="forums.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">question_answer</i>Forum</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="simulation_form.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">insert_chart</i>Simulation</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="blast_form.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">sort</i>Blast</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="abacus.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">gesture</i>ABACUS</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="biobrick.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">view_module</i>BioBrick</a>
+            <a class="mdl-navigation__link mdl-color-text--black" style="font-size: 16px" href="developers.html"><i class="mdl-color-text--black material-icons" role="presentation" style="font-size: 24px">account_circle</i>Developer</a>
+        </nav>
+    </div>
+    <main class="mdl-layout__content mdl-color--white">
+        <span id="this_is_a_user_name" style="visibility: hidden;">sth</span>
+        <div class="demo-content">
+        <script type="text/javascript">document.getElementsByClassName("demo-content")[0].minHeight=$(window).height;</script>
+            <div class="mdl-grid mdl-grid--no-spacing">
+                <div class="mdl-cell mdl-cell--12-col">
+                    <h3 class="mdl-color-text--green-A700" style="text-align: center;">FORUM</h3>
+                </div>
+            </div>
+            <div class="mdl-grid mdl-grid--no-spacing">
+              <div id="forum" class="mdl-cell mdl-cell--12-col mdl-grid mdl-grid--no-spacing" style="padding: 0px 64px 0px 64px;">
+                <script type="text/javascript">
+                  function loadforum(obj) {
+                      var time_user=document.createElement("div");
+                      time_user.className="demo-icon_text-align_1 mdl-cell mdl-cell--12-col";
+
+                      var span=document.createElement("span");
+                      span.className="demo-event-id";
+                      span.style.display="none";
+                      span.innerHTML=String(obj.project_id);
+                      componentHandler.upgradeElement(span);
+                      document.getElementById("forum").appendChild(span);
+                      
+                      var user=document.createElement("div");
+                      var user_chip=document.createElement("a");
+                      user_chip.className="demo-event-user";
+                      user_chip.href="user_data.html?id="+String(obj.user_id);
+                      user_chip.className="mdl-chip mdl-chip--contact mdl-shadow--4dp";
+                      var user_img=document.createElement("img");
+                      if(obj.avt_src==null){
+                        user_img.src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIAAgMAAACJFjxpAAAADFBMVEXFxcX////p6enW1tbAmiBwAAAFiElEQVR4AezAgQAAAACAoP2pF6kAAAAAAAAAAAAAAIDbu2MkvY0jiuMWWQoUmI50BB+BgRTpCAz4G6C8CJDrC3AEXGKPoMTlYA/gAJfwETawI8cuBs5Nk2KtvfiLW+gLfK9m+r3X82G653+JP/zjF8afP1S//y+An4/i51//AsB4aH+/QPD6EQAY/zwZwN8BAP50bh786KP4+VT+3fs4/noigEc+jnHeJrzxX+NWMDDh4g8+EXcnLcC9T8U5S/CdT8bcUeBEIrwBOiI8ki7Ba5+NrePgWUy89/nYyxQ8Iw3f+pWY4h1gb3eAW7sDTPEOsLc7wK1TIeDuDB+I/OA1QOUHv/dFsZQkhKkh4QlEfOULYz2nGj2/Nn1LmwR/86VxlCoAW6kCsHRGANx1RgCMo5Qh2EsZgrXNQZZShp5Liv7Il8eIc5C91EHY2hxk6bwYmNscZIReDBwtCdhbErC1JGBpScBcOgFMLQsZMQs5Whayd+UQsLYsZGlZyNyykKllISNmIUfAwifw8NXvTojAjGFrdYi11SGWVoeYWx1i6lmQCiEjFkKOVgjZ+xxIhZCtFULWHkCqxCw9gNQKmP9vNHzipdEPrRcxtVbAeDkAvve0iM2QozVD9hfjhp4YP/UrkJYDbD2AtBxgfSkAvvHEeNcDSAsilgtAWxIy91J8AXgZAJ5e33+4tuACcAG4AFwALgBXRXQB6AFcB5MXAuA6nl9/0Vx/011/1V5/1/dfTPJvRtdnu/zL6beeFO/7r+fXBYbrEkt/j+i6ytXfpuvvE/ZXOnsA/a3a/l5xf7O6v1t+Xe/vOyz6HpO8yyboM8o7rfJes77bru83THk48p7TvOs27zvOO6/73vO++z7l4cgnMPQzKPopHC0N9noSSz6LJp/Gk88jyicy5TOp6qlc+VyyfDJbPpuuns6XzyfMJzTmMyrrKZ35nNJ8Ums+q7af1tvPK+4nNodEnPKp3fnc8npyez67/qVP7+/fL8hfcMjfsOhf8cjfMclfcnn9+BkOnLECP8Q58OYeyJ40eoyF6Ee/En/JHlP6mIlRVXprF4BxtAvArV0AxtEuALd2ARhHuwDc2gVgHPX/hFv9fMBddjIGeKg/WCxlCsI46u+Ga5mCcJd+sIG9UkGAW32ZbApFAHhod4Bb3eo04h3god0BbiUHYApVCNjbHeBW+QDAXT4a7qg7r7e214057vg0QhkEHkoSwq0kIdydXw4/Q3H8hjYJ3vL0WConBJhCHQaOToeBrU0BljYFmEoVgHGUKgAPnREAt84IgLuqFgAYSUEOAHszDwuAtSkHAZhLGYIpdCLgKGUIHtocZG1zkLmUIRhxDnJU1RDA1uYga5uDzKUOwhTnIEfnxcDe5iBrcyQAYGlzkKkUYhhxDrKXQgxbSwLWUohhbknA1JKAEZOAvSUBW0sC1pYEzC0JmFoSMMJyCDhaFrK3JGDtyiFgaVnI3LKQqWUhI2YhR8tC9paFrC0LWVoWMrcsZGpZyIhZyNGykL2rSIGtlQHWVgZYWhlgbmWAqZUBRiwDHK0MsLcywNbKAGsOoNUhllaHmFsdYmp1iBHrEEerQ+w5gFYI2VodYm11iKXVIeYcQCuETK0QMmIh5MgBtELI3gohWyuErDmAVolZWiFkzgG0SszUKjGjfj6gVmKOVonZcwCtFbB9HQC+ozWDbz1bvGu9iKW1AuYcQOtFTLEX1GbIaFegN0OOHEBrhuw5gNYM2XIArRuz5gDacoB3bTnAEktxXQ4wfw0AvveM8b4tiJjSJOwLIsbXsAKeNeKCiOO3D+AVbUl0AfjGs8ZPbUnIdgFoa1LWC0BblfMuB9AeC1j6gqQE0J9LmC8AOYD2ZMb7i4bt2ZTpWoHfPoB7Tj2fXzT8N1X41vkq/QHOAAAAAElFTkSuQmCC";
+                      }
+                      else{
+                        user_img.src=obj.avt_src;
+                      }
+                      user_img.className="mdl-chip__contact";
+                      componentHandler.upgradeElement(user_img);
+                      user_chip.appendChild(user_img);
+                      var user_span=document.createElement("span");
+                      user_span.className="mdl-chip__text";
+                      user_span.style.fontSize="16px";
+                      user_span.innerHTML=obj.user_name;
+                      componentHandler.upgradeElement(user_span);
+                      user_chip.appendChild(user_span);
+                      componentHandler.upgradeElement(user_chip);
+                      user.appendChild(user_chip);
+                      componentHandler.upgradeElement(user);
+                      time_user.appendChild(user);
+
+                      var time=document.createElement("div");
+                      time.style.margin="0px 16px 0px 16px";
+                      var time_span=document.createElement("span");
+                      time_span.style.fontSize="16px";
+                      time_span.innerHTML=date(parseInt(obj.time));
+                      componentHandler.upgradeElement(time_span);
+                      time.appendChild(time_span);
+                      componentHandler.upgradeElement(time);
+                      time_user.appendChild(time);
+
+                      componentHandler.upgradeElement(time_user);
+                      document.getElementById("forum").appendChild(time_user);
+
+                      var project=document.createElement("section");
+                      project.className="demo-card-project mdl-cell mdl-cell--12-col mdl-grid mdl-grid--no-spacing mdl-shadow--4dp";
+
+                      var project_image=document.createElement("div");
+                      project_image.className="mdl-cell mdl-cell--4-col";
+                      project_image.style.backgroundImage="url("+obj.img_src+")";
+                      project_image.style.backgroundRepeat="no-repeat";
+                      project_image.style.backgroundPosition="center";
+                      componentHandler.upgradeElement(project_image);
+                      project.appendChild(project_image);
+
+                      var project_info=document.createElement("div");
+                      project_info.className="mdl-card mdl-cell mdl-cell--8-col";
+                      project_info.style.textAlign="center";
+
+                      var project_text=document.createElement("div");
+                      project_text.className="mdl-card__supporting-text";
+                      project_text.style.minHeight="120px";
+                      var project_title=document.createElement("span");
+                      project_title.style.color="black";
+                      project_title.style.fontSize="24px";
+                      project_title.innerHTML="Project: "+obj.project_name;
+                      componentHandler.upgradeElement(project_title);
+                      project_text.appendChild(project_title);
+                      divider=document.createElement("br");
+                      componentHandler.upgradeElement(divider);
+                      project_text.appendChild(divider);
+                      var project_content=document.createElement("p");
+                      project_content.style.paddingTop="25px";
+                      var content_span=document.createElement("span");
+                      content_span.style.fontSize="16px";
+                      content_span.innerHTML="Author: "+obj.user_name+"<br/>Last Update: "+date(parseInt(obj.last_update_time));
+                      componentHandler.upgradeElement(content_span);
+                      project_content.appendChild(content_span);
+                      componentHandler.upgradeElement(project_content);
+                      project_text.appendChild(project_content);
+
+                      componentHandler.upgradeElement(project_text);
+                      project_info.appendChild(project_text);
+
+                      divider=document.createElement("div");
+                      divider.className="mdl-cell mdl-cell--12-col demo-spacer_1";
+                      componentHandler.upgradeElement(divider);
+                      document.getElementById("forum").appendChild(divider);
+
+                      var project_actions=document.createElement("div");
+                      project_actions.className="demo-icon_text-align_2 mdl-card__actions mdl-card--border";
+                      project_actions.style.textAlign="center";
+                      var actions_view=document.createElement("a");
+                      actions_view.href="pano.html?id="+obj.project_id;
+                      actions_view.className="show-dialog-view-timeline mdl-button mdl-color-text--green-A700 mdl-js-button mdl-js-ripple-effect";
+                      textNode=document.createTextNode("View Project...");
+                      actions_view.appendChild(textNode);
+                      componentHandler.upgradeElement(actions_view);
+                      project_actions.appendChild(actions_view);
+                      var actions_comment=document.createElement("button");
+                      actions_comment.className="demo-actions-comment mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect";
+                      actions_comment.style.margin="0px 8px 0px 8px";
+                      var icons_comment=document.createElement("i");
+                      icons_comment.className="demo-icons-comment material-icons";
+                      icons_comment.style.color="gray";
+                      textNode=document.createTextNode("comment");
+                      icons_comment.appendChild(textNode);
+                      componentHandler.upgradeElement(icons_comment);
+                      actions_comment.appendChild(icons_comment);
+                      componentHandler.upgradeElement(actions_comment);
+                      project_actions.appendChild(actions_comment);
+                      componentHandler.upgradeElement(project_actions);
+                      project_info.appendChild(project_actions);
+
+                      componentHandler.upgradeElement(project_info);
+                      project.appendChild(project_info);
+ 
+                      componentHandler.upgradeElement(project);
+                      document.getElementById("forum").appendChild(project);
+
+                      divider=document.createElement("div");
+                      divider.className="demo-commentspc_1 mdl-cell mdl-cell--12-col demo-spacer_1";
+                      divider.style.display="block";
+                      componentHandler.upgradeElement(divider);
+                      document.getElementById("forum").appendChild(divider);
+
+                      var comment_area=document.createElement("div");
+                      comment_area.className="demo-icon_text-align_1 demo-comment mdl-cell mdl-cell--12-col mdl-grid";
+                      comment_area.style.display="none";
+                      var comment_you=document.createElement("div");
+                      comment_you.className="mdl-textfield mdl-textfield--floating-label mdl-js-textfield mdl-cell mdl-cell--10-col";
+                      var input=document.createElement("input");
+                      input.id="demo-comment-input";
+                      input.className="demo-comment-input mdl-textfield__input";
+                      input.type="text";
+                      componentHandler.upgradeElement(input);
+                      comment_you.appendChild(input);
+                      var label=document.createElement("label");
+                      label.className="mdl-textfield__label";
+                      label.for="demo-comment-input";
+                      textNode=document.createTextNode("say something...");
+                      label.appendChild(textNode);
+                      componentHandler.upgradeElement(label);
+                      comment_you.appendChild(label);
+                      componentHandler.upgradeElement(comment_you);
+                      comment_area.appendChild(comment_you);
+
+                      var comment_submit=document.createElement("div");
+                      comment_submit.className="mdl-cell mdl-cell--2-col";
+                      var submit=document.createElement("button");
+                      submit.className="demo-commentsbm mdl-button mdl-js-button mdl-js-ripple-effect";
+                      submit.style.color="#00C853";
+                      var textNode=document.createTextNode("submit");
+                      submit.appendChild(textNode);
+                      componentHandler.upgradeElement(submit);
+                      comment_submit.appendChild(submit);
+                      componentHandler.upgradeElement(comment_submit);
+                      comment_area.appendChild(comment_submit);
+
+                      componentHandler.upgradeElement(comment_area);
+                      document.getElementById("forum").appendChild(comment_area);
+
+                      var divider=document.createElement("div");
+                      divider.className="mdl-cell mdl-cell--12-col demo-spacer_2";
+                      componentHandler.upgradeElement(divider);
+                      document.getElementById("forum").appendChild(divider);
+                  }
+                  getEventData();
+                </script>
+              </div>
+            </div>
+        </div>
+        <footer class="mdl-mini-footer">
+            <div class="mdl-mini-footer__left-section">
+                <div class="mdl-logo">BioHub</div>
+                <ul class="mdl-mini-footer__link-list">
+                    <li><a href="#">Help</a></li>
+                    <li><a href="#">View Our Wiki</a></li>
+                </ul>
+            </div>
+            <div class="mdl-mini-footer__right-section">
+               <span class="demo-icon_text-align_1"><i class="material-icons">copyright</i>&nbsp;2016 USTC-Software</span>
+            </div>
+        </footer>  
+    </main>
+    </div>
+</body>
+</html>

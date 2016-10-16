@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pano</title>
+    <link rel="stylesheet" href="css/materialize.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="favicon.ico" mce_href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.ico" mce_href="favicon.ico" type="image/x-icon">
+    <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script type="text/javascript" src="js/d3.v3.min.js"></script>
+</head>
+
+<body>
+    <div id="side-wrapper" class="row">
+        <a id="side-head-top-button-h" class="black-text left-align waves-effect"><i class="material-icons">menu</i></a>
+        <div id="scroll-wrapper" class="side-nav fixed">
+            <div id="side-head" class="green">
+                <div id="side-head-top-buttons" class="row">
+                    <a id="side-head-close-button" class="col s2 white-text left-align waves-effect"><i class="material-icons">close</i></a>
+                    <a id="side-head-top-button-p" href="javascript:void(0);" class="col s4 white-text center-align waves-effect">PREVIOUS</a>
+                    <a id="side-head-top-button-n" href="javascript:void(0);" class="col s4 white-text center-align waves-effect">NEXT</a>
+                    <a id="side-head-top-button-i" class="col s2 white-text right-align waves-effect"><i class="material-icons">perm_identity</i></a>
+                </div>
+                <div id="side-head-node-name" class="container">
+                    <h2 class="white-text center-align"><span id="status-main-uid" class="truncate">-</span></h2>
+                </div>
+                <div id="side-head-node-position" class="row">
+                    <div class="col s3 white-text">POS X</div>
+                    <div class="col s3 white-text"><span id="status-posx">-</span></div>
+                    <div class="col s3 white-text">POS Y</div>
+                    <div class="col s3 white-text"><span id="status-posy">-</span></div>
+                    <div class="col s3 white-text">UID</div>
+                    <div class="col s3 white-text"><span id="status-uid">-</span></div>
+                    <div class="col s3 white-text">TAX ID</div>
+                    <div class="col s3 white-text"><span id="side-info-tax-id">-</span></div>
+                    <div class="col s12"><br></div>
+                    <div class="col s4 white-text">GENE ID</div>
+                    <div class="col s8 white-text"><span id="side-info-gene-id">-</span></div>
+                    <div class="col s4 white-text">GENE NAME</div>
+                    <div class="col s8 white-text"><span id="side-info-gene-name">-</span></div>
+                </div>
+                <div class="container row" style="margin-bottom:0"></div>
+            </div>
+            <div id="side-info" class="collection">
+                <div class="collection-item row">
+                    <a class="col waves-effect s12" id="side-info-add-none">
+                        <h5 class="valign-wrapper"><i class="material-icons valign">add</i>&nbsp;ADD A NEW NODE</h5>
+                    </a>
+                    <a class="col s4 waves-effect" id="side-info-add">
+                        <h5 class="valign-wrapper"><i class="material-icons valign">add</i>&nbsp;ADD</h5>
+                    </a>
+                    <a class="col s4 waves-effect" id="side-info-edit">
+                        <h5 class="valign-wrapper"><i class="material-icons valign">edit</i>&nbsp;EDIT</h5>
+                    </a>
+                    <a class="col s4 waves-effect red-text" id="side-info-remove">
+                        <h5 class="valign-wrapper"><i class="material-icons valign">remove</i>&nbsp;DEL</h5>
+                    </a>
+                </div>
+                <div class="collection-item" id="side-info-node">
+                    <h5 class="valign-wrapper"><i class="material-icons valign">info</i>&nbsp;ELEMENT INFO</h5><br>
+                    <h6><span id="side-info-node-info"></span></h6>
+                </div>
+                <div class="collection-item" id="side-info-link">
+                    <h5 class="valign-wrapper"><i class="material-icons valign">link</i>&nbsp;LINKS</h5><br>
+                    <div id="side-link-wrap" style="display: none">
+                        <div class="collection" id="side-link-list"></div>
+                        <div class="collection">
+                            <a id="side-link-to" class="collection-item valign-wrapper" style="padding: 10px 20px; font-weight: normal;">
+                                <i class="material-icons tiny left valign" style="padding-top: 6px;">add</i>
+                                <span class="valign" style="padding-top: 3px;">NEW LINK TO ...</span>
+                            </a>
+                            <a id="side-path-finder" class="collection-item valign-wrapper" style="padding: 10px 20px; font-weight: normal;">
+                                <i class="material-icons tiny left valign" style="padding-top: 6px;">add</i>
+                                <span class="valign" style="padding-top: 3px;">PATH FINDER ...</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="body"></div>
+    <div id="modal-add-node" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <div class="section row">
+                <div class="col s12">
+                    <h4>Add a New Node</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input placeholder="Node Title" id="add-node-title" type="text" class="validate">
+                    <label for="add-node-title">Title</label>
+                </div>
+                <div class="input-field col s12">
+                    <input placeholder="Node Name" id="add-node-name" type="text" class="validate">
+                    <label for="add-node-name">Name (Formal)</label>
+                </div>
+                <div class="black-text col s12">
+                    <div class="progress" id="add-node-progress"><div class="indeterminate"></div></div>
+                    <div class="collection" id="add-node-matches" style="display: none"></div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect waves-green btn-flat" id="add-node-ok">OK</a>
+        </div>
+    </div>
+    <div id="modal-pano-info" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <div class="section row">
+                <div class="col s12">
+                    <h4>About this project</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input placeholder="Project title" id="pano-info-title" type="text" class="validate">
+                    <label for="add-node-title">Title</label>
+                </div>
+                <div class="input-field col s4">Created at: </div>
+                <div class="input-field col s8"><span id="pano-info-ctime"></span></div>
+                <div class="input-field col s4">Last modified at: </div>
+                <div class="input-field col s8"><span id="pano-info-mtime"></span></div>
+                <div class="input-field col s12">
+                    This project has <span id="pano-info-nodes"></span> node(s), <span id="pano-info-edges"></span> edge(s)
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <a class="waves-effect waves-green btn" id="pano-info-back">BACK TO PROJECT LIST</a>
+                    <a class="waves-effect waves-green btn" id="pano-info-simulate">START SIMULATION</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    Danger zone:
+                </div>
+                <div class="input-field col s12">
+                    <a class="waves-effect waves-red red btn" id="pano-info-clear">REMOVE ALL THE NODES AND LINKS</a>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect waves-green btn-flat" id="pano-info-ok">OK</a>
+        </div>
+    </div>
+    <div id="modal-path-finder" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <div class="section row">
+                <div class="col s12">
+                    <h4>Path finder</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    <input placeholder="Amount" id="path-finder-k" type="text" class="validate">
+                    <label for="add-node-title">Amount</label>
+                </div>
+                <div class="input-field col s6">
+                    <input placeholder="Maximum depth" id="path-finder-maxlen" type="text" class="validate">
+                    <label for="add-node-title">Maximum depth</label>
+                </div>
+                <div class="input-field col s12">
+                    <a class="waves-effect waves-green btn" id="path-finder-start">GO<i class="material-icons right">send</i></a>
+                </div>
+            </div>
+            <div class="row" id="path-finder-main">
+                <div class="input-field col s12">
+                    <div class="progress" id="path-finder-progress"><div class="indeterminate"></div></div>
+                    <ul class="collapsible" id="path-finder-result" data-collapsible="accordion"></ul>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect waves-green btn-flat" id="path-finder-ok">OK</a>
+        </div>
+    </div>
+    <canvas id="canvas" width="300px" height="225px"></canvas>
+    <div id="png-container"></div>
+    <script src="js/pano.js" charset="utf-8"></script>
+    <script src="http://cdn.jsdelivr.net/filesaver.js/0.1/FileSaver.min.js"></script>
+</body>
+</html>
