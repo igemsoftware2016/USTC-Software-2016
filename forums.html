@@ -252,7 +252,7 @@
                       var user=document.createElement("div");
                       var user_chip=document.createElement("a");
                       user_chip.className="demo-event-user";
-                      user_chip.href="user_data.html#"+String(obj.user_id);
+                      user_chip.href="user_data.html?"+String(obj.user_id);
                       user_chip.className="mdl-chip mdl-chip--contact mdl-shadow--4dp";
                       var user_img=document.createElement("img");
                       if(obj.avt_src==null){
@@ -337,7 +337,7 @@
                       project_actions.className="demo-icon_text-align_2 mdl-card__actions mdl-card--border";
                       project_actions.style.textAlign="center";
                       var actions_view=document.createElement("a");
-                      actions_view.href="pano.html#"+obj.project_id;
+                      actions_view.href="pano.html?"+obj.project_id;
                       actions_view.className="show-dialog-view-timeline mdl-button mdl-color-text--green-A700 mdl-js-button mdl-js-ripple-effect";
                       var textNode=document.createTextNode("View Project...");
                       actions_view.appendChild(textNode);
