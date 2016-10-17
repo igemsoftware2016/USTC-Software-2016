@@ -17,6 +17,14 @@ var status_jump = "local";
 
 function auto_input() {
     if (status_jump =="local"){
+
+        var end_t = $('#input_func_t')[0];
+        end_t.value = "30";
+        var step_l = $('#input_func_l')[0];
+        step_l.value = "0.01";
+
+
+
         var input_1 = $('#input_func_1')[0];
         input_1.value = "-10*y[0] + 10*y[1]";
         var input_2 = $('#input_func_2')[0];

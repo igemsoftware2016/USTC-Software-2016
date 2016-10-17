@@ -43,3 +43,15 @@ var demo="True";
 }
 
 
+function  get_status() {
+
+    var data={"plugin":"ABACUS","action":"getstatus"};
+    $.ajax({
+        type:"POST",
+        url:"/plugin/",
+        success:function (response) {
+            var Jr = JSON.parse(response);
+
+        }
+    })
+}

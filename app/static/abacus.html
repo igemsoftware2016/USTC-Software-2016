@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ABACUS</title>
     <link rel="stylesheet" href="css/materialize.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style type="text/css">
         body { width: 100%; font-family: 'Merriweather Sans', sans-serif; background-color: #f9f9f9; background-size: cover; background-repeat: no-repeat; background-position: center center; -webkit-font-smoothing: antialiased; }
     </style>
@@ -21,6 +20,41 @@
 
 
 <style>
+    @font-face {
+        font-family: 'Material Icons';
+        font-style: normal;
+        font-weight: 400;
+        src: url(fonts/MaterialIcons-Regular.eot); /* For IE6-8 */
+        src: local('Material Icons'),
+        local('MaterialIcons-Regular'),
+        url(fonts/MaterialIcons-Regular.woff2) format('woff2'),
+        url(fonts/MaterialIcons-Regular.woff) format('woff'),
+        url(fonts/MaterialIcons-Regular.ttf) format('truetype');
+    }
+
+    .material-icons {
+        font-family: 'Material Icons';
+        font-weight: normal;
+        font-style: normal;
+        font-size: 24px; /* Preferred icon size */
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        line-height: 1;
+        text-transform: none;
+
+        /* Support for all WebKit browsers. */
+        -webkit-font-smoothing: antialiased;
+        /* Support for Safari and Chrome. */
+        text-rendering: optimizeLegibility;
+
+        /* Support for Firefox. */
+        -moz-osx-font-smoothing: grayscale;
+
+        /* Support for IE. */
+        font-feature-settings: 'liga';
+    }
+
 
     .axis path {
         fill: none;
@@ -140,6 +174,12 @@
                 </div>
 
 
+
+            </div>
+
+
+            <div class="center ">
+                <a id="get_status" onclick="get_status()" class="waves-effect btn btn-large right-align center-align">Get status</a>
             </div>
 
         </div>
@@ -155,6 +195,3 @@
 
 
 
-
-
-<script type="text/javascript" src="http://latex.codecogs.com/latexit.js"></script>
