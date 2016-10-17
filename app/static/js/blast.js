@@ -38,7 +38,7 @@ function blast_req(){
     myLoader();
     //console.log(dictPost);
     if(dictPost.seq.length>0) {
-        $('#svg_blast').remove();
+        $("#result_blast")[0].innerHTML="";
         $.ajax({
             type: "POST",
             url: "/plugin/",
@@ -109,9 +109,7 @@ var draw_arcs = function(svg,target_id,q_start,q_end,hit_start,hit_end){
     var res_width = 500;
     var res_height = 500;
 
-    var radius = Math.min(res_width, res_height) / 1.9,
-        armRadius = radius / 12,
-        dotRadius = armRadius - 6;
+    var radius = Math.min(res_width, res_height) / 1.9;
 
     var arc_root = d3.svg.arc()
         //.startAngle(deg2arc(0.5))
