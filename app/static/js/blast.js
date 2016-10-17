@@ -20,6 +20,16 @@ $.fn.serializeObject = function()
     return o;
 };
 
+var status_jump = "local";
+
+function auto_input() {
+    if (status_jump =="local"){
+
+        var seq = $('#sequence')[0];
+        seq.value = "acaagatacattgtatgaaaatacaagaaa";
+        Materialize.updateTextFields();
+    }
+}
 
 function blast_req(){
     var s_data = ($('#form_bl').serializeObject());
@@ -324,7 +334,7 @@ function glo_draw(svg,data_result,ori_length) {
             text_start.text(d.query_start);
             root_text.text("Original Sequence VS" + d.ID);
             text_info.text("Description : "+d.description);
-            text_benchmark.text("E-value"+d.E_value);
+            text_benchmark.text("E-value"+d.evalue);
             arc_ret.attr("fill", color((d.query_end-d.query_start)/ori_length))
         })
 
