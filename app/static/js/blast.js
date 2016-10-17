@@ -35,10 +35,11 @@ function blast_req(){
     var s_data = ($('#form_bl').serializeObject());
     //console.log(s_data);
     var  dictPost  =  {"plugin":"BLAST","seq":s_data["sequence"]};
+
+    $("#result_blast")[0].innerHTML="";
     myLoader();
     //console.log(dictPost);
     if(dictPost.seq.length>0) {
-        $("#result_blast")[0].innerHTML="";
         $.ajax({
             type: "POST",
             url: "/plugin/",
