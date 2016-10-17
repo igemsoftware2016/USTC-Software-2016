@@ -269,8 +269,7 @@
     }
 
     function layout_on_form(data_all) {
-        d3.selectAll("brick_content").remove();
-
+        $("#brick_content").remove();
         var func_ct = d3.selectAll("#bricks")
                 .attr("class","row");
 
