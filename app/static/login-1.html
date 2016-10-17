@@ -84,33 +84,33 @@
             <div class="row margin">
                 <div class="input-field col s12">
                     <i class="material-icons prefix">person</i>
-                    <input class="validate" id="usr" type="email" name="email">
+                    <input class="validate" id="usr" type="email" name="email" onkeypress="postForm_enter(event)">
                     <label for="usr" data-error="wrong format" data-success="" class="left-align">Email</label>
                 </div>
             </div>
             <div class="row margin">
                 <div class="input-field col s12">
                     <i class="material-icons prefix">lock</i>
-                    <input id="password" type="password" name="password">
+                    <input id="password" type="password" name="password" onkeypress="postForm_enter(event)">
                     <label for="password" class="left-align">Password</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s12 m12 l12  login-text">
-                    <input type="checkbox" id="remember-me" name="remember" />
+                    <input type="checkbox" id="remember-me" name="remember" onkeypress="postForm_enter(event)" />
                     <label for="remember-me">remember me</label>
                 </div>
             </div>
         </form>
             <div class="row center-align">
-                <button class="btn waves-effect waves-light center-align" onclick="postForm()" style="width: 200px">Sign in</button>
+                <button class="btn waves-effect waves-light center-align" onkeypress="postForm_enter(event)" onclick="postForm()" style="width: 200px">Sign in</button>
 
             </div>
             <div class="row">
                 <div class="input-field col s6 m6 l6">
                 </div>
                 <div class="input-field col s6 m6 l6">
-                    <p class="margin right-align medium-small"><a href="forgot-password.html">Forget Password?</a></p>
+                    <p class="margin right-align medium-small"><a href="signup.html">Forget Password?</a></p>
                 </div>
              </div>
 
