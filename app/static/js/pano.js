@@ -63,6 +63,8 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         self.paths = self.svgGraph.append("g").selectAll("g");
         self.circles = self.svgGraph.append("g").selectAll("g");
 
+        self.forceDragged = null;
+
         self.dragHandler = d3.behavior.drag().origin(function (d) {
             return {x: d.x, y: d.y};
         }).on("drag", function (d) {
@@ -73,12 +75,24 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             } else {
                 d.x += d3.event.dx;
                 d.y += d3.event.dy;
+                if (!self.forceDragged) {
+                    self.forceNodes.forEach(function (i) {
+                        if (i.id == d.id) {
+                            self.forceDragged = i;
+                        }
+                    });
+                }
+                self.forceDragged.px += d.x - self.forceDragged.x;
+                self.forceDragged.py += d.y - self.forceDragged.y;
+                self.forceDragged.x = d.x;
+                self.forceDragged.y = d.y;
                 self.updateGraph();
             }
         }).on("dragend", function () {
             if (self.state.selectedNode) {
                 sidebar.update(self.state.selectedNode.id);
             }
+            self.forceDragged = null;
             self.trySave();
         });
 
@@ -102,21 +116,21 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
 
         self.forceNodes = [];
         self.forceEdges = [];
+        self.forceSaveLastTime = Date.now();
 
         self.forceHandler = d3.layout.force()
-            .size([self.svg.attr('width') * 2, self.svg.attr('height') * 2])
-            .linkDistance(100)
-            .charge(-10000)
-            .gravity(0.1)
-            .friction(0.1)
-            .on("tick", function () {
+            .friction(0.7).charge(-5000).gravity(0.3).linkDistance(200)
+            .on("tick", function (e) {
                 self.forceNodes.forEach(function (i) {
                     self.nodes[i.id].x = i.x;
                     self.nodes[i.id].y = i.y;
                 });
+                var now = Date.now();
+                if (now > self.forceSaveLastTime + 4096) {
+                    self.trySave();
+                    self.forceSaveLastTime = now;
+                }
                 self.updateGraph();
-            }).on("end", function () {
-                self.trySave();
             });
 
         // listen for key events
@@ -130,8 +144,11 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             case self.consts.DELETE_KEY:
                 d3.event.preventDefault();
                 var oldNode = self.state.selectedNode;
-                self.delSelectedEdge();
-                self.delSelectedNode();
+                if (self.state.selectedEdge) {
+                    self.delSelectedEdge();
+                } else {
+                    self.delSelectedNode();
+                }
                 if (oldNode) {
                     if (graph.nodes.length > 0) {
                         var index = oldNode.id;
@@ -182,6 +199,10 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 self.state.shiftNodeDrag = false;
                 self.dragLine.classed("hidden", true);
             }
+            self.state.graphMouseDown = false;
+        }).on("mouseleave", function (d) {
+            self.state.shiftNodeDrag = false;
+            self.dragLine.classed("hidden", true);
             self.state.graphMouseDown = false;
         });
 
@@ -345,8 +366,6 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
     GraphCreator.prototype.pathMouseDown = function (d3path, d) {
         var thisGraph = this, state = thisGraph.state;
         d3.event.stopPropagation();
-
-        thisGraph.setSelectedNode(null);
         thisGraph.setSelectedEdge(d);
     };
 
@@ -534,23 +553,37 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             return String(d.source) + "&" + String(d.target);
         });
 
+        var forceNodeDict = {};
+
+        thisGraph.forceNodes.splice(0, thisGraph.forceNodes.length).forEach(function (i) {
+            forceNodeDict[i.id] = i;
+        });
+
         function generateForceData(id) {
             var i = thisGraph.nodes[id], node = thisGraph.state.selectedNode;
-            return {id: i.id, x: i.x, y: i.y, fixed: node && node.id == i.id};
+            var result = forceNodeDict[id] || {id: i.id, x: i.x, y: i.y, px: i.x, py: i.y};
+            result.fixed = thisGraph.forceDragged ? i.id == thisGraph.forceDragged.id : node && node.id == i.id;
+            forceNodeDict[id] = result;
+            return result;
         }
 
-        thisGraph.forceNodes = thisGraph.nodes.filter(function (i) {
-            return i != undefined;
-        }).map(function (i) {
-            return generateForceData(i.id);
+        thisGraph.nodes.forEach(function (i) {
+            if (i != undefined) {
+                thisGraph.forceNodes.push(generateForceData(i.id));
+            }
         });
 
         thisGraph.forceEdges = thisGraph.edges.map(function (i) {
-            return {source: generateForceData(i.source), target: generateForceData(i.target)};
+            return {source: forceNodeDict[i.source], target: forceNodeDict[i.target]};
         });
 
-        thisGraph.forceHandler.nodes(thisGraph.forceNodes).links(thisGraph.forceEdges);
-        thisGraph.forceHandler.start();
+        var average = [d3.mean(thisGraph.forceNodes, function (d) {
+            return d.px;
+        }) * 2, d3.mean(thisGraph.forceNodes, function (d) {
+            return d.py;
+        }) * 2];
+
+        thisGraph.forceHandler.size(average).nodes(thisGraph.forceNodes).links(thisGraph.forceEdges).start();
 
         paths.style('marker-end', 'url(#end-arrow)')
             .classed(consts.selectedClass, function (d) {

@@ -85,11 +85,9 @@
                 <div class="col s12 m12">
                     <h4>Description</h4>
                     <div id="simulation_description" class="card-panel teal ">
-                        <p class="white-text">descriptions about simulation
-                        </p>
-                        <p class="white-text">about nodes</p>
+                        <p class="white-text">The iGEM Registry has over 20,000 documented parts organized by type, chassis, function and more. Recognizing that this is a great asset in the field of synthetic biology, we believe that it is necessary to let users explore Biobricks on BioHub. As a result, this function was implemented as an official plugin for BioHub. Users can search for Biobricks they desire and easily browse all the information about the searching results.</p>
 
-                        <div class="col s6 m9"></div><div><a class = " btn btn-large teal lighten-2 waves-effect" >tutorial</a>
+                        <div class="col s6 m9"></div><div onclick="auto_input()"><a class = "btn btn-large teal lighten-2 waves-effect" >Example Demo</a>
                     </div>
                     </div>
 
@@ -131,6 +129,12 @@
 </html>
 
 <script>
+    function auto_input() {
+        var seq = $('#search')[0];
+        seq.value = "LuxI protein generator";
+        Materialize.updateTextFields();
+    }
+
     function clearout() {
         console.log("...");
         $("#search")[0].value = "";
@@ -265,9 +269,11 @@
     }
 
     function layout_on_form(data_all) {
-        var func = d3.selectAll("#bricks")
-                .attr("class","row")
-                .append("div")
+        $("#brick_content").remove();
+        var func_ct = d3.selectAll("#bricks")
+                .attr("class","row");
+
+        var func = func_ct.append("div")
                 .attr("id","brick_content")
                 .selectAll("div")
                 .data(data_all)
@@ -275,7 +281,7 @@
                 .append("div")
                 .attr("class","col s12 m6 l4");
 
-        var card = func.append("div").attr("class","hoverable card blue-grey waves-effect lighten-4 medium");
+        var card = func.append("div").attr("class","hoverable card blue-grey waves-effect lighten-4 large");
         var card_ct = card.append("div").attr("class","card-content");
         var card_ac = card.append("div").attr("class","card-action");
 
@@ -284,7 +290,7 @@
                 .html(function(d,i){return d.u_name}).append("img")
                 .attr("style","width:35px")
                 .attr("src",function (d) {
-                    var ret = "img/emoj.ico";
+                    var ret = "";//img/emoj.ico";
                     var label_of = labeling(d);
                     if (label_of!="null"){
                         ret = "SBOL/"+label_of+".png"

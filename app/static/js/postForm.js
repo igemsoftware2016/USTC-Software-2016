@@ -75,3 +75,13 @@ function logout_form(){
         }
     });
 }
+
+function postForm_enter(e) {
+    if (e.keyCode == 13) {
+        if (event.which == 13 || event.keyCode == 13) {
+            postForm();
+            return false;
+        }
+        return true;
+    }
+}
