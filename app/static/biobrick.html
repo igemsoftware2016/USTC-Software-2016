@@ -87,7 +87,7 @@
                     <div id="simulation_description" class="card-panel teal ">
                         <p class="white-text">The iGEM Registry has over 20,000 documented parts organized by type, chassis, function and more. Recognizing that this is a great asset in the field of synthetic biology, we believe that it is necessary to let users explore Biobricks on BioHub. As a result, this function was implemented as an official plugin for BioHub. Users can search for Biobricks they desire and easily browse all the information about the searching results.</p>
 
-                        <div class="col s6 m9"></div><div><a class = " btn btn-large teal lighten-2 waves-effect" >tutorial</a>
+                        <div class="col s6 m9"></div><div onclick="auto_input()"><a class = "btn btn-large teal lighten-2 waves-effect" >Example Demo</a>
                     </div>
                     </div>
 
@@ -129,6 +129,12 @@
 </html>
 
 <script>
+    function auto_input() {
+        var seq = $('#search')[0];
+        seq.value = "LuxI protein generator";
+        Materialize.updateTextFields();
+    }
+
     function clearout() {
         console.log("...");
         $("#search")[0].value = "";
