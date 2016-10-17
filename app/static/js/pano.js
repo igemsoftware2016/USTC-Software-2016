@@ -116,24 +116,21 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
 
         self.forceNodes = [];
         self.forceEdges = [];
+        self.forceSaveLastTime = Date.now();
 
         self.forceHandler = d3.layout.force()
-            .size([self.svg.attr('width') * 2, self.svg.attr('height') * 2])
-            .charge(function (node) {
-                return -300;
-            })
-            .linkDistance(200)
-            .gravity(0.08)
-            .friction(0.8)
-            .on("tick", function () {
+            .friction(0.7).charge(-5000).gravity(0.3).linkDistance(200)
+            .on("tick", function (e) {
                 self.forceNodes.forEach(function (i) {
                     self.nodes[i.id].x = i.x;
                     self.nodes[i.id].y = i.y;
                 });
+                var now = Date.now();
+                if (now > self.forceSaveLastTime + 4096) {
+                    self.trySave();
+                    self.forceSaveLastTime = now;
+                }
                 self.updateGraph();
-            })
-            .on("end", function () {
-                self.trySave();
             });
 
         // listen for key events
@@ -147,8 +144,11 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             case self.consts.DELETE_KEY:
                 d3.event.preventDefault();
                 var oldNode = self.state.selectedNode;
-                self.delSelectedEdge();
-                self.delSelectedNode();
+                if (self.state.selectedEdge) {
+                    self.delSelectedEdge();
+                } else {
+                    self.delSelectedNode();
+                }
                 if (oldNode) {
                     if (graph.nodes.length > 0) {
                         var index = oldNode.id;
@@ -199,6 +199,10 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 self.state.shiftNodeDrag = false;
                 self.dragLine.classed("hidden", true);
             }
+            self.state.graphMouseDown = false;
+        }).on("mouseleave", function (d) {
+            self.state.shiftNodeDrag = false;
+            self.dragLine.classed("hidden", true);
             self.state.graphMouseDown = false;
         });
 
@@ -362,8 +366,6 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
     GraphCreator.prototype.pathMouseDown = function (d3path, d) {
         var thisGraph = this, state = thisGraph.state;
         d3.event.stopPropagation();
-
-        thisGraph.setSelectedNode(null);
         thisGraph.setSelectedEdge(d);
     };
 
@@ -559,8 +561,8 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
 
         function generateForceData(id) {
             var i = thisGraph.nodes[id], node = thisGraph.state.selectedNode;
-            var result = forceNodeDict[id] || {id: i.id, x: i.x, y: i.y};
-            result.fixed = node && node.id == i.id;
+            var result = forceNodeDict[id] || {id: i.id, x: i.x, y: i.y, px: i.x, py: i.y};
+            result.fixed = thisGraph.forceDragged ? i.id == thisGraph.forceDragged.id : node && node.id == i.id;
             forceNodeDict[id] = result;
             return result;
         }
@@ -575,8 +577,13 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             return {source: forceNodeDict[i.source], target: forceNodeDict[i.target]};
         });
 
-        thisGraph.forceHandler.links(thisGraph.forceEdges);
-        thisGraph.forceHandler.start();
+        var average = [d3.mean(thisGraph.forceNodes, function (d) {
+            return d.px;
+        }) * 2, d3.mean(thisGraph.forceNodes, function (d) {
+            return d.py;
+        }) * 2];
+
+        thisGraph.forceHandler.size(average).nodes(thisGraph.forceNodes).links(thisGraph.forceEdges).start();
 
         paths.style('marker-end', 'url(#end-arrow)')
             .classed(consts.selectedClass, function (d) {
