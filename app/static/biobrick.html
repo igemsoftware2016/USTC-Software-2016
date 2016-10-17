@@ -269,9 +269,12 @@
     }
 
     function layout_on_form(data_all) {
-        var func = d3.selectAll("#bricks")
-                .attr("class","row")
-                .append("div")
+        d3.selectAll("brick_content").remove();
+
+        var func_ct = d3.selectAll("#bricks")
+                .attr("class","row");
+
+        var func = func_ct.append("div")
                 .attr("id","brick_content")
                 .selectAll("div")
                 .data(data_all)
