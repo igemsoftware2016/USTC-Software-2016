@@ -273,7 +273,7 @@
                 .append("div")
                 .attr("class","col s12 m6 l4");
 
-        var card = func.append("div").attr("class","hoverable card blue-grey waves-effect lighten-4 medium");
+        var card = func.append("div").attr("class","hoverable card blue-grey waves-effect lighten-4 large");
         var card_ct = card.append("div").attr("class","card-content");
         var card_ac = card.append("div").attr("class","card-action");
 
@@ -282,7 +282,7 @@
                 .html(function(d,i){return d.u_name}).append("img")
                 .attr("style","width:35px")
                 .attr("src",function (d) {
-                    var ret = "img/emoj.ico";
+                    var ret = "";//img/emoj.ico";
                     var label_of = labeling(d);
                     if (label_of!="null"){
                         ret = "SBOL/"+label_of+".png"
