@@ -179,10 +179,10 @@ function sendCreateRequest(){
         var user=document.getElementById("this_is_a_user_name").innerHTML;
         var name=document.getElementById("add_project_name").value;
         var privacy=null;
-        if(document.getElementById("add_private_state_private").checked=true){
+        if(document.getElementById("add_private_state_private").checked==true){
                 privacy=false;
         }
-        if(document.getElementById("add_private_state_public").checked=true){
+        if(document.getElementById("add_private_state_public").checked==true){
                 privacy=true;
         }
         if(name==null||privacy==null||name.length==0){
