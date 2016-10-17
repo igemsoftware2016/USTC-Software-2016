@@ -38,6 +38,7 @@ function blast_req(){
     myLoader();
     //console.log(dictPost);
     if(dictPost.seq.length>0) {
+        $('#svg_blast').remove();
         $.ajax({
             type: "POST",
             url: "/plugin/",
@@ -46,14 +47,16 @@ function blast_req(){
                 var Jr = JSON.parse(response);
                 if (Jr['success'] == true) {
 
-                    d3.select('#svg_blast').remove();
+                    d3.selectAll('svg_blast_ct').remove();
+                    d3.selectAll('#svg_blast').remove();
                     var data_res = Jr['result'];
                     var res_width = 500;
                     var res_height = 500;
                     var svg_container = d3.select('#result_blast').append('svg')
                         .attr('width', res_width + 280)
                         .attr('height', res_height + 120)
-                        .attr("id","svg_blast");
+                        .attr("id","svg_blast")
+                        .attr("class","svg_blast_ct");
 
                     var svg = svg_container.append("g")
                         .attr("transform", "translate(" + res_width / 2 + "," + res_height / 2 + ")");
