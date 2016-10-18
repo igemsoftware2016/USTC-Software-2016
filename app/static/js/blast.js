@@ -281,7 +281,7 @@ function glo_draw(svg,data_result,ori_length) {
         .attr("y", function (d,i) {
             return i*24-255
         })
-        .attr("width", 255)
+        .attr("width", 250)
         .attr("height", 20)
         .attr("fill",function (d) {
             console.log(color((d.query_end-d.query_start)/ori_length));
@@ -312,7 +312,7 @@ function glo_draw(svg,data_result,ori_length) {
         d3.selectAll("#rectangle_"+i).attr("stroke","white").attr("stroke-width",3);
         d3.selectAll("#rectangle_"+i)
             .transition().duration(200).attrTween("width",function (d,i,a) {
-            return d3.interpolate(a,215);
+            return d3.interpolate(a,250);
 
 
         });
@@ -322,7 +322,7 @@ function glo_draw(svg,data_result,ori_length) {
         d3.selectAll("#rectangle_"+i).attr("stroke","yellow").attr("stroke-width",3);
         d3.selectAll("#rectangle_"+i)
             .transition().duration(200).attrTween("width",function (d,i,a) {
-            return d3.interpolate(a,240)
+            return d3.interpolate(a,270)
         });
 
 
