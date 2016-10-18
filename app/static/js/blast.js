@@ -26,7 +26,7 @@ function auto_input() {
     if (status_jump =="local"){
 
         var seq = $('#sequence')[0];
-        seq.value = "acaagatacattgtatgaaaatacaagaaa";
+        seq.value = "acaagatacattgtgatactgaaaatacatgtgcagagaaa";
         Materialize.updateTextFields();
     }
 }
