@@ -9,8 +9,14 @@ function getProjectData(){
                 success:function(response){
         	        console.log(response);
         	        jsonResp=JSON.parse(response);
-        	        if(jsonResp['success']==true){
-                                get_user_info_by_id(1,jsonResp);
+        	        if(jsonResp['success']==true) {
+                        if (jsonResp.project.length > 0){
+                            get_user_info_by_id(1, jsonResp);
+                        }else {
+
+                            document.getElementById("load-spinner").style.display="none";
+                            $('#project').innerHTML='<h1><span class="mdl-textfield--full-width mdl-color-text--blue-grey-300"><h1>No project.</h1><h2>Try BioHub from creating a project by click "+"</h2></span></h1>';
+                        }
         	        }
         	        else{
                         alert(jsonResp.error);

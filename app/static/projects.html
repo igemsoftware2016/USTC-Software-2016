@@ -24,6 +24,11 @@
     <script src="js/user.js"></script>
     <script src="js/project.js"></script>
     <style>
+
+        main{
+            min-height: 80%;
+        }
+
         @font-face {
             font-family: 'Material Icons';
             font-style: normal;
@@ -243,7 +248,7 @@
     <span id="this_is_a_user_name" style="visibility: hidden;">sth</span>
         <div class="demo-content">
         <script type="text/javascript">document.getElementsByClassName("demo-content")[0].minHeight=$(window).height;</script>
-            <div id="load-spinner" class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></div>
+            <div id="load-spinner" style="margin: 20%" class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></div>
             <div class="mdl-grid mdl-grid--no-spacing" style="min-height: 64px;">
                 <div class="mdl-cell mdl-cell--12-col">
                     <button id="add_project" class="show-dialog-add-project mdl-button mdl-button--fab mdl-js-button mdl-js-ripple-effect mdl-color--green-A700 mdl-shadow--4dp" style="position: absolute; right: 36px; top: 36px; z-index: 999;">
@@ -256,7 +261,7 @@
             </div>
             <div class="mdl-grid mdl-grid--no-spacing">
               <div id="project" class="mdl-cell mdl-cell--12-col" style="padding: 0px 64px 0px 64px;">
-                <script type="text/javascript">
+                    <script type="text/javascript">
                   function loadproject(obj) {
                       var timeline_section=document.createElement("section");
                       timeline_section.className="demo-card-project mdl-grid mdl-grid--no-spacing mdl-shadow--4dp";
