@@ -51,8 +51,24 @@ function  get_status() {
         url:"/plugin/",
         data:data,
         success:function (response) {
-            var Jr = JSON.parse(response);
-            
+            if (response.length>0){
+                var Jr = JSON.parse(response);
+                if(Jr.status == "Clear"){
+                    alert("Ready to design")
+                }
+                if(Jr.status == "Failed"){
+                    alert("reason : "+Jr.reason)
+                }
+                if(Jr.status == "Running"){
+                    alert("Designing....(be patient)")
+                }
+                if(Jr.status == "Success"){
+                    var sel_s = $('#get_status')[0];
+                    sel_s.innerHTML = "Download File";
+                    sel_s.href = Jr.url;
+                }
+            }
+            else {alert("please connect to the server Admin for help")}
         }
     })
 }
