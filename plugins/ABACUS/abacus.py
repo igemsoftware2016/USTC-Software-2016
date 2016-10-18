@@ -37,22 +37,24 @@ class ABACUS(Plugin):
 
         filepath = abacuspath + 'pdbs/' + str(self.user.id) + '/'
 
-        if request['demo'] == "True":
-            Popen(['python3', designpath, filepath, str(self.user.id) + '.pdb',
-                   request['amount'], abacuspath, request['demo']])
-            return dict(status="Running", demo="True")
-
-        print('Gonna save file')
-        if not request['action'] == 'getstatus':
+        if request["action"] == "design":
+            print("Cleaning!")
             try:
                 rmtree(filepath)  # Alert! Clean directory even it is existed
             except:
                 pass
             mkdir(filepath)
+
+            if request['demo'] == "True":
+                print("demo!")
+                Popen(['python3', designpath, filepath, str(self.user.id) + '.pdb',
+                       request['amount'], abacuspath, request['demo']])
+                return dict(status="Running", demo="True")
+
+            print('Gonna save file')
             request['file'].save(filepath + str(self.user.id) + '.pdb')
             print("File saved")
 
-        if request["action"] == "design":
             try:
                 tag = request["tag"]
             except KeyError:
@@ -60,7 +62,7 @@ class ABACUS(Plugin):
                         request['amount'], abacuspath, request['demo']])
             else:
                 Popen(['python3', designpath, filepath, str(self.user.id) + '.pdb',
-                       request['amount'], abacuspath, tag, request['demo']])
+                       request['amount'], abacuspath, request['demo'], tag])
             return dict(status="Running")
 
         elif request["action"] == 'getstatus':
@@ -75,6 +77,8 @@ class ABACUS(Plugin):
                 log = ferr.read(9600)
                 if log.find('Exception') != -1:
                     return dict(status='Failed', reason=log)
+                if not log:
+                    break
 
             while 1:
                 log = f.read(9600)
@@ -88,8 +92,8 @@ class ABACUS(Plugin):
             # Compress file
             if flag:
                 cur_path = getcwd()
-                if not (path.exists('app/static/downloads') and path.isdir('/app/static/downloads')):
-                    mkdir('/app/static/downloads')
+                if not path.exists('app/static/downloads'):
+                    mkdir('app/static/downloads')
 
                 target = ZipFile('app/static/downloads/' + str(self.user.id) + '.zip', 'w')
                 allfile = listdir(filepath)

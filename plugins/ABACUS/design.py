@@ -5,7 +5,7 @@ from os import chdir, rename
 import time
 
 
-def design(path, file, amount, abacuspath, tag=None, demo=False):
+def design(path, file, amount, abacuspath, demo=False, tag=None):
     if demo == 'True':
         demo = True
         fp = open(path + 'err.log', 'w')
@@ -55,7 +55,8 @@ def design(path, file, amount, abacuspath, tag=None, demo=False):
             else:
                 ABACUS_design(path, file, abacuspath, amount, tag)
         else:
-            time.sleep(5)
+            print("I am gonna sleep")
+            time.sleep(20)
             fp = open(path + 'demo_design_demo.fasta', 'w')
             fp.close()
             fp = open(path + 'demo_design_demo.pdb', 'w')
