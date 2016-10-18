@@ -51,7 +51,7 @@ class user_model(Plugin):
                     "x": 1057.5971402365803, "y": -493.90246288635706},
                 {"id": 5, "tax_id": "9986", "gene_id": "100008883", "name": "GABARAP",
                     "info": "GABA type A receptor-associated protein", "title": "Use PATH FINDER to find a path!",
-                    "x": 1030.2078023732358, "y": -109.43012156446206}], "edges": [{"source": 0, "target": 1}]}''', 'false', '', user.id)
+                    "x": 1030.2078023732358, "y": -109.43012156446206}], "edges": [{"source": 0, "target": 1}]}''', 'false', '', user=user.id)
             return {'success': True}
         elif request['action'] == 'logout':
             print('Logout')
