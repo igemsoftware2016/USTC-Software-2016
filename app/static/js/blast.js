@@ -336,7 +336,7 @@ function glo_draw(svg,data_result,ori_length) {
             text_start.text(d.query_start);
             root_text.text("Original Sequence VS" + d.ID);
             text_info.text("Description : "+d.description);
-            text_benchmark.text("E-value"+d.evalue);
+            text_benchmark.text("E-value: "+d.evalue);
             arc_ret.attr("fill", color((d.query_end-d.query_start)/ori_length))
         })
 
