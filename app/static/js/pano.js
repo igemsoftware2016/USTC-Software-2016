@@ -442,6 +442,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                             s: mouseDownNode['gene_id'],
                             t: d['gene_id'],
                             k: isNaN(k) ? 5 : k,
+                            maxlen: isNaN(maxlen) ? 10 : maxlen
                         }, function (nodes, p) {
                             paths = p;
                             nodes.forEach(function (i) {
@@ -465,10 +466,13 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                                         }).reduce(function (i, j) {
                                             return i + ' -> ' + j;
                                         })))
-                                    .append($('<i class="material-icons tiny right">clear</i>').click(function () {
-                                        $(this).parent().parent().remove();
-                                        paths.splice(i, 1);
-                                    })))
+                                    .append($('<i class="material-icons tiny right">clear</i>').click((function (i) {
+                                        return function () {
+                                            $(this).parent().parent().remove();
+                                            paths[i] = undefined;
+                                            console.log(paths);
+                                        };
+                                    })(i))))
                                     .append($('<div class="collapsible-body"></div>').append(nodeList)))
                                     .show();
                             }
@@ -479,6 +483,9 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 complete: function () {
                     graph.state.lockKeyEvent = false;
                     paths.forEach(function (path) {
+                        if (!path) {
+                            return;
+                        }
                         var previous = mouseDownNode;
                         for (var i = 1; i < path.length; ++i) {
                             var node = nodeDict[path[i]];
@@ -800,71 +807,17 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
 
         this.pathFinder = function (req, callback) {
             callback = callback || function () {};
-            var source = req['s'], target = req['t'];
-            callback([
-                {
-                    tax_id: '10001', // 节点的Tax id
-                    gene_id: source, // 节点的Gene id
-                    name: 'ZGDX', // 节点的名称
-                    info: 'Infomation of ZGDX: blablablabla blablablabla blablablabla blablablabla'
-                },
-                {
-                    tax_id: '10001', // 节点的Tax id
-                    gene_id: '1000101', // 节点的Gene id
-                    name: 'ZGDXDX', // 节点的名称
-                    info: 'Infomation of ZGDXDX: blablablabla blablablabla blablablabla blablablabla'
-                },
-                {
-                    tax_id: '10001', // 节点的Tax id
-                    gene_id: '100010101', // 节点的Gene id
-                    name: 'ZGDXDXDX', // 节点的名称
-                    info: 'Infomation of ZGDXDXDX: blablablabla blablablabla blablablabla blablablabla'
-                },
-                {
-                    tax_id: '10010',
-                    gene_id: '10010',
-                    name: 'ZGLT',
-                    info: 'Infomation of ZGLT: blablablabla blablablabla blablablabla blablablabla'
-                },
-                {
-                    tax_id: '10010',
-                    gene_id: '1001010',
-                    name: 'ZGLTLT',
-                    info: 'Infomation of ZGLTZGLT: blablablabla blablablabla blablablabla blablablabla'
-                },
-                {
-                    tax_id: '10010',
-                    gene_id: '100101010',
-                    name: 'ZGLTLTLT',
-                    info: 'Infomation of ZGLTZGLTZGLT: blablablabla blablablabla blablablabla blablablabla'
-                },
-                {
-                    tax_id: '10086',
-                    gene_id: '10086',
-                    name: 'ZGYD',
-                    info: 'Infomation of ZGYD: blablablabla blablablabla blablablabla blablablabla'
-                },
-                {
-                    tax_id: '10086',
-                    gene_id: '1008686',
-                    name: 'ZGYDYD',
-                    info: 'Infomation of ZGYDYD: blablablabla blablablabla blablablabla blablablabla'
-                },
-                {
-                    tax_id: '10086',
-                    gene_id: target,
-                    name: 'ZGYDYDYD',
-                    info: 'Infomation of ZGYDYDYD: blablablabla blablablabla blablablabla blablablabla'
+            req['plugin'] = req['action'] = 'path_finder';
+            $.post("/plugin/", req).done(function (res) {
+                var json = JSON.parse(res);
+                if (json.success) {
+                    callback(json.nodes, json.paths);
+                } else {
+                    callback([], []);
                 }
-            ], [
-                [source, '1000101', '10010', '100101010', target],
-                [source, '1000101', '10010', '10086', target],
-                [source, '1000101', '1001010', '10086', target],
-                [source, '100010101', '1001010', '10086', target],
-                [source, '100010101', '1001010', '1008686', target],
-                [source, '100010101', '100101010', '1008686', target],
-                [source, '10010', '100101010', '1008686', target]
-            ]); // TODO
+            }).fail(function () {
+                callback([], []);
+            });
         }
 
         this.lookup = function (str, callback) {
