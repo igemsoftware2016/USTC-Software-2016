@@ -49,9 +49,10 @@ function  get_status() {
     $.ajax({
         type:"POST",
         url:"/plugin/",
+        data:data,
         success:function (response) {
             var Jr = JSON.parse(response);
-
+            
         }
     })
 }
