@@ -3,6 +3,7 @@ from flask_login import UserMixin
 import hashlib
 import random
 import string
+import os
 
 
 def random_string(N):
@@ -18,7 +19,10 @@ class User(TableBase, UserMixin):
     passwordhash = Column(String(127), nullable=False)
     salt = Column(String(127), nullable=False)
     username = Column(String(127))
-    avatar = Column(MEDIUMTEXT())
+    if os.getenv('FLASK_TESTING'):
+        avatar = Column(String(16777215))
+    else:
+        avatar = Column(MEDIUMTEXT())
     description = Column(Text())
     education = Column(Text())
     major = Column(Text())

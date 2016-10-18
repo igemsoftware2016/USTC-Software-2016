@@ -5,7 +5,7 @@ build_linux:
     - git submodule update
     - cd ../..
     - cp config.py.example config.py
-    - coverage run set_up.py
+    - coverage run run_tests.py
 lint:
   allow_failure: true
   script:
