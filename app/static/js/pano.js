@@ -470,7 +470,6 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                                         return function () {
                                             $(this).parent().parent().remove();
                                             paths[i] = undefined;
-                                            console.log(paths);
                                         };
                                     })(i))))
                                     .append($('<div class="collapsible-body"></div>').append(nodeList)))
@@ -600,7 +599,11 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             return {source: forceNodeDict[i.source], target: forceNodeDict[i.target]};
         });
 
-        thisGraph.forceHandler.nodes(thisGraph.forceNodes).links(thisGraph.forceEdges).start();
+        if (thisGraph.forceNodes.length > 0) {
+            thisGraph.forceHandler.nodes(thisGraph.forceNodes);
+        }
+
+        thisGraph.forceHandler.links(thisGraph.forceEdges).start();
 
         paths.style('marker-end', 'url(#end-arrow)')
             .classed(consts.selectedClass, function (d) {
