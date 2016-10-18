@@ -129,6 +129,23 @@
 </html>
 
 <script>
+
+    var str_sub_1='<?xml version="1.0" ?>\
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:prov="http://www.w3.org/ns/prov#" xmlns:sbol="http://sbols.org/v2#">\
+            <sbol:Sequence rdf:about="http://partsregistry.org/seq/';
+    var str_sub_2='">\
+            <sbol:persistentIdentity rdf:resource="http://partsregistry.org/seq/';
+    var str_sub_3 = '"/>' +
+            '<sbol:displayId>';
+    var str_sub_4 = '</sbol:displayId>\
+    <prov:wasDerivedFrom rdf:resource="http://parts.igem.org/Part:BBa_J23119:Design"/>\
+            <sbol:elements>';
+    var str_sub_5 = '</sbol:elements>\
+    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>\
+            </sbol:Sequence>\
+    </rdf:RDF>';
+
+
     function auto_input() {
         var seq = $('#search')[0];
         seq.value = "LuxI protein generator";
@@ -362,7 +379,7 @@
 */
         card_ac.append("button")
                 .attr("onclick",function (d) {
-                    return  "window.location.href('http://parts.igem.org/Part:"+d.u_name+"')";
+                    return  "window.location.href=('http://parts.igem.org/Part:"+d.u_name+"')";
                 })
                 .attr("class","hoverable btn waves-effect waves-light blue-grey")
                 .attr("style","margin:2px")
@@ -373,6 +390,17 @@
                 .append("i")
                 .attr("class","material-icons")
                 .html("link");
+
+        card_ac.append("button")
+                .attr("onclick",function (d) {
+
+                    var data = d.data3;
+                    var ret_str = str_sub_1+d.u_name+str_sub_2+d.u_name+str_sub_3+d.u_name + str_sub_4 +d.data3[[Object.keys(data)[0]]];
+                    return ret_str
+                })
+                .attr("class","hoverable btn waves-effect waves-light blue-grey")
+                .attr("style","margin:2px").html("SBOL⇩");
+
 
  /*       card_ac.append("button").attr("class","hoverable btn waves-effect waves-light blue-grey")
                 .attr("style","margin:2px")
