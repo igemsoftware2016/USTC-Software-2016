@@ -130,6 +130,29 @@
 
 <script>
 
+    function download(fileName, blob){
+        var aLink = document.createElement('a');
+        var evt = document.createEvent("MouseEvents");
+        evt.initEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+        aLink.download = fileName;
+        aLink.href = URL.createObjectURL(blob);
+        aLink.dispatchEvent(evt);
+    }
+
+    /* 文本转Blob对象 */
+    function stringToBlob(text) {
+        var u8arr = new Uint8Array(text.length);
+        for (var i = 0, len = text.length; i < len; ++i) {
+            u8arr[i] = text.charCodeAt(i);
+        }
+        var blob = new Blob([u8arr]);
+        return blob;
+    }
+
+
+
+
+
     var str_sub_1='<?xml version="1.0" ?>\
     <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:prov="http://www.w3.org/ns/prov#" xmlns:sbol="http://sbols.org/v2#">\
             <sbol:Sequence rdf:about="http://partsregistry.org/seq/';
@@ -393,10 +416,10 @@
 
         card_ac.append("button")
                 .attr("onclick",function (d) {
-
                     var data = d.data3;
+                    var f_name = "sbol_"+d.u_name+".xml";
                     var ret_str = str_sub_1+d.u_name+str_sub_2+d.u_name+str_sub_3+d.u_name + str_sub_4 +d.data3[[Object.keys(data)[0]]];
-                    return ret_str
+                    return "download("+f_name+","+"stringToBlob("+ret_str+"))"
                 })
                 .attr("class","hoverable btn waves-effect waves-light blue-grey")
                 .attr("style","margin:2px").html("SBOL⇩");
@@ -415,6 +438,9 @@
                 .html("share")  */
 
     }
+
+
+
 </script>
 
 
