@@ -204,8 +204,7 @@
                 <i class="material-icons">more_horiz</i>
             </button>
             <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="contact_dropdown">
-                <li class="mdl-menu__item"><a class="mdl-navigation__link mdl-color-text--black" href="">About BioHub</a></li>
-                <li class="mdl-menu__item"><a class="mdl-navigation__link mdl-color-text--black" href="developers.html">About us</a></li>
+                <li class="mdl-menu__item"><a class="mdl-navigation__link mdl-color-text--black" style="text-decoration: none;" href="developers.html">About us</a></li>
             </ul>
         </div>
     </header>
@@ -220,9 +219,9 @@
                     <span class="visuallyhidden">Accounts</span>
                 </button>
                 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
-                    <li class="mdl-menu__item"><a class="mdl-navigation__link mdl-color-text--black" href="profile_edit.html">Edit my profile</a></li>
-                    <li class="mdl-menu__item"><a class="mdl-navigation__link mdl-color-text--black" href="profile.html">View my information</a></li>
-                    <li class="mdl-menu__item demo-flex-align"><a class="mdl-navigation__link mdl-color-text--black" href="#" id="logout_btn"><i class="material-icons">compare_arrows</i>Login as another user</a></li>
+                    <li class="mdl-menu__item"><a class="mdl-navigation__link mdl-color-text--black" href="profile_edit.html" style="text-decoration: none;">Edit my profile</a></li>
+                    <li class="mdl-menu__item"><a class="mdl-navigation__link mdl-color-text--black" href="profile.html" style="text-decoration: none;">View my information</a></li>
+                    <li class="mdl-menu__item demo-flex-align"><a class="mdl-navigation__link mdl-color-text--black" href="login.html" id="logout_btn" style="text-decoration: none;"><i class="material-icons">compare_arrows</i>Login as another user</a></li>
                 </ul>
             </div>
         </header>
@@ -244,12 +243,13 @@
     <span id="this_is_a_user_name" style="visibility: hidden;">sth</span>
         <div class="demo-content">
         <script type="text/javascript">document.getElementsByClassName("demo-content")[0].minHeight=$(window).height;</script>
+            <div id="load-spinner" class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></div>
             <div class="mdl-grid mdl-grid--no-spacing" style="min-height: 64px;">
                 <div class="mdl-cell mdl-cell--12-col">
-                    <button id="add_project" class="show-dialog-add-project mdl-button mdl-button--fab mdl-js-button mdl-js-ripple-effect mdl-color--green-A700 mdl-shadow--4dp" style="position: absolute; right: 36px; top: 72px; z-index: 999;">
+                    <button id="add_project" class="show-dialog-add-project mdl-button mdl-button--fab mdl-js-button mdl-js-ripple-effect mdl-color--green-A700 mdl-shadow--4dp" style="position: absolute; right: 36px; top: 36px; z-index: 999;">
                         <i class="material-icons" role="presentation" style="color: white;">add</i>
                     </button>
-                    <button id="comment_box" class="show-dialog-comment-box mdl-button mdl-button--fab mdl-js-button mdl-js-ripple-effect mdl-color--green-A700 mdl-shadow--4dp" style="position: absolute; right: 144px; top: 72px; z-index: 999;">
+                    <button id="comment_box" class="show-dialog-comment-box mdl-button mdl-button--fab mdl-js-button mdl-js-ripple-effect mdl-color--green-A700 mdl-shadow--4dp" style="position: absolute; right: 144px; top: 36px; z-index: 999;">
                         <i class="material-icons" role="presentation" style="color: white;">mail_outline</i>
                     </button>
                 </div>
@@ -423,8 +423,7 @@
             <div class="mdl-mini-footer__left-section">
                 <div class="mdl-logo">BioHub</div>
                 <ul class="mdl-mini-footer__link-list">
-                    <li><a href="#">Help</a></li>
-                    <li><a href="#">View Our Wiki</a></li>
+                    <li><a href="http://2016.igem.org/Team:USTC-Software">View Our Wiki</a></li>
                 </ul>
             </div>
             <div class="mdl-mini-footer__right-section">

@@ -86,6 +86,7 @@ function get_user_info_by_id(i,obj) {
                     get_user_info_by_id(i,obj);
                 }
                 else{
+                    document.getElementById("load-spinner").style.display="none";
                     var comment_buttons=document.getElementsByClassName("demo-actions-comment");
                     var comment_areas=document.getElementsByClassName("demo-comment");
                     var commentspc_1=document.getElementsByClassName("demo-commentspc_1");

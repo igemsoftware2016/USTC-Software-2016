@@ -112,6 +112,7 @@ function get_user_info_by_id(i,obj) {
                 get_user_info_by_id(i,obj);
             }
             else{
+                document.getElementById("load-spinner").style.display="none";
                 var dialog_remove_project=document.querySelector('.demo-remove-project');
             var show_dialogButtons_remove_project = document.querySelectorAll('.show-dialog-remove-project');
             if (! dialog_remove_project.showModal) {
@@ -227,7 +228,8 @@ function get_user_info_by_id_comment(i,obj){
             if(jsonResp['success']==true) {
                  obj.comment[i-1].user_name=jsonResp.user_name;
                  obj.comment[i-1].src="user_data.html#"+String(jsonResp.id);
-                loadcomment(obj.comment[i-1]);
+                 obj.project_src="pano.html?id="+String(obj.project_id);
+                loadcomment(obj,i);
                 i++;
                 if(i<=num){
                     get_user_info_by_id_comment(i,obj);
@@ -241,23 +243,31 @@ function get_user_info_by_id_comment(i,obj){
 }
 }
 
-function loadcomment(obj){
+function loadcomment(obj,i){
+    var com=obj.comment[i-1];
     var commentdiv=document.createElement("div");
     commentdiv.className="mdl-cell--12-col demo-icon_text-align";
     commentdiv.style.marginBottom="8px";
     var userlink=document.createElement("a");
     userlink.style.textDecoration="none";
     userlink.style.fontSize="16px";
-    userlink.style.paddingRight="4px";
     userlink.style.color="#00C853";
-    userlink.innerHTML=obj.user_name;
-    userlink.href=obj.src;
+    userlink.innerHTML=com.user_name+"@";
+    userlink.href=com.src;
     componentHandler.upgradeElement(userlink);
     commentdiv.appendChild(userlink);
+    var projlink=document.createElement("a");
+    projlink.style.textDecoration="none";
+    projlink.style.fontSize="16px";
+    projlink.style.paddingRight="8px";
+    projlink.style.color="#00C853";
+    projlink.innerHTML=obj.project_name+":";
+    projlink.href=obj.project_src;
+    componentHandler.upgradeElement(projlink);
+    commentdiv.appendChild(projlink);
     var comment=document.createElement("span");
     comment.style.fontSize="16px";
-    comment.style.paddingLeft="4px";
-    comment.innerHTML=obj.content;
+    comment.innerHTML=com.content;
     componentHandler.upgradeElement(comment);
     commentdiv.appendChild(comment);
     componentHandler.upgradeElement(commentdiv);

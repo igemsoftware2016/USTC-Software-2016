@@ -53,7 +53,7 @@ function  get_status() {
         success:function (response) {
             if (response.length>0){
                 var Jr = JSON.parse(response);
-                if(Jr.status == "Clean"){
+                if(Jr.status == "Clear"){
                     alert("Ready to design")
                 }
                 if(Jr.status == "Failed"){
