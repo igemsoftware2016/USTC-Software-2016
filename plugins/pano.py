@@ -141,6 +141,11 @@ class Pano(Plugin):
 
         sorted(suggest['nodes'], key=lambda x: x['equal'], reverse=True)
 
+        for res in session.query(Gene).filter(Gene.gene_id == s):
+            temp = {'name': res.Symbol, 'gene_id': res.gene_id, 'info': res.description,
+                    'tax_id': res.tax_id, 'equal': res.Symbol == s}
+            suggest['nodes'].insert(res, 0)
+        
         return suggest
 
 
