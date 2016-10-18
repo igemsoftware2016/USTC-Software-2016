@@ -128,9 +128,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         self.forceSaveLastTime = Date.now();
 
         self.forceHandler = d3.layout.force()
-            .friction(0.8).charge(-4000).gravity(0.2).linkDistance(function (d) {
-                return Math.sqrt((d.source.weight + d.target.weight) * 2 || 2) * 100
-            })
+            .charge(-8000).friction(0.6).gravity(0.4).linkDistance(200)
             .on("tick", function (e) {
                 self.forceNodes.forEach(function (i) {
                     self.nodes[i.id].x = i.x;
@@ -485,28 +483,29 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 complete: function () {
                     graph.state.lockKeyEvent = false;
                     paths.forEach(function (path) {
-                        if (path) {
-                            var previous = mouseDownNode;
-                            for (var i = 1; i < path.length; ++i) {
-                                var node = nodeDict[path[i]];
-                                if (i + 1 < path.length) {
-                                    graph.createNodeAndSelect({
-                                        tax_id: node.tax_id,
-                                        gene_id: node.gene_id,
-                                        name: node.name,
-                                        info: node.info,
-                                        title: node.name,
-                                        x: (mouseDownNode.x + d.x + 25 * Math.random()) / 2,
-                                        y: (mouseDownNode.y + d.y + 25 * Math.random()) / 2
-                                    });
-                                } else {
-                                    graph.setSelectedNode(graph.nodes[d.id]);
-                                }
-                                var newEdge = {source: previous.id, target: graph.state.selectedNode.id};
-                                thisGraph.edges.push(newEdge);
-                                thisGraph.updateGraph();
-                                previous = graph.state.selectedNode;
+                        if (!path) {
+                            return;
+                        }
+                        var previous = mouseDownNode;
+                        for (var i = 1; i < path.length; ++i) {
+                            var node = nodeDict[path[i]];
+                            if (i + 1 < path.length) {
+                                graph.createNodeAndSelect({
+                                    tax_id: node.tax_id,
+                                    gene_id: node.gene_id,
+                                    name: node.name,
+                                    info: node.info,
+                                    title: node.name,
+                                    x: previous.x + 100 * Math.random() + 100,
+                                    y: previous.y + 100 * Math.random() + 100
+                                });
+                            } else {
+                                graph.setSelectedNode(graph.nodes[d.id]);
                             }
+                            var newEdge = {source: previous.id, target: graph.state.selectedNode.id};
+                            thisGraph.edges.push(newEdge);
+                            thisGraph.updateGraph();
+                            previous = graph.state.selectedNode;
                         }
                     });
                     sidebar.update(mouseDownNode.id);
