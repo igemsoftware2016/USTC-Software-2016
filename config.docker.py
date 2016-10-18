@@ -1,18 +1,30 @@
-from os import getenv, remove
+from os import getenv, system
 from os.path import exists
 from time import time
 
 dbhost = getenv('BIOHUB_DB_HOST')
-dbpassword = getenv(dbhost.upper() + '_ENV_MYSQL_ROOT_PASSWORD')
+if getenv('BIOHUB_DB_USER'):
+    dbuser = getenv('BIOHUB_DB_USER')
+    dbpassword = getenv('BIOHUB_DB_PASSWORD')
+else:
+    dbuser = 'root'
+    dbpassword = getenv(dbhost.upper() + '_ENV_MYSQL_ROOT_PASSWORD')
 
-if exists('first'):
+if not exists('.not_first'):
     import MySQLdb
-    c = MySQLdb.connect(dbhost, 'root', dbpassword)
+    c = MySQLdb.connect(dbhost, dbuser, dbpassword)
     c.send_query('CREATE DATABASE igem')
     try: c.commit()
     except: pass
     c.close()
-    remove('first')
+    df = 'biobricks.sql.gz'
+    bf = 'biobricks.sql'
+    system('apt install -y mysql-client wget')
+    system('wget http://parts.igem.org/partsdb/download.cgi?type=parts_sql -O "%s"' % df)
+    system('gunzip "%s"' % df)
+    system('mysql "-h%s" "-u%s" "-p%s" "%s" <"%s"' % (dbhost, dbuser, dbpassword, 'igem', bf))
+    with open('.not_first', 'w') as f:
+        pass
 
-DATABASE_URI = 'mysql://root:%s@%s/igem' % (dbpassword, dbhost)
+DATABASE_URI = 'mysql://%s:%s@%s/igem' % (dbuser, dbpassword, dbhost)
 SECRET_KEY = str(time)

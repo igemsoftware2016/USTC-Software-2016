@@ -5,7 +5,7 @@ from datetime import *
 from database import session
 # from models import Node, Link
 from plugin import Plugin
-from .dbupload.dbprofile import biosys_single
+from .dbupload.dbprofile import biosys_single, Gene
 
 inf = 20
 Graph = {}
@@ -79,12 +79,21 @@ def a_star(src, dst, pathnum):
 def path_finder(s, t, k, maxlen):  # s:starting point, t:terminal point, k:number of paths required
     calcu_dis(t, node_count, maxlen)
     path_list = []  # contain the found paths
+    node_pool = []
     for p in a_star(s, t, k):
         if p == "None" or p == "Timeout":
             break
         else:
+            for gene_id in p:
+                if gene_id not in node_pool:
+                    node = session.query(Gene).get(gene_id)
+                    result = {"gene_id": gene_id}
+                    result["tax_id"] = node.tax_id
+                    result["name"] = node.Symbol
+                    result["info"] = node.description
+                    node_pool.append(result)
             path_list.append(p)
-    return path_list
+    return node_pool, path_list
 
 
 class Path_Finder(Plugin):
@@ -97,7 +106,7 @@ class Path_Finder(Plugin):
         print(request)
         if request['action'] == 'path_finder':
             result = path_finder(request['s'], request['t'], int(request['k']), int(request['maxlen']))
-            return {'paths': result}
+            return {'nodes': result[0], 'paths': result[1]}
     #    if request['action'] == 'reload':
     #        reload()
     #        return {}
