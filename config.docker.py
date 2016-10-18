@@ -19,6 +19,7 @@ if not exists('.not_first'):
     c.close()
     df = 'biobricks.sql.gz'
     bf = 'biobricks.sql'
+    system('apt install -y mysql-client wget')
     system('wget http://parts.igem.org/partsdb/download.cgi?type=parts_sql -O "%s"' % df)
     system('gunzip "%s"' % df)
     system('mysql "-h%s" "-u%s" "-p%s" "%s" <"%s"' % (dbhost, dbuser, dbpassword, 'igem', bf))
