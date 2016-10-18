@@ -8,6 +8,8 @@ home = Blueprint('home', __name__)
 
 @home.route('/')
 def index():
+    if current_user.is_authenticated:
+        return redirect(url_for('static', filename='projects.html'))
     return redirect(url_for('static', filename='login-1.html'))
 
 
