@@ -84,16 +84,19 @@ class Pano(Plugin):
 
     def get_event_data(self, **kwargs):
         events = []
+        '''
         for i in session.query(PanoDocument).filter(PanoDocument.created > time()-7*24*3600).all():
             if(i.public):
                 events.append(dict(project_id=i.id, user_id=i.owner, time=i.created, img_src=i.description, state='Create',
                         project_name=i.title, last_update_time=i.last_modified, praise=self.user.id in eval(i.praises),
                         comment=eval(i.comments)))
+        '''
         for i in session.query(PanoDocument).filter(PanoDocument.last_modified > time()-7*24*3600).all():
             if(i.public):
                 events.append(dict(project_id=i.id, user_id=i.owner, time=i.created, img_src=i.description, state='Update',
                     project_name=i.title, last_update_time=i.last_modified, praise=self.user.id in eval(i.praises),
                     comment=eval(i.comments)))
+        events.sort(key=lambda x:x['time'], reverse=True)
         return dict(events=events)
 
     def submit_comment(self, comment, event_id, **kwargs):
