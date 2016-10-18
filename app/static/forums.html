@@ -26,6 +26,22 @@
     <script src="js/forum.js"></script>
     <style>
 
+        main {
+            position: relative;
+            min-height: 80%;
+        }
+
+
+        footer {
+            background-color: orange;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 30px;
+            width: 100%;
+            overflow:hidden;
+        }
+
         @font-face {
             font-family: 'Material Icons';
             font-style: normal;
@@ -265,7 +281,7 @@
         <span id="this_is_a_user_name" style="visibility: hidden;">sth</span>
         <div class="demo-content">
         <script type="text/javascript">document.getElementsByClassName("demo-content")[0].minHeight=$(window).height;</script>
-            <div id="load-spinner" class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></div>
+            <div id="load-spinner" style="margin: 20%" class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></div>
             <div class="mdl-grid mdl-grid--no-spacing">
               <div id="forum" class="mdl-cell mdl-cell--12-col mdl-grid mdl-grid--no-spacing" style="padding: 0px 64px 0px 64px;">
                 <script type="text/javascript">
@@ -457,7 +473,7 @@
             <div class="mdl-mini-footer__right-section">
                <span class="demo-icon_text-align"><i class="material-icons">copyright</i>&nbsp;2016 USTC-Software</span>
             </div>
-        </footer>  
+        </footer>
     </main>
     </div>
 </body>

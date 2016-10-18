@@ -10,12 +10,14 @@ function demo_it() {
         demo = "True";
         $('#demo_btn')[0].innerHTML = "cancel Demo";
         $('#amount')[0].value = 3;
+        $('div.file-field').addClass(" hide");
         $('#tag')[0].value = "my first seq Design";
         alert('Demo mode Sample pdb file has been in server click "UPLOAD　AND　CALCULATE" to start design');
         Materialize.updateTextFields();
     }
     else {
         demo = "F";
+        $('div.file-field').removeClass("hide");
         $('#demo_btn')[0].innerHTML = "sample Demo";
         $('#amount')[0].value = "";
         $('#tag')[0].value = "";
