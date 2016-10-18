@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>simulation</title>
     <link rel="stylesheet" href="css/materialize.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style type="text/css">
         body { width: 100%; font-family: 'Merriweather Sans', sans-serif; background-color: #f9f9f9; background-size: cover; background-repeat: no-repeat; background-position: center center; -webkit-font-smoothing: antialiased; }
     </style>
@@ -23,6 +22,42 @@
 
 
 <style>
+
+    @font-face {
+        font-family: 'Material Icons';
+        font-style: normal;
+        font-weight: 400;
+        src: url(fonts/MaterialIcons-Regular.eot); /* For IE6-8 */
+        src: local('Material Icons'),
+        local('MaterialIcons-Regular'),
+        url(fonts/MaterialIcons-Regular.woff2) format('woff2'),
+        url(fonts/MaterialIcons-Regular.woff) format('woff'),
+        url(fonts/MaterialIcons-Regular.ttf) format('truetype');
+    }
+
+    .material-icons {
+        font-family: 'Material Icons';
+        font-weight: normal;
+        font-style: normal;
+        font-size: 24px; /* Preferred icon size */
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        line-height: 1;
+        text-transform: none;
+
+        /* Support for all WebKit browsers. */
+        -webkit-font-smoothing: antialiased;
+        /* Support for Safari and Chrome. */
+        text-rendering: optimizeLegibility;
+
+        /* Support for Firefox. */
+        -moz-osx-font-smoothing: grayscale;
+
+        /* Support for IE. */
+        font-feature-settings: 'liga';
+    }
+
 
     .axis path {
         fill: none;
@@ -55,9 +90,8 @@
                 <div class="col  s12 m12">
                     <h4>Description</h4>
                     <div id="simulation_description" class="card-panel teal ">
-                        <p class="white-text">descriptions about simulation
-                        </p>
-                        <p class="white-text">about nodes</p>
+                        <p class="white-text">After you have run the module 'Pathway_finder', you may get some nodes. Here you can use this module to simulate the concentration of the substances involved in this reaction.</p>
+                        <p class="white-text">Simulation is a simulator designed to solve the concentration function with respect to time based on the differential equations given by the user. After the user has submitted control functions, this module will upload relative data to a high performance server, which will be able to return results in minutes or hours, based on the quantity of control functions and the width of time domain. The concentration of all nodes will be displayed visualized, meanwhile a proper notice will pop up if an instability is detected in order to warn the user to be cautious about the result after the critical point. </p>
 
                         <div class="col s6 m9"></div><div onclick="auto_input()"><a class = "btn btn-large teal lighten-2 waves-effect" >Example Demo</a>
                         </div>

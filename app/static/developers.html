@@ -18,7 +18,6 @@
     <link rel="shortcut icon" href="img/favicon.ico">
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="css/material.min.css">
     <link rel="stylesheet" href="css/material-lite.css">
     <link rel="stylesheet" href="css/home.css">
@@ -26,7 +25,47 @@
     <link rel="icon" href="favicon.ico" mce_href="favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="favicon.ico" mce_href="favicon.ico" type="image/x-icon">
 
+
+    <script src="js/jquery-2.1.1.min.js"></script>
+    <script src="js/material.min.js"></script>
+    <script src="js/user.js"></script>
+
     <style>
+
+        @font-face {
+            font-family: 'Material Icons';
+            font-style: normal;
+            font-weight: 400;
+            src: url(fonts/MaterialIcons-Regular.eot); /* For IE6-8 */
+            src: local('Material Icons'),
+            local('MaterialIcons-Regular'),
+            url(fonts/MaterialIcons-Regular.woff2) format('woff2'),
+            url(fonts/MaterialIcons-Regular.woff) format('woff'),
+            url(fonts/MaterialIcons-Regular.ttf) format('truetype');
+        }
+
+        .material-icons {
+            font-family: 'Material Icons';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px; /* Preferred icon size */
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            line-height: 1;
+            text-transform: none;
+
+            /* Support for all WebKit browsers. */
+            -webkit-font-smoothing: antialiased;
+            /* Support for Safari and Chrome. */
+            text-rendering: optimizeLegibility;
+
+            /* Support for Firefox. */
+            -moz-osx-font-smoothing: grayscale;
+
+            /* Support for IE. */
+            font-feature-settings: 'liga';
+        }
         #view-source {
             position: fixed;
             display: block;
@@ -81,8 +120,8 @@
                 <i class="material-icons">more_horiz</i>
             </button>
             <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="contact_dropdown">
-                <li class="mdl-menu__item">About BioHub</li>
-                <li class="mdl-menu__item"><a href="developers.html">About us</a></li>
+                <li class="mdl-menu__item"><a class="mdl-navigation__link mdl-color-text--black" href="">About BioHub</a></li>
+                <li class="mdl-menu__item"><a class="mdl-navigation__link mdl-color-text--black" href="developers.html">About us</a></li>
             </ul>
         </div>
     </header>
@@ -97,9 +136,9 @@
                     <span class="visuallyhidden">Accounts</span>
                 </button>
                 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
-                    <li class="mdl-menu__item"><a href="profile_edit.html">Edit my profile</a></li>
-                    <li class="mdl-menu__item"><a href="profile.html">View my information</a></li>
-                    <li class="mdl-menu__item demo-flex-align"><a href="#" id="logout_btn"><i class="material-icons">compare_arrows</i>Login as another user</a></li>
+                    <li class="mdl-menu__item"><a class="mdl-navigation__link mdl-color-text--black" href="profile_edit.html">Edit my profile</a></li>
+                    <li class="mdl-menu__item"><a class="mdl-navigation__link mdl-color-text--black" href="profile.html">View my information</a></li>
+                    <li class="mdl-menu__item demo-flex-align"><a class="mdl-navigation__link mdl-color-text--black" href="#" id="logout_btn"><i class="material-icons">compare_arrows</i>Login as another user</a></li>
                 </ul>
             </div>
         </header>
@@ -121,19 +160,58 @@
         <div class="mdl-grid demo-content">
 
             <div class="demo-graphs mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--12-col">
-                <div style="height: 800px">
+                <div >
 
                     <div class="dev mdl-grid">
+                        <div class="mdl-cell mdl-cell--3-col"> <img class="demo-avatar-big" src="dev-avatar/pjer.jpg"></div>
+                        <div class="mdl-cell mdl-cell--9-col  mdl-grid">
+                            <div style="width:30% ;margin-top: 20px">Name</div><div  style="margin-top: 20px ; width:70%"> PeiJin Zhang</div>
+                            <div style="width:30% ;margin-top: 20px">Contact</div><div style="margin-top: 20px ; width:70%"> pjer1316@mail.ustc.edu.cn</div>
+                            <div style="width:30% ;margin-top: 20px">Contribution</div><div style="margin-top: 20px ; width:70%"> build modules for front end and +1s</div>
+                            <div style="width:30% ;margin-top: 20px">My Github </div><div style="margin-top: 20px ; width:70%"><a href="https://github.com/Pjer-zhang" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">pjzhang <img src="img/github.png" style="width: 40px"> </a></div>
+                        </div>
+                    </div>
+                    <hr class="gap">
 
+                    <div class="dev mdl-grid">
+                        <div class="mdl-cell mdl-cell--3-col"> <img class="demo-avatar-big" src="dev-avatar/wzb.JPG"></div>
+                        <div class="mdl-cell mdl-cell--9-col  mdl-grid">
+                            <div style="width:30% ;margin-top: 20px">Name</div><div  style="margin-top: 20px ; width:70%"> ZiBo Wang</div>
+                            <div style="width:30% ;margin-top: 20px">Contact</div><div style="margin-top: 20px ; width:70%"> smart.hypercube@gmail.com</div>
+                            <div style="width:30% ;margin-top: 20px">Contribution</div><div style="margin-top: 20px ; width:70%"> design the backend architechure</div>
+                            <div style="width:30% ;margin-top: 20px">My Github </div><div style="margin-top: 20px ; width:70%"><a  href="https://github.com/Smart-Hypercube" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Smart-Hypercube <img src="img/github.png" style="width: 40px"> </a></div>
+                        </div>
+                    </div>
+                    <hr class="gap">
 
+                    <div class="dev mdl-grid">
+                        <div class="mdl-cell mdl-cell--3-col"> <img class="demo-avatar-big" src="dev-avatar/zzh.JPG"></div>
+                        <div class="mdl-cell mdl-cell--9-col  mdl-grid">
+                            <div style="width:30% ;margin-top: 20px">Name</div><div  style="margin-top: 20px ; width:70%"> ZiHan Zheng</div>
+                            <div style="width:30% ;margin-top: 20px">Contact</div><div style="margin-top: 20px ; width:70%"> zhengzihan@gmail.com</div>
+                            <div style="width:30% ;margin-top: 20px">Contribution</div><div style="margin-top: 20px ; width:70%"> leader of backend</div>
+                            <div style="width:30% ;margin-top: 20px">My Github </div><div style="margin-top: 20px ; width:70%"><a href=" https://github.com/zzh1996
+" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">zzh1996<img src="img/github.png" style="width: 40px"> </a></div>
+                        </div>
+                    </div>
+                    <hr class="gap">
 
+                    <div class="dev mdl-grid">
+                        <div class="mdl-cell mdl-cell--3-col"> <img class="demo-avatar-big" src="dev-avatar/zzr.JPG"></div>
+                        <div class="mdl-cell mdl-cell--9-col  mdl-grid">
+                            <div style="width:30% ;margin-top: 20px">Name</div><div  style="margin-top: 20px ; width:70%"> ZiRui Zhao</div>
+                            <div style="width:30% ;margin-top: 20px">Contact</div><div style="margin-top: 20px ; width:70%"> zzrcxb@gmail.com</div>
+                            <div style="width:30% ;margin-top: 20px">Contribution</div><div style="margin-top: 20px ; width:70%">  Desgin and implement plugins</div>
+                            <div style="width:30% ;margin-top: 20px">My Github </div><div style="margin-top: 20px ; width:70%"><a href="https://github.com/zzrcxb" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">zzrcxb <img src="img/github.png" style="width: 40px"> </a></div>
+                        </div>
+                    </div>
+                    <hr class="gap">
 
-
+                    <div class="dev mdl-grid">
                         <div class="mdl-cell mdl-cell--3-col"> <img class="demo-avatar-big" src="images/background.jpeg"></div>
                         <div class="mdl-cell mdl-cell--9-col  mdl-grid">
                             <div style="width:30% ;margin-top: 20px">Name</div><div  style="margin-top: 20px ; width:70%"> developer name</div>
                             <div style="width:30% ;margin-top: 20px">Contact</div><div style="margin-top: 20px ; width:70%"> sdfakj@mail.ustc.edu.cn      asdfafda@asdf.casdgdf</div>
-
                             <div style="width:30% ;margin-top: 20px">Contribution</div><div style="margin-top: 20px ; width:70%"> build modules for front end and +1s</div>
                             <div style="width:30% ;margin-top: 20px">My Github </div><div style="margin-top: 20px ; width:70%"><a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">pjzhang <img src="img/github.png" style="width: 40px"> </a></div>
                         </div>
@@ -146,7 +224,11 @@
         </div>
     </main>
 </div>
+<script>
+    window.onload = function () {
+        get_user_info()
+    }
 
-<script src="js/material.min.js"></script>
+</script>
 </body>
 </html>

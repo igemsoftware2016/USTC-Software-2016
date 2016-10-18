@@ -11,8 +11,44 @@
     <link rel="shortcut icon" href="favicon.ico" mce_href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/materialize.min.css">
     <!--link rel="stylesheet" href="css/bootstrap.min.css"-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style type="text/css">
+
+        @font-face {
+            font-family: 'Material Icons';
+            font-style: normal;
+            font-weight: 400;
+            src: url(fonts/MaterialIcons-Regular.eot); /* For IE6-8 */
+            src: local('Material Icons'),
+            local('MaterialIcons-Regular'),
+            url(fonts/MaterialIcons-Regular.woff2) format('woff2'),
+            url(fonts/MaterialIcons-Regular.woff) format('woff'),
+            url(fonts/MaterialIcons-Regular.ttf) format('truetype');
+        }
+
+        .material-icons {
+            font-family: 'Material Icons';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px; /* Preferred icon size */
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            line-height: 1;
+            text-transform: none;
+
+            /* Support for all WebKit browsers. */
+            -webkit-font-smoothing: antialiased;
+            /* Support for Safari and Chrome. */
+            text-rendering: optimizeLegibility;
+
+            /* Support for Firefox. */
+            -moz-osx-font-smoothing: grayscale;
+
+            /* Support for IE. */
+            font-feature-settings: 'liga';
+        }
+
+
         body { width: 100%; font-family: 'Merriweather Sans', sans-serif; background-color: #f9f9f9;background-image:  url("img/bg.jpg");  background-size: cover; background-repeat: no-repeat; background-position: center center; -webkit-font-smoothing: antialiased; }
 
         html {
@@ -60,28 +96,28 @@
             <div class="row margin">
                 <div class="input-field col s12">
                     <i class="material-icons prefix">person</i>
-                    <input id="username" type="text" class="validate" name="username">
+                    <input id="username" type="text" class="validate" name="username" onkeypress="postForm_enter(event)">
                     <label for="username" class="left-align">Username</label>
                 </div>
             </div>
             <div class="row margin">
                 <div class="input-field col s12">
                     <i class="material-icons prefix">email</i>
-                    <input id="email" type="email" class="validate" name="email">
+                    <input id="email" type="email" class="validate" name="email" onkeypress="postForm_enter(event)">
                     <label for="email" class="left-align">Email</label>
                 </div>
             </div>
             <div class="row margin">
                 <div class="input-field col s12">
                     <i class="material-icons prefix">lock</i>
-                    <input id="password" type="password" class="validate" name="passwd">
+                    <input id="password" type="password" class="validate" name="passwd" onkeypress="postForm_enter(event)">
                     <label for="password" class="left-align">Password</label>
                 </div>
             </div>
             <div class="row margin">
                 <div class="input-field col s12">
                     <i class="material-icons prefix">lock</i>
-                    <input id="password-again" type="password" name="passwd_2">
+                    <input id="password-again" type="password" name="passwd_2" onkeypress="postForm_enter(event)">
                     <label for="password-again" class="left-align">Re-type password</label>
                 </div>
             </div>

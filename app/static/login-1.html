@@ -8,8 +8,45 @@
     <title>BioHub Login</title>
     <link rel="stylesheet" href="css/materialize.min.css">
     <!--link rel="stylesheet" href="css/bootstrap.min.css"-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style type="text/css">
+
+
+        @font-face {
+            font-family: 'Material Icons';
+            font-style: normal;
+            font-weight: 400;
+            src: url(fonts/MaterialIcons-Regular.eot); /* For IE6-8 */
+            src: local('Material Icons'),
+            local('MaterialIcons-Regular'),
+            url(fonts/MaterialIcons-Regular.woff2) format('woff2'),
+            url(fonts/MaterialIcons-Regular.woff) format('woff'),
+            url(fonts/MaterialIcons-Regular.ttf) format('truetype');
+        }
+
+        .material-icons {
+            font-family: 'Material Icons';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px; /* Preferred icon size */
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            line-height: 1;
+            text-transform: none;
+
+            /* Support for all WebKit browsers. */
+            -webkit-font-smoothing: antialiased;
+            /* Support for Safari and Chrome. */
+            text-rendering: optimizeLegibility;
+
+            /* Support for Firefox. */
+            -moz-osx-font-smoothing: grayscale;
+
+            /* Support for IE. */
+            font-feature-settings: 'liga';
+        }
+
+
         body { width: 100%; font-family: 'Merriweather Sans', sans-serif; background-color: #f9f9f9;background-image:  url("img/bg.jpg");  background-size: 100% ; background-repeat: repeat; background-position: center center; -webkit-font-smoothing: antialiased; }
 
         html {
@@ -29,9 +66,7 @@
             align-items: center;
         }
     </style>
-    <!--[if IE]>
-    <script src="http://libs.useso.com/js/html5shiv/3.7/html5shiv.min.js"></script>
-    <![endif]-->
+
 </head>
 <body>
 <div id="login-page" align="center" style="align-content: center;margin-top: 70px">
@@ -49,33 +84,33 @@
             <div class="row margin">
                 <div class="input-field col s12">
                     <i class="material-icons prefix">person</i>
-                    <input class="validate" id="usr" type="email" name="email">
+                    <input class="validate" id="usr" type="email" name="email" onkeypress="postForm_enter(event)">
                     <label for="usr" data-error="wrong format" data-success="" class="left-align">Email</label>
                 </div>
             </div>
             <div class="row margin">
                 <div class="input-field col s12">
                     <i class="material-icons prefix">lock</i>
-                    <input id="password" type="password" name="password">
+                    <input id="password" type="password" name="password" onkeypress="postForm_enter(event)">
                     <label for="password" class="left-align">Password</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s12 m12 l12  login-text">
-                    <input type="checkbox" id="remember-me" name="remember" />
+                    <input type="checkbox" id="remember-me" name="remember" onkeypress="postForm_enter(event)" />
                     <label for="remember-me">remember me</label>
                 </div>
             </div>
         </form>
             <div class="row center-align">
-                <button class="btn waves-effect waves-light center-align" onclick="postForm()" style="width: 200px">Sign in</button>
+                <button class="btn waves-effect waves-light center-align" onkeypress="postForm_enter(event)" onclick="postForm()" style="width: 200px">Sign in</button>
 
             </div>
             <div class="row">
                 <div class="input-field col s6 m6 l6">
                 </div>
                 <div class="input-field col s6 m6 l6">
-                    <p class="margin right-align medium-small"><a href="forgot-password.html">Forget Password?</a></p>
+                    <p class="margin right-align medium-small"><a href="signup.html">Forget Password?</a></p>
                 </div>
              </div>
 

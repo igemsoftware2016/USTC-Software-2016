@@ -20,11 +20,23 @@ $.fn.serializeObject = function()
     return o;
 };
 
+var status_jump = "local";
+
+function auto_input() {
+    if (status_jump =="local"){
+
+        var seq = $('#sequence')[0];
+        seq.value = "acaagatacattgtgatactgaaaatacatgtgcagagaaa";
+        Materialize.updateTextFields();
+    }
+}
 
 function blast_req(){
     var s_data = ($('#form_bl').serializeObject());
     //console.log(s_data);
     var  dictPost  =  {"plugin":"BLAST","seq":s_data["sequence"]};
+
+    $("#result_blast")[0].innerHTML="";
     myLoader();
     //console.log(dictPost);
     if(dictPost.seq.length>0) {
@@ -36,14 +48,16 @@ function blast_req(){
                 var Jr = JSON.parse(response);
                 if (Jr['success'] == true) {
 
-                    d3.select('#svg_blast').remove();
+                    d3.selectAll('svg_blast_ct').remove();
+                    d3.selectAll('#svg_blast').remove();
                     var data_res = Jr['result'];
                     var res_width = 500;
                     var res_height = 500;
                     var svg_container = d3.select('#result_blast').append('svg')
                         .attr('width', res_width + 280)
                         .attr('height', res_height + 120)
-                        .attr("id","svg_blast");
+                        .attr("id","svg_blast")
+                        .attr("class","svg_blast_ct");
 
                     var svg = svg_container.append("g")
                         .attr("transform", "translate(" + res_width / 2 + "," + res_height / 2 + ")");
@@ -96,9 +110,7 @@ var draw_arcs = function(svg,target_id,q_start,q_end,hit_start,hit_end){
     var res_width = 500;
     var res_height = 500;
 
-    var radius = Math.min(res_width, res_height) / 1.9,
-        armRadius = radius / 12,
-        dotRadius = armRadius - 6;
+    var radius = Math.min(res_width, res_height) / 1.9;
 
     var arc_root = d3.svg.arc()
         //.startAngle(deg2arc(0.5))
@@ -324,7 +336,7 @@ function glo_draw(svg,data_result,ori_length) {
             text_start.text(d.query_start);
             root_text.text("Original Sequence VS" + d.ID);
             text_info.text("Description : "+d.description);
-            text_benchmark.text("E-value"+d.E_value);
+            text_benchmark.text("E-value"+d.evalue);
             arc_ret.attr("fill", color((d.query_end-d.query_start)/ori_length))
         })
 

@@ -85,11 +85,9 @@
                 <div class="col s12 m12">
                     <h4>Description</h4>
                     <div id="simulation_description" class="card-panel teal ">
-                        <p class="white-text">descriptions about simulation
-                        </p>
-                        <p class="white-text">about nodes</p>
+                        <p class="white-text">The iGEM Registry has over 20,000 documented parts organized by type, chassis, function and more. Recognizing that this is a great asset in the field of synthetic biology, we believe that it is necessary to let users explore Biobricks on BioHub. As a result, this function was implemented as an official plugin for BioHub. Users can search for Biobricks they desire and easily browse all the information about the searching results.</p>
 
-                        <div class="col s6 m9"></div><div><a class = " btn btn-large teal lighten-2 waves-effect" >tutorial</a>
+                        <div class="col s6 m9"></div><div onclick="auto_input()"><a class = "btn btn-large teal lighten-2 waves-effect" >Example Demo</a>
                     </div>
                     </div>
 
@@ -131,6 +129,52 @@
 </html>
 
 <script>
+
+    function download(fileName, blob){
+        var aLink = document.createElement('a');
+        var evt = document.createEvent("MouseEvents");
+        evt.initEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+        aLink.download = fileName;
+        aLink.href = URL.createObjectURL(blob);
+        aLink.dispatchEvent(evt);
+    }
+
+    /* 文本转Blob对象 */
+    function stringToBlob(text) {
+        var u8arr = new Uint8Array(text.length);
+        for (var i = 0, len = text.length; i < len; ++i) {
+            u8arr[i] = text.charCodeAt(i);
+        }
+        var blob = new Blob([u8arr]);
+        return blob;
+    }
+
+
+
+
+
+    var str_sub_1='<?xml version="1.0" ?>\
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:prov="http://www.w3.org/ns/prov#" xmlns:sbol="http://sbols.org/v2#">\
+            <sbol:Sequence rdf:about="http://partsregistry.org/seq/';
+    var str_sub_2='">\
+            <sbol:persistentIdentity rdf:resource="http://partsregistry.org/seq/';
+    var str_sub_3 = '"/>' +
+            '<sbol:displayId>';
+    var str_sub_4 = '</sbol:displayId>\
+    <prov:wasDerivedFrom rdf:resource="http://parts.igem.org/Part:BBa_J23119:Design"/>\
+            <sbol:elements>';
+    var str_sub_5 = '</sbol:elements>\
+    <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>\
+            </sbol:Sequence>\
+    </rdf:RDF>';
+
+
+    function auto_input() {
+        var seq = $('#search')[0];
+        seq.value = "LuxI protein generator";
+        Materialize.updateTextFields();
+    }
+
     function clearout() {
         console.log("...");
         $("#search")[0].value = "";
@@ -265,9 +309,11 @@
     }
 
     function layout_on_form(data_all) {
-        var func = d3.selectAll("#bricks")
-                .attr("class","row")
-                .append("div")
+        $("#brick_content").remove();
+        var func_ct = d3.selectAll("#bricks")
+                .attr("class","row");
+
+        var func = func_ct.append("div")
                 .attr("id","brick_content")
                 .selectAll("div")
                 .data(data_all)
@@ -275,7 +321,7 @@
                 .append("div")
                 .attr("class","col s12 m6 l4");
 
-        var card = func.append("div").attr("class","hoverable card blue-grey waves-effect lighten-4 medium");
+        var card = func.append("div").attr("class","hoverable card blue-grey waves-effect lighten-4 large");
         var card_ct = card.append("div").attr("class","card-content");
         var card_ac = card.append("div").attr("class","card-action");
 
@@ -284,7 +330,7 @@
                 .html(function(d,i){return d.u_name}).append("img")
                 .attr("style","width:35px")
                 .attr("src",function (d) {
-                    var ret = "img/emoj.ico";
+                    var ret = "";//img/emoj.ico";
                     var label_of = labeling(d);
                     if (label_of!="null"){
                         ret = "SBOL/"+label_of+".png"
@@ -356,7 +402,7 @@
 */
         card_ac.append("button")
                 .attr("onclick",function (d) {
-                    return  "window.location.href('http://parts.igem.org/Part:"+d.u_name+"')";
+                    return  "window.location.href=('http://parts.igem.org/Part:"+d.u_name+"')";
                 })
                 .attr("class","hoverable btn waves-effect waves-light blue-grey")
                 .attr("style","margin:2px")
@@ -367,6 +413,17 @@
                 .append("i")
                 .attr("class","material-icons")
                 .html("link");
+
+        card_ac.append("button")
+                .attr("onclick",function (d) {
+                    var data = d.data3;
+                    var f_name = "sbol_"+d.u_name+".xml";
+                    var ret_str = str_sub_1+d.u_name+str_sub_2+d.u_name+str_sub_3+d.u_name + str_sub_4 +d.data3[[Object.keys(data)[0]]];
+                    return "download("+f_name+","+"stringToBlob("+ret_str+"))"
+                })
+                .attr("class","hoverable btn waves-effect waves-light blue-grey")
+                .attr("style","margin:2px").html("SBOL⇩");
+
 
  /*       card_ac.append("button").attr("class","hoverable btn waves-effect waves-light blue-grey")
                 .attr("style","margin:2px")
@@ -381,6 +438,9 @@
                 .html("share")  */
 
     }
+
+
+
 </script>
 
 
