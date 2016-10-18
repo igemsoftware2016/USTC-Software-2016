@@ -64,6 +64,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         self.circles = self.svgGraph.append("g").selectAll("g");
 
         self.forceDragged = null;
+        self.enabledForce = false;
 
         self.dragHandler = d3.behavior.drag().origin(function (d) {
             return {x: d.x, y: d.y};
@@ -600,7 +601,17 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             return {source: forceNodeDict[i.source], target: forceNodeDict[i.target]};
         });
 
-        thisGraph.forceHandler.nodes(thisGraph.forceNodes).links(thisGraph.forceEdges).start();
+        if (thisGraph.forceNodes.length > 0) {
+            thisGraph.forceHandler.nodes(thisGraph.forceNodes);
+        }
+
+        thisGraph.forceHandler.links(thisGraph.forceEdges);
+
+        if (thisGraph.enabledForce) {
+            thisGraph.forceHandler.start();
+        } else {
+            thisGraph.forceHandler.stop();
+        }
 
         paths.style('marker-end', 'url(#end-arrow)')
             .classed(consts.selectedClass, function (d) {
@@ -867,7 +878,9 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 },
                 complete: function () {
                     graph.state.lockKeyEvent = false;
-                    graph.forceHandler.start();
+                    if (graph.enabledForce) {
+                        graph.forceHandler.start();
+                    }
                     if ($('#add-node-ok').attr('disabled') == 'disabled') {
                         callback(null);
                     } else {
@@ -1113,6 +1126,23 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             } else {
                 graph.state.currentLinkSource = null;
                 $(this).removeClass('active');
+            }
+        });
+
+        $('#side-info-force-layout').click(function () {
+            if ($(this).prop('checked')) {
+                graph.enabledForce = true;
+                graph.updateGraph();
+
+                var average = [d3.mean(graph.forceNodes, function (d) {
+                    return d.x;
+                }) * 2, d3.mean(graph.forceNodes, function (d) {
+                    return d.y;
+                }) * 2];
+
+                graph.forceHandler.size(average);
+            } else {
+                graph.enabledForce = false;
             }
         });
 

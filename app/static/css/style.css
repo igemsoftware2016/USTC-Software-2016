@@ -111,6 +111,10 @@ div#image {
     cursor: default;
 }
 
+.side-nav h5 {
+    font-size: 1.48em;
+}
+
 #side-head-top-button-h {
     position: fixed;
     z-index: 2;
