@@ -7,6 +7,14 @@ from __init__ import *
 class DataBaseSourceError(Exception):
     pass
 
+# define biosystems of certain taxonomy
+class biosys_single(TableBase):
+    __tablename__ = 'biosys_562'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    tax_id = Column(String(10))
+    gene_id = Column(String(10))
+    bsid = Column(Integer)
+    Symbol = Column(String(64))
 
 # define Gene
 class Gene(TableBase):
