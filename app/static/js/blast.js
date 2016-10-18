@@ -54,8 +54,8 @@ function blast_req(){
                     var res_width = 500;
                     var res_height = 500;
                     var svg_container = d3.select('#result_blast').append('svg')
-                        .attr('width', res_width + 280)
-                        .attr('height', res_height + 120)
+                        .attr('width', res_width + 285)
+                        .attr('height', res_height + 125)
                         .attr("id","svg_blast")
                         .attr("class","svg_blast_ct");
 
@@ -154,7 +154,7 @@ var draw_arcs = function(svg,target_id,q_start,q_end,hit_start,hit_end){
         .attr("dy", "3.35em")
         .attr("dx", ".75em")
         .style("text-anchor", "start")
-        .attr("x",-220)
+        .attr("x",-225)
         .attr("y",250);
 
     text_benchmark=svg.append("text")
@@ -262,7 +262,7 @@ function arcTween(start_n,end_n) {
 function glo_draw(svg,data_result,ori_length) {
     
 
-    ori_length = ori_length+0.0001;
+    ori_length = ori_length+0.001;
     var current_data = data_result[0];
     var current_start = data_result[0].query_start;
     var current_end = data_result[0].query_end;
@@ -281,7 +281,7 @@ function glo_draw(svg,data_result,ori_length) {
         .attr("y", function (d,i) {
             return i*24-255
         })
-        .attr("width", 215)
+        .attr("width", 250)
         .attr("height", 20)
         .attr("fill",function (d) {
             console.log(color((d.query_end-d.query_start)/ori_length));
@@ -312,7 +312,7 @@ function glo_draw(svg,data_result,ori_length) {
         d3.selectAll("#rectangle_"+i).attr("stroke","white").attr("stroke-width",3);
         d3.selectAll("#rectangle_"+i)
             .transition().duration(200).attrTween("width",function (d,i,a) {
-            return d3.interpolate(a,215);
+            return d3.interpolate(a,250);
 
 
         });
@@ -322,7 +322,7 @@ function glo_draw(svg,data_result,ori_length) {
         d3.selectAll("#rectangle_"+i).attr("stroke","yellow").attr("stroke-width",3);
         d3.selectAll("#rectangle_"+i)
             .transition().duration(200).attrTween("width",function (d,i,a) {
-            return d3.interpolate(a,240)
+            return d3.interpolate(a,270)
         });
 
 
@@ -336,7 +336,7 @@ function glo_draw(svg,data_result,ori_length) {
             text_start.text(d.query_start);
             root_text.text("Original Sequence VS" + d.ID);
             text_info.text("Description : "+d.description);
-            text_benchmark.text("E-value"+d.evalue);
+            text_benchmark.text("E-value: "+d.evalue);
             arc_ret.attr("fill", color((d.query_end-d.query_start)/ori_length))
         })
 

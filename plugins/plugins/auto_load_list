@@ -4,6 +4,7 @@
     'biobrick_manager',
     'pano',
     'path_finder_new',
+    'path_finder',
     'simulation',
     'BLAST',
     'ABACUS',

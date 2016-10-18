@@ -10,6 +10,8 @@ def random_string(N):
 
 
 class User(TableBase, UserMixin):
+    """A user."""
+
     __tablename__ = 'user'
     id = Column(Integer, primary_key=True)
     email = Column(String(63), unique=True)
@@ -27,6 +29,7 @@ class User(TableBase, UserMixin):
         self.username = username
 
     def set_password(self, password):
+        """hash and save the password"""
         self.salt = random_string(10)
         s = hashlib.sha256()
         s.update(password.encode('utf-8'))
@@ -34,6 +37,7 @@ class User(TableBase, UserMixin):
         self.passwordhash = s.hexdigest()
 
     def check_password(self, password):
+        """hash and check the password"""
         s = hashlib.sha256()
         s.update(password.encode('utf-8'))
         s.update(self.salt.encode('utf-8'))

@@ -5,7 +5,7 @@ from datetime import *
 from database import session
 # from models import Node, Link
 from plugin import Plugin
-from .dbupload.dbprofile import BioSys
+from .dbupload.dbprofile import biosys_single
 
 inf = 20
 Graph = {}
@@ -38,9 +38,11 @@ def calcu_dis(dst, n, maxlen):
     while not queue.empty():
         u = queue.get()
         # visited[u] = False
-        for u_node in session.query(BioSys).filter(BioSys.gene_id == u):
-            for node in session.query(BioSys).filter(BioSys.bsid == u_node.bsid):
-                Graph[u].append(node.gene_id)
+        Graph[u] = []
+        for u_node in session.query(biosys_single).filter(biosys_single.gene_id == u):
+            for node in session.query(biosys_single).filter(biosys_single.bsid == u_node.bsid):
+                if node.gene_id not in Graph[u]:
+                    Graph[u].append(node.gene_id)
         for v in Graph[u]:
             if (v not in visited or dis[v] > dis[u] + 1) and dis[u] + 1 <= maxlen:
                 dis[v] = dis[u] + 1

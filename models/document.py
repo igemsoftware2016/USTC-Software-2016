@@ -3,6 +3,9 @@ from database import TableBase, Column, Integer, String, ForeignKey
 
 
 class Document(TableBase):
+    """An object refer to an actual plugin-managed document.
+
+    Every actual document is not only saved in plugins' table, but also has an entry here, so that we can easily get all documents belong to a specific user."""
 
     __tablename__ = 'document'
 

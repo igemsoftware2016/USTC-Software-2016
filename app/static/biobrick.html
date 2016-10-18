@@ -417,8 +417,8 @@
         card_ac.append("button")
                 .attr("onclick",function (d) {
                     var data = d.data3;
-                    var f_name = "sbol_"+d.u_name+".xml";
-                    var ret_str = str_sub_1+d.u_name+str_sub_2+d.u_name+str_sub_3+d.u_name + str_sub_4 +d.data3[[Object.keys(data)[0]]];
+                    var f_name = "'"+"sbol_"+d.u_name+".xml" +"'";
+                    var ret_str = "'"+ str_sub_1+d.u_name+str_sub_2+d.u_name+str_sub_3+d.u_name + str_sub_4 +d.data3[[Object.keys(data)[0]]] +str_sub_5 + "'";
                     return "download("+f_name+","+"stringToBlob("+ret_str+"))"
                 })
                 .attr("class","hoverable btn waves-effect waves-light blue-grey")

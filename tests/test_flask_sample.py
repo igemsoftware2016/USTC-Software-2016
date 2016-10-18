@@ -21,76 +21,77 @@ class FlaskrTestCase(unittest.TestCase):
     def post(self, url, data):
         return json.loads(self.app.post(url, data=data).data.decode("utf-8"))
 
+    def call_plugin(self, **data):
+        return self.post('/plugin/', data)
+
     def test_user(self):
         # root
         rv = self.app.get('/')
         assert b'redirect' in rv.data
 
         # register
-        rv = self.post('/plugin/', data={
-            'plugin': 'user_model',
-            'action': 'create_user',
-            'email': 'e',
-            'password': '123',
-            'username': 'u'
-        })
+        rv = self.call_plugin(
+            plugin='user_model',
+            action='create_user',
+            email='e',
+            password='123',
+            username='u')
         assert rv['success']
 
         # email already exists
-        rv = self.post('/plugin/', data={
-            'plugin': 'user_model',
-            'action': 'create_user',
-            'email': 'e',
-            'password': '123',
-            'username': 'u'
-        })
+        rv = self.call_plugin(
+            plugin='user_model',
+            action='create_user',
+            email='e',
+            password='123',
+            username='u')
         assert not rv['success']
 
         # wrong password
-        rv = self.post('/plugin/', data={
-            'plugin': 'user_model',
-            'action': 'validate_login',
-            'email': 'e',
-            'password': '1234'
-        })
+        rv = self.call_plugin(
+            plugin='user_model',
+            action='validate_login',
+            email='e',
+            password='1234')
         assert not rv['success']
 
         # wrong email
-        rv = self.post('/plugin/', data={
-            'plugin': 'user_model',
-            'action': 'validate_login',
-            'email': 'e2',
-            'password': '123'
-        })
+        rv = self.call_plugin(
+            plugin='user_model',
+            action='validate_login',
+            email='e2',
+            password='123')
         assert not rv['success']
 
         # successful login
-        rv = self.post('/plugin/', data={
-            'plugin': 'user_model',
-            'action': 'validate_login',
-            'email': 'e',
-            'password': '123'
-        })
+        rv = self.call_plugin(
+            plugin='user_model',
+            action='validate_login',
+            email='e',
+            password='123')
         assert rv['success']
 
         # edit profile
-        rv = self.post('/plugin/', data={
-            'plugin': 'user_model',
-            'action': 'edit_profile',
-            'username': 't1',
-            'description': 't2',
-            'education': 't3',
-            'major': 't4'
-        })
+        rv = self.call_plugin(
+            plugin='user_model',
+            action='edit_profile',
+            username='t1',
+            description='t2',
+            education='t3',
+            major='t4')
         assert rv['success']
 
         # get profile
-        rv = self.post('/plugin/', data={
-            'plugin': 'user_model',
-            'action': 'get_user_data',
-
-        })
+        rv = self.call_plugin(
+            plugin='user_model',
+            action='get_user_data')
         assert rv['username'] == 't1'
+
+    def test_version(self):
+        # get version
+        rv = self.call_plugin(
+            plugin='version')
+        assert rv['success']
 
 
 if __name__ == '__main__':
