@@ -39,7 +39,11 @@ class Pano(Plugin):
         return getattr(self, request['action'])(**request)
 
     def new(self, title, data, public, img, **kwargs):
-        doc = PanoDocument(self.user.id, title, data)
+        if 'user' in kwargs:
+            u = int(kwargs['user'])
+        else:
+            u = self.user.id
+        doc = PanoDocument(u, title, data)
         doc.description = img
         doc.created = time()
         doc.last_modified = time()
