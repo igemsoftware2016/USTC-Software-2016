@@ -32,8 +32,15 @@ class ABACUS(Plugin):
 
     def process(self, request):
         print("ABACUS plugin got a request:" + str(request))
+        if not path.exists(abacuspath):
+            return dict(status="Empty")
 
         filepath = abacuspath + 'pdbs/' + str(self.user.id) + '/'
+
+        if request['demo'] == "True":
+            Popen(['python3', designpath, filepath, str(self.user.id) + '.pdb',
+                   request['amount'], abacuspath, request['demo']])
+            return dict(status="Running", demo="True")
 
         print('Gonna save file')
         if not request['action'] == 'getstatus':
@@ -54,20 +61,7 @@ class ABACUS(Plugin):
             else:
                 Popen(['python3', designpath, filepath, str(self.user.id) + '.pdb',
                        request['amount'], abacuspath, tag, request['demo']])
-            return {"status": "running"}
-
-        elif request["action"] == "singleMutationScan":
-
-            try:
-                size = request["size"]
-            except KeyError:
-                Popen(['python3', mutationpath, filepath, str(self.user.id) + '.pdb',
-                    filepath + 'output.txt', abacuspath, request['demo']])
-
-            else:
-                Popen(['python3', mutationpath, filepath, str(self.user.id) + '.pdb',
-                       filepath + 'output.txt', abacuspath, size, request['demo']])
-            return {"status": "running"}
+            return dict(status="Running")
 
         elif request["action"] == 'getstatus':
             if not path.exists(filepath):
@@ -94,7 +88,7 @@ class ABACUS(Plugin):
             # Compress file
             if flag:
                 cur_path = getcwd()
-                if path.exists('app/static/downloads') and path.isdir('/app/static/downloads'):
+                if not (path.exists('app/static/downloads') and path.isdir('/app/static/downloads')):
                     mkdir('/app/static/downloads')
 
                 target = ZipFile('app/static/downloads/' + str(self.user.id) + '.zip', 'w')

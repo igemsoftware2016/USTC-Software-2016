@@ -2,11 +2,14 @@ from callabacus import ABACUS_design, ABACUS_prepare, ABACUS_S1S2, ABACUS_single
 from callabacus import InternalError, FileFormatError
 import sys
 from os import chdir, rename
+import time
 
 
 def design(path, file, amount, abacuspath, tag=None, demo=False):
     if demo == 'True':
         demo = True
+        fp = open(path + 'err.log', 'w')
+        fp.close()
     else:
         demo = False
 
@@ -52,6 +55,7 @@ def design(path, file, amount, abacuspath, tag=None, demo=False):
             else:
                 ABACUS_design(path, file, abacuspath, amount, tag)
         else:
+            time.sleep(5)
             fp = open(path + 'demo_design_demo.fasta', 'w')
             fp.close()
             fp = open(path + 'demo_design_demo.pdb', 'w')
