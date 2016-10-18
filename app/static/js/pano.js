@@ -86,6 +86,15 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 self.forceDragged.py += d.y - self.forceDragged.y;
                 self.forceDragged.x = d.x;
                 self.forceDragged.y = d.y;
+
+                var average = [d3.mean(self.forceNodes, function (d) {
+                    return d.x;
+                }) * 2, d3.mean(self.forceNodes, function (d) {
+                    return d.y;
+                }) * 2];
+
+                self.forceHandler.size(average);
+
                 self.updateGraph();
             }
         }).on("dragend", function () {
@@ -119,7 +128,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         self.forceSaveLastTime = Date.now();
 
         self.forceHandler = d3.layout.force()
-            .friction(0.7).charge(-5000).gravity(0.3).linkDistance(200)
+            .charge(-8000).friction(0.6).gravity(0.4).linkDistance(200)
             .on("tick", function (e) {
                 self.forceNodes.forEach(function (i) {
                     self.nodes[i.id].x = i.x;
@@ -222,6 +231,14 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         // update
         self.updateGraph();
 
+        var average = [d3.mean(self.forceNodes, function (d) {
+            return d.x;
+        }) * 2, d3.mean(self.forceNodes, function (d) {
+            return d.y;
+        }) * 2];
+
+        self.forceHandler.size(average);
+
         for (var i in nodes) {
             if (nodes[i] != undefined) {
                 self.setSelectedNode(nodes[i]);
@@ -254,10 +271,10 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
     GraphCreator.prototype.setCircleTitle = function (gEl, title) {
         var words = title.split(/\s+/g);
         var el = gEl.append("text").attr("text-anchor", "middle");
-        el.attr("dx", 0).attr("dy", "5");
+        el.attr("dx", 0);
         for (var i in words) {
             el.append('tspan').text(words[i]).attr('x', 0).attr('dy', function () {
-                return $(el.node()).height() / 2;
+                return i == 0 ? 7 * (2 - words.length) : 14;
             });
         }
     };
@@ -425,7 +442,6 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                             s: mouseDownNode['gene_id'],
                             t: d['gene_id'],
                             k: isNaN(k) ? 5 : k,
-                            maxlen: isNaN(maxlen)? 10 : maxlen
                         }, function (nodes, p) {
                             paths = p;
                             nodes.forEach(function (i) {
@@ -444,7 +460,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                                         .append($('<span class="grey-text"></span>').text(i['info'])));
                                 });
                                 root.append($('<li></li>').append($('<div class="collapsible-header truncate"></div>')
-                                    .append($('<span></span>').text('Path ' + i + ' ' + path.map(function (i) {
+                                    .append($('<span></span>').text('Path ' + (1 + +i) + ' ' + path.map(function (i) {
                                             return nodeDict[i].name;
                                         }).reduce(function (i, j) {
                                             return i + ' -> ' + j;
@@ -577,13 +593,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             return {source: forceNodeDict[i.source], target: forceNodeDict[i.target]};
         });
 
-        var average = [d3.mean(thisGraph.forceNodes, function (d) {
-            return d.px;
-        }) * 2, d3.mean(thisGraph.forceNodes, function (d) {
-            return d.py;
-        }) * 2];
-
-        thisGraph.forceHandler.size(average).nodes(thisGraph.forceNodes).links(thisGraph.forceEdges).start();
+        thisGraph.forceHandler.nodes(thisGraph.forceNodes).links(thisGraph.forceEdges).start();
 
         paths.style('marker-end', 'url(#end-arrow)')
             .classed(consts.selectedClass, function (d) {
@@ -796,35 +806,64 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                     tax_id: '10001', // 节点的Tax id
                     gene_id: source, // 节点的Gene id
                     name: 'ZGDX', // 节点的名称
-                    info: 'Infomation of ZGDX: blablablablablablablablablablablablablablablabla'
+                    info: 'Infomation of ZGDX: blablablabla blablablabla blablablabla blablablabla'
                 },
                 {
-                    tax_id: '10010', // 节点的Tax id
-                    gene_id: '10010', // 节点的Gene id
-                    name: 'ZGLT', // 节点的名称
-                    info: 'Infomation of ZGLT: blablablablablablablablablablablablablablablabla'
+                    tax_id: '10001', // 节点的Tax id
+                    gene_id: '1000101', // 节点的Gene id
+                    name: 'ZGDXDX', // 节点的名称
+                    info: 'Infomation of ZGDXDX: blablablabla blablablabla blablablabla blablablabla'
+                },
+                {
+                    tax_id: '10001', // 节点的Tax id
+                    gene_id: '100010101', // 节点的Gene id
+                    name: 'ZGDXDXDX', // 节点的名称
+                    info: 'Infomation of ZGDXDXDX: blablablabla blablablabla blablablabla blablablabla'
+                },
+                {
+                    tax_id: '10010',
+                    gene_id: '10010',
+                    name: 'ZGLT',
+                    info: 'Infomation of ZGLT: blablablabla blablablabla blablablabla blablablabla'
                 },
                 {
                     tax_id: '10010',
                     gene_id: '1001010',
-                    name: 'ZGLTZGLT',
-                    info: 'Infomation of ZGLTZGLT: blablablablablablablablablablablablablablablabla'
+                    name: 'ZGLTLT',
+                    info: 'Infomation of ZGLTZGLT: blablablabla blablablabla blablablabla blablablabla'
                 },
                 {
                     tax_id: '10010',
                     gene_id: '100101010',
-                    name: 'ZGLTZGLTZGLT',
-                    info: 'Infomation of ZGLTZGLTZGLT: blablablablablablablablablablablablablablablabla'
+                    name: 'ZGLTLTLT',
+                    info: 'Infomation of ZGLTZGLTZGLT: blablablabla blablablabla blablablabla blablablabla'
+                },
+                {
+                    tax_id: '10086',
+                    gene_id: '10086',
+                    name: 'ZGYD',
+                    info: 'Infomation of ZGYD: blablablabla blablablabla blablablabla blablablabla'
+                },
+                {
+                    tax_id: '10086',
+                    gene_id: '1008686',
+                    name: 'ZGYDYD',
+                    info: 'Infomation of ZGYDYD: blablablabla blablablabla blablablabla blablablabla'
                 },
                 {
                     tax_id: '10086',
                     gene_id: target,
-                    name: 'ZGYD',
-                    info: 'Infomation of ZGYD: blablablablablablablablablablablablablablablabla'
+                    name: 'ZGYDYDYD',
+                    info: 'Infomation of ZGYDYDYD: blablablabla blablablabla blablablabla blablablabla'
                 }
             ], [
-                [source, '10010', '1001010', target],
-                [source, '10010', '100101010', target]
+                [source, '1000101', '10010', '100101010', target],
+                [source, '1000101', '10010', '10086', target],
+                [source, '1000101', '1001010', '10086', target],
+                [source, '100010101', '1001010', '10086', target],
+                [source, '100010101', '1001010', '1008686', target],
+                [source, '100010101', '100101010', '1008686', target],
+                [source, '10010', '100101010', '1008686', target]
             ]); // TODO
         }
 
