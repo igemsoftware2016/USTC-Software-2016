@@ -1159,7 +1159,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             } else {
                 graph.enabledForce = false;
             }
-        });
+        }).click().click();
 
         $(document).keyup(function (event) {
             if (!graph.state.lockKeyEvent) {
