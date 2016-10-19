@@ -1191,7 +1191,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 action: "save",
                 id: projectId,
                 title: panoTitle,
-                img: '', // dataImg, // TODO
+                img: dataImg,
                 data: JSON.stringify({nodes: graph.nodes.filter(function (d) {
                     return d != undefined;
                 }), edges: graph.edges})

@@ -126,12 +126,13 @@ div#image {
 }
 
 #scroll-wrapper::-webkit-scrollbar {
-    width:13px;
-    height:13px;
+    width:6px;
+    height:6px;
+    background: #4caf50;
 }
 
 #scroll-wrapper::-webkit-scrollbar-button {
-    background-color:#26a69a;
+    height: 0;
 }
 
 #scroll-wrapper::-webkit-scrollbar-track {
@@ -148,7 +149,7 @@ div#image {
 }
 
 #scroll-wrapper::-webkit-scrollbar-corner {
-    background:#82AFFF;
+    background:#388e3c;
 }
 
 #scroll-wrapper {
