@@ -50,7 +50,7 @@ def upload(path, commit, column_num, cache_size=100000, echo=False, log=False):
         for i in range(1, cache_size + 1):
             num += 1
             try:
-                line = f.readline().decode('utf-8')
+                line = f.readline()
             except UnicodeDecodeError as e:
                 print("In " + path + " row ", num + i, '.', end='')
                 print(e)
