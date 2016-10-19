@@ -13,6 +13,8 @@ We suggest users use [Docker](https://www.docker.com/) to deploy BioHub. It just
     docker run -d --name biohubdb -e MYSQL_ROOT_PASSWORD=password mysql
     docker run -d --name biohub --link biohubdb:db -p 80:5000 biohubtech/biohub
 
+You can also use `-e BIOHUB_DB_HOST=<host>` and/or `-e BIOHUB_DB_USER=<user> -e BIOHUB_DB_PASSWORD=<password>` to connect to other databases.
+
 Also, you can clone the repo and run it manually. We've tested this on Debian:
 
     git clone https://github.com/igemsoftware2016/USTC-Software-2016.git
