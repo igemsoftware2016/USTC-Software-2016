@@ -50,7 +50,7 @@ def upload(path, commit, column_num, cache_size=100000, echo=False, log=False):
         for i in range(1, cache_size + 1):
             num += 1
             try:
-                line = f.readline()
+                line = f.readline().decode('utf-8')
             except UnicodeDecodeError as e:
                 print("In " + path + " row ", num + i, '.', end='')
                 print(e)
@@ -71,14 +71,10 @@ def upload(path, commit, column_num, cache_size=100000, echo=False, log=False):
             temp = line.split('\t')
 
             if len(temp) != column_num:
-                if commit == bsid_commit and len(temp) == 7:
-                    temp.append('')
-                    res.append(temp)
-                else:
-                    print("In " + path + " row ", num, ", data missed or duplicated.")
-                    if log:
-                        logf.write(time.asctime(time.localtime(time.time())) + ':' + "In " + path + " row " + str(num)
-                            + ", data missed or duplicated." + '\n')
+                print("In " + path + " row ", num, ", data missed or duplicated.")
+                if log:
+                    logf.write(time.asctime(time.localtime(time.time())) + ':' + "In " + path + " row " + str(num)
+                        + ", data missed or duplicated." + '\n')
             else:
                 res.append(temp)
 

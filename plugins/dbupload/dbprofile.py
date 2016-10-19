@@ -1,6 +1,5 @@
 from sqlalchemy import Column, Text, Integer, Date, String
 from database import TableBase
-from __init__ import *
 
 
 # Define database file error exception
