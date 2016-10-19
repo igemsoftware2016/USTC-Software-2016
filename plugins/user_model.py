@@ -36,6 +36,7 @@ class user_model(Plugin):
             user = User(email, password, username)
             session.add(user)
             session.commit()
+            login_user(user)
             # XXX: Hypercube: give user a pano for a easy begin
             welcome = '''{"nodes":[
                 {"id":0,"tax_id":"","gene_id":"","name":"","info":"","title":"How To Use BioHub?","x":200,"y":-700},

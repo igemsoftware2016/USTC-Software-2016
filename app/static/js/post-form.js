@@ -48,7 +48,7 @@ function postForm_sign_up(){
         success: function(response){
             var Jr = JSON.parse(response);
             if(Jr['success']==true) {
-                window.location="login.html"
+                window.location="projects.html"
             }
             else {
                 Materialize.toast(Jr['error'], 3000, 'rounded');
