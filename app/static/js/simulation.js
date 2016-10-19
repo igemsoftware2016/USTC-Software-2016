@@ -523,7 +523,7 @@ function draw_functions_simu(data_graph) {
         .append("img")
         .attr("src",function (d,i) {
             src_str = "http://latex.codecogs.com/gif.latex?y_{"
-                +   String(i-1)
+                +   String(i)
                 + "} \\quad=";
             return src_str
         });

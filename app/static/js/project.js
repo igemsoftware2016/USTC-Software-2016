@@ -15,7 +15,7 @@ function getProjectData(){
                         }else {
 
                             document.getElementById("load-spinner").style.display="none";
-                            $('#project')[0].innerHTML='<div style="margin-top: 15% ;margin-bottom: 15% "> <span class="mdl-textfield--full-width mdl-color-text--blue-grey-300"><h1>No project.</h1><h2>Try BioHub from creating a project by click "+"</h2></span></div>';
+                            $('#project')[0].innerHTML='<div style="margin-top: 15% ;margin-bottom: 15% "> <span class="mdl-textfield--full-width mdl-color-text--blue-grey-300"><h1>No project.</h1><h2>Try BioHub from creating a project by clicking "+"</h2></span></div>';
                         }
         	        }
         	        else{
