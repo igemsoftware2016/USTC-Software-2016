@@ -964,6 +964,14 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             $('#side-wrapper > div').animate({left: 0}, 100, "easeOutQuad");
         });
 
+        $('#side-head-top-button-s').click(function () {
+            $('#pano-info-simulate').click();
+        });
+
+        $('#side-head-top-button-b').click(function () {
+            $('#pano-info-back').click();
+        });
+
         $('#side-head-close-button').click(function () {
             var width = $('#side-head').width();
             $('#side-wrapper > div').animate({left: -1.05 * width}, 100, "easeInQuad");

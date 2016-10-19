@@ -125,6 +125,20 @@ div#image {
     line-height: 48px;
 }
 
+#side-head-top-button-s {
+    position: fixed;
+    z-index: 9999;
+    right: 36px;
+    bottom: 36px;
+}
+
+#side-head-top-button-b {
+    position: fixed;
+    z-index: 9999;
+    right: 36px;
+    top: 36px;
+}
+
 #scroll-wrapper::-webkit-scrollbar {
     width:6px;
     height:6px;
