@@ -25,18 +25,18 @@ function auto_input() {
 
 
 
-        var input_1 = $('#input_func_1')[0];
+        var input_1 = $('#input_func_0')[0];
         input_1.value = "-10*y[0] + 10*y[1]";
-        var input_2 = $('#input_func_2')[0];
+        var input_2 = $('#input_func_1')[0];
         input_2.value = "28*y[0] - y[1]-y[0]*y[2]";
-        var input_3 = $('#input_func_3')[0];
+        var input_3 = $('#input_func_2')[0];
         input_3.value = "-8/3 * y[2] + y[0] * y[1]";
 
-        var init_1 = $('#input_init_1')[0];
+        var init_1 = $('#input_init_0')[0];
         init_1.value = "10";
-        var init_2 = $('#input_init_2')[0];
+        var init_2 = $('#input_init_1')[0];
         init_2.value = "5";
-        var init_3 = $('#input_init_3')[0];
+        var init_3 = $('#input_init_2')[0];
         init_3.value = "1.01";
         Materialize.updateTextFields();
     }
@@ -502,7 +502,7 @@ function draw_functions_simu(data_graph) {
 
     inp.append("input")
         .attr("id",function (d,i) {
-            fnstr = ("input_func_"+String(i));
+            fnstr = ("input_func_"+d.id);
             return fnstr;
         }).attr("type" ,"text");
 
@@ -523,7 +523,7 @@ function draw_functions_simu(data_graph) {
         .append("img")
         .attr("src",function (d,i) {
             src_str = "http://latex.codecogs.com/gif.latex?y_{"
-                +   String(i)
+                +   String(i-1)
                 + "} \\quad=";
             return src_str
         });
@@ -534,12 +534,12 @@ function draw_functions_simu(data_graph) {
 
     inp_1.append("input")
         .attr("id",function (d,i) {
-            fnstr = ("input_init_"+String(i));
+            fnstr = ("input_init_"+d.id);
             return fnstr;
         }).attr("type" ,"text");
 
     inp_1.append("label").attr("for",function (d,i) {
-        fnstr = "input_init_"+String(i);
+        fnstr = "input_init_"+d.id;
         return fnstr;
     }).html(function (d,i) {
         return "Initial Value of index "+String(i);
