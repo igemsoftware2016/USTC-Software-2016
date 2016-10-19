@@ -84,6 +84,9 @@ function  get_status() {
                 if(Jr.status == "Running"){
                     alert("Designing....(be patient)")
                 }
+                if(Jr.status == "Empty"){
+                    alert("please connect to the server Admin for help")
+                }
                 if(Jr.status == "Success"){
                     var sel_s = $('#get_status')[0];
                     sel_s.innerHTML = "Download File";

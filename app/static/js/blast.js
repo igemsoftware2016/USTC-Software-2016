@@ -279,7 +279,7 @@ function glo_draw(svg,data_result,ori_length) {
         .attr("ry", 6)
         .attr("x",250)
         .attr("y", function (d,i) {
-            return i*24-255
+            return i*24-249
         })
         .attr("width", 250)
         .attr("height", 20)
@@ -302,7 +302,7 @@ function glo_draw(svg,data_result,ori_length) {
         .text(function (d) {return d.ID})
         .attr("x",260)
         .attr("y",function (d,i) {
-            return i*24-240
+            return i*24-234
         })
         .attr("pointer-events", "none")
         .classed('noselcect',true);
