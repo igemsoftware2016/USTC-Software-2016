@@ -12,7 +12,7 @@ function logout_form(){
             success: function(response){
                 var Jr = JSON.parse(response);
                 if(Jr['success']==true) {
-                    window.location="../login.html";
+                    window.location="login.html";
                 }
                 else {
                     alert(Jr['error']);
