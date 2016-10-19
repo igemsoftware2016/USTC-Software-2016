@@ -134,7 +134,7 @@ var draw_arcs = function(svg,target_id,q_start,q_end,hit_start,hit_end){
         .datum({endAngle:deg2arc(359),startAngle:deg2arc(1)})
         .attr("d",arc_root)
         .attr("fill",function (d) {
-            return color(0.4)
+            return "#006666";//color(0.4)
         })
         .attr("id","root_path");
 
@@ -237,8 +237,22 @@ var draw_arcs = function(svg,target_id,q_start,q_end,hit_start,hit_end){
         .attr("r",8)
         .attr("fill","black");
 
-    return arc_ret
+   /** data_map = [];
+    var len = 50;
+    for (var num_i = 0;num_i<len;num_i++){
+        data_map.push({"value":num_i/len});
+        svg
+            .append("rect")
+            .attr("x",len*8)
+            .attr("y",100)
+            .attr("width",8)
+            .attr("height",8)
+            .attr("fill",color(num_i/len))
+    }
+*/
 
+
+    return arc_ret
 };
 
 

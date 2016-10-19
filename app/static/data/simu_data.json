@@ -1,7 +1,7 @@
 {
   "nodes":[
-    {"id":1  ,"type":3, "u_name":"gene1", "name":"node 1","title":"BBa_I10000","x":540,  "y":350},
-    {"id":2  ,"type":2, "u_name":"gRNA2", "name":"node 2","title":"BBa_I19827","x":600,  "y":300},
-    {"id":3  ,"type":3, "u_name":"gRNA2", "name":"node 3","title":"BBa_K87512","x":600,  "y":300}
+    {"id":0  ,"type":3, "u_name":"gene1", "name":"node 1","title":"BBa_I10000","x":540,  "y":350},
+    {"id":1  ,"type":2, "u_name":"gRNA2", "name":"node 2","title":"BBa_I19827","x":600,  "y":300},
+    {"id":2  ,"type":3, "u_name":"gRNA2", "name":"node 3","title":"BBa_K87512","x":600,  "y":300}
   ]
 }
