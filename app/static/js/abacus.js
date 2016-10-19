@@ -85,7 +85,7 @@ function  get_status() {
                     alert("Designing....(be patient)")
                 }
                 if(Jr.status == "Empty"){
-                    alert("please connect to the server Admin for help")
+                    alert("Design Module not properly installed,Please connect to the server Admin for help")
                 }
                 if(Jr.status == "Success"){
                     var sel_s = $('#get_status')[0];
