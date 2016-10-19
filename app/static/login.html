@@ -7,10 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BioHub Login</title>
     <link rel="stylesheet" href="css/materialize.min.css">
-    <!--link rel="stylesheet" href="css/bootstrap.min.css"-->
+    <link rel="icon" href="favicon.ico" mce_href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.ico" mce_href="favicon.ico" type="image/x-icon">
+    <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
     <style type="text/css">
-
-
         @font-face {
             font-family: 'Material Icons';
             font-style: normal;
@@ -29,10 +30,12 @@
             font-style: normal;
             font-size: 24px; /* Preferred icon size */
             display: inline-block;
-            width: 1em;
-            height: 1em;
             line-height: 1;
             text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
 
             /* Support for all WebKit browsers. */
             -webkit-font-smoothing: antialiased;
@@ -46,14 +49,19 @@
             font-feature-settings: 'liga';
         }
 
-
-        body { width: 100%; font-family: 'Merriweather Sans', sans-serif; background-color: #f9f9f9;background-image:  url("img/bg.jpg");  background-size: 100% ; background-repeat: repeat; background-position: center center; -webkit-font-smoothing: antialiased; }
+        body {
+            width: 100%;
+            background: #f9f9f9 url("img/bg.jpg") no-repeat fixed center;
+            background-size: cover;
+            -webkit-font-smoothing: antialiased;
+        }
 
         html {
             margin: auto;
             align-items: center;
         }
-       .al_u{
+
+        .al_u {
             display: -webkit-flex !important;
             display: -ms-flexbox !important;
             display: flex !important;
@@ -66,7 +74,6 @@
             align-items: center;
         }
     </style>
-
 </head>
 <body>
 <div id="login-page" align="center" style="align-content: center;margin-top: 70px">
@@ -119,8 +126,6 @@
     <a href="signup.html" style="text-decoration: none"><button id="flow-button" class="btn btn-custom btn-block " style="margin-top: 5px;width: 360px">Sign up today to join BioHub </button></a>
 
 </div>
-<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
-<script src="js/materialize.min.js"></script>
-<script src="js/postForm.js"></script>
+<script src="js/post-form.js"></script>
 </body>
 </html>
