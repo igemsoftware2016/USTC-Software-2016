@@ -16,7 +16,8 @@ RUN apt update && apt install -y \
         wget \
     && pip3 install \
         flask_login \
-        mysqlclient
+        mysqlclient \
+        pymysql
 ADD . .
 RUN mv config.docker.py config.py
 
