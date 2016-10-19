@@ -1167,7 +1167,20 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             } else {
                 graph.enabledForce = false;
             }
-        }).click().click();
+        });
+
+        if ($(this).prop('checked')) {
+            graph.enabledForce = true;
+            graph.updateGraph();
+
+            var average = [d3.mean(graph.forceNodes, function (d) {
+                return d.x;
+            }) * 2, d3.mean(graph.forceNodes, function (d) {
+                return d.y;
+            }) * 2];
+
+            graph.forceHandler.size(average);
+        }
 
         $(document).keyup(function (event) {
             if (!graph.state.lockKeyEvent) {
