@@ -129,7 +129,14 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         self.forceSaveLastTime = Date.now();
 
         self.forceHandler = d3.layout.force()
-            .charge(-8000).friction(0.6).gravity(0.4).linkDistance(200)
+            .friction(0.8)
+            .charge(function (d) {
+                return (d.weight || 1) * -4000;
+            })
+            .gravity(0.2)
+            .linkDistance(function (d) {
+                return (Math.min(d.source.weight, d.target.weight) + 2 || 2) * 100;
+            })
             .on("tick", function (e) {
                 self.forceNodes.forEach(function (i) {
                     self.nodes[i.id].x = i.x;
@@ -483,7 +490,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 },
                 complete: function () {
                     graph.state.lockKeyEvent = false;
-                    paths.forEach(function (path) {
+                    paths.forEach(function (path, index) {
                         if (!path) {
                             return;
                         }
@@ -497,15 +504,23 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                                     name: node.name,
                                     info: node.info,
                                     title: node.name,
-                                    x: previous.x + 100 * Math.random() + 100,
-                                    y: previous.y + 100 * Math.random() + 100
+                                    x: (mouseDownNode.x + d.x) / 2 + 100 * Math.cos(2 * Math.PI * index/ paths.length),
+                                    y: (mouseDownNode.y + d.y) / 2 + 100 * Math.sin(2 * Math.PI * index/ paths.length)
                                 });
                             } else {
                                 graph.setSelectedNode(graph.nodes[d.id]);
                             }
                             var newEdge = {source: previous.id, target: graph.state.selectedNode.id};
-                            thisGraph.edges.push(newEdge);
-                            thisGraph.updateGraph();
+                            var filtRes = thisGraph.paths.filter(function (d) {
+                                if (d.source === newEdge.target && d.target === newEdge.source) {
+                                    thisGraph.edges.splice(thisGraph.edges.indexOf(d), 1);
+                                }
+                                return d.source === newEdge.source && d.target === newEdge.target;
+                            });
+                            if (!filtRes[0].length) {
+                                thisGraph.edges.push(newEdge);
+                                thisGraph.updateGraph();
+                            }
                             previous = graph.state.selectedNode;
                         }
                     });
@@ -1144,7 +1159,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             } else {
                 graph.enabledForce = false;
             }
-        });
+        }).click().click();
 
         $(document).keyup(function (event) {
             if (!graph.state.lockKeyEvent) {
@@ -1191,7 +1206,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 action: "save",
                 id: projectId,
                 title: panoTitle,
-                img: '', // dataImg, // TODO
+                img: dataImg,
                 data: JSON.stringify({nodes: graph.nodes.filter(function (d) {
                     return d != undefined;
                 }), edges: graph.edges})

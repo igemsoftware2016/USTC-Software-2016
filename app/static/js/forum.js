@@ -147,6 +147,8 @@ function submitComment(i){
                 jsonResp=JSON.parse(response);
                 if(jsonResp['success']==true){
                     alert("Successfully submitted!");
+                    document.getElementsByClassName("demo-comment-input")[i-1].setAttribute("value","");
+                    document.getElementsByClassName("demo-comment")[i-1].setAttribute("style","display: none;");
                 }
                 else{
                     alert(jsonResp['error']);

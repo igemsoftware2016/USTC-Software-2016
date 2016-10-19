@@ -10,7 +10,7 @@ home = Blueprint('home', __name__)
 def index():
     if current_user.is_authenticated:
         return redirect(url_for('static', filename='projects.html'))
-    return redirect(url_for('static', filename='login-1.html'))
+    return redirect(url_for('static', filename='login.html'))
 
 
 @home.route('/validateLogin', methods=['POST'])

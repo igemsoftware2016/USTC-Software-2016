@@ -37,21 +37,35 @@ class user_model(Plugin):
             session.add(user)
             session.commit()
             # XXX: Hypercube: give user a pano for a easy begin
-            pano.new('Welcome to BioHub', '''{"nodes": [{"id": 0, "tax_id": "13616", "gene_id": "100020764", "name": "FLI1",
-                "info": "Fli-1 proto-oncogene, ETS transcription factor", "title": "A node", "x": 933.3165774794857,
-                "y": -364.55292732753173}, {"id": 1, "tax_id": "8364", "gene_id": "100124738", "name": "fli1",
-                "info": "Fli-1 proto-oncogene, ETS transcription factor", "title": "Another node",
-                "x": 1156.8635397010025, "y": -349.7444343781135},
-                {"id": 2, "tax_id": "13616", "gene_id": "100012952", "name": "PLIN1", "info": "perilipin 1",
-                    "title": "Path source", "x": 860.299932050852, "y": -206.6094206862168},
-                {"id": 3, "tax_id": "13616", "gene_id": "100023154", "name": "PLIN4", "info": "perilipin 4",
-                    "title": "Path destination", "x": 1203.4761227806162, "y": -179.53634673455198},
-                {"id": 4, "tax_id": "9986", "gene_id": "100008883", "name": "GABARAP",
-                    "info": "GABA type A receptor-associated protein", "title": "Hold shift to create links!",
-                    "x": 1057.5971402365803, "y": -493.90246288635706},
-                {"id": 5, "tax_id": "9986", "gene_id": "100008883", "name": "GABARAP",
-                    "info": "GABA type A receptor-associated protein", "title": "Use PATH FINDER to find a path!",
-                    "x": 1030.2078023732358, "y": -109.43012156446206}], "edges": [{"source": 0, "target": 1}]}''', 'false', '', user=user.id)
+            welcome = '''{"nodes":[
+                {"id":0,"tax_id":"","gene_id":"","name":"","info":"","title":"How To Use BioHub?","x":200,"y":-700},
+                {"id":1,"tax_id":"","gene_id":"","name":"","info":"","title":"Check the detail on left","x":200,"y":-550},
+                {"id":2,"tax_id":"","gene_id":"","name":"","info":"","title":"Click PREVIOUS or NEXT","x":200,"y":-400},
+                {"id":3,"tax_id":"","gene_id":"","name":"","info":"","title":"Hold SHIFT to link","x":200,"y":-250},
+                {"id":4,"tax_id":"","gene_id":"","name":"","info":"","title":"link source","x":350,"y":-250},
+                {"id":5,"tax_id":"","gene_id":"","name":"","info":"","title":"link target","x":650,"y":-250},
+                {"id":6,"tax_id":"","gene_id":"","name":"","info":"","title":"Try PATH-FINDER!","x":200,"y":-100},
+                {"id":7,"tax_id":"562","gene_id":"1238710","name":"tnsA","info":"Tn7 transposase A","title":"path source","x":350,"y":50},
+                {"id":8,"tax_id":"562","gene_id":"5961992","name":"bla","info":"beta-lactamase TEM precursor","title":"path target","x":650,"y":50},
+                {"id":9,"tax_id":"","gene_id":"","name":"","info":"","title":"Try SMART-MAP!","x":200,"y":200},
+                {"id":10,"tax_id":"","gene_id":"","name":"","info":"","title":"This is tnsA","x":425,"y":-25},
+                {"id":11,"tax_id":"","gene_id":"","name":"","info":"","title":"This is bla","x":575,"y":-25},
+                {"id":12,"tax_id":"","gene_id":"","name":"","info":"","title":"First choose this","x":350,"y":-100},
+                {"id":13,"tax_id":"","gene_id":"","name":"","info":"","title":"Then click PATH-FINDER","x":500,"y":-100},
+                {"id":14,"tax_id":"","gene_id":"","name":"","info":"","title":"Finally click this","x":650,"y":-100}
+                ],"edges":[
+                {"source":4,"target":5},
+                {"source":3,"target":6},
+                {"source":2,"target":3},
+                {"source":6,"target":9},
+                {"source":10,"target":7},
+                {"source":11,"target":8},
+                {"source":0,"target":1},
+                {"source":1,"target":2},
+                {"source":12,"target":7},
+                {"source":14,"target":8}
+                ]}'''
+            pano.new('Welcome to BioHub', welcome, 'false', '', user=user.id)
             return {'success': True}
         elif request['action'] == 'logout':
             print('Logout')

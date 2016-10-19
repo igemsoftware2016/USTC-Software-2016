@@ -490,7 +490,7 @@ function draw_functions_simu(data_graph) {
         .append("img")
         .attr("src",function (d,i) {
             src_str = "http://latex.codecogs.com/gif.latex?\\frac{dy_{"
-                +   d.id
+                +   String(i)
                 + "}}{dt} \\quad=";
             return src_str
         });
@@ -501,8 +501,8 @@ function draw_functions_simu(data_graph) {
 
 
     inp.append("input")
-        .attr("id",function (d) {
-            fnstr = ("input_func_"+d.id);
+        .attr("id",function (d,i) {
+            fnstr = ("input_func_"+String(i));
             return fnstr;
         }).attr("type" ,"text");
 
@@ -523,7 +523,7 @@ function draw_functions_simu(data_graph) {
         .append("img")
         .attr("src",function (d,i) {
             src_str = "http://latex.codecogs.com/gif.latex?y_{"
-                +   d.id
+                +   String(i)
                 + "} \\quad=";
             return src_str
         });
@@ -533,16 +533,16 @@ function draw_functions_simu(data_graph) {
 
 
     inp_1.append("input")
-        .attr("id",function (d) {
-            fnstr = ("input_init_"+d.id);
+        .attr("id",function (d,i) {
+            fnstr = ("input_init_"+String(i));
             return fnstr;
         }).attr("type" ,"text");
 
-    inp_1.append("label").attr("for",function (d) {
-        fnstr = "input_init_"+d.id;
+    inp_1.append("label").attr("for",function (d,i) {
+        fnstr = "input_init_"+String(i);
         return fnstr;
-    }).html(function (d) {
-        return "Initial Value of index "+d.id;
+    }).html(function (d,i) {
+        return "Initial Value of index "+String(i);
     });
 
     func_container
