@@ -129,7 +129,7 @@ function vis_data(data,x_max,x_min,y_max,y_min,unstable,lya){
         vis.append('svg:path')
             .attr('class','line')
             .attr('d', lineGen_1(data))
-            .attr('stroke', color(i*0.1))
+            .attr('stroke', color(i*0.2))
             .attr('stroke-width', 2)
             .attr('fill', 'none');
     }
