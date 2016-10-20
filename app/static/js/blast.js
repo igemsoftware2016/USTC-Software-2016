@@ -173,7 +173,7 @@ var draw_arcs = function(svg,target_id,q_start,q_end,hit_start,hit_end){
         .attr("startOffset", "1.2%")
         .attr("class", "arc-text")
         .attr("xlink:href", "#root_path")
-        .text( "start point")
+        .text( "Start point")
         .attr("style","font-size:14px;font-family:consolas")
         .attr("fill","white");
 
@@ -185,7 +185,7 @@ var draw_arcs = function(svg,target_id,q_start,q_end,hit_start,hit_end){
         .attr("startOffset", "52%")
         .attr("class", "arc-text")
         .attr("xlink:href", "#root_path")
-        .text( "end point")
+        .text( "End point")
         .attr("style","font-size:14px;font-family:consolas")
         .attr("fill","white");
 
