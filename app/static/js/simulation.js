@@ -132,6 +132,19 @@ function vis_data(data,x_max,x_min,y_max,y_min,unstable,lya){
             .attr('stroke', color(i*0.2))
             .attr('stroke-width', 2)
             .attr('fill', 'none');
+
+        vis.append('rect')
+            .attr('x',80)
+            .attr('y',25+20*i)
+            .attr('width',30)
+            .attr('height',3)
+            .attr('fill', color(i*0.2));
+
+        vis.append('text')
+            .attr('x',120)
+            .attr('y',30+20*i)
+            .text('Node'+String(i));
+
     }
 
     lines = document.getElementsByClassName('line');
