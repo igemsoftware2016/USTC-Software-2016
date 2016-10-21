@@ -88,6 +88,14 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 self.forceDragged.x = d.x;
                 self.forceDragged.y = d.y;
 
+                var average = [d3.mean(self.forceNodes, function (d) {
+                    return d.x;
+                }) * 2, d3.mean(self.forceNodes, function (d) {
+                    return d.y;
+                }) * 2];
+
+                self.forceHandler.size(average);
+
                 self.updateGraph();
             }
         }).on("dragend", function () {
@@ -618,13 +626,18 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             return d.x;
         }) * 2, d3.mean(thisGraph.forceNodes, function (d) {
             return d.y;
-        }) * 2], averageP = [d3.mean(thisGraph.forceNodes, function (d) {
-            return d.px || d.x;
-        }) * 2, d3.mean(thisGraph.forceNodes, function (d) {
-            return d.py || d.y;
         }) * 2];
 
-        if ((function (x, y) { return x * x + y * y > 2 })(average[0] - averageP[0], average[1] - averageP[1])) {
+        var posDiff = d3.mean(thisGraph.nodes, function (d) {
+            function distanceSquared(x, y) { return x * x + y * y; }
+            var length = distanceSquared(d.x - average[0], d.y - average[1]);
+            var lengthP = distanceSquared((d.px || d.x) - average[0], (d.py || d.y) - average[1]);
+            return Math.abs(length - lengthP);
+        });
+
+        console.log(thisGraph.forceNodes);
+
+        if (posDiff > 1) {
             thisGraph.forceHandler.size(average);
         }
 
