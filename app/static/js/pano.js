@@ -627,7 +627,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             return d.y;
         }) * 2];
 
-        var posDiff = d3.mean(thisGraph.nodes, function (d) {
+        var posDiff = d3.mean(thisGraph.forceNodes, function (d) {
             function distanceSquared(x, y) { return x * x + y * y; }
             var length = distanceSquared(d.x - average[0], d.y - average[1]);
             var lengthP = distanceSquared((d.px || d.x) - average[0], (d.py || d.y) - average[1]);
