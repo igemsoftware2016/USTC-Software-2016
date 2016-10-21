@@ -53,25 +53,6 @@ function get_user_pro(){
         }
 
     });
-            var dialog_remove_project=document.querySelector('.demo-remove-project');
-            var show_dialogButtons_remove_project = document.querySelectorAll('.show-dialog-remove-project');
-            if (! dialog_remove_project.showModal) {
-                dialogPolyfill.registerDialog(dialog_remove_project);
-            }
-            for (var i=1;i<=(show_dialogButtons_remove_project.length);i++) {
-              show_dialogButtons_remove_project[i-1].addEventListener('click', prepareRemoveData(i));
-              show_dialogButtons_remove_project[i-1].addEventListener('click', function() {
-                dialog_remove_project.showModal();
-            });
-            }
-            var remove_projectButtons=dialog_remove_project.querySelectorAll('.close-dialog-remove-project');
-            for (var i=1;i<=(remove_projectButtons.length);i++) {
-              remove_projectButtons[i-1].addEventListener('click', function() {
-                dialog_remove_project.close();
-            });
-            }
-            var remove_project_control=document.getElementById("remove_project");
-            remove_project_control.addEventListener("click",sendRemoveRequest());
 }
 
 function add0(m){return m<10?'0'+m:m }
@@ -170,7 +151,6 @@ function sendRemoveRequest(){
                         console.log(response);
                         jsonResp=JSON.parse(response);
                         if(jsonResp['success']==true){
-                                alert('Successfully removed!');
                                 window.location.reload();
                         }
                         else{
@@ -207,7 +187,6 @@ function sendCreateRequest(){
                         console.log(response);
                         jsonResp=JSON.parse(response);
                         if(jsonResp['success']==true){
-                                alert('Successfully created!');
                                 window.location="pano.html?id="+jsonResp['id'];
                         }
                         else{
