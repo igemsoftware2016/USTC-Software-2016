@@ -478,7 +478,6 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                                         return function () {
                                             $(this).parent().parent().remove();
                                             paths[i] = undefined;
-                                            console.log(paths);
                                         };
                                     })(i))))
                                     .append($('<div class="collapsible-body"></div>').append(nodeList)))
@@ -634,8 +633,6 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             var lengthP = distanceSquared((d.px || d.x) - average[0], (d.py || d.y) - average[1]);
             return Math.abs(length - lengthP);
         });
-
-        console.log(thisGraph.forceNodes);
 
         if (posDiff > 1) {
             thisGraph.forceHandler.size(average);
