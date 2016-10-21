@@ -56,7 +56,7 @@ def design(path, file, amount, abacuspath, demo=False, tag=None):
                 ABACUS_design(path, file, abacuspath, amount, tag)
         else:
             print("I am gonna sleep")
-            time.sleep(20)
+            time.sleep(10)
             fp = open(path + 'demo_design_demo.fasta', 'w')
             fp.close()
             fp = open(path + 'demo_design_demo.pdb', 'w')
