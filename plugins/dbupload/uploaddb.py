@@ -1,8 +1,9 @@
 from sqlalchemy.exc import IntegrityError, InvalidRequestError
-from database import *
-from progressbar import *
-from dbprofile import *
+
+from .progressbar import *
 import time
+from sqlalchemy import *
+from sqlalchemy.orm import sessionmaker
 
 # return -1 IOError
 # return -2 FileNotFoundError
@@ -13,7 +14,11 @@ import time
 
 # Set echo to True to enable progress bar.
 # Set log to True to enable log function.
-def upload(path, commit, column_num, cache_size=100000, echo=False, log=False):
+def upload(DATABASE_URI, path, commit, column_num, cache_size=100000, echo=False, log=False):
+    engine = create_engine(DATABASE_URI)
+    DBSession = sessionmaker(bind=engine)
+    session = DBSession()
+
     # Open file
     if echo:
         line_num = count_lines(path)

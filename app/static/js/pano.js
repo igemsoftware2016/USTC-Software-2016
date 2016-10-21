@@ -135,7 +135,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             })
             .gravity(0.2)
             .linkDistance(function (d) {
-                return (Math.min(d.source.weight, d.target.weight) + 2 || 2) * 100;
+                return (Math.sqrt(Math.min(d.source.weight, d.target.weight) / 4 + 1 || 1)) * 200;
             })
             .on("tick", function (e) {
                 self.forceNodes.forEach(function (i) {
@@ -478,7 +478,6 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                                         return function () {
                                             $(this).parent().parent().remove();
                                             paths[i] = undefined;
-                                            console.log(paths);
                                         };
                                     })(i))))
                                     .append($('<div class="collapsible-body"></div>').append(nodeList)))
@@ -621,6 +620,23 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         }
 
         thisGraph.forceHandler.links(thisGraph.forceEdges);
+
+        var average = [d3.mean(thisGraph.forceNodes, function (d) {
+            return d.x;
+        }) * 2, d3.mean(thisGraph.forceNodes, function (d) {
+            return d.y;
+        }) * 2];
+
+        var posDiff = d3.mean(thisGraph.forceNodes, function (d) {
+            function distanceSquared(x, y) { return x * x + y * y; }
+            var length = distanceSquared(d.x - average[0], d.y - average[1]);
+            var lengthP = distanceSquared((d.px || d.x) - average[0], (d.py || d.y) - average[1]);
+            return Math.abs(length - lengthP);
+        });
+
+        if (posDiff > 1) {
+            thisGraph.forceHandler.size(average);
+        }
 
         if (thisGraph.enabledForce) {
             thisGraph.forceHandler.start();

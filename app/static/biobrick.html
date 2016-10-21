@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My biobrick bank</title>
+    <title>My BioBrick bank</title>
     <link rel="stylesheet" href="css/materialize.min.css">
     <style type="text/css">
         body { width: 100%; font-family: 'Merriweather Sans', sans-serif; background-color: #f9f9f9; background-size: cover; background-repeat: no-repeat; background-position: center center; -webkit-font-smoothing: antialiased; }
@@ -72,20 +72,20 @@
 <body>
 <div class="container">
     <div class="fixed-action-btn" style="top: 2%; right: 2%;">
-        <a class="btn-floating btn-large teal" href="profile.html">
+        <a class="btn-floating btn-large teal" href="projects.html">
             <i class="large material-icons">home</i>
         </a>
     </div>
     <div class="row">
         <div class="col m11 offset-m1 s12">
-            <h2 class="center-align">Biobrick Bank</h2>
+            <h2 class="center-align">BioBrick Bank</h2>
 
 
             <div class="row">
                 <div class="col s12 m12">
                     <h4>Description</h4>
                     <div id="simulation_description" class="card-panel teal ">
-                        <p class="white-text">The iGEM Registry has over 20,000 documented parts organized by type, chassis, function and more. Recognizing that this is a great asset in the field of synthetic biology, we believe that it is necessary to let users explore Biobricks on BioHub. As a result, this function was implemented as an official plugin for BioHub. Users can search for Biobricks they desire and easily browse all the information about the searching results.</p>
+                        <p class="white-text">The iGEM Registry has over 20,000 documented parts organized by type, chassis, function and more. Recognizing that this is a great asset in the field of synthetic biology, we believe that it is necessary to let users explore BioBricks on BioHub. As a result, this function was implemented as an official plugin for BioHub. Users can search for BioBricks they desire and easily browse all the information about the searching results.</p>
 
                         <div class="col s6 m9"></div><div onclick="auto_input()"><a class = "btn btn-large teal lighten-2 waves-effect" >Example Demo</a>
                     </div>
@@ -220,15 +220,15 @@
                             "u_name":data[i].part_name,
                             "data1":
                                 {
-                                    "brief":data[i].short_desc
+                                    "Brief":data[i].short_desc
                                 },
                             "data2":
                                 {
-                                    "detail":data[i].description
+                                    "Detail":data[i].description
                                 },
                             "data3":
                                 {
-                                    "sequence length":data[i].sequence.length
+                                    "Sequence length":data[i].sequence.length
                                 }
                         }
                 )

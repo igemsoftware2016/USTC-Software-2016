@@ -1,10 +1,12 @@
 from sqlalchemy import Column, Text, Integer, Date, String
-from database import TableBase
+from sqlalchemy.ext.declarative import declarative_base
+TableBase = declarative_base()
 
 
 # Define database file error exception
 class DataBaseSourceError(Exception):
     pass
+
 
 # define biosystems of certain taxonomy
 class biosys_single(TableBase):
@@ -14,6 +16,7 @@ class biosys_single(TableBase):
     gene_id = Column(String(10))
     bsid = Column(Integer)
     Symbol = Column(String(64))
+
 
 # define Gene
 class Gene(TableBase):

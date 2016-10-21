@@ -39,22 +39,25 @@ function postForm(){
 
 function postForm_sign_up(){
     var FormData = ($('form').serializeObject());
-    var  dictPost  =  {"plugin":"user_model","action":"create_user","email":FormData["email"],"password":FormData["passwd"],"username":FormData["username"]};
-    console.log(dictPost);
-    $.ajax({
-        type: "POST",
-        url: "/plugin/",
-        data: dictPost,
-        success: function(response){
-            var Jr = JSON.parse(response);
-            if(Jr['success']==true) {
-                window.location="projects.html"
+
+    if (FormData["passwd"]==FormData["passwd_2"]){
+        var  dictPost  =  {"plugin":"user_model","action":"create_user","email":FormData["email"],"password":FormData["passwd"],"username":FormData["username"]};
+        console.log(dictPost);
+        $.ajax({
+            type: "POST",
+            url: "/plugin/",
+            data: dictPost,
+            success: function(response){
+                var Jr = JSON.parse(response);
+                if(Jr['success']==true) {
+                    window.location="projects.html"
+                }
+                else {
+                    Materialize.toast(Jr['error'], 3000, 'rounded');
+                }
             }
-            else {
-                Materialize.toast(Jr['error'], 3000, 'rounded');
-            }
-        }
-    });
+        });
+    }else {alert("Make sure the two passwords are the same")}
 }
 
 function logout_form(){

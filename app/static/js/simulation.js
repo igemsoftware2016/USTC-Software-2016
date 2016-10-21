@@ -129,9 +129,22 @@ function vis_data(data,x_max,x_min,y_max,y_min,unstable,lya){
         vis.append('svg:path')
             .attr('class','line')
             .attr('d', lineGen_1(data))
-            .attr('stroke', color(i*0.1))
+            .attr('stroke', color(i*0.2))
             .attr('stroke-width', 2)
             .attr('fill', 'none');
+
+        vis.append('rect')
+            .attr('x',80)
+            .attr('y',25+20*i)
+            .attr('width',30)
+            .attr('height',3)
+            .attr('fill', color(i*0.2));
+
+        vis.append('text')
+            .attr('x',120)
+            .attr('y',30+20*i)
+            .text('Node'+String(i));
+
     }
 
     lines = document.getElementsByClassName('line');
@@ -363,7 +376,7 @@ function  no_connection_status() {
             fnstr = "input_func_"+d.id;
             return fnstr;
         }).text(function (d) {
-            return "Control Function of [ID:"+d.id+']';
+            return "controlling ODE of [ID:"+d.id+']';
         });
 
 
@@ -511,7 +524,7 @@ function draw_functions_simu(data_graph) {
             fnstr = "input_func_"+d.id;
             return fnstr;
         }).text(function (d) {
-        return "Control Function of [ID:"+d.id+']';
+        return "controlling ODE of [ID:"+d.id+']';
     });
 
 
