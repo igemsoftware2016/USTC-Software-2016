@@ -61,6 +61,10 @@
             align-items: center;
         }
 
+        .margin{
+            margin: 0 10px 0 0;
+        }
+
         .al_u {
             display: -webkit-flex !important;
             display: -ms-flexbox !important;
@@ -76,55 +80,56 @@
     </style>
 </head>
 <body>
-<div id="login-page" align="center" style="align-content: center;margin-top: 70px">
-    <div class="card-panel " style="width: 360px;align-content: center">
-            <div class="row">
-                <div class="input-field col s12 center">
-                    <span class="al_u">
-                        <img src="images/logo.ico" alt="" class="responsive-img valign profile-image-login" style="height: 76px;margin: 15px">
-                        <h2><span>BioHub</span></h2>
-                    </span>
-                </div>
+<div id="login-page" align="center" style="align-content: center;margin-top: 40px">
+    <div class="card-panel " style="width: 400px;align-content: center">
+        <div class="row">
+            <div class="input-field col s12 center valign-wrapper">
+                <span class="al_u">
+                    <img src="images/logo.ico" alt="" class="responsive-img valign profile-image-login valign"
+                         style="height: 76px;margin: 15px">
+                    <h2 class="right valign">&nbsp;<span>BioHub</span></h2>
+                </span>
             </div>
+        </div>
 
         <form class="form" name="userDataForm" id="userDataForm" method="post" action="">
             <div class="row margin">
                 <div class="input-field col s12">
-                    <i class="material-icons prefix">person</i>
+                    <i class="material-icons prefix" style="margin-top: 7.5px;">person</i>
                     <input class="validate" id="usr" type="email" name="email" onkeypress="postForm_enter(event)">
                     <label for="usr" data-error="wrong format" data-success="" class="left-align">Email</label>
                 </div>
             </div>
             <div class="row margin">
                 <div class="input-field col s12">
-                    <i class="material-icons prefix">lock</i>
+                    <i class="material-icons prefix" style="margin-top: 7.5px;">lock</i>
                     <input id="password" type="password" name="password" onkeypress="postForm_enter(event)">
                     <label for="password" class="left-align">Password</label>
                 </div>
             </div>
-            <div class="row">
-                <div class="input-field col s12 m12 l12  login-text">
-                    <input type="checkbox" id="remember-me" name="remember" onkeypress="postForm_enter(event)" />
-                    <label for="remember-me">remember me</label>
+            <div class="row" style="margin-left: 2px;">
+                <div class="input-field col s12 left-align login-text">
+                    <input type="checkbox" id="remember-me" name="remember" onkeypress="postForm_enter(event)"/>
+                    <label for="remember-me" style="padding-left: 31px;">Remember me</label>
                 </div>
             </div>
         </form>
-            <div class="row center-align">
-                <button class="btn waves-effect waves-light center-align" onkeypress="postForm_enter(event)" onclick="postForm()" style="width: 200px">Sign in</button>
-
+        <div class="row">
+            <div class="input-field col s12">
+                <button class="btn waves-effect waves-light" onkeypress="postForm_enter(event)"
+                        onclick="postForm()" style="width: 100%;">Sign in
+                </button>
             </div>
-            <div class="row">
-                <div class="input-field col s6 m6 l6">
-                </div>
-                <div class="input-field col s6 m6 l6">
-                    <p class="margin right-align medium-small"><a href="signup.html">Forget Password?</a></p>
-                </div>
-             </div>
-
-
+        </div>
+        <div class="row" style="display: none">
+            <div class="input-field col s12">
+            </div>
+            <div class="input-field col s12">
+                <p class="margin right-align medium-small"><a href="signup.html">Forget Password?</a></p>
+            </div>
+        </div>
     </div>
-    <a href="signup.html" style="text-decoration: none"><button id="flow-button" class="btn btn-custom btn-block " style="margin-top: 5px;width: 360px">Sign up today to join BioHub </button></a>
-
+    <a href="signup.html" style="text-decoration: none"><button id="flow-button" class="btn btn-custom btn-block " style="margin-top: 5px;width: 400px">Sign up today to join BioHub </button></a>
 </div>
 <script src="js/post-form.js"></script>
 </body>

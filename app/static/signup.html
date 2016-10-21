@@ -47,8 +47,12 @@
             font-feature-settings: 'liga';
         }
 
-
-        body { width: 100%; font-family: 'Merriweather Sans', sans-serif; background-color: #f9f9f9;background-image:  url("img/bg.jpg");  background-size: cover; background-repeat: no-repeat; background-position: center center; -webkit-font-smoothing: antialiased; }
+        body {
+            width: 100%;
+            background: #f9f9f9 url("img/bg.jpg") no-repeat fixed center;
+            background-size: cover;
+            -webkit-font-smoothing: antialiased;
+        }
 
         html {
             margin: auto;
@@ -56,10 +60,7 @@
         }
 
         .margin{
-            margin-left: 20px;
-            margin-right: 20px;
-            margin-top: 3px;
-            margin-bottom: 2px;
+            margin: 0 10px 0 0;
         }
 
         .demo-flex-align {
@@ -82,54 +83,53 @@
 <body>
 <div id="login-page" align="center" style="align-content: center;margin-top: 40px">
     <div class="card-panel " style="width: 400px;align-content: center">
-        <form>
-            <div class="row">
-                <div class="input-field col s12 center demo-flex-align">
-                    <img src="images/logo.ico" alt="" class="responsive-img valign profile-image-login" style="height: 76px;margin: 15px">
-                    <span>
-                        <h2><span>BioHub</span></h2>
-                    </span>
-                </div>
+        <div class="row">
+            <div class="input-field col s12 center demo-flex-align valign-wrapper">
+                <img src="images/logo.ico" alt="" class="valign responsive-img valign profile-image-login" style="height: 76px;margin: 15px">
+                <span class="valign">
+                    <h2>&nbsp;<span>BioHub</span></h2>
+                </span>
             </div>
+        </div>
 
+        <form class="form">
             <div class="row margin">
                 <div class="input-field col s12">
-                    <i class="material-icons prefix">person</i>
+                    <i class="material-icons prefix" style="margin-top: 7.5px;">person</i>
                     <input id="username" type="text" class="validate" name="username" onkeypress="postForm_enter(event)">
                     <label for="username" class="left-align">Username</label>
                 </div>
             </div>
             <div class="row margin">
                 <div class="input-field col s12">
-                    <i class="material-icons prefix">email</i>
+                    <i class="material-icons prefix" style="margin-top: 7.5px;">email</i>
                     <input id="email" type="email" class="validate" name="email" onkeypress="postForm_enter(event)">
                     <label for="email" class="left-align">Email</label>
                 </div>
             </div>
             <div class="row margin">
                 <div class="input-field col s12">
-                    <i class="material-icons prefix">lock</i>
+                    <i class="material-icons prefix" style="margin-top: 7.5px;">lock</i>
                     <input id="password" type="password" class="validate" name="passwd" onkeypress="postForm_enter(event)">
                     <label for="password" class="left-align">Password</label>
                 </div>
             </div>
             <div class="row margin">
                 <div class="input-field col s12">
-                    <i class="material-icons prefix">lock</i>
+                    <i class="material-icons prefix" style="margin-top: 7.5px;">repeat</i>
                     <input id="password-again" type="password" name="passwd_2" onkeypress="postForm_enter(event)">
                     <label for="password-again" class="left-align">Re-type password</label>
                 </div>
             </div>
         </form>
-            <div class="row">
-                <div class="input-field col s12">
-                    <a onclick="postForm_sign_up()" class="btn waves-effect waves-light col s12">Sign up now</a>
-                </div>
-                <div class="input-field col s12">
-                    <p class="margin center medium-small sign-up">already have an account? <a href="login.html">Sign in</a></p>
-                </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <a onclick="postForm_sign_up()" class="btn waves-effect waves-light col s12">Sign up now</a>
             </div>
-
+            <div class="input-field col s12">
+                <p class="margin center medium-small sign-up">already have an account? <a href="login.html">Sign in</a></p>
+            </div>
+        </div>
     </div>
 </div>
 </div>
