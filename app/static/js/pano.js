@@ -445,6 +445,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                     $('#path-finder-start').click(function () {
                         var k = Number($('#path-finder-k').val());
                         var maxlen = Number($('#path-finder-maxlen').val());
+                        $(this).parent().hide();
                         $('#path-finder-main').show();
                         sidebar.pathFinder({
                             s: mouseDownNode['gene_id'],
