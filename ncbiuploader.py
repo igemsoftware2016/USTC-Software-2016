@@ -10,5 +10,6 @@ Change column_num = Column number of data file
 filepath = r""
 column_num = 0
 
-DATABASE_URI = DATABASE_URI.replace("mysql", "mysql+pymysql")
+if not DATABASE_URI.startswith('mysql+pymysql://'):
+    DATABASE_URI = 'mysql+pymysql://'+DATABASE_URI.split('://')[1]
 upload(DATABASE_URI, filepath, gene_commit, column_num, cache_size=100000, echo=True, log=True)
