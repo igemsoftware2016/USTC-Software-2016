@@ -78,14 +78,15 @@
 <body>
 <div id="login-page" align="center" style="align-content: center;margin-top: 70px">
     <div class="card-panel " style="width: 360px;align-content: center">
-            <div class="row">
-                <div class="input-field col s12 center">
-                    <span class="al_u">
-                        <img src="images/logo.ico" alt="" class="responsive-img valign profile-image-login" style="height: 76px;margin: 15px">
-                        <h2><span>BioHub</span></h2>
-                    </span>
-                </div>
+        <div class="row">
+            <div class="input-field col s12 center">
+                <span class="al_u">
+                    <img src="images/logo.ico" alt="" class="responsive-img valign profile-image-login"
+                         style="height: 76px;margin: 15px">
+                    <h2><span>BioHub</span></h2>
+                </span>
             </div>
+        </div>
 
         <form class="form" name="userDataForm" id="userDataForm" method="post" action="">
             <div class="row margin">
@@ -104,27 +105,25 @@
             </div>
             <div class="row">
                 <div class="input-field col s12 m12 l12  login-text">
-                    <input type="checkbox" id="remember-me" name="remember" onkeypress="postForm_enter(event)" />
+                    <input type="checkbox" id="remember-me" name="remember" onkeypress="postForm_enter(event)"/>
                     <label for="remember-me">remember me</label>
                 </div>
             </div>
         </form>
-            <div class="row center-align">
-                <button class="btn waves-effect waves-light center-align" onkeypress="postForm_enter(event)" onclick="postForm()" style="width: 200px">Sign in</button>
-
+        <div class="row center-align">
+            <button class="btn waves-effect waves-light center-align" onkeypress="postForm_enter(event)"
+                    onclick="postForm()" style="width: 200px">Sign in
+            </button>
+        </div>
+        <div class="row" style="display: none">
+            <div class="input-field col s6 m6 l6">
             </div>
-            <div class="row">
-                <div class="input-field col s6 m6 l6">
-                </div>
-                <div class="input-field col s6 m6 l6">
-                    <p class="margin right-align medium-small"><a href="signup.html">Forget Password?</a></p>
-                </div>
-             </div>
-
-
+            <div class="input-field col s6 m6 l6">
+                <p class="margin right-align medium-small"><a href="signup.html">Forget Password?</a></p>
+            </div>
+        </div>
     </div>
     <a href="signup.html" style="text-decoration: none"><button id="flow-button" class="btn btn-custom btn-block " style="margin-top: 5px;width: 360px">Sign up today to join BioHub </button></a>
-
 </div>
 <script src="js/post-form.js"></script>
 </body>
