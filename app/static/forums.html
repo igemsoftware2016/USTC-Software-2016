@@ -359,7 +359,7 @@
                       project_content.style.paddingTop="25px";
                       var content_span=document.createElement("span");
                       content_span.style.fontSize="16px";
-                      content_span.innerHTML="Author: "+obj.user_name+"<br/>Last Update: "+date(parseInt(obj.last_update_time));
+                      content_span.innerHTML=date(parseInt(obj.last_update_time));
                       componentHandler.upgradeElement(content_span);
                       project_content.appendChild(content_span);
                       componentHandler.upgradeElement(project_content);
