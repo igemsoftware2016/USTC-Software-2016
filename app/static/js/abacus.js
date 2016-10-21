@@ -28,6 +28,7 @@ function demo_it() {
 
  function upload_file(){
 
+     alert("Caution ! Previous .pdb file will be overwritten by this upload");
      var waiting=jQuery('#loading');
     waiting.removeClass("hide");
      var btn = jQuery('#upload_btn');

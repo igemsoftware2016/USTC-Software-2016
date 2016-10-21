@@ -376,7 +376,7 @@ function  no_connection_status() {
             fnstr = "input_func_"+d.id;
             return fnstr;
         }).text(function (d) {
-            return "Control Function of [ID:"+d.id+']';
+            return "controlling ODE of [ID:"+d.id+']';
         });
 
 
@@ -524,7 +524,7 @@ function draw_functions_simu(data_graph) {
             fnstr = "input_func_"+d.id;
             return fnstr;
         }).text(function (d) {
-        return "Control Function of [ID:"+d.id+']';
+        return "controlling ODE of [ID:"+d.id+']';
     });
 
 
