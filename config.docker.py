@@ -2,7 +2,10 @@ from os import getenv, system
 from os.path import exists
 from time import time
 
-dbhost = getenv('BIOHUB_DB_HOST')
+if getenv('BIOHUB_DB_HOST'):
+    dbhost = getenv('BIOHUB_DB_HOST')
+else:
+    dbhost = 'db'
 if getenv('BIOHUB_DB_USER'):
     dbuser = getenv('BIOHUB_DB_USER')
     dbpassword = getenv('BIOHUB_DB_PASSWORD')
@@ -22,6 +25,7 @@ if not exists('.not_first'):
     system('wget http://parts.igem.org/partsdb/download.cgi?type=parts_sql -O "%s"' % df)
     system('gunzip "%s"' % df)
     system('mysql "-h%s" "-u%s" "-p%s" "%s" <"%s"' % (dbhost, dbuser, dbpassword, 'igem', bf))
+    system('mysql "-h%s" "-u%s" "-p%s" "%s" < ncbi_562.sql' % (dbhost, dbuser, dbpassword, 'igem'))
     with open('.not_first', 'w') as f:
         pass
 
