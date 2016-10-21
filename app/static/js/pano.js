@@ -88,14 +88,6 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 self.forceDragged.x = d.x;
                 self.forceDragged.y = d.y;
 
-                var average = [d3.mean(self.forceNodes, function (d) {
-                    return d.x;
-                }) * 2, d3.mean(self.forceNodes, function (d) {
-                    return d.y;
-                }) * 2];
-
-                self.forceHandler.size(average);
-
                 self.updateGraph();
             }
         }).on("dragend", function () {
@@ -135,7 +127,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             })
             .gravity(0.2)
             .linkDistance(function (d) {
-                return (Math.min(d.source.weight, d.target.weight) + 2 || 2) * 100;
+                return (Math.sqrt(Math.min(d.source.weight, d.target.weight) / 4 + 1 || 1)) * 200;
             })
             .on("tick", function (e) {
                 self.forceNodes.forEach(function (i) {
@@ -621,6 +613,20 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
         }
 
         thisGraph.forceHandler.links(thisGraph.forceEdges);
+
+        var average = [d3.mean(thisGraph.forceNodes, function (d) {
+            return d.x;
+        }) * 2, d3.mean(thisGraph.forceNodes, function (d) {
+            return d.y;
+        }) * 2], averageP = [d3.mean(thisGraph.forceNodes, function (d) {
+            return d.px || d.x;
+        }) * 2, d3.mean(thisGraph.forceNodes, function (d) {
+            return d.py || d.y;
+        }) * 2];
+
+        if ((function (x, y) { return x * x + y * y > 2 })(average[0] - averageP[0], average[1] - averageP[1])) {
+            thisGraph.forceHandler.size(average);
+        }
 
         if (thisGraph.enabledForce) {
             thisGraph.forceHandler.start();
