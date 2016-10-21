@@ -147,9 +147,6 @@ class Pano(Plugin):
             suggest['nodes'].append(temp)
             return suggest
 
-        if len(s) < 3:
-            return None
-
         for res in session.query(Gene).filter(Gene.Symbol.like(s+'%')).limit(100):
             temp = {'name': res.Symbol, 'gene_id': res.gene_id, 'info': res.description,
                     'tax_id': res.tax_id, 'equal': res.Symbol == s}
