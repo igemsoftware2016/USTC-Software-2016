@@ -10,8 +10,8 @@ BioHub is done using an extensive plug-in system with some handy utility such as
 
 We strongly recommend you to use **Chrome** web browser, since other browsers are not fully supported.
 
-How to install BioHub
----------------------
+How to install BioHub on your lab server
+----------------------------------------
 We suggest users use [Docker](https://www.docker.com/) to deploy BioHub. It just needs two steps:
 
     docker run -d --name biohubdb -e MYSQL_ROOT_PASSWORD=password mysql
