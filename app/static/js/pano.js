@@ -431,6 +431,7 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             $('#side-path-finder').removeClass('active');
             graph.state.lockKeyEvent = true;
             var nodeDict, paths;
+            thisGraph.pathFinderNormalExit = mouseDownNode['gene_id'] + '+' + d['gene_id'];
             $('#modal-path-finder').openModal({
                 dismissible: true,
                 in_duration: 0,
@@ -442,6 +443,11 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                     $('#path-finder-progress').show();
                     $('#path-finder-k').val('5');
                     $('#path-finder-maxlen').val('10');
+                    $('#path-finder-nothing').hide();
+                    $('#path-finder-ok').click(function () {
+                        thisGraph.pathFinderNormalExit = "";
+                    });
+                    $('#path-finder-start').parent().show();
                     $('#path-finder-start').click(function () {
                         var k = Number($('#path-finder-k').val());
                         var maxlen = Number($('#path-finder-maxlen').val());
@@ -452,12 +458,18 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                             t: d['gene_id'],
                             k: isNaN(k) ? 5 : k,
                             maxlen: isNaN(maxlen) ? 10 : maxlen
-                        }, function (nodes, p) {
+                        }, function (nodes, p, req) {
+                            if ((req.s + '+' + req.t) != thisGraph.pathFinderNormalExit) {
+                                return;
+                            }
                             paths = p;
+                            var root = $('#path-finder-result').empty().hide();
+                            if (paths.length <= 0) {
+                                $('#path-finder-nothing').show();
+                            }
                             nodes.forEach(function (i) {
                                 nodeDict[i['gene_id']] = i;
                             });
-                            var root = $('#path-finder-result').empty().hide();
                             for (var i in paths) {
                                 var path = paths[i];
                                 var nodeList = $('<div class="collection"></div>');
@@ -490,42 +502,44 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
                 },
                 complete: function () {
                     graph.state.lockKeyEvent = false;
-                    paths.forEach(function (path, index) {
-                        if (!path) {
-                            return;
-                        }
-                        var previous = mouseDownNode;
-                        for (var i = 1; i < path.length; ++i) {
-                            var node = nodeDict[path[i]];
-                            if (i + 1 < path.length) {
-                                graph.createNodeAndSelect({
-                                    tax_id: node.tax_id,
-                                    gene_id: node.gene_id,
-                                    name: node.name,
-                                    info: node.info,
-                                    title: node.name,
-                                    x: (mouseDownNode.x + d.x) / 2 + 100 * Math.cos(2 * Math.PI * index/ paths.length),
-                                    y: (mouseDownNode.y + d.y) / 2 + 100 * Math.sin(2 * Math.PI * index/ paths.length)
-                                });
-                            } else {
-                                graph.setSelectedNode(graph.nodes[d.id]);
+                    if (thisGraph.pathFinderNormalExit.length <= 0) {
+                        paths.forEach(function (path, index) {
+                            if (!path) {
+                                return;
                             }
-                            var newEdge = {source: previous.id, target: graph.state.selectedNode.id};
-                            var filtRes = thisGraph.paths.filter(function (d) {
-                                if (d.source === newEdge.target && d.target === newEdge.source) {
-                                    thisGraph.edges.splice(thisGraph.edges.indexOf(d), 1);
+                            var previous = mouseDownNode;
+                            for (var i = 1; i < path.length; ++i) {
+                                var node = nodeDict[path[i]];
+                                if (i + 1 < path.length) {
+                                    graph.createNodeAndSelect({
+                                        tax_id: node.tax_id,
+                                        gene_id: node.gene_id,
+                                        name: node.name,
+                                        info: node.info,
+                                        title: node.name,
+                                        x: (mouseDownNode.x + d.x) / 2 + 100 * Math.cos(2 * Math.PI * index / paths.length),
+                                        y: (mouseDownNode.y + d.y) / 2 + 100 * Math.sin(2 * Math.PI * index / paths.length)
+                                    });
+                                } else {
+                                    graph.setSelectedNode(graph.nodes[d.id]);
                                 }
-                                return d.source === newEdge.source && d.target === newEdge.target;
-                            });
-                            if (!filtRes[0].length) {
-                                thisGraph.edges.push(newEdge);
-                                thisGraph.updateGraph();
+                                var newEdge = {source: previous.id, target: graph.state.selectedNode.id};
+                                var filtRes = thisGraph.paths.filter(function (d) {
+                                    if (d.source === newEdge.target && d.target === newEdge.source) {
+                                        thisGraph.edges.splice(thisGraph.edges.indexOf(d), 1);
+                                    }
+                                    return d.source === newEdge.source && d.target === newEdge.target;
+                                });
+                                if (!filtRes[0].length) {
+                                    thisGraph.edges.push(newEdge);
+                                    thisGraph.updateGraph();
+                                }
+                                previous = graph.state.selectedNode;
                             }
-                            previous = graph.state.selectedNode;
-                        }
-                    });
-                    sidebar.update(mouseDownNode.id);
-                    thisGraph.setSelectedNode(graph.nodes[mouseDownNode.id]);
+                        });
+                        sidebar.update(mouseDownNode.id);
+                        thisGraph.setSelectedNode(graph.nodes[mouseDownNode.id]);
+                    }
                     thisGraph.trySave();
                 }
             });
@@ -628,14 +642,20 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             return d.y;
         }) * 2];
 
+        var averageP = [d3.mean(thisGraph.forceNodes, function (d) {
+            return d.px || d.x;
+        }) * 2, d3.mean(thisGraph.forceNodes, function (d) {
+            return d.py || d.y;
+        }) * 2];
+
         var posDiff = d3.mean(thisGraph.forceNodes, function (d) {
-            function distanceSquared(x, y) { return x * x + y * y; }
-            var length = distanceSquared(d.x - average[0], d.y - average[1]);
-            var lengthP = distanceSquared((d.px || d.x) - average[0], (d.py || d.y) - average[1]);
+            function distance(x, y) { return Math.sqrt(x * x + y * y); }
+            var length = distance(d.x - average[0], d.y - average[1]);
+            var lengthP = distance((d.px || d.x) - averageP[0], (d.py || d.y) - averageP[1]);
             return Math.abs(length - lengthP);
         });
 
-        if (posDiff > 1) {
+        if (posDiff > 2.5) {
             thisGraph.forceHandler.size(average);
         }
 
@@ -854,12 +874,12 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             $.post("/plugin/", req).done(function (res) {
                 var json = JSON.parse(res);
                 if (json.success) {
-                    callback(json.nodes, json.paths);
+                    callback(json.nodes, json.paths, req);
                 } else {
-                    callback([], []);
+                    callback([], [], req);
                 }
             }).fail(function () {
-                callback([], []);
+                callback([], [], req);
             });
         }
 
