@@ -642,14 +642,20 @@ document.onload = (function ($, d3, saveAs, Blob, undefined) {
             return d.y;
         }) * 2];
 
+        var averageP = [d3.mean(thisGraph.forceNodes, function (d) {
+            return d.px || d.x;
+        }) * 2, d3.mean(thisGraph.forceNodes, function (d) {
+            return d.py || d.y;
+        }) * 2];
+
         var posDiff = d3.mean(thisGraph.forceNodes, function (d) {
-            function distanceSquared(x, y) { return x * x + y * y; }
-            var length = distanceSquared(d.x - average[0], d.y - average[1]);
-            var lengthP = distanceSquared((d.px || d.x) - average[0], (d.py || d.y) - average[1]);
+            function distance(x, y) { return Math.sqrt(x * x + y * y); }
+            var length = distance(d.x - average[0], d.y - average[1]);
+            var lengthP = distance((d.px || d.x) - averageP[0], (d.py || d.y) - averageP[1]);
             return Math.abs(length - lengthP);
         });
 
-        if (posDiff > 1) {
+        if (posDiff > 2.5) {
             thisGraph.forceHandler.size(average);
         }
 
