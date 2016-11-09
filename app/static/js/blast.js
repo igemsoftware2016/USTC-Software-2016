@@ -310,7 +310,10 @@ function glo_draw(svg,data_result,ori_length) {
             }
         ).on("mouseout",function (d,i) {
             flash_label(d,i)
-        }).attr("stroke","white").attr("stroke-width",3);;
+        }).attr("stroke","white").attr("stroke-width",3)
+        .on("click",function (d,i) {
+            window.open('https://www.ncbi.nlm.nih.gov/gquery/?term='+encodeURIComponent(d.ID));
+        });
 
     var text = res_data_enter.append("text")
         .text(function (d) {return d.ID})
