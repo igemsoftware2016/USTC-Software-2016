@@ -131,7 +131,7 @@ class bio_simulation:
         return self.data_all
 
     def filter(self):
-        keywords = ['arc', 'sinh', 'cosh', 'tanh', 'sin', 'cos', 'tan', 'exp', 'd', 'y', 't', '=', '+', '-', '*', '/', '^', 
+        keywords = ['arc', 'sinh', 'cosh', 'tanh', 'sin', 'cos', 'tan', 'exp', 'd', 'y', 't', 'x', '=', '+', '-', '*', '/', '^', 
         '[', ']', '(', ')', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', ' ', '\t', '\n']
         filt = self.eqs_arr
         for line in filt:
@@ -195,7 +195,12 @@ class Simulation(Plugin):
         else:
             sim = bio_simulation(str_eqs, str_init, 0, end_t, step_l)
         
-        sim.run_sim()
+        try:
+            sim.run_sim()
+        except ValueError:
+            return dict(reason="Invalid equation")
+        except ParameterMissedError:
+            return dict(reason="Parameter missed")
 
         # May be you should modify this line below to satify your interface
         return dict(result=repr(list(map(list, sim.data_all))), unstable=str(sim.unstable),
