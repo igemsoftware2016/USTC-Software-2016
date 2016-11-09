@@ -44,6 +44,9 @@ class bio_simulation:
         self.eqs_arr = str.split(str_eqs, '\n')
         self.init_arr = str.split(str_init, '\n')
 
+        if not self.filter():
+            raise ValueError
+
         # Initial values and equations don't match
         if len(self.eqs_arr) != len(self.init_arr):
             raise ParameterMissedError
@@ -124,6 +127,19 @@ class bio_simulation:
 
     def parse_data(self):
         return self.data_all
+
+    def filter(self):
+        keywords = ['arc', 'sinh', 'cosh', 'tanh', 'sin', 'cos', 'tan', 'exp', 'y', 't', '=', '+', '-', '*', '/', '^', 
+        '[', ']', '(', ')', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', ' ', '\t', '\n']
+        filt = self.eqs_arr
+        for line in filt:
+            for key in keywords:
+                line = line.replace(key, '')
+            if len(line) != 0:
+                return False
+
+        return True
+
 
     '''
     def plot_data(self):
