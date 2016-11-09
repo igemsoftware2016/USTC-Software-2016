@@ -44,6 +44,8 @@ class bio_simulation:
         self.eqs_arr = str.split(str_eqs, '\n')
         self.init_arr = str.split(str_init, '\n')
 
+        print(self.eqs_arr)
+        print(self.filter())
         if not self.filter():
             raise ValueError
 
@@ -129,7 +131,7 @@ class bio_simulation:
         return self.data_all
 
     def filter(self):
-        keywords = ['arc', 'sinh', 'cosh', 'tanh', 'sin', 'cos', 'tan', 'exp', 'y', 't', '=', '+', '-', '*', '/', '^', 
+        keywords = ['arc', 'sinh', 'cosh', 'tanh', 'sin', 'cos', 'tan', 'exp', 'd', 'y', 't', '=', '+', '-', '*', '/', '^', 
         '[', ']', '(', ')', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', ' ', '\t', '\n']
         filt = self.eqs_arr
         for line in filt:
@@ -141,7 +143,7 @@ class bio_simulation:
         return True
 
 
-    '''
+'''    
     def plot_data(self):
         for i in range(self.data_all.shape[0]):
             plt.plot(self.t_range, self.data_all[i, :], label='y' + str(i))
@@ -149,10 +151,10 @@ class bio_simulation:
         if self.unstable is not None:
             plt.axvline(x=self.unstable, linewidth=3, color='r')
         plt.show()
-    '''
+    
 
 
-'''
+
 def main():
     str_eqs ="""dy0dt = -10*y[0] + 10*y[1]
     dy1dt = 28*y[0] - y[1]-y[0]*y[2]
@@ -171,8 +173,8 @@ def main():
 if __name__ in ("plugins.simulation", '__main__'):
     main()
 
-'''
 
+'''
 
 class Simulation(Plugin):
     name = 'simulation'
